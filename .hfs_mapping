@@ -1,4 +1,4 @@
-# $Id $
+# $Id$
 # EXTn   Xlate   Creator   Type     Comment
 #
 .1st     Ascii   'ttxt'   'TEXT'    "Text Readme"
@@ -7,7 +7,7 @@
 .8svx    Raw     'SCPL'   '8SVX'    "Amiga 8-bit sound "
 .Z       Raw     'SITx'   'ZIVU'    "Unix Compress Archive "
 .a       Ascii   'ttxt'   'TEXT'    "Assembly Source"
-.ai      Ascii   'art5'   'TEXT'    "Adobe Illustrator"
+.ai      Ascii   'ART5'   'TEXT'    "Adobe Illustrator"
 .aif     Raw     'SCPL'   'AIFF'    "AIFF Sound"
 .aifc    Raw     'SCPL'   'AIFC'    "AIFF Sound Compressed "
 .aiff    Raw     'SCPL'   'AIFF'    "AIFF Sound"
@@ -206,7 +206,6 @@
 .ppm     Raw     'GKON'   'PPGM'    "Portable Pixmap"
 .prn     Ascii   'R*ch'   'TEXT'    "Printer Output File"
 .ps      Ascii   'vgrd'   'TEXT'    "PostScript"
-.psd     Raw     '8BPS'   '8BIM'    "Photoshop Image"
 .psd     Raw     '8BIM'   '8BPS'    "PhotoShop Document"
 .pt4     Raw     'ALD4'   'ALT4'    "PageMaker 4 Template"
 .pt5     Raw     'ALD5'   'ALT5'    "PageMaker 5 Template"
