@@ -33,7 +33,6 @@ alias insmod='sudo -u root /sbin/insmod'
 alias rmmod='sudo -u root /sbin/rmmod'
 alias halt='sudo -u root /sbin/halt'
 alias fd='SORTTYPE=1 fd'
-alias jnethack='TERM=xterm jnethack'
 
 
 CDRECORD_OPTIONS="dev=ATAPI:0,0 driveropts=burnfree,noforcespeed -v -useinfo -eject -pad"
