@@ -62,7 +62,7 @@
 ;; Message-ID のドメインパートを wl-from から生成します。
 ;; globalなIPを持たない場合に使ってください。
 ;; wl-local-domain, wl-message-id-domainに優先します。
-;;(setq wl-message-id-use-wl-from t)
+(setq wl-message-id-use-wl-from nil)
 
 ;; Message-ID を自動付与しない
 ;; (setq wl-insert-message-id nil)
@@ -251,14 +251,14 @@
 	      '((?@ (wl-summary-line-attached)))))
 
 ;; 変更されたドラフトがあれば 20 秒ごとに自動保存する。
-;(defun my-wl-auto-save-draft-buffers ()
-;  (let ((buffers (wl-collect-draft)))
-;    (save-excursion
-;      (while buffers
-;	(set-buffer (car buffers))
-;	(if (buffer-modified-p) (wl-draft-save))
-;	(setq buffers (cdr buffers))))))
-;(run-with-idle-timer 20 t 'my-wl-auto-save-draft-buffers)
+(defun my-wl-auto-save-draft-buffers ()
+  (let ((buffers (wl-collect-draft)))
+    (save-excursion
+      (while buffers
+	(set-buffer (car buffers))
+	(if (buffer-modified-p) (wl-draft-save))
+	(setq buffers (cdr buffers))))))
+(run-with-idle-timer 20 t 'my-wl-auto-save-draft-buffers)
 
 
 ;;; [[ テンプレート ]]
@@ -273,11 +273,16 @@
 	 (wl-smtp-posting-user . "elim")
 	 (wl-smtp-posting-server . "mail.teroknor.org")
 	 ("From" . "Elim Garak <elim@TerokNor.org>")
-	 (body-file . "~/.signature.elim"))
+	 (bottom-file . "~/.signature.elim"))
 	("dyndns"
 	 (wl-smtp-posting-user . "takeru")
 	 (wl-smtp-posting-server . "localhost")
-	 ("From" . "Takeru Naito  <takeru@elim.dyndns.org>")
+	 ("From" . "Takeru Naito  <takeru@elim.dyndns.org>"))
+	("at-mac"
+	 (wl-smtp-posting-user . "takeru")
+	 (wl-smtp-posting-server . "mail.at-mac.com")
+	 ("From" . "Takeru Naito <takeru@at-mac.com>")
+	 (bottom-file . "~/.signature.at-mac")
 	 ("Organization" . nil))))
 
 ;; ドラフトバッファの内容により From や Organization などのヘッダを自
