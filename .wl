@@ -34,14 +34,14 @@
 ;; 自分のメールアドレスのリスト
 (setq wl-user-mail-address-list
       (list (wl-address-header-extract-address wl-from)
-	    "elim@TerokNor.org"
 	    "fascinating_logic@ybb.ne.jp"
+	    "a.k.a.elim@gmail.com"
+	    "elim@TerokNor.org"
 	    "picard@mx12.freecom.ne.jp"))
 
 ;; 自分の参加しているメーリングリストのリスト
 (setq wl-subscribed-mailing-list
       '("debian-users@debian.or.jp"
-	"debian-www@debian.or.jp"
 	"ruby-list@ruby-lang.org"
 	"wl@lists.airs.net"
 	"apel-ja@m17n.or"
@@ -266,24 +266,26 @@
 ;; テンプレートの設定
 (setq wl-template-alist
       '(("default"
-	 (wl-smtp-posting-user . "fascinating_logic")
 	 (wl-smtp-posting-server . "ybbsmtp.mail.yahoo.co.jp")
+	 (wl-smtp-posting-user . "fascinating_logic")
 	 ("From" . "Takeru Naito <fascinating_logic@ybb.ne.jp>"))
+	("gmail"
+	 (wl-smtp-posting-server . "smtp.gmail.com")
+	 (wl-smtp-posting-user . "a.k.a.elim@gmail.com")
+	 (wl-smtp-connection-type . "starttls")
+	 (wl-smtp-posting-port . "587")
+	 (wl-smtp-authenticate-type . "plain")
+	 ("From" . "Takeru Naito  <a.k.a.elim@gmail.com>")
+	 (bottom-file . "~/.signature.gmail"))
 	("terok"
 	 (wl-smtp-posting-user . "elim")
 	 (wl-smtp-posting-server . "mail.teroknor.org")
 	 ("From" . "Elim Garak <elim@TerokNor.org>")
-	 (bottom-file . "~/.signature.elim"))
+	 (bottom-file . "~/.signature.terok"))
 	("dyndns"
 	 (wl-smtp-posting-user . "takeru")
 	 (wl-smtp-posting-server . "localhost")
-	 ("From" . "Takeru Naito  <takeru@elim.dyndns.org>"))
-	("at-mac"
-	 (wl-smtp-posting-user . "takeru")
-	 (wl-smtp-posting-server . "mail.at-mac.com")
-	 ("From" . "Takeru Naito <takeru@at-mac.com>")
-	 (bottom-file . "~/.signature.at-mac")
-	 ("Organization" . nil))))
+	 ("From" . "Takeru Naito  <takeru@elim.dyndns.org>"))))
 
 ;; ドラフトバッファの内容により From や Organization などのヘッダを自
 ;; 動的に変更する

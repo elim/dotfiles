@@ -23,9 +23,6 @@ export CVSEDITOR=$EDITOR
 export CVSROOT="/home/takeru/CVS_DB"
 export CVS_RSH=ssh
 
-
-
-
 ### shell variables
 # ヒストリ設定
 HISTFILE=$ZDOTDIR/.zhistory           # ヒストリ保存ファイル
@@ -61,6 +58,12 @@ umask 022
  
 # デフォルトの補完機能を有効
 autoload -U compinit
+### 環境依存
+UNAME=`uname`
+case `expr $UNAME : '\(CYGWIN\).*'` in
+    CYGWIN)
+    compinit -u
+esac
 compinit
 
 # 補完の時に大文字小文字を区別しない
