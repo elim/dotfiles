@@ -3,7 +3,7 @@ PATH="$HOME/bin:$PATH"
 #xset fp rehash
 #xset m speed Threshold
 #xset m 2 5
-xset r rate 200 75
+xset r rate 200 50
 
 echo "SSH_AUTH_SOCK=${SSH_AUTH_SOCK}" > ~/.ssh_auth_sock
 
