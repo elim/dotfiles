@@ -71,7 +71,7 @@
 ;;; [[ サーバの設定 ]]
 
 ;; IMAP サーバの設定
-(setq elmo-imap4-default-server "localhost")
+(setq elmo-imap4-default-server "idea")
 ;; POP サーバの設定
 (setq elmo-pop3-default-server "ybbpop.mail.yahoo.co.jp")
 ;; SMTP サーバの設定
