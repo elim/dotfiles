@@ -1,11 +1,10 @@
+# -*- shell-script -*-
 PATH="$HOME/bin:$PATH"
 #xset +fp ~/lib/X11/fonts
 #xset fp rehash
 #xset m speed Threshold
 #xset m 2 5
-xset r rate 200 50
-
-echo "SSH_AUTH_SOCK=${SSH_AUTH_SOCK}" > ~/.ssh_auth_sock
+xset r rate 240 30
 
 LANG=ja_JP.eucJP
 export LANG
@@ -29,7 +28,7 @@ export G_BROKEN_FILENAMES
 #    xmodmap $HOME/.xmodmap.winkey&
 #fi
 
-
+echo ${SSH_AUTH_SOCK} > ~/.ssh_auth_sock
 
 if [ -x /usr/bin/fetchmail ]; then
     fetchmail&
@@ -45,9 +44,9 @@ fi
 
 if [ -x /usr/bin/mlterm ]; then
     if [ -x /usr/bin/screen ]; then
-	mlterm -e screen -R&
+	mlterm -e screen -R &
     else
-	mlterm&
+	mlterm &
     fi
 fi
 
@@ -84,5 +83,5 @@ fi
 #fi
 
 if [ -x /usr/bin/fluxbox ]; then
-    fluxbox
+    exec fluxbox
 fi
