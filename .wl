@@ -41,6 +41,7 @@
 
 ;; 自分の参加しているメーリングリストのリスト
 (setq wl-subscribed-mailing-list
+
       '("debian-users@debian.or.jp"
 	"ruby-list@ruby-lang.org"
 	"wl@lists.airs.net"
@@ -268,6 +269,7 @@
       '(("default"
 	 (wl-smtp-posting-server . "ybbsmtp.mail.yahoo.co.jp")
 	 (wl-smtp-posting-user . "fascinating_logic")
+	 (wl-smtp-posting-port . "25")
 	 ("From" . "Takeru Naito <fascinating_logic@ybb.ne.jp>"))
 	("gmail"
 	 (wl-smtp-posting-server . "smtp.gmail.com")
@@ -280,11 +282,13 @@
 	("terok"
 	 (wl-smtp-posting-user . "elim")
 	 (wl-smtp-posting-server . "mail.teroknor.org")
+	 (wl-smtp-posting-port . "25")
 	 ("From" . "Elim Garak <elim@TerokNor.org>")
 	 (bottom-file . "~/.signature.terok"))
 	("dyndns"
 	 (wl-smtp-posting-user . "takeru")
 	 (wl-smtp-posting-server . "localhost")
+	 (wl-smtp-posting-port . "25")
 	 ("From" . "Takeru Naito  <takeru@elim.dyndns.org>"))))
 
 ;; ドラフトバッファの内容により From や Organization などのヘッダを自

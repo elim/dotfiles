@@ -15,7 +15,10 @@ export EDITOR=vi
 export PAGER=w3m
 export GZIP='-v9N'
 export TZ=JST-9
-export LANG=ja_JP.eucJP
+export LANG=ja_JP.UTF-8
+export LC_MESSAGES=C
+export LC_TIME=C
+
 
 
 ### for CVS
@@ -146,4 +149,7 @@ case `uname` in
 	echo -e '\n';;
 esac
 
-fortune
+if [ -x /usr/bin/fortune ]; then
+    fortune
+fi
+

@@ -1,4 +1,5 @@
-defencoding eucJP
+defencoding UTF-8
+defutf8 on
 
 escape ^z^z
 

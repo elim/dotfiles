@@ -6,10 +6,13 @@ PATH="$HOME/bin:$PATH"
 #xset m 2 5
 xset r rate 240 100
 
-LANG=ja_JP.eucJP
+LANG=ja_JP.UTF-8
 export LANG
 
-LC_ALL=ja_JP.eucJP
+LC_MESSAGES=ja_JP.UTF-8
+export LC_ALL
+
+LC_TIME=ja_JP.UTF-8
 export LC_ALL
 
 XMODIFIERS=@im=skkinput
