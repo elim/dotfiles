@@ -92,10 +92,10 @@
 ;(setq wl-draft-send-mail-function 'wl-draft-send-mail-with-pop-before-smtp)
 
 ;; IMAP サーバのポート
-(setq elmo-imap4-default-port 993)
+;; (setq elmo-imap4-default-port 993)
 
 ;; IMAP サーバとの通信方式
-(setq elmo-imap4-default-stream-type 'ssl)
+;; (setq elmo-imap4-default-stream-type 'ssl)
 
 
 ;;; [[ 基本的な設定 ]]
