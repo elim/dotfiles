@@ -4,7 +4,7 @@ PATH="$HOME/bin:$PATH"
 #xset fp rehash
 #xset m speed Threshold
 #xset m 2 5
-xset r rate 240 30
+xset r rate 240 100
 
 LANG=ja_JP.eucJP
 export LANG
@@ -74,14 +74,14 @@ fi
 #    volume.app&
 #fi
 
-if [ -x /usr/bin/fluxbox ]; then
-    fluxbox&
-fi
-
 if [ -x /usr/bin/mlterm ]; then
     if [ -x /usr/bin/screen ]; then
-	mlterm -e screen -R 
+	mlterm -e screen -xR 2> /dev/null &
     else
-	mlterm 
+	mlterm 2> /dev/null &
     fi
+fi
+
+if [ -x /usr/bin/fluxbox ]; then
+    fluxbox
 fi

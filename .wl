@@ -36,8 +36,7 @@
       (list (wl-address-header-extract-address wl-from)
 	    "elim@TerokNor.org"
 	    "fascinating_logic@ybb.ne.jp"
-	    "picard@mx12.freecom.ne.jp"
-	    ))
+	    "picard@mx12.freecom.ne.jp"))
 
 ;; 自分の参加しているメーリングリストのリスト
 (setq wl-subscribed-mailing-list
@@ -49,8 +48,7 @@
 	"emacs-mime-ja@m17n.org"
 	"DeepSpace@panda.starfleet.ac"
 	"alib@alib.jp"
-	"share@alib.jp"
-	))
+	"share@alib.jp"))
 
 ;; (system-name) が FQDN を返さない場合、
 ;; `wl-local-domain' にホスト名を除いたドメイン名を設定してください。
@@ -76,8 +74,8 @@
 ;; POP サーバの設定
 (setq elmo-pop3-default-server "ybbpop.mail.yahoo.co.jp")
 ;; SMTP サーバの設定
-;(setq wl-smtp-posting-server "ybbsmtp.mail.yahoo.co.jp")
-(setq wl-smtp-posting-server "elim.teroknor.org")
+(setq wl-smtp-posting-server "ybbsmtp.mail.yahoo.co.jp")
+;(setq wl-smtp-posting-server "localhost")
 ;; ニュースサーバの設定
 (setq elmo-nntp-default-server "news.media.kyoto-u.ac.jp")
 ;; 投稿先のニュースサーバ
@@ -93,10 +91,10 @@
 ;(setq wl-draft-send-mail-function 'wl-draft-send-mail-with-pop-before-smtp)
 
 ;; IMAP サーバのポート
-;(setq elmo-imap4-default-port 993)
+(setq elmo-imap4-default-port 993)
 
 ;; IMAP サーバとの通信方式
-;(setq elmo-imap4-default-stream-type 'ssl)
+(setq elmo-imap4-default-stream-type 'ssl)
 
 
 ;;; [[ 基本的な設定 ]]
@@ -217,8 +215,7 @@
 ;; `elmo-msgdb-overview-entity-get-extra-field' で参照したいフィールド。
 ;; 自動リファイルで参照したいフィールドも設定する。
 (setq elmo-msgdb-extra-fields
-      '("reply-to"
-))
+      '("reply-to"))
 
 ;; ML のメッセージであれば，サマリの Subject 表示に
 ;; ML名 や MLにおけるメッセージ番号も表示する
@@ -251,7 +248,7 @@
 (setq wl-summary-line-format "%n%T%P%1@%M/%D(%W)%h:%m %t%[%17(%c %f%) %] %#%~%s")
 (setq wl-summary-line-format-spec-alist
       (append wl-summary-line-format-spec-alist
-              '((?@ (wl-summary-line-attached)))))
+	      '((?@ (wl-summary-line-attached)))))
 
 ;; 変更されたドラフトがあれば 20 秒ごとに自動保存する。
 ;(defun my-wl-auto-save-draft-buffers ()
@@ -271,19 +268,20 @@
       '(("default"
 	 (wl-smtp-posting-user . "fascinating_logic")
 	 (wl-smtp-posting-server . "ybbsmtp.mail.yahoo.co.jp")
-	 ("From" . "Takeru Naito <fascinating_logic@ybb.ne.jp>")
-	 (body . "内藤です。"))
+	 ("From" . "Takeru Naito <fascinating_logic@ybb.ne.jp>"))
 	("terok"
 	 (wl-smtp-posting-user . "elim")
 	 (wl-smtp-posting-server . "mail.teroknor.org")
 	 ("From" . "Elim Garak <elim@TerokNor.org>")
-	 ("Organization" . "Terok Nor")
-	 (body-file . "~/.signature.elim")) ; 本文末尾へファイルの挿入
-	))
+	 (body-file . "~/.signature.elim"))
+	("dyndns"
+	 (wl-smtp-posting-user . "takeru")
+	 (wl-smtp-posting-server . "localhost")
+	 ("From" . "Takeru Naito  <takeru@elim.dyndns.org>")
+	 ("Organization" . nil))))
 
 ;; ドラフトバッファの内容により From や Organization などのヘッダを自
 ;; 動的に変更する
-;; Daredevil SKK の version をヘッダに入れる
 (setq wl-draft-config-alist
       '(("^From.*TerokNor"
 ;        ドラフト<バッファのヘッダにマッチすれば適用する
@@ -293,8 +291,9 @@
 ;	 (wl-smtp-posting-server . "mail.TerokNor.org")
 ;	 (wl-pop-before-smtp-server . "mail.TerokNor.org")
 	)))
+;; Daredevil SKK の version をヘッダに入れる
 (add-to-list 'wl-draft-config-alist
-             `(t ("X-Input-Method" . ,(skk-version))))
+	     `(t ("X-Input-Method" . ,(skk-version))))
 
 ;; ドラフト作成時(返信時)に，自動的にヘッダを変更する
 (add-hook 'wl-mail-setup-hook
@@ -369,8 +368,7 @@
 	((module-installed-p 'x-face-mule)
 	 ;; x-face-mule distributed with bitmap-mule 8.0 or later
 	 (autoload 'x-face-decode-message-header "x-face-mule")
-	 (setq wl-highlight-x-face-function 'x-face-decode-message-header))
-	))
+	 (setq wl-highlight-x-face-function 'x-face-decode-message-header))))
 
 ;; スコア機能の設定
 ;; `wl-score-folder-alist' の設定に関わらず必ず "all.SCORE" は使用される。
@@ -383,8 +381,7 @@
 
 
 ;; 自動リファイルのルール設定
-(setq wl-refile-rule-alist
-      '(
+(setq wl-refile-rule-alist '(
 	("Subject"
 	 ("foo" . "+inbox/foo"))
 	("x-ml-name"
