@@ -1,5 +1,5 @@
 ;; dot.wl -- sample setting file for Wanderlust	-*- emacs-lisp -*-
-;; $Id $
+;; $Id$
 ;; [[ 動作に必要な設定 ]]
 
 ;; まず、次の設定を ~/.emacs などに書いてください。
