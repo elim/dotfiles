@@ -42,14 +42,6 @@ if [ -x /usr/bin/esd ]; then
     esd -nobeeps&
 fi
 
-if [ -x /usr/bin/mlterm ]; then
-    if [ -x /usr/bin/screen ]; then
-	mlterm -e screen -R &
-    else
-	mlterm &
-    fi
-fi
-
 if [ -x /usr/bin/xscreensaver ]; then
     xscreensaver -nosplash&
 fi
@@ -83,5 +75,13 @@ fi
 #fi
 
 if [ -x /usr/bin/fluxbox ]; then
-    exec fluxbox
+    fluxbox&
+fi
+
+if [ -x /usr/bin/mlterm ]; then
+    if [ -x /usr/bin/screen ]; then
+	mlterm -e screen -R 
+    else
+	mlterm 
+    fi
 fi
