@@ -24,11 +24,13 @@ export CVSROOT="/home/takeru/CVS_DB"
 export CVS_RSH=ssh
 
 
+
+
 ### shell variables
 # ヒストリ設定
 HISTFILE=$ZDOTDIR/.zhistory           # ヒストリ保存ファイル
 HISTSIZE=10000                        # メモリ内の履歴の数
-SAVEHIST=1000000                       # 保存される履歴の数
+SAVEHIST=100000                       # 保存される履歴の数
 setopt extended_history               # 履歴ファイルに時刻を記録
 setopt inc_append_history             # 履歴をインクリメンタルに追加
 setopt share_history                  # 履歴の共有
@@ -53,10 +55,6 @@ setopt prompt_subst
 PROMPT='${WINDOW:+"[$WINDOW]"}[%n@%M]:%c%(#.#.$) '
 RPROMPT='[%~]'
 
-# core抑制
-unlimit
-limit core 0
-limit -s
 
 # ファイル作成時のパーミッション設定
 umask 022
@@ -129,10 +127,19 @@ if [ -f $ZUSERDIR/lscolors ]; then
     source $ZUSERDIR/lscolors
 fi
 
+
+### 環境依存
+# core 抑制
+# ついでに linux_logo
 case `uname` in
     Linux)
+	unlimit
+	limit core 0
+	limit -s
+
 	echo -e '\n';
 	linux_logo -a;
 	echo -e '\n';;
 esac
+
 fortune
