@@ -28,6 +28,7 @@ esac
 alias ll='ls -alF'
 alias la='ls -aF'
 alias lj='ls -NF | nkf -e'
+alias lv='w3m'
 alias reboot='sudo -u root /sbin/reboot'
 alias insmod='sudo -u root /sbin/insmod'
 alias rmmod='sudo -u root /sbin/rmmod'
