@@ -30,9 +30,9 @@ export G_BROKEN_FILENAMES
 
 echo ${SSH_AUTH_SOCK} > ~/.ssh_auth_sock
 
-if [ -x /usr/bin/fetchmail ]; then
-    fetchmail&
-fi
+#if [ -x /usr/bin/fetchmail ]; then
+#    fetchmail&
+#fi
 
 if [ -x /usr/bin/X11/skkinput ]; then
     skkinput&
@@ -74,14 +74,24 @@ fi
 #    volume.app&
 #fi
 
+#ssh-agent の記述を足せ
+
 if [ -x /usr/bin/mlterm ]; then
     if [ -x /usr/bin/screen ]; then
-	mlterm -e screen -xR 2> /dev/null &
+	mlterm --daemon=blend -e screen -xR &
     else
-	mlterm 2> /dev/null &
+	mlterm --daemon=blend &
     fi
 fi
 
 if [ -x /usr/bin/fluxbox ]; then
     fluxbox
 fi
+
+#if [ -x /usr/bin/gnome-session ]; then
+#    gnome-session
+#fi
+
+#if [ -x /usr/bin/X11/twm ]; then
+#    twm
+#fi
