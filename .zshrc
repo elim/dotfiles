@@ -1,3 +1,4 @@
+# -*- shell-script -*-
 # based on http://nyan2.tdiary.net/20020923.html#p12
 
 ### PATH
