@@ -59,7 +59,8 @@ umask 022
 # デフォルトの補完機能を有効
 autoload -U compinit
 ### 環境依存
-case `expr \`UNAME\` : '\(CYGWIN\).*'` in
+echo `expr \`uname\` : '\(CYGWIN\).*'`
+case `expr \`uname\` : '\(CYGWIN\).*'` in
     CYGWIN)
     compinit -u
 esac
