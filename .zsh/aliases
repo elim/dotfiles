@@ -1,0 +1,41 @@
+#!/bin/zsh
+# rm を mv に置換する --> function の方へ
+# alias rm='trash'
+ 
+# ゴミ箱一覧・削除用
+alias trash-look='ls -al ~/.Trash/ 2> /dev/null'
+alias trash-clean='\rm -rf ~/.Trash/* 2> /dev/null'
+
+alias -g L='| w3m'
+alias -g H='| head'
+alias -g T='| tail'
+alias -g G='| grep'
+alias -g S='| sed'
+alias -g A='| awk'
+alias -g W='| wc'
+
+alias close='eject -t'
+
+alias dpkg='COLUMNS=${COLUMNS:-80} dpkg' 
+
+case `uname` in 
+    FreeBSD)
+	alias ls='ls -GF';;
+    Linux)
+	alias ls='ls -F --color=auto';;
+esac
+
+alias ll='ls -alF'
+alias la='ls -aF'
+alias lj='ls -NF | nkf -e'
+alias reboot='sudo -u root /sbin/reboot'
+alias insmod='sudo -u root /sbin/insmod'
+alias rmmod='sudo -u root /sbin/rmmod'
+alias halt='sudo -u root /sbin/halt'
+alias fd='SORTTYPE=1 fd'
+alias jnethack='TERM=xterm jnethack'
+
+
+CDRECORD_OPTIONS="dev=ATAPI:0,0 driveropts=burnfree,noforcespeed -v -useinfo -eject -pad"
+alias cdrecord="cdrecord $CDRECORD_OPTIONS speed=4"
+alias mp3burn="mp3burn -o '$CDRECORD_OPTIONS speed=4'"

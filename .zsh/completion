@@ -1,0 +1,2 @@
+compctl -l '' nohup exec nice eval time sudo man
+
