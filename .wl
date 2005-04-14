@@ -85,17 +85,17 @@
 (setq elmo-nntp-default-user "fascinating_logic@ybb.ne.jp")
 
 ;; IMAP サーバの認証方式の設定
-(setq elmo-imap4-default-authenticate-type 'login) ; 生パスワード
+(setq elmo-imap4-default-authenticate-type 'clear) ; 生パスワード
 ;(setq elmo-imap4-default-authenticate-type 'cram-md5) ; CRAM-MD5
 
 ;; POP-before-SMTP
 ;(setq wl-draft-send-mail-function 'wl-draft-send-mail-with-pop-before-smtp)
 
 ;; IMAP サーバのポート
-;; (setq elmo-imap4-default-port 993)
+(setq elmo-imap4-default-port 993)
 
 ;; IMAP サーバとの通信方式
-;; (setq elmo-imap4-default-stream-type 'ssl)
+(setq elmo-imap4-default-stream-type 'ssl)
 
 
 ;;; [[ 基本的な設定 ]]
@@ -107,13 +107,13 @@
 (setq wl-default-spec "%")
 
 ;; Folder Carbon Copy
-(setq wl-fcc "%INBOX.Sent")
+(setq wl-fcc "%Sent")
 
 ;; draft folder
-(setq wl-draft-folder "%INBOX.Drafts")
+(setq wl-draft-folder "%Drafts")
 
 ;; trash folder
-(setq wl-trash-folder "%INBOX.Trash")
+(setq wl-trash-folder "%Trash")
 
 ;; 終了時に確認する
 (setq wl-interactive-exit t)
@@ -296,7 +296,7 @@
 (setq wl-draft-config-alist
       '(("^From.*TerokNor"
 ;        ドラフト<バッファのヘッダにマッチすれば適用する
-;	 (top-file . "自動挿入の試験です。\n")	; 本文先頭への挿入
+;	 (top-file . "自動挿入の試験です。＼n")	; 本文先頭への挿入
 ;	 (setq wl-message-id-domain "mail.TerokNor.org")
 ;	 (setq wl-draft-send-mail-function 'wl-draft-send-mail-with-pop-before-smtp)
 ;	 (wl-smtp-posting-server . "mail.TerokNor.org")
