@@ -1,0 +1,17 @@
+# -- THEME AUTO-WRITTEN DO NOT EDIT
+include "/home/takeru/.themes/traspy/gtk-2.0/gtkrc"
+
+include "/home/takeru/.gtkrc-2.0.mine"
+
+# -- THEME AUTO-WRITTEN DO NOT EDIT
+include "/home/takeru/.themes/traspy/gtk-2.0/gtkrc"
+
+style "user-font"
+{
+  font_name="Sazanami Gothic 12"
+  }
+  widget_class "*" style "user-font"
+
+  include "/home/takeru/.gtkrc.mine"
+
+  gtk_font_name="Sazanami Mincho 12"

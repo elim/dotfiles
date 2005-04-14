@@ -1,0 +1,12 @@
+ISO8859_1=-sazanami-gothic-medium-r-*-*-16-*-*-*-*-*-iso8859-1
+ISO8859_1_BOLD=-sazanami-gothic-bold-r-*-*-16-*-*-*-*-*-iso8859-1
+JISX0201_ROMAN=-sazanami-gothic-medium-r-*-*-16-*-*-*-*-*-jisx0201.1976-0
+JISX0201_ROMAN_BOLD=-sazanami-gothic-bold-r-*-*-16-*-*-*-*-*-jisx0201.1976-0
+JISX0201_KATA=-sazanami-gothic-medium-r-*-*-16-*-*-*-*-*-jisx0201.1976-0
+JISX0201_KATA_BOLD=-sazanami-gothic-bold-r-*-*-16-*-*-*-*-*-jisx0201.1976-0
+JISX0208_1983=-sazanami-gothic-medium-r-*-*-16-*-*-*-*-*-jisx0208.1983-0
+JISX0208_1983_BOLD=-sazanami-gothic-bold-r-*-*-16-*-*-*-*-*-jisx0208.1983-0
+JISX0208_1990=-sazanami-gothic-medium-r-normal-*-*-16-*-*-*-*-jisx0208.1990-0
+JISX0208_1990_BOLD=-sazanami-gothic-bold-r-normal-*-*-16-*-*-*-*-jisx0208.1990-0
+ISO10646_UCS4_1=sazanami-gothic-bold-r-normal-*-*-16-*-*-*-*-iso10646-1
+ISO10646_UCS4_1_BIWIDTH=sazanami-gothic-bold-r-normal-*-*-16-*-*-*-*-iso10646-1
