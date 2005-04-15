@@ -4,7 +4,7 @@
 
 ### PATH
 # 個人用の PATH を追加
-export PATH="$PATH:/home/takeru/bin:/usr/games"
+export PATH="/home/takeru/bin:/usr/games:$PATH"
 # 重複を許可しない
 typeset -U path PATH
 typeset -U fpath
