@@ -1,4 +1,5 @@
 # -*- shell-script -*-
+# $Id$
 # based on http://nyan2.tdiary.net/20020923.html#p12
 
 ### PATH
@@ -18,8 +19,6 @@ export TZ=JST-9
 export LANG=ja_JP.UTF-8
 export LC_MESSAGES=C
 export LC_TIME=C
-
-
 
 ### for CVS
 export CVSEDITOR=$EDITOR
