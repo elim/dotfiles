@@ -24,6 +24,8 @@ case `uname` in
 	alias ls='ls -GF';;
     Linux)
 	alias ls='ls -F --color=auto';;
+    CYGWIN*)
+	alias ls='ls -F --color=auto --show-control-chars';;
 esac
 
 alias ll='ls -alF'
