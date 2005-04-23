@@ -11,14 +11,23 @@ typeset -U fpath
 
 ### environment variables
 # 共通する環境変数を設定
+
 export G_BROKEN_FILENAMES=1
 export EDITOR=vi
-export PAGER=w3m
 export GZIP='-v9N'
 export TZ=JST-9
-export LANG=ja_JP.UTF-8
-export LC_MESSAGES=C
-export LC_TIME=C
+
+case `uname` in 
+    FreeBSD)
+	export PAGER=lv;;
+    Linux)
+	export PAGER=lv;;
+    CYGWIN*)
+	export LANG=ja_JP.SJIS
+	export LC_MESSAGES=C
+	export LC_TIME=C
+	export PAGER='lv -Os';;
+esac
 
 ### for CVS
 export CVSEDITOR=$EDITOR

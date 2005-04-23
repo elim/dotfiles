@@ -13,3 +13,5 @@ shell zsh
 hardstatus alwayslastline "%{= KW}%-Lw%{= WK}%50>%n%f* %t%{-}%+Lw%<%{= KY} %Y-%m-%d %c"
 
 startup_message off
+
+# source ${HOME}/.screenrc.${UNAME%_*}
