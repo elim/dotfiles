@@ -26,7 +26,7 @@ copy_paste_via_ucs=false
 " フォント関連
 "
 " デフォルトフォントサイズ
-fontsize = 16
+fontsize = 12
 " 変更可能なフォントサイズの範囲
 font_size_range=6-30
 " larger,smaller ボタンでのフォントサイズの変化量
@@ -76,7 +76,7 @@ contrast = 40
 " ジオメトリ
 geometry=120x40
 " 行間
-line_space = 3
+line_space = 2
 
 "--------------------
 " その他
