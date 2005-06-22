@@ -3,8 +3,9 @@ PATH="$HOME/bin:$PATH"
 #xset +fp ~/lib/X11/fonts
 #xset fp rehash
 #xset m speed Threshold
-#xset m 2 5
-xset r rate 240 100
+xset m 1 5 # forMarble Mouse
+xmodmap -e "pointer = 1 2 3 5 4 6 7"
+xset r rate 240 50
 
 LANG=ja_JP.UTF-8
 export LANG
