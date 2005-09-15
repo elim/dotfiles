@@ -3,7 +3,9 @@ PATH="$HOME/bin:$PATH"
 #xset +fp ~/lib/X11/fonts
 #xset fp rehash
 #xset m speed Threshold
-xset m 1 5 # forMarble Mouse
+# 加速値 == マウスの動きを指定した数値倍だけ速くする。
+# 閾値 == 指定したピクセル数だけマウスポインタが移動したときに加速値が有効になる
+xset m 1 20 # for Marble Mouse
 xmodmap -e "pointer = 1 2 3 5 4 6 7"
 xset r rate 240 50
 
@@ -13,8 +15,8 @@ export LANG
 LC_MESSAGES=ja_JP.UTF-8
 export LC_ALL
 
-LC_TIME=ja_JP.UTF-8
-export LC_ALL
+LC_TIME=C
+export LC_TIME
 
 XMODIFIERS=@im=skkinput
 export XMODIFIERS
@@ -78,18 +80,18 @@ fi
 #    volume.app&
 #fi
 
-#ssh-agent �ε��Ҥ�­��
-
 if [ -x /usr/bin/mlterm ]; then
     if [ -x /usr/bin/screen ]; then
-	mlterm --daemon=blend -e screen -xR &
+	mlterm --title `hostname`@mlterm \
+	    --daemon=blend -e screen -UdRR &
     else
-	mlterm --daemon=blend &
+	mlterm --title mlterm@`hostname`@mlterm \
+	    --daemon=blend &
     fi
 fi
 
 if [ -x /usr/bin/fluxbox ]; then
-    fluxbox
+    LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 fluxbox
 fi
 
 #if [ -x /usr/bin/gnome-session ]; then

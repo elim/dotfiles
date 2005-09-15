@@ -15,7 +15,7 @@ ENCODING = auto
 " BiDiレンダリングを行う
 use_bidi = false
 " 結合文字列を処理する
-use_combining = false
+use_combining = true
 " 結合文字列を動的に合成する
 use_dynamic_comb = true
 " Big5 CTEXT のバグ (XFree86 4.1.0 以前) に対応する
@@ -26,7 +26,7 @@ copy_paste_via_ucs=false
 " フォント関連
 "
 " デフォルトフォントサイズ
-fontsize = 12
+fontsize = 14
 " 変更可能なフォントサイズの範囲
 font_size_range=6-30
 " larger,smaller ボタンでのフォントサイズの変化量
@@ -76,7 +76,7 @@ contrast = 40
 " ジオメトリ
 geometry=120x40
 " 行間
-line_space = 2
+line_space = 3
 
 "--------------------
 " その他
@@ -99,3 +99,4 @@ bel_mode = visual
 daemon_mode=none
 wall_picture = 
 use_multi_column_char = true
+receive_string_via_ucs = true

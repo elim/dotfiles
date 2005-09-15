@@ -252,14 +252,14 @@
 	      '((?@ (wl-summary-line-attached)))))
 
 ;; 変更されたドラフトがあれば 20 秒ごとに自動保存する。
-(defun my-wl-auto-save-draft-buffers ()
-  (let ((buffers (wl-collect-draft)))
-    (save-excursion
-      (while buffers
-	(set-buffer (car buffers))
-	(if (buffer-modified-p) (wl-draft-save))
-	(setq buffers (cdr buffers))))))
-(run-with-idle-timer 20 t 'my-wl-auto-save-draft-buffers)
+;; (defun my-wl-auto-save-draft-buffers ()
+;;   (let ((buffers (wl-collect-draft)))
+;;     (save-excursion
+;;       (while buffers
+;; 	(set-buffer (car buffers))
+;; 	(if (buffer-modified-p) (wl-draft-save))
+;; 	(setq buffers (cdr buffers))))))
+;; (run-with-idle-timer 20 t 'my-wl-auto-save-draft-buffers)
 
 
 ;;; [[ テンプレート ]]

@@ -7,7 +7,7 @@
 alias trash-look='ls -al ~/.Trash/ 2> /dev/null'
 alias trash-clean='\rm -rf ~/.Trash/* 2> /dev/null'
 
-alias -g L='| w3m'
+alias -g L='| lv'
 alias -g H='| head'
 alias -g T='| tail'
 alias -g G='| grep'

@@ -4,7 +4,15 @@
 
 ### PATH
 # 個人用の PATH を追加
-export PATH="/home/takeru/bin:/usr/games:$PATH"
+case `uname` in 
+    Darwin)
+	export PATH="/usr/local/bin:/usr/local/sbin:${PATH}"
+	if [ -f /sw/bin/init.sh ]; then
+	    source /sw/bin/init.sh
+	fi
+	;;
+esac
+export PATH="/home/takeru/bin:/usr/games:${PATH}"
 # 重複を許可しない
 typeset -U path PATH
 typeset -U fpath
@@ -18,17 +26,18 @@ export GZIP='-v9N'
 export TZ=JST-9
 
 case `uname` in 
-    FreeBSD)
-	export PAGER=lv;;
-    Linux)
-	export PAGER=lv;;
+    FreeBSD|Linux|Darwin)
+	export PAGER=lv
+	export LANG=ja_JP.UTF-8
+	;;
     CYGWIN*)
+	export PAGER='lv -Os'
 	export LANG=ja_JP.SJIS
-	export LC_MESSAGES=C
-	export LC_TIME=C
-	export PAGER='lv -Os';;
+	;;
 esac
 
+export LC_MESSAGES=C
+export LC_TIME=C
 ### for CVS
 export CVSEDITOR=$EDITOR
 export CVSROOT="/home/takeru/CVS_DB"
@@ -152,9 +161,12 @@ case `uname` in
 	limit core 0
 	limit -s
 
-	echo -e '\n';
-	linux_logo -a;
-	echo -e '\n';;
+	echo -e '\n'
+	if [ -x /usr/bin/linux_logo ]; then
+	    linux_logo -a
+	fi
+	echo -e '\n'
+	;;
 esac
 
 if [ -x /usr/bin/fortune ]; then
