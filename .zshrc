@@ -12,7 +12,7 @@ case `uname` in
 	fi
 	;;
 esac
-export PATH="/home/takeru/bin:/usr/games:${PATH}"
+export PATH="${HOME}/bin:/usr/games:${PATH}"
 # 重複を許可しない
 typeset -U path PATH
 typeset -U fpath
@@ -40,7 +40,7 @@ export LC_MESSAGES=C
 export LC_TIME=C
 ### for CVS
 export CVSEDITOR=$EDITOR
-export CVSROOT="/home/takeru/CVS_DB"
+export CVSROOT="${HOME}/CVS_DB"
 export CVS_RSH=ssh
 
 ### shell variables
