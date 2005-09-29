@@ -75,8 +75,9 @@
 ;; POP サーバの設定
 (setq elmo-pop3-default-server "ybbpop.mail.yahoo.co.jp")
 ;; SMTP サーバの設定
-(setq wl-smtp-posting-server "ybbsmtp.mail.yahoo.co.jp")
-;(setq wl-smtp-posting-server "localhost")
+(setq wl-smtp-posting-server "elim.teroknor.org")
+(setq wl-smtp-posting-user "takeru")
+(setq wl-smtp-authenticate-type "cram-md5")
 ;; ニュースサーバの設定
 (setq elmo-nntp-default-server "news.media.kyoto-u.ac.jp")
 ;; 投稿先のニュースサーバ
@@ -85,8 +86,8 @@
 (setq elmo-nntp-default-user "fascinating_logic@ybb.ne.jp")
 
 ;; IMAP サーバの認証方式の設定
-(setq elmo-imap4-default-authenticate-type 'clear) ; 生パスワード
-;(setq elmo-imap4-default-authenticate-type 'cram-md5) ; CRAM-MD5
+;(setq elmo-imap4-default-authenticate-type 'clear) ; 生パスワード
+(setq elmo-imap4-default-authenticate-type 'cram-md5) ; CRAM-MD5
 
 ;; POP-before-SMTP
 ;(setq wl-draft-send-mail-function 'wl-draft-send-mail-with-pop-before-smtp)
@@ -267,29 +268,29 @@
 ;; テンプレートの設定
 (setq wl-template-alist
       '(("default"
-	 (wl-smtp-posting-server . "ybbsmtp.mail.yahoo.co.jp")
-	 (wl-smtp-posting-user . "fascinating_logic")
-	 (wl-smtp-posting-port . "25")
+;; 	 (wl-smtp-posting-server . "ybbsmtp.mail.yahoo.co.jp")
+;; 	 (wl-smtp-posting-user . "fascinating_logic")
+;; 	 (wl-smtp-posting-port . "25")
 	 ("From" . "Takeru Naito <fascinating_logic@ybb.ne.jp>"))
 	("gmail"
-	 (wl-smtp-posting-server . "smtp.gmail.com")
-	 (wl-smtp-posting-user . "a.k.a.elim@gmail.com")
-	 (wl-smtp-connection-type . "starttls")
-	 (wl-smtp-posting-port . "587")
-	 (wl-smtp-authenticate-type . "plain")
+;; 	 (wl-smtp-posting-server . "smtp.gmail.com")
+;; 	 (wl-smtp-posting-user . "a.k.a.elim@gmail.com")
+;; 	 (wl-smtp-connection-type . "starttls")
+;; 	 (wl-smtp-posting-port . "587")
+;; 	 (wl-smtp-authenticate-type . "plain")
 	 ("From" . "Takeru Naito  <a.k.a.elim@gmail.com>")
 	 (bottom-file . "~/.signature.gmail"))
 	("terok"
-	 (wl-smtp-posting-user . "elim")
-	 (wl-smtp-posting-server . "mail.teroknor.org")
-	 (wl-smtp-posting-port . "25")
+;; 	 (wl-smtp-posting-user . "elim")
+;; 	 (wl-smtp-posting-server . "mail.teroknor.org")
+;; 	 (wl-smtp-posting-port . "25")
 	 ("From" . "Elim Garak <elim@TerokNor.org>")
 	 (bottom-file . "~/.signature.terok"))
-	("dyndns"
-	 (wl-smtp-posting-user . "takeru")
-	 (wl-smtp-posting-server . "localhost")
-	 (wl-smtp-posting-port . "25")
-	 ("From" . "Takeru Naito  <takeru@elim.dyndns.org>"))))
+	("elim.terok"
+;; 	 (wl-smtp-posting-user . "takeru")
+;; 	 (wl-smtp-posting-server . "elim.teroknor.org")
+;; 	 (wl-smtp-posting-port . "25")
+	 ("From" . "Takeru Naito  <takeru@elim.teroknor.org>"))))
 
 ;; ドラフトバッファの内容により From や Organization などのヘッダを自
 ;; 動的に変更する
