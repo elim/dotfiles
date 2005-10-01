@@ -41,7 +41,6 @@
 
 ;; 自分の参加しているメーリングリストのリスト
 (setq wl-subscribed-mailing-list
-
       '("debian-users@debian.or.jp"
 	"ruby-list@ruby-lang.org"
 	"wl@lists.airs.net"
@@ -55,8 +54,11 @@
 ;; `wl-local-domain' にホスト名を除いたドメイン名を設定してください。
 ;; (system-name)  "." wl-local-domain が Message-ID に使用されます。
 ;(setq system-name "elim.teroknor.org")
-;(setq wl-local-domain "teroknor.org")
 
+(cond
+ ((not (string-match "fascinating.local$" system-name))
+  (setq wl-local-domain "elim.teroknor.org")))
+ 
 ;; Message-ID のドメインパートを強制的に指定
 (setq wl-message-id-domain "elim.teroknor.org")
 
@@ -69,13 +71,18 @@
 ;; (setq wl-insert-message-id nil)
 
 ;;; [[ サーバの設定 ]]
+(cond
+ ((string-match "fascinating.local$" system-name)
+  (setq my-wl-server-name "idea"))
+ (t
+  (setq my-wl-server-name "localhost")))
 
 ;; IMAP サーバの設定
-(setq elmo-imap4-default-server "idea")
+(setq elmo-imap4-default-server my-wl-server-name)
 ;; POP サーバの設定
-(setq elmo-pop3-default-server "ybbpop.mail.yahoo.co.jp")
+(setq elmo-pop3-default-server my-wl-server-name)
 ;; SMTP サーバの設定
-(setq wl-smtp-posting-server "elim.teroknor.org")
+(setq wl-smtp-posting-server my-wl-server-name)
 (setq wl-smtp-posting-user "takeru")
 (setq wl-smtp-authenticate-type "cram-md5")
 ;; ニュースサーバの設定
@@ -93,11 +100,13 @@
 ;(setq wl-draft-send-mail-function 'wl-draft-send-mail-with-pop-before-smtp)
 
 ;; IMAP サーバのポート
-(setq elmo-imap4-default-port 993)
-
 ;; IMAP サーバとの通信方式
-(setq elmo-imap4-default-stream-type 'ssl)
-
+(cond
+ ((string-match "fascinating.local$" system-name)
+  (setq elmo-imap4-default-port 993)
+  (setq elmo-imap4-default-stream-type 'ssl))
+  (t
+   (setq elmo-imap4-default-port 143)))
 
 ;;; [[ 基本的な設定 ]]
 
