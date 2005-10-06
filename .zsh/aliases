@@ -19,20 +19,33 @@ alias close='eject -t'
 
 alias dpkg='COLUMNS=${COLUMNS:-80} dpkg' 
 
-case `uname` in 
-    FreeBSD)
-	alias ls='ls -GF';;
-    Linux)
-	alias ls='ls -F --color=auto';;
-    CYGWIN*)
-	alias ls='ls -F --color=auto --show-control-chars';
-	alias lv='lv -Os'
-	alias meadow='HOME=`cygpath -w ${HOME}` Meadow --load `cygpath -w ~/dot.files/.emacs`';;
-esac
-
+# ls
 alias ll='ls -alF'
 alias la='ls -aF'
 alias lj='ls -NF | nkf -e'
+case `uname` in 
+    FreeBSD|Darwin)
+	alias ls='ls -GF'
+	;;
+    Linux)
+	alias ls='ls -F --color=auto'
+	;;
+    CYGWIN*)
+	alias ls='ls -F --color=auto --show-control-chars'
+	;
+esac
+
+# emacsen
+case `uname` in 
+    Darwin)
+	alias emacs='LANG= LC_ALL= /Applications/Emacs.app/Contents/MacOS/Emacs'
+	alias emacsclient='LANG= LC_ALL= /Applications/Emacs.app/Contents/MacOS/bin/emacsclient'
+	;;
+    CYGWIN*)
+	alias meadow='HOME=`cygpath -w ${HOME}` Meadow --load `cygpath -w ~/dot.files/.emacs`'
+	alias emacs=meadow
+	;
+esac
 # alias reboot='sudo -u root /sbin/reboot'
 # alias insmod='sudo -u root /sbin/insmod'
 # alias rmmod='sudo -u root /sbin/rmmod'
