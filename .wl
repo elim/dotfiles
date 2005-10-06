@@ -415,4 +415,16 @@
 ;; ません。nil ですべてのメッセージが対象になります。
 ;(setq wl-summary-auto-refile-skip-marks nil)
 
+(eval-after-load "wl-draft"
+  (progn
+    (define-key wl-draft-mode-map "\C-l" nil)
+    (define-key wl-draft-mode-map "\C-c\C-l"
+      'wl-draft-highlight-and-recenter)
+    (define-key wl-draft-mode-map "\C-cl"
+      'wl-draft-highlight-and-recenter)))
+
+
+
 ;;; dot.wl ends here
+
+
