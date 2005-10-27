@@ -1,6 +1,6 @@
-# -*- shell-script -*-
-# $Id: aliases 97 2005-05-05 14:00:01Z takeru $
-# rmを .trash-dir に移動するようにするため関数定義
+#  -*- shell-script -*-
+#  $Id: aliases 97 2005-05-05 14:00:01Z takeru $
+#  rmを .trash-dir に移動するようにするため関数定義
 function trash () {
     mv $* ${HOME}/.Trash
 }
@@ -9,6 +9,7 @@ function trash () {
 if [ "${TERM}" = "screen" ] ; then
   SCREEN=screen@
 fi
+
 case ${TERM} in
 kterm|xterm*|screen|rxvt|mlterm)
 	HN=${SCREEN}`hostname -s`
@@ -43,22 +44,3 @@ kterm|xterm*|screen|rxvt|mlterm)
 	}
 	;;
 esac
-
-#なんだろこれ？ plamo linux から？
-function getfilenames () {
-    local a
-    read -cA a
-    if [ "${curfile}" != "$a[3]" ] ; then
-        if [ -f $a[3] ]; then
-            if [ $a[3]:e = gz -o $a[3]:e = tgz -o $a[3]:e = Z ]; then
-		reply=(`tar ztf $a[3]`)
-            else
-		reply=(`tar tf $a[3]`)
-            fi
-        else
-            reply=()
-        fi
-        {curfile}=$a[3]
-    fi
-}
-
