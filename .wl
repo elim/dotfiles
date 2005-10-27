@@ -106,7 +106,7 @@
   (setq elmo-imap4-default-port 993)
   (setq elmo-imap4-default-stream-type 'ssl))
   (t
-   (setq elmo-imap4-default-port 143)))
+   (setq elmo-imap4-default-port 10143)))
 
 ;;; [[ 基本的な設定 ]]
 

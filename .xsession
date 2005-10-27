@@ -1,6 +1,6 @@
 # -*- shell-script -*-
-PATH="$HOME/bin:$PATH"
-#xset +fp ~/lib/X11/fonts
+PATH="${HOME}/bin:${PATH}"
+#xset +fp ${HOME}/lib/X11/fonts
 #xset fp rehash
 #xset m speed Threshold
 # 加速値 == マウスの動きを指定した数値倍だけ速くする。
@@ -9,14 +9,17 @@ xset m 1 20 # for Marble Mouse
 xmodmap -e "pointer = 1 2 3 5 4 6 7"
 xset r rate 240 50
 
-LANG=ja_JP.UTF-8
-export LANG
+case `uname` in 
+    FreeBSD|Linux|Darwin)
+	export LANG=en_US.UTF-8
+	;;
+    CYGWIN*)
+	export LANG=ja_JP.SJIS
+	;;
+esac
 
-LC_MESSAGES=ja_JP.UTF-8
-export LC_ALL
-
-LC_TIME=C
-export LC_TIME
+export LC_MESSAGES=en_US.UTF-8
+export LC_TIME=en_US.UTF-8
 
 XMODIFIERS=@im=skkinput
 export XMODIFIERS
@@ -28,10 +31,10 @@ export G_BROKEN_FILENAMES
 #export GDK_USE_XFT
 
 /bin/rm /tmp/.ICE-unix/*
-/bin/rm $HOME/.DCOPserver*
+/bin/rm ${HOME}/.DCOPserver*
 
-#if [ -f $HOME/.xmodmap.winkey ]; then
-#    xmodmap $HOME/.xmodmap.winkey&
+#if [ -f ${HOME}/.xmodmap.winkey ]; then
+#    xmodmap ${HOME}/.xmodmap.winkey&
 #fi
 
 echo ${SSH_AUTH_SOCK} > ~/.ssh_auth_sock
@@ -91,7 +94,7 @@ if [ -x /usr/bin/mlterm ]; then
 fi
 
 if [ -x /usr/bin/fluxbox ]; then
-    LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 fluxbox
+    fluxbox
 fi
 
 #if [ -x /usr/bin/gnome-session ]; then

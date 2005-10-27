@@ -2,44 +2,44 @@
 # $Id: aliases 97 2005-05-05 14:00:01Z takeru $
 # rm¤ò .trash-dir ¤Ë°ÜÆ°¤¹¤ë¤è¤¦¤Ë¤¹¤ë¤¿¤á´Ø¿ôÄêµÁ
 function trash () {
-    mv $* ~/.Trash
+    mv $* ${HOME}/.Trash
 }
 
 # kterm,xterm ¤Î¥¿¥¤¥È¥ë¤Ë prompt ¤òÉ½¼¨¤¹¤ë
-if [ "$TERM" = "screen" ] ; then
+if [ "${TERM}" = "screen" ] ; then
   SCREEN=screen@
 fi
-case $TERM in
+case ${TERM} in
 kterm|xterm*|screen|rxvt|mlterm)
-	HN=$SCREEN`hostname -s`
+	HN=${SCREEN}`hostname -s`
 	function termtitle () { echo "]0;$*" ; }
-	function cd () { builtin cd $* ; termtitle $HN:$PWD ; }
-	function popd () { builtin popd $* ; termtitle $HN:$PWD ; }
-	function pushd () { builtin pushd $* ; termtitle $HN:$PWD ; }
-	function pwd () { builtin pwd ; termtitle $HN:$PWD ; }
-	function su () { termtitle $HN":su "$* ;
+	function cd () { builtin cd $* ; termtitle ${HN}:${PWD} ; }
+	function popd () { builtin popd $* ; termtitle ${HN}:${PWD} ; }
+	function pushd () { builtin pushd $* ; termtitle ${HN}:${PWD} ; }
+	function pwd () { builtin pwd ; termtitle ${HN}:${PWD} ; }
+	function su () { termtitle ${HN}":su "$* ;
             if [ "$[1]" = "-c" ] ; then command su -c "$[2]";
             elif [ "$[2]" = "-c" ] ; then command su $[1] -c "$[3]" 
             elif [ "$[3]" = "-c" ] ; then command su - $[2] -c "$[4]"
             else command su $* ; fi
-            termtitle $HN:$PWD ; }
+            termtitle ${HN}:${PWD} ; }
 	function rsh () {
-	    termtitle $HN":rsh "$*
-	    command rsh $* ; termtitle $HN:$PWD
+	    termtitle ${HN}":rsh "$*
+	    command rsh $* ; termtitle ${HN}:${PWD}
 	}
 	function rlogin () {
-	termtitle $HN":rlogin "$*
+	termtitle ${HN}":rlogin "$*
 	command rlogin $*
-	termtitle $HN:$PWD
+	termtitle ${HN}:${PWD}
 	}
 	function telnet () {
-	    termtitle $HN":telnet "$*
+	    termtitle ${HN}":telnet "$*
 	    command telnet $*
-	    termtitle $HN:$PWD
+	    termtitle ${HN}:${PWD}
 	}
 	function screen () {
 	    command screen $*
-	    termtitle $HN:$PWD
+	    termtitle ${HN}:${PWD}
 	}
 	;;
 esac
@@ -48,7 +48,7 @@ esac
 function getfilenames () {
     local a
     read -cA a
-    if [ "$curfile" != "$a[3]" ] ; then
+    if [ "${curfile}" != "$a[3]" ] ; then
         if [ -f $a[3] ]; then
             if [ $a[3]:e = gz -o $a[3]:e = tgz -o $a[3]:e = Z ]; then
 		reply=(`tar ztf $a[3]`)
@@ -58,7 +58,7 @@ function getfilenames () {
         else
             reply=()
         fi
-        curfile=$a[3]
+        {curfile}=$a[3]
     fi
 }
 

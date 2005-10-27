@@ -3,7 +3,7 @@
 # based on http://nyan2.tdiary.net/20020923.html#p12
 
 ### PATH
-# ¸Ä¿ÍÍÑ¤Î PATH ¤òÄÉ²Ã
+# å€‹äººç”¨ã® PATH ã‚’è¿½åŠ 
 case `uname` in 
     Darwin)
 	export PATH="/usr/local/bin:/usr/local/sbin:${PATH}"
@@ -13,12 +13,12 @@ case `uname` in
 	;;
 esac
 export PATH="${HOME}/bin:/usr/games:${PATH}"
-# ½ÅÊ£¤òµö²Ä¤·¤Ê¤¤
+# é‡è¤‡ã‚’è¨±å¯ã—ãªã„
 typeset -U path PATH
 typeset -U fpath
 
 ### environment variables
-# ¶¦ÄÌ¤¹¤ë´Ä¶­ÊÑ¿ô¤òÀßÄê
+# å…±é€šã™ã‚‹ç’°å¢ƒå¤‰æ•°ã‚’è¨­å®š
 
 export G_BROKEN_FILENAMES=1
 export EDITOR=vi
@@ -28,7 +28,7 @@ export TZ=JST-9
 case `uname` in 
     FreeBSD|Linux|Darwin)
 	export PAGER=lv
-	export LANG=ja_JP.UTF-8
+	export LANG=en_US.UTF-8
 	;;
     CYGWIN*)
 	export PAGER='lv -Os'
@@ -36,49 +36,49 @@ case `uname` in
 	;;
 esac
 
-export LC_MESSAGES=C
-export LC_TIME=C
+export LC_MESSAGES=en_US.UTF-8
+export LC_TIME=en_US.UTF-8
 ### for CVS
-export CVSEDITOR=$EDITOR
+export CVSEDITOR=${EDITOR}
 export CVSROOT="${HOME}/CVS_DB"
 export CVS_RSH=ssh
 
 ### shell variables
-# ¥Ò¥¹¥È¥êÀßÄê
-HISTFILE=$ZDOTDIR/.zhistory           # ¥Ò¥¹¥È¥êÊİÂ¸¥Õ¥¡¥¤¥ë
-HISTSIZE=10000                        # ¥á¥â¥êÆâ¤ÎÍúÎò¤Î¿ô
-SAVEHIST=100000                       # ÊİÂ¸¤µ¤ì¤ëÍúÎò¤Î¿ô
-setopt extended_history               # ÍúÎò¥Õ¥¡¥¤¥ë¤Ë»ş¹ï¤òµ­Ï¿
-setopt inc_append_history             # ÍúÎò¤ò¥¤¥ó¥¯¥ê¥á¥ó¥¿¥ë¤ËÄÉ²Ã
-setopt share_history                  # ÍúÎò¤Î¶¦Í­
-setopt hist_ignore_all_dups           # ¥Ò¥¹¥È¥ê¤ËÄÉ²Ã¤µ¤ì¤ë¥³¥Ş¥ó¥É¹Ô¤¬¸Å¤¤¤â¤Î¤ÈÆ±¤¸¤Ê¤é¸Å¤¤¤â¤Î¤òºï½ü
-setopt hist_ignore_dups               # Ä¾Á°¤ÈÆ±¤¸¥³¥Ş¥ó¥É¥é¥¤¥ó¤Ï¥Ò¥¹¥È¥ê¤ËÄÉ²Ã¤·¤Ê¤¤
-setopt hist_ignore_space              # ¥¹¥Ú¡¼¥¹¤Ç»Ï¤Ş¤ë¥³¥Ş¥ó¥É¹Ô¤Ï¥Ò¥¹¥È¥ê¥ê¥¹¥È¤«¤éºï½ü
-setopt hist_verify                    # ¥Ò¥¹¥È¥ê¤ò¸Æ¤Ó½Ğ¤·¤Æ¤«¤é¼Â¹Ô¤¹¤ë´Ö¤Ë°ìÃ¶ÊÔ½¸²ÄÇ½
-function history-all { history -E 1 } # Á´ÍúÎò¤Î°ìÍ÷¤ò½ĞÎÏ¤¹¤ë
+# ãƒ’ã‚¹ãƒˆãƒªè¨­å®š
+HISTFILE=${ZDOTDIR}/.zhistory         # ãƒ’ã‚¹ãƒˆãƒªä¿å­˜ãƒ•ã‚¡ã‚¤ãƒ«
+HISTSIZE=10000                        # ãƒ¡ãƒ¢ãƒªå†…ã®å±¥æ­´ã®æ•°
+SAVEHIST=100000                       # ä¿å­˜ã•ã‚Œã‚‹å±¥æ­´ã®æ•°
+setopt extended_history               # å±¥æ­´ãƒ•ã‚¡ã‚¤ãƒ«ã«æ™‚åˆ»ã‚’è¨˜éŒ²
+setopt inc_append_history             # å±¥æ­´ã‚’ã‚¤ãƒ³ã‚¯ãƒªãƒ¡ãƒ³ã‚¿ãƒ«ã«è¿½åŠ 
+setopt share_history                  # å±¥æ­´ã®å…±æœ‰
+setopt hist_ignore_all_dups           # ãƒ’ã‚¹ãƒˆãƒªã«è¿½åŠ ã•ã‚Œã‚‹ã‚³ãƒãƒ³ãƒ‰è¡ŒãŒå¤ã„ã‚‚ã®ã¨åŒã˜ãªã‚‰å¤ã„ã‚‚ã®ã‚’å‰Šé™¤
+setopt hist_ignore_dups               # ç›´å‰ã¨åŒã˜ã‚³ãƒãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³ã¯ãƒ’ã‚¹ãƒˆãƒªã«è¿½åŠ ã—ãªã„
+setopt hist_ignore_space              # ã‚¹ãƒšãƒ¼ã‚¹ã§å§‹ã¾ã‚‹ã‚³ãƒãƒ³ãƒ‰è¡Œã¯ãƒ’ã‚¹ãƒˆãƒªãƒªã‚¹ãƒˆã‹ã‚‰å‰Šé™¤
+setopt hist_verify                    # ãƒ’ã‚¹ãƒˆãƒªã‚’å‘¼ã³å‡ºã—ã¦ã‹ã‚‰å®Ÿè¡Œã™ã‚‹é–“ã«ä¸€æ—¦ç·¨é›†å¯èƒ½
+function history-all { history -E 1 } # å…¨å±¥æ­´ã®ä¸€è¦§ã‚’å‡ºåŠ›ã™ã‚‹
  
-if [ $UID = 0 ]; then                 # root ¤Î¥³¥Ş¥ó¥É¤Ï¥Ò¥¹¥È¥ê¤ËÄÉ²Ã¤·¤Ê¤¤
+if [ ${UID} = 0 ]; then               # root ã®ã‚³ãƒãƒ³ãƒ‰ã¯ãƒ’ã‚¹ãƒˆãƒªã«è¿½åŠ ã—ãªã„
     unset HISTFILE
     SAVEHIST=0
 fi
  
-# ¥×¥í¥ó¥×¥È¤Î¥«¥é¡¼É½¼¨¤òÍ­¸ú
+# ãƒ—ãƒ­ãƒ³ãƒ—ãƒˆã®ã‚«ãƒ©ãƒ¼è¡¨ç¤ºã‚’æœ‰åŠ¹
 autoload -U colors
 colors
  
-# ¥×¥í¥ó¥×¥ÈÀßÄê
-#parameter expansion¡¢command substitute¡¢arthmetic expansion¤¬¥×¥í¥ó¥×¥ÈÃæ¤Ç¹Ô¤ï¤ì¤ë¡£
+# ãƒ—ãƒ­ãƒ³ãƒ—ãƒˆè¨­å®š
+#parameter expansionã€command substituteã€arthmetic expansionãŒãƒ—ãƒ­ãƒ³ãƒ—ãƒˆä¸­ã§è¡Œã‚ã‚Œã‚‹ã€‚
 setopt prompt_subst
 PROMPT='${WINDOW:+"[$WINDOW]"}[%n@%M]:%c%(#.#.$) '
 RPROMPT='[%~]'
 
 
-# ¥Õ¥¡¥¤¥ëºîÀ®»ş¤Î¥Ñ¡¼¥ß¥Ã¥·¥ç¥óÀßÄê
+# ãƒ•ã‚¡ã‚¤ãƒ«ä½œæˆæ™‚ã®ãƒ‘ãƒ¼ãƒŸãƒƒã‚·ãƒ§ãƒ³è¨­å®š
 umask 022
  
-# ¥Ç¥Õ¥©¥ë¥È¤ÎÊä´°µ¡Ç½¤òÍ­¸ú
+# ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®è£œå®Œæ©Ÿèƒ½ã‚’æœ‰åŠ¹
 autoload -U compinit
-### ´Ä¶­°ÍÂ¸
+### ç’°å¢ƒä¾å­˜
 case `expr \`uname\` : '\(CYGWIN\).*'` in
     CYGWIN)
     compinit -u;;
@@ -87,26 +87,26 @@ case `expr \`uname\` : '\(CYGWIN\).*'` in
 esac
 
 
-# Êä´°¤Î»ş¤ËÂçÊ¸»ú¾®Ê¸»ú¤ò¶èÊÌ¤·¤Ê¤¤
+# è£œå®Œã®æ™‚ã«å¤§æ–‡å­—å°æ–‡å­—ã‚’åŒºåˆ¥ã—ãªã„
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
  
 #####################################################################
 # key bindings
 #####################################################################
  
-# Ã¼Ëö
+# ç«¯æœ«
 # stty erase '^H'
 # stty intr '^C'
 # stty susp '^Z'
  
-# zsh ¤Î¥­¡¼¥Ğ¥¤¥ó¥É¤ò emacs É÷¤Ë
+# zsh ã®ã‚­ãƒ¼ãƒã‚¤ãƒ³ãƒ‰ã‚’ emacs é¢¨ã«
 bindkey -e
  
-# ¥«¡¼¥½¥ë°ÌÃÖ¤«¤éÁ°Êıºï½ü
+# ã‚«ãƒ¼ã‚½ãƒ«ä½ç½®ã‹ã‚‰å‰æ–¹å‰Šé™¤
 # override kill-whole-line
 bindkey '^U' backward-kill-line
  
-# Ctrl + P/N ¤ÇÍúÎò¸¡º÷ tcshÉ÷Ì£
+# Ctrl + P/N ã§å±¥æ­´æ¤œç´¢ tcshé¢¨å‘³
 # History completion
 autoload -U history-search-end
 zle -N history-beginning-search-backward-end history-search-end
@@ -114,7 +114,7 @@ zle -N history-beginning-search-forward-end history-search-end
 bindkey "^P" history-beginning-search-backward-end
 bindkey "^N" history-beginning-search-forward-end
  
-# tcsh É÷Ì£¤ÎÃ±¸ìºï½ü
+# tcsh é¢¨å‘³ã®å˜èªå‰Šé™¤
 tcsh-backward-delete-word () {
     local WORDCHARS="${WORDCHARS:s#/#}"
     zle backward-delete-word
@@ -123,38 +123,38 @@ zle -N tcsh-backward-delete-word
 bindkey '^W' tcsh-backward-delete-word
  
 #####################################################################
-## ³Æ¼ïÀßÄê¤ò include
-## ¡Ê$ZUSERDIR ¤Ï .zshenv ¤Ç»ØÄê¡Ë
+## å„ç¨®è¨­å®šã‚’ include
+## ï¼ˆ$ZUSERDIR ã¯ .zshenv ã§æŒ‡å®šï¼‰
  
 ### zsh options
-if [ -f $ZUSERDIR/options ]; then
-    source $ZUSERDIR/options
+if [ -f ${ZUSERDIR}/options ]; then
+    source ${ZUSERDIR}/options
 fi
  
 ### functions
-if [ -f $ZUSERDIR/functions ]; then
-    source $ZUSERDIR/functions
+if [ -f ${ZUSERDIR}/functions ]; then
+    source ${ZUSERDIR}/functions
 fi
  
 ### aliases
-if [ -f $ZUSERDIR/aliases ]; then
-    source $ZUSERDIR/aliases
+if [ -f ${ZUSERDIR}/aliases ]; then
+    source ${ZUSERDIR}/aliases
 fi
  
 ### completion
-if [ -f $ZUSERDIR/completion ]; then
-    source $ZUSERDIR/completion
+if [ -f ${ZUSERDIR}/completion ]; then
+    source ${ZUSERDIR}/completion
 fi
  
 ### color ls
-if [ -f $ZUSERDIR/lscolors ]; then
-    source $ZUSERDIR/lscolors
+if [ -f ${ZUSERDIR}/lscolors ]; then
+    source ${ZUSERDIR}/lscolors
 fi
 
 
-### ´Ä¶­°ÍÂ¸
-# core ÍŞÀ©
-# ¤Ä¤¤¤Ç¤Ë linux_logo
+### ç’°å¢ƒä¾å­˜
+# core æŠ‘åˆ¶
+# ã¤ã„ã§ã« linux_logo
 case `uname` in
     Linux)
 	unlimit

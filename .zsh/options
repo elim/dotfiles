@@ -1,3 +1,6 @@
+# -*- shell-script -*-
+# $Id: .zshrc 131 2005-09-17 01:42:30Z takeru $
+
 setopt append_history
 setopt auto_cd
 setopt auto_list

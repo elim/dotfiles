@@ -9,5 +9,13 @@
 	   (list (expand-file-name "/usr/local/share/emacs/site-lisp/")))
        load-path))
 
+(setq exec-path
+      (append
+       (if (file-accessible-directory-p "/sw/bin")
+	   (list (expand-file-name "/sw/bin")))
+       (if (file-accessible-directory-p "/sw/sbin")
+	   (list (expand-file-name "/sw/sbin")))
+       exec-path))
+
 (load "init-emacs.el")
 
