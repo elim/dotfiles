@@ -19,11 +19,19 @@ alias close='eject -t'
 
 alias dpkg='COLUMNS=${COLUMNS:-80} dpkg' 
 
+
+# lv
+case ${UNAME} in 
+    CYGWIN*)
+	alias lv='lv -Os'
+	;
+esac
+
 # ls
 alias ll='ls -alF'
 alias la='ls -aF'
 alias lj='ls -NF | nkf -e'
-case `uname` in 
+case ${UNAME} in 
     FreeBSD|Darwin)
 	alias ls='ls -GF'
 	;;
@@ -36,7 +44,7 @@ case `uname` in
 esac
 
 # emacsen
-case `uname` in 
+case ${UNAME} in 
     Darwin)
 	alias emacs='LANG= LC_ALL= /Applications/Emacs.app/Contents/MacOS/Emacs'
 	alias emacsclient='LANG= LC_ALL= /Applications/Emacs.app/Contents/MacOS/bin/emacsclient'
