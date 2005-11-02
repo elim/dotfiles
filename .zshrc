@@ -4,7 +4,7 @@
 
 ### PATH
 # 個人用の PATH を追加
-case `uname` in 
+case ${UNAME} in 
     Darwin)
 	export PATH="/usr/local/bin:/usr/local/sbin:${PATH}"
 	if [ -f /sw/bin/init.sh ]; then
@@ -25,7 +25,7 @@ export EDITOR=vi
 export GZIP='-v9N'
 export TZ=JST-9
 
-case `uname` in 
+case ${UNAME} in 
     FreeBSD|Linux|Darwin)
 	export PAGER=lv
 	export LANG=en_US.UTF-8
@@ -33,11 +33,11 @@ case `uname` in
     CYGWIN*)
 	export PAGER='lv -Os'
 	export LANG=ja_JP.SJIS
-	;;
+	export LC_MESSAGES=C
+	export LC_TIME=C
+	;
 esac
 
-export LC_MESSAGES=en_US.UTF-8
-export LC_TIME=en_US.UTF-8
 ### for CVS
 export CVSEDITOR=${EDITOR}
 export CVSROOT="${HOME}/CVS_DB"
@@ -79,11 +79,13 @@ umask 022
 # デフォルトの補完機能を有効
 autoload -U compinit
 ### 環境依存
-case `expr \`uname\` : '\(CYGWIN\).*'` in
-    CYGWIN)
-    compinit -u;;
+case ${UNAME} in
+    CYGWIN*)
+	compinit -u
+	;;
     *)
-    compinit;;
+	compinit
+	;
 esac
 
 
@@ -153,23 +155,31 @@ fi
 
 
 ### 環境依存
-# core 抑制
-# ついでに linux_logo
-case `uname` in
-    Linux)
+case ${UNAME} in 
+    FreeBSD|Linux|CYGWIN*)
+	export PACKAGE_DEST="/usr/bin"
+	;;
+    Darwin)
+	export PACKAGE_DEST="/sw/bin"
+	;
+esac
+
+# if [ -x ${PACKAGE_DEST}/clear ]; then
+#     clear
+# fi
+
+case ${UNAME} in
+    Darwin|FreeBSDLinux)
 	unlimit
 	limit core 0
 	limit -s
 
-	echo -e '\n'
 	if [ -x /usr/bin/linux_logo ]; then
 	    linux_logo -a
 	fi
-	echo -e '\n'
-	;;
+	;
 esac
 
-if [ -x /usr/bin/fortune ]; then
+if [ -x ${PACKAGE_DEST}/fortune ]; then
     fortune
 fi
-
