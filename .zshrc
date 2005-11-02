@@ -180,6 +180,11 @@ case ${UNAME} in
 	;
 esac
 
+if [ -x ${PACKAGE_DEST}/keychain ]; then
+    keychain ${HOME}/.ssh/id_rsa
+    source ${HOME}/.keychain/`hostname`-sh
+fi
+
 if [ -x ${PACKAGE_DEST}/fortune ]; then
     fortune
 fi
