@@ -169,7 +169,7 @@ esac
 # fi
 
 case ${UNAME} in
-    Darwin|FreeBSDLinux)
+    Darwin|FreeBSD|Linux)
 	unlimit
 	limit core 0
 	limit -s
