@@ -15,9 +15,9 @@ done
 
 case `uname` in
     CYGWIN*)
-	rm -vf ~/.wl
-	echo '(load (expand-file-name "~/dot.files/.wl"))' |tee ~/.wl
-	rm -vf ~/.skk
-	echo '(load (expand-file-name "~/dot.files/.skk"))' |tee ~/.skk
+	for FILE in ".wl" ".skk"
+	do rm -vf ~/${FILE}
+	    echo "(load (expand-file-name "~/dot.files/${FILE}"))" > ~/$FILE
+	done
 	;;
 esac

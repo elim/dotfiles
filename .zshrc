@@ -180,9 +180,11 @@ case ${UNAME} in
 	;
 esac
 
-if [ -x ${PACKAGE_DEST}/keychain ]; then
-    keychain ${HOME}/.ssh/id_rsa
-    source ${HOME}/.keychain/`hostname`-sh
+if [ ! ${UID} = 0 ]; then
+    if [ -x ${PACKAGE_DEST}/keychain ]; then
+	keychain ${HOME}/.ssh/id_rsa
+	source ${HOME}/.keychain/`hostname`-sh
+    fi
 fi
 
 if [ -x ${PACKAGE_DEST}/fortune ]; then
