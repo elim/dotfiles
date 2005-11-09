@@ -33,7 +33,7 @@ alias la='ls -aF'
 alias lj='ls -NF | nkf -e'
 case ${UNAME} in 
     FreeBSD|Darwin)
-	alias ls='ls -GF'
+	alias ls='ls -GFw'
 	;;
     Linux)
 	alias ls='ls -F --color=auto'
