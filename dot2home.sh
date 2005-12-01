@@ -6,15 +6,16 @@ cd ${DOTDIR}
 
 chmod 0710 .fetchmailrc
 
+ln -vsf .x{session,initrc}
+
 for FILE in .*
 do
-    echo ${FILE}
     case ${FILE} in
 	'.'|'..'|'.svn'|*~)
 	    ;;
 	*)
 	    (cd;ln -vsf ${DOTDIR}/${FILE} .)
-	    ;
+	    ;;
     esac
 done
 
