@@ -18,4 +18,3 @@ case ${UNAME} in
 	export ZUSERDIR=${HOME}/dot.files/.zsh
 	;
 esac
-#test

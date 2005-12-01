@@ -3,7 +3,7 @@
 # shell variables definition
 PAGER=w3m
 EDITOR=emacsclient
-TERM=mlterm
+TERM=xterm
 SORTTYPE=1
 DISPLAYMODE=3
 FD_SORTTREE=1

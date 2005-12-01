@@ -1,5 +1,15 @@
 # -*- shell-script -*-
-PATH="${HOME}/bin:${PATH}"
+# $Id$
+export UNAME=`uname`
+case ${UNAME} in 
+    Darwin)
+	export PATH="/usr/local/bin:/usr/local/sbin:${PATH}"
+	if [ -f /sw/bin/init.sh ]; then
+	    source /sw/bin/init.sh
+	fi
+	;;
+esac
+export PATH="${HOME}/bin:/usr/games:${PATH}"
 #xset +fp ${HOME}/lib/X11/fonts
 #xset fp rehash
 #xset m speed Threshold
@@ -9,7 +19,7 @@ xset m 1 20 # for Marble Mouse
 xmodmap -e "pointer = 1 2 3 5 4 6 7"
 xset r rate 240 50
 
-case `uname` in 
+case ${UNAME} in 
     FreeBSD|Linux|Darwin)
 	export LANG=en_US.UTF-8
 	;;
@@ -30,61 +40,60 @@ export G_BROKEN_FILENAMES
 #GDK_USE_XFT=0
 #export GDK_USE_XFT
 
-/bin/rm /tmp/.ICE-unix/*
-/bin/rm ${HOME}/.DCOPserver*
+rm -vf /tmp/.ICE-unix/*
+rm -vf ${HOME}/.DCOPserver*
 
-#if [ -f ${HOME}/.xmodmap.winkey ]; then
-#    xmodmap ${HOME}/.xmodmap.winkey&
-#fi
+case ${UNAME} in
+    Darwin)
+	export BINDIR=/sw/bin
+	;;
+    *)
+	export BINDIR=/usr/bin
+	;;
+esac
 
-echo ${SSH_AUTH_SOCK} > ~/.ssh_auth_sock
-
-#if [ -x /usr/bin/fetchmail ]; then
-#    fetchmail&
-#fi
-
-if [ -x /usr/bin/X11/skkinput ]; then
+if [ -x ${BINDIR}/X11/skkinput ]; then
     skkinput&
 fi
 
-if [ -x /usr/bin/esd ]; then
+if [ -x ${BINDIR}/esd ]; then
     esd -nobeeps&
 fi
 
-if [ -x /usr/bin/xscreensaver ]; then
+if [ -x ${BINDIR}/xscreensaver ]; then
     xscreensaver -nosplash&
 fi
 
-#if [ -x /usr/bin/knotes ]; then
+#if [ -x ${BINDIR}/knotes ]; then
 #    knotes&
 #fi
 
-if [ -x /usr/bin/wmcube ]; then
+if [ -x ${BINDIR}/wmcube ]; then
     wmcube&
 fi
 
-if [ -x /usr/bin/wmmoonclock ]; then
+if [ -x ${BINDIR}/wmmoonclock ]; then
     wmmoonclock&
 fi
 
-if [ -x /usr/bin/wmxmms ]; then
+if [ -x ${BINDIR}/wmxmms ]; then
     wmxmms&
 fi
 
-if [ -x /usr/bin/wmpuzzle ]; then
+if [ -x ${BINDIR}/wmpuzzle ]; then
     wmpuzzle&
 fi
 
-if [ -x /usr/bin/wmtimer ]; then
+if [ -x ${BINDIR}/wmtimer ]; then
     wmtimer&
 fi
 
-#if [ -x /usr/bin/volume.app ]; then
+#if [ -x ${BINDIR}/volume.app ]; then
 #    volume.app&
 #fi
 
-if [ -x /usr/bin/mlterm ]; then
-    if [ -x /usr/bin/screen ]; then
+if [ -x ${BINDIR}/mlterm ]; then
+    if [ -x ${BINDIR}/screen ]; then
 	mlterm --title `hostname`@mlterm \
 	    --daemon=blend -e screen -UdRR &
     else
@@ -93,14 +102,16 @@ if [ -x /usr/bin/mlterm ]; then
     fi
 fi
 
-if [ -x /usr/bin/fluxbox ]; then
+if [ -x ${BINDIR}/fluxbox ]; then
     fluxbox
+elif [ -x ${BINDIR}/quartz-wm ]; then
+    quartz-wm
 fi
 
-#if [ -x /usr/bin/gnome-session ]; then
+#if [ -x ${BINDIR}/gnome-session ]; then
 #    gnome-session
 #fi
 
-#if [ -x /usr/bin/X11/twm ]; then
+#if [ -x ${BINDIR}/X11/twm ]; then
 #    twm
 #fi

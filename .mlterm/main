@@ -1,101 +1,101 @@
 "--------------------
-" �����ߥʥ��Ϣ
+" ターミナル関連
 "
-" �������󥷥����Ȥ����ɤ�����
+" ログインシェルを使うかどうか？
 use_login_sell=true
-" ü��������
-termtype=mlterm
-" ��ư����Ω�夲��pty������ɥ��ο�
+" 端末タイプ
+termtype=xterm
+" 起動時に立上げるptyウインドウの数
 ptys=1
 "--------------------
-" ���󥳡��ǥ��󥰴�Ϣ
+" エンコーディング関連
 "
-" ���󥳡��ǥ��󥰤λ���
+" エンコーディングの指定
 ENCODING = auto
-" BiDi������󥰤�Ԥ�
+" BiDiレンダリングを行う
 use_bidi = false
-" ���ʸ������������
+" 結合文字列を処理する
 use_combining = true
-" ���ʸ�����ưŪ�˹�������
+" 結合文字列を動的に合成する
 use_dynamic_comb = true
-" Big5 CTEXT �ΥХ� (XFree86 4.1.0 ����) ���б�����
+" Big5 CTEXT のバグ (XFree86 4.1.0 以前) に対応する
 "big5_buggy=false
-" copy and paste�Ǽ�����ä�XCOMPOUND TEXT�����UNICODE���ͳ���Ƥ��顢ü�����󥳡��ǥ��󥰤��Ѵ�����
+" copy and pasteで受け取ったXCOMPOUND TEXTを一度UNICODEを経由してから、端末エンコーディングに変換する
 copy_paste_via_ucs=false
 "--------------------
-" �ե���ȴ�Ϣ
+" フォント関連
 "
-" �ǥե���ȥե���ȥ�����
+" デフォルトフォントサイズ
 fontsize = 14
-" �ѹ���ǽ�ʥե���ȥ��������ϰ�
+" 変更可能なフォントサイズの範囲
 font_size_range=6-30
-" larger,smaller �ܥ���ǤΥե���ȥ��������Ѳ���
+" larger,smaller ボタンでのフォントサイズの変化量
 step_in_changing_font_size=1
-" ����Ĺ�����������Ѥ���
+" 可変長コラム幅を使用する
 use_variable_column_width = false
-" ��������ꥢ���󥰥ե���Ȥ���Ѥ���
+" アンチエリアシングフォントを使用する
 use_anti_alias = false
-" ����������ꥢ��(Xft)����JISX0208 �� Unicode �Ѵ��� CP932 ���Ѵ��ơ��֥��Ȥ�
+" アンチエイリアス(Xft)時、JISX0208 の Unicode 変換に CP932 の変換テーブルを使う
 use_cp932_ucs_for_xft=true
-" UNICODE ��Ŭ����ʸ�������map���ơ�UNICODE �ե���Ȥ�Ȥ鷺��ɽ������
+" UNICODE を適当な文字集合にmapして、UNICODE フォントを使わずに表示する
 not_use_unicode_font=true
-" ���٤Ƥ�ʸ���� UNICODE �ե���Ȥ�����Ȥä�ɽ������
+" すべての文字を UNICODE フォントだけを使って表示する
 only_use_unicode_font=false
-" US_ASCII ��ɽ���ˤϡ�ɬ�� ISO8859-1 �ե���Ȥ���Ѥ���
+" US_ASCII の表示には、必ず ISO8859-1 フォントを使用する
 iso88591_font_for_usascii=false
-" DEC_SPECIAL �ե���Ȥη���ʸ���Υ���դ�ưŪ�˹���
+" DEC_SPECIAL フォントの罫線文字のグリフを動的に合成
 compose_dec_special_font=false
 "--------------------
-" ������Ϣ
+" 装飾関連
 "
-" �ط�Ʃ��򤹤�
+" 背景透過をする
 use_transbg = true
-" ����������С���Ĥ���
+" スクロールバーをつける
 use_scrollbar=true
-" ����������С��ΤĤ���
+" スクロールバーのつけ方
 scrollbar_mode = none
-" �Ȥ���������������С���̾��
+" 使いたいスクロールバーの名前
 " (*simple* / sample / sample2 / next / motif / athena / mozmodern)
 scrollbar_view_name = next
-" ü�����̤����ʿ�
+" 端末画面の前景色
 fg_color = white
-" ü�����̤��طʿ�
+" 端末画面の背景色
 bg_color = black
-" ����������С������ʿ�
+" スクロールバーの前景色
 sb_fg_color=white
-" ����������С����طʿ�
+" スクロールバーの背景色
 sb_bg_color=black
-" ��ˤ�������ե�����Υѥ�
+" 紙にする画像ファイルのパス
 "wall_picture = 
-"Focus ���鳰�줿�Ȥ�������/�طʿ��� Fade Ψ(ɴʬΨ)
+"Focus から外れたときの前景/背景色の Fade 率(百分率)
 fade_ratio = 60
-" �طʲ���(Ʃ������ޤ�)�ε���Ĵ��(ɴʬΨ)
+" 背景画像(透過処理含む)の輝度調整(百分率)
 brightness = 30
-" ����ȥ饹��
+" コントラスト
 contrast = 40
-" ������ȥ�
+" ジオメトリ
 geometry=120x40
-" �Դ�
+" 行間
 line_space = 3
 
 "--------------------
-" ����¾
+" その他
 "
-" XIM��Ȥ�
+" XIMを使う
 use_xim=true
-" ��ư����XIM�򳫤�
+" 起動時にXIMを開く
 xim_open_in_startup=true
-" ������
+" タブ幅
 tabsize = 8
-" �����ιԿ�
+" ログの行数
 logsize = 0
-" ñ��ζ���ʸ�������
+" 単語の区切文字を指定
 word_separators=*",.:+/@
-" Meta�����򲡲��������ε�ư
+" Metaキーを押下した時の挙動
 mod_meta_mode = esc
-" BEL(0x7)�������ä����ε�ư
+" BEL(0x7)を受け取った時の挙動
 bel_mode = visual
-" daemon process�Ȥʤ뤫�ɤ���
+" daemon processとなるかどうか
 daemon_mode=none
 wall_picture = 
 use_multi_column_char = true

@@ -33,7 +33,7 @@ alias la='ls -aF'
 alias lj='ls -NF | nkf -e'
 case ${UNAME} in 
     FreeBSD|Darwin)
-	alias ls='ls -GFw'
+	alias ls='ls -wGF'
 	;;
     Linux)
 	alias ls='ls -F --color=auto'
@@ -46,8 +46,8 @@ esac
 # emacsen
 case ${UNAME} in 
     Darwin)
-	alias emacs='LANG= LC_ALL= /Applications/Emacs.app/Contents/MacOS/Emacs'
-	alias emacsclient='LANG= LC_ALL= /Applications/Emacs.app/Contents/MacOS/bin/emacsclient'
+	alias emacs='/Applications/Emacs.app/Contents/MacOS/Emacs'
+	alias emacsclient='/Applications/Emacs.app/Contents/MacOS/bin/emacsclient'
 	;;
     CYGWIN*)
 	alias meadow='HOME=`cygpath -w ${HOME}` Meadow --load `cygpath -w ~/dot.files/.emacs`'

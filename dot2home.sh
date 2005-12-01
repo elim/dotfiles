@@ -7,10 +7,15 @@ cd ${DOTDIR}
 chmod 0710 .fetchmailrc
 
 for FILE in .*
-  do
-    if [ ${FILE} != "." -a ${FILE} != ".." -a ${FILE} != ".svn" ]; then
-	(cd;ln -vsf ${DOTDIR}/${FILE} .)
-    fi
+do
+    echo ${FILE}
+    case ${FILE} in
+	'.'|'..'|'.svn'|*~)
+	    ;;
+	*)
+	    (cd;ln -vsf ${DOTDIR}/${FILE} .)
+	    ;
+    esac
 done
 
 case `uname` in
