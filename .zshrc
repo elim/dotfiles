@@ -35,7 +35,7 @@ case ${UNAME} in
 	export LANG=ja_JP.SJIS
 	export LC_MESSAGES=C
 	export LC_TIME=C
-	;
+	;;
 esac
 
 ### for CVS
@@ -85,7 +85,7 @@ case ${UNAME} in
 	;;
     *)
 	compinit
-	;
+	;;
 esac
 
 
@@ -157,14 +157,14 @@ fi
 ### 環境依存
 case ${UNAME} in 
     FreeBSD|Linux|CYGWIN*)
-	export PACKAGE_DEST="/usr/bin"
+	export BINDIR="/usr/bin"
 	;;
     Darwin)
-	export PACKAGE_DEST="/sw/bin"
-	;
+	export BINDIR="/sw/bin"
+	;;
 esac
 
-# if [ -x ${PACKAGE_DEST}/clear ]; then
+# if [ -x ${BINDIR}/clear ]; then
 #     clear
 # fi
 
@@ -174,19 +174,20 @@ case ${UNAME} in
 	limit core 0
 	limit -s
 
-	if [ -x /usr/bin/linux_logo ]; then
+	if [ -x ${BINDIR}/linux_logo ]; then
 	    linux_logo -a
 	fi
-	;
+	;;
 esac
 
 if [ ! ${UID} = 0 ]; then
-    if [ -x ${PACKAGE_DEST}/keychain ]; then
+    if [ -x ${BINDIR}/keychain ]; then
 	keychain ${HOME}/.ssh/id_rsa
 	source ${HOME}/.keychain/`hostname`-sh
     fi
 fi
 
-if [ -x ${PACKAGE_DEST}/fortune ]; then
+if [ -x ${BINDIR}/fortune -o \
+	-x /usr/games/fortune ]; then
     fortune
 fi
