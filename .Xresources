@@ -4,7 +4,7 @@
 ! XIM の設定
 !---------------------------------------------------------
 ! XIM サーバーの名前を定義する
-#define XIM skkinput
+#define XIM uim
 !Kinput2*conversionStartKeys: Shift<Key>space \n\
 !	Ctrl<Key>o \n\
 !	Ctrl<Key>backslash \n\

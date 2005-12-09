@@ -1,6 +1,7 @@
 # -*- shell-script -*-
 # $Id$
-# based on http://nyan2.tdiary.net/20020923.html#p12
+# http://namazu.org/%7Esatoru/unimag/3/
+# http://nyan2.tdiary.net/20020923.html#p12
 
 ### PATH
 # 個人用の PATH を追加
@@ -18,8 +19,6 @@ typeset -U path PATH
 typeset -U fpath
 
 ### environment variables
-# 共通する環境変数を設定
-
 export G_BROKEN_FILENAMES=1
 export EDITOR=vi
 export GZIP='-v9N'
@@ -29,12 +28,13 @@ case ${UNAME} in
     FreeBSD|Linux|Darwin)
 	export PAGER=lv
 	export LANG=en_US.UTF-8
+	export LC_CTYPE=ja_JP.UTF-8
 	;;
     CYGWIN*)
 	export PAGER='lv -Os'
 	export LANG=ja_JP.SJIS
-	export LC_MESSAGES=C
-	export LC_TIME=C
+	export LC_MESSAGES=en_US.UTF-8
+	export LC_TIME=en_US.UTF-8
 	;;
 esac
 
@@ -154,19 +154,9 @@ if [ -f ${ZUSERDIR}/lscolors ]; then
 fi
 
 
-### 環境依存
-case ${UNAME} in 
-    FreeBSD|Linux|CYGWIN*)
-	export BINDIR="/usr/bin"
-	;;
-    Darwin)
-	export BINDIR="/sw/bin"
-	;;
-esac
-
-# if [ -x ${BINDIR}/clear ]; then
-#     clear
-# fi
+if type clear &> /dev/null; then
+    clear
+fi
 
 case ${UNAME} in
     Darwin|FreeBSD|Linux)
@@ -174,20 +164,19 @@ case ${UNAME} in
 	limit core 0
 	limit -s
 
-	if [ -x ${BINDIR}/linux_logo ]; then
+	if type linux_logo &> /dev/null; then
 	    linux_logo -a
 	fi
 	;;
 esac
 
 if [ ! ${UID} = 0 ]; then
-    if [ -x ${BINDIR}/keychain ]; then
+    if type keychain &> /dev/null; then
 	keychain ${HOME}/.ssh/id_rsa
 	source ${HOME}/.keychain/`hostname`-sh
     fi
 fi
 
-if [ -x ${BINDIR}/fortune -o \
-	-x /usr/games/fortune ]; then
+if type fortune &> /dev/null; then
     fortune
 fi
