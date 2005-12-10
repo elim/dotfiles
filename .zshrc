@@ -91,6 +91,29 @@ esac
 
 # 補完の時に大文字小文字を区別しない
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+# 補完候補をカーソル選択
+zstyle ':completion:*' menu select=1
+ 
+#####################################################################
+# key bindings
+#####################################################################
+ 
+# 端末
+# stty erase '^H'
+# stty intr '^C'
+# stty susp '^Z'
+ 
+# zsh のキーバインドを emacs 風に
+bindkey -e
+ 
+# カーソル位置から前方削除
+# override kill-whole-line
+bindkey '^U' backward-kill-line
+ 
+# Ctrl + P/N で履歴検索 tcsh風味
+# History completion
+autoload -U history-search-end
+zle -N history-beginning-search-backward-end history-search-end
  
 #####################################################################
 # key bindings
