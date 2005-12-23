@@ -15,11 +15,11 @@
 
 ;; [[ SEMI の設定 ]]
 
-;; HTML パートを表示しない
+;; HTML パートを表示するか
 ;; mime-setup がロードされる前に記述する必要があります。
 (setq mime-setup-enable-inline-html nil)
 
-;; 大きいメッセージを送信時に分割しない
+;; 大きいメッセージを送信時に分割するか
 (setq mime-edit-split-message nil)
 
 ;; 大きいメッセージとみなす行数の設定
@@ -36,6 +36,7 @@
       (list (wl-address-header-extract-address wl-from)
 	    "fascinating_logic@ybb.ne.jp"
 	    "a.k.a.elim@gmail.com"
+	    "takeru@at-mac.com"
 	    "elim@TerokNor.org"
 	    "picard@mx12.freecom.ne.jp"))
 
@@ -313,8 +314,9 @@
 ;	 (wl-pop-before-smtp-server . "mail.TerokNor.org")
 	)))
 ;; Daredevil SKK の version をヘッダに入れる
-(add-to-list 'wl-draft-config-alist
-	     `(t ("X-Input-Method" . ,(skk-version))))
+(when (locate-library "skk-version")
+  (add-to-list 'wl-draft-config-alist
+	       `(t ("X-Input-Method" . ,(skk-version)))))
 
 ;; ドラフト作成時(返信時)に，自動的にヘッダを変更する
 (add-hook 'wl-mail-setup-hook
@@ -417,5 +419,3 @@
 
 
 ;;; dot.wl ends here
-
-
