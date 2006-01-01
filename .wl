@@ -59,7 +59,7 @@
 (cond
  ((not (string-match "fascinating.local$" system-name))
   (setq wl-local-domain "elim.teroknor.org")))
- 
+
 ;; Message-ID のドメインパートを強制的に指定
 (setq wl-message-id-domain "elim.teroknor.org")
 
@@ -72,11 +72,12 @@
 ;; (setq wl-insert-message-id nil)
 
 ;;; [[ サーバの設定 ]]
-(cond
- ((string-match "fascinating.local$" system-name)
-  (setq my-wl-server-name "idea"))
- (t
-  (setq my-wl-server-name "localhost")))
+(setq my-wl-server-name
+ (cond
+  ((string-match "fascinating.local$" system-name)
+   "idea")
+  (t
+   "localhost")))
 
 ;; IMAP サーバの設定
 (setq elmo-imap4-default-server my-wl-server-name)
