@@ -4,8 +4,6 @@ DOTDIR=~/dot.files
 
 cd ${DOTDIR}
 
-chmod 0710 .fetchmailrc
-
 ln -vsf .x{session,initrc}
 
 for FILE in .*
@@ -23,7 +21,8 @@ case `uname` in
     CYGWIN*)
 	for FILE in ".wl" ".skk"
 	do rm -vf ~/${FILE}
-	    echo "(load (expand-file-name "~/dot.files/${FILE}"))" > ~/$FILE
+	    echo "(load (expand-file-name \"~/dot.files/${FILE}\"))" |
+	    tee ~/${FILE}
 	done
 	;;
 esac
