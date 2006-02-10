@@ -7,13 +7,20 @@
 # 個人用の PATH を追加
 case ${UNAME} in 
     Darwin)
-	export PATH="/usr/local/bin:/usr/local/sbin:${PATH}"
+	PATH="/usr/local/bin:/usr/local/sbin:${PATH}"
+	if [ -d /Developer/Tools ];then
+	    PATH="${PATH}:/Developer/Tools"
+	fi
 	if [ -f /sw/bin/init.sh ]; then
 	    source /sw/bin/init.sh
 	fi
 	;;
+    *)
+	PATH="${HOME}/bin:/usr/games:${PATH}"
+	;;
 esac
-export PATH="${HOME}/bin:/usr/games:${PATH}"
+export PATH
+
 # 重複を許可しない
 typeset -U path PATH
 typeset -U fpath

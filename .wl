@@ -25,7 +25,6 @@
 ;; 大きいメッセージとみなす行数の設定
 ;(setq mime-edit-message-default-max-lines 1000)
 
-
 ;;; [[ 個人情報の設定 ]]
 
 ;; From: の設定
@@ -279,29 +278,34 @@
 ;; テンプレートの設定
 (setq wl-template-alist
       '(("default"
-;; 	 (wl-smtp-posting-server . "ybbsmtp.mail.yahoo.co.jp")
-;; 	 (wl-smtp-posting-user . "fascinating_logic")
-;; 	 (wl-smtp-posting-port . "25")
-	 ("From" . "Takeru Naito <fascinating_logic@ybb.ne.jp>"))
-	("gmail"
+	 (wl-smtp-posting-server . "ybbsmtp.mail.yahoo.co.jp")
+	 (wl-smtp-posting-port . "25")
+	 (wl-smtp-authenticate-type . "plain")
+	 (wl-smtp-posting-user . "fascinating_logic")
+	 ("From" . "Takeru Naito <fascinating_logic@ybb.ne.jp>")
+	 (signature-file-name . "~/.signature"))
+;; 	("gmail"
 ;; 	 (wl-smtp-posting-server . "smtp.gmail.com")
 ;; 	 (wl-smtp-posting-user . "a.k.a.elim@gmail.com")
 ;; 	 (wl-smtp-connection-type . "starttls")
 ;; 	 (wl-smtp-posting-port . "587")
 ;; 	 (wl-smtp-authenticate-type . "plain")
-	 ("From" . "Takeru Naito  <a.k.a.elim@gmail.com>")
-	 (bottom-file . "~/.signature.gmail"))
+;; 	 ("From" . "Takeru Naito  <a.k.a.elim@gmail.com>")
+;; 	 (signature-file-name . "~/.signature.gmail"))
 	("terok"
-;; 	 (wl-smtp-posting-user . "elim")
-;; 	 (wl-smtp-posting-server . "mail.teroknor.org")
-;; 	 (wl-smtp-posting-port . "25")
+	 (wl-smtp-posting-server . "mail.teroknor.org")
+	 (wl-smtp-posting-port . "25")
+	 (wl-smtp-authenticate-type . "plain")
+	 (wl-smtp-posting-user . "elim")
 	 ("From" . "Elim Garak <elim@TerokNor.org>")
-	 (bottom-file . "~/.signature.terok"))
+	 (signature-file-name . "~/.signature.terok"))
 	("elim.terok"
-;; 	 (wl-smtp-posting-user . "takeru")
-;; 	 (wl-smtp-posting-server . "elim.teroknor.org")
-;; 	 (wl-smtp-posting-port . "25")
-	 ("From" . "Takeru Naito  <takeru@elim.teroknor.org>"))))
+	 (wl-smtp-posting-server . my-wl-server-name)
+	 (wl-smtp-posting-port . "25")
+	 (wl-smtp-authenticate-type . "cram-md5")
+	 (wl-smtp-posting-user . "takeru")
+	 ("From" . "Takeru Naito  <takeru@elim.teroknor.org>")
+	 (signature-file-name . "~/.signature.terok"))))
 
 ;; ドラフトバッファの内容により From や Organization などのヘッダを自
 ;; 動的に変更する
@@ -405,13 +409,13 @@
 
 
 ;; 自動リファイルのルール設定
-(setq wl-refile-rule-alist '(
-	("Subject"
-	 ("foo" . "+inbox/foo"))
-	("x-ml-name"
-	 ("^Elisp" . "+elisp"))
-	("From"
-	 ("bar" . "+inbox/bar"))))
+;; (setq wl-refile-rule-alist '(
+;; 	("Subject"
+;; 	 ("foo" . "+inbox/foo"))
+;; 	("x-ml-name"
+;; 	 ("^Elisp" . "+elisp"))
+;; 	("From"
+;; 	 ("bar" . "+inbox/bar"))))
 
 ;; 自動リファイルしない永続マークを設定
 ;; 標準では "N" "U" "!" になっており、未読メッセージを自動リファイルし

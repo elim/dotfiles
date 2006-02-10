@@ -71,10 +71,14 @@ if type mlterm &> /dev/null; then
 	mlterm --title mlterm@`hostname`@mlterm \
 	    --daemon=blend &
     fi
+elif type xterm &> /dev/null; then
+	xterm &
 fi
 
 if type fluxbox &> /dev/null; then
     fluxbox
 elif type quartz-wm &> /dev/null; then
     quartz-wm
+elif type twm &> /dev/null; then
+    twm
 fi
