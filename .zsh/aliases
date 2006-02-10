@@ -19,12 +19,11 @@ alias close='eject -t'
 
 alias dpkg='COLUMNS=${COLUMNS:-80} dpkg' 
 
-
 # lv
 case ${UNAME} in 
     CYGWIN*)
 	alias lv='lv -Os'
-	;
+	;;
 esac
 
 # ls
@@ -40,7 +39,7 @@ case ${UNAME} in
 	;;
     CYGWIN*)
 	alias ls='ls -F --color=auto --show-control-chars'
-	;
+	;;
 esac
 
 # emacsen
@@ -52,14 +51,23 @@ case ${UNAME} in
     CYGWIN*)
 	alias meadow='HOME=`cygpath -w ${HOME}` Meadow --load `cygpath -w ~/dot.files/.emacs`'
 	alias emacs=meadow
-	;
+	;;
 esac
+
+# shell
+case ${UNAME} in 
+    CYGWIN*)
+	alias cmd='CMD'
+	alias start='cmd /cstart'
+	alias open='start'
+	;;
+esac
+
 # alias reboot='sudo -u root /sbin/reboot'
 # alias insmod='sudo -u root /sbin/insmod'
 # alias rmmod='sudo -u root /sbin/rmmod'
 # alias halt='sudo -u root /sbin/halt'
 alias fd='SORTTYPE=1 fd'
-
 
 CDRECORD_OPTIONS="dev=ATAPI:0,0 driveropts=burnfree,noforcespeed -v -useinfo -eject -pad"
 alias cdrecord="cdrecord ${CDRECORD_OPTIONS} speed=4"
