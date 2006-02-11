@@ -5,9 +5,10 @@
 
 ### PATH
 # 個人用の PATH を追加
+PATH="${HOME}/bin:/usr/games:/usr/local/bin:/usr/local/sbin:${PATH}"
+
 case ${UNAME} in 
     Darwin)
-	PATH="/usr/local/bin:/usr/local/sbin:${PATH}"
 	if [ -d /Developer/Tools ];then
 	    PATH="${PATH}:/Developer/Tools"
 	fi
@@ -16,7 +17,6 @@ case ${UNAME} in
 	fi
 	;;
     *)
-	PATH="${HOME}/bin:/usr/games:${PATH}"
 	;;
 esac
 export PATH
