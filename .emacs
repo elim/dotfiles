@@ -1,9 +1,11 @@
 ;-*- emacs-lisp -*-
 ; $Id$
 
+(setq my-lisp-path (expand-file-name "~/lib/site-lisp/"))
+
 (setq load-path
       (append
-       (list (expand-file-name "~/lib/site-lisp/"))
+       (list (expand-file-name my-lisp-path))
        (if (file-accessible-directory-p
 	    "/usr/local/share/emacs/site-lisp/")
 	   (list (expand-file-name "/usr/local/share/emacs/site-lisp/")))
