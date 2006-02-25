@@ -16,13 +16,3 @@ do
 	    ;;
     esac
 done
-
-case `uname` in
-    CYGWIN*)
-	for FILE in ".wl" ".skk"
-	do rm -vf ~/${FILE}
-	    echo "(load (expand-file-name \"~/dot.files/${FILE}\"))" |
-	    tee ~/${FILE}
-	done
-	;;
-esac
