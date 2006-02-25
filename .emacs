@@ -1,7 +1,9 @@
-;-*- emacs-lisp -*-
-; $Id$
+;; -*- emacs-lisp -*-
+;; $Id$
 
+;; variables
 (setq my-lisp-path (expand-file-name "~/lib/site-lisp/"))
+(setq my-domestic-domain "fascinating.local$")
 
 (setq load-path
       (append
