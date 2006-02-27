@@ -7,4 +7,4 @@ set smartindent
 set hidden
 set backspace=2
 set showmatch
-set title
+set notitle
