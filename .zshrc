@@ -16,8 +16,6 @@ case ${UNAME} in
 	    source /sw/bin/init.sh
 	fi
 	;;
-    *)
-	;;
 esac
 export PATH
 
