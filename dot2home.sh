@@ -4,7 +4,7 @@ DOTDIR=~/dot.files
 
 cd ${DOTDIR}
 
-ln -vsf .x{session,initrc}
+ln -vsf .xsession .xinitrc
 
 for FILE in .*
 do

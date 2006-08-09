@@ -45,7 +45,7 @@ esac
 
 ### for CVS
 export CVSEDITOR=${EDITOR}
-export CVSROOT="${HOME}/CVS_DB"
+export CVSROOT="${HOME}/var/cvs_db"
 export CVS_RSH=ssh
 
 ### shell variables
