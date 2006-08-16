@@ -1,6 +1,7 @@
 # -*- shell-script -*-
 # $Id$
-UNAME=`uname`; export UNAME
+
+UNAME=$(uname); export UNAME
 
 case ${UNAME} in 
     Darwin)
@@ -12,14 +13,13 @@ case ${UNAME} in
 esac
 PATH="${HOME}/bin:/usr/games:${PATH}"; export PATH
 
-#xset +fp ${HOME}/lib/X11/fonts
-#xset fp rehash
 #xset m speed Threshold
 # 加速値 == マウスの動きを指定した数値倍だけ速くする
 # 閾値 == 指定したピクセル数だけマウスポインタが移動したときに加速値が有効になる
 xset m 1 20 # for Marble Mouse
 xset r rate 240 50
-xmodmap -e "pointer = 1 2 3 5 4 6 7"
+# Marble Mouse を使うなら以下を有効にする.
+# xmodmap -e "pointer = 1 2 3 5 4 6 7"
 
 case ${UNAME} in 
     FreeBSD|Linux|Darwin)
@@ -35,19 +35,11 @@ esac
 
 GTK_IM_MODULE=uim ; export GTK_IM_MODULE
 QT_IM_MODULE=uim ; export QT_IM_MODULE
+XMODIFIERS=@im=uim ; export XMODIFIERS
+
 if type uim-xim &> /dev/null ; then
   uim-xim &
 fi
-XMODIFIERS=@im=uim ; export XMODIFIERS
-
-# XMODIFIERS=@im=skkinput
-# export XMODIFIERS
-
-# G_BROKEN_FILENAMES=1
-# export G_BROKEN_FILENAMES
-
-#GDK_USE_XFT=0
-#export GDK_USE_XFT
 
 if type esd &> /dev/null; then
     esd -nobeeps&
@@ -57,10 +49,10 @@ if type xscreensaver &> /dev/null; then
     xscreensaver -nosplash&
 fi
 
-for CMD in wmcube wmmoonclock wmxmms wmpuzzle wmtimer volume.app
-do if type ${CMD} &> /dev/null;then
-      ${CMD} &
-   fi
+for CMD in wmcube wmmoonclock wmxmms wmpuzzle wmtimer volume.app; do
+    if type ${CMD} &> /dev/null;then
+	${CMD} &
+    fi
 done
 
 if type mlterm &> /dev/null; then

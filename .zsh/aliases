@@ -49,8 +49,11 @@ case ${UNAME} in
 	alias emacsclient='/Applications/Emacs.app/Contents/MacOS/bin/emacsclient'
 	;;
     CYGWIN*)
-	alias meadow='HOME=`cygpath -w ${HOME}` Meadow --load `cygpath -w ~/dot.files/.emacs`'
+	alias meadow='HOME=$(cygpath -w ${HOME}) Meadow --load $(cygpath -w ~/dot.files/.emacs)'
 	alias emacs=meadow
+	;;
+    *)
+	alias emacs='XMODIFIERS="@im=none" emacs'
 	;;
 esac
 
@@ -63,10 +66,6 @@ case ${UNAME} in
 	;;
 esac
 
-# alias reboot='sudo -u root /sbin/reboot'
-# alias insmod='sudo -u root /sbin/insmod'
-# alias rmmod='sudo -u root /sbin/rmmod'
-# alias halt='sudo -u root /sbin/halt'
 alias fd='SORTTYPE=1 fd'
 
 CDRECORD_OPTIONS="dev=ATAPI:0,0 driveropts=burnfree,noforcespeed -v -useinfo -eject -pad"

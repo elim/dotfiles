@@ -1,7 +1,8 @@
-# configurations by customizer
-
+# -*- shell-script -*-
+# $Id$
 # shell variables definition
-PAGER=w3m
+
+PAGER=$PAGER
 EDITOR=emacsclient
 TERM=xterm
 SORTTYPE=1
@@ -14,10 +15,9 @@ FD_DEFCOLUMNS=2
 FD_SIZEINFO=1
 FD_ANSICOLOR=1
 FD_EDITMODE=emacs
-TMPDIR=/home/takeru
+TMPDIR=$HOME
 LANGUAGE=ja_JP.UTF-8
 INPUTKCODE=ja_JP.UTF-8
-FD_SJISPATH=/mnt/smbfs
 TMPUMASK=077
 
 # key bind definition

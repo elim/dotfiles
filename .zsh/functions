@@ -1,5 +1,6 @@
 #  -*- shell-script -*-
-#  $Id: aliases 97 2005-05-05 14:00:01Z takeru $
+#  $Id$
+
 #  rm¤ò .trash-dir ¤Ë°ÜÆ°¤¹¤ë¤è¤¦¤Ë¤¹¤ë¤¿¤á´Ø¿ôÄêµÁ
 function trash () {
     mv $* ${HOME}/.Trash
@@ -12,7 +13,7 @@ fi
 
 case ${TERM} in
 kterm|xterm*|screen|rxvt|mlterm)
-	HN=${SCREEN}`hostname -s`
+	HN=${SCREEN}$(hostname -s)
 	function termtitle () { echo "]0;$*" ; }
 	function cd () { builtin cd $* ; termtitle ${HN}:${PWD} ; }
 	function popd () { builtin popd $* ; termtitle ${HN}:${PWD} ; }

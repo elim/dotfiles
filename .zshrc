@@ -99,6 +99,7 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ':completion:*' menu select=1
 # 補完候補に色付け
 zstyle ':completion:*' list-colors di=34 fi=0  
+
 #####################################################################
 # key bindings
 #####################################################################
@@ -116,34 +117,14 @@ bindkey -e
 bindkey '^U' backward-kill-line
  
 # Ctrl + P/N で履歴検索 tcsh風味
-# History completion
-autoload -U history-search-end
-zle -N history-beginning-search-backward-end history-search-end
+bindkey "^P" history-beginning-search-backward-end
+bindkey "^N" history-beginning-search-forward-end
  
-#####################################################################
-# key bindings
-#####################################################################
- 
-# 端末
-# stty erase '^H'
-# stty intr '^C'
-# stty susp '^Z'
- 
-# zsh のキーバインドを emacs 風に
-bindkey -e
- 
-# カーソル位置から前方削除
-# override kill-whole-line
-bindkey '^U' backward-kill-line
- 
-# Ctrl + P/N で履歴検索 tcsh風味
 # History completion
 autoload -U history-search-end
 zle -N history-beginning-search-backward-end history-search-end
 zle -N history-beginning-search-forward-end history-search-end
-bindkey "^P" history-beginning-search-backward-end
-bindkey "^N" history-beginning-search-forward-end
- 
+
 # tcsh 風味の単語削除
 tcsh-backward-delete-word () {
     local WORDCHARS="${WORDCHARS:s#/#}"
@@ -201,7 +182,7 @@ esac
 if [ ! ${UID} = 0 ]; then
     if type keychain &> /dev/null; then
 	keychain ${HOME}/.ssh/id_rsa
-	source ${HOME}/.keychain/`hostname`-sh
+	source ${HOME}/.keychain/$(hostname)-sh
     fi
 fi
 

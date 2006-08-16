@@ -2,7 +2,7 @@
 # $Id$
 # based on http://nyan2.tdiary.net/20020923.html#p12
 
-export UNAME=`uname`
+export UNAME=$(uname)
 
 # zsh の個人用設定ファイルの位置を指定
 if [ -z ${ZDOTDIR} ]; then

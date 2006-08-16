@@ -1,3 +1,5 @@
+"$Id$/
+
 syntax on
 set fileencoding=japan
 set fileencodings=utf-8,iso-2022-jp,euc-jp,ucs2le,ucs-2,cp932
