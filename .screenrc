@@ -1,3 +1,5 @@
+# $Id$
+
 defencoding UTF-8
 defutf8 on
 
@@ -7,11 +9,6 @@ bind w windowlist -b
 
 defflow off
 
-shell zsh
-
-#hardstatus alwayslastline "[%w%?] %h %c:%s"
 hardstatus alwayslastline "%{= KW}%-Lw%{= WK}%50>%n%f* %t%{-}%+Lw%<%{= KY} %Y-%m-%d %c"
 
 startup_message off
-
-# source ${HOME}/.screenrc.${UNAME%_*}
