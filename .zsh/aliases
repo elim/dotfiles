@@ -22,7 +22,10 @@ alias dpkg='COLUMNS=${COLUMNS:-80} dpkg'
 # lv
 case ${UNAME} in 
     CYGWIN*)
-	alias lv='lv -Os'
+	export LV='-Os -c'
+	;;
+    *)
+	export LV='-Ou8 -c'
 	;;
 esac
 
