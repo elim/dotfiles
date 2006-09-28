@@ -1,7 +1,8 @@
 # -*- shell-script -*-
 # $Id$
-# http://namazu.org/%7Esatoru/unimag/3/
-# http://nyan2.tdiary.net/20020923.html#p12
+# based on
+#   http://namazu.org/%7Esatoru/unimag/3/
+#   http://nyan2.tdiary.net/20020923.html#p12
 
 ### PATH
 # 個人用の PATH を追加

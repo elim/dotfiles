@@ -1,14 +1,24 @@
 # $Id$
 
+# encoding
 defencoding UTF-8
 defutf8 on
 
+# basic
 escape ^l^l
-
-bind w windowlist -b
-
+defscrollback 3000
 defflow off
+startup_message off
 
+# key binding
+bind w windowlist
+bind -c REGION 2 split
+bind -c REGION 1 only
+bind -c REGION 0 remove
+bind -c REGION o focus
+bind -c REGION \^ resize
+bind x command -c REGION
+
+# status
 hardstatus alwayslastline "%{= KC}[%H] %<%{= KW}%-Lw%{= WK}%50>%n%f* %t%{-}%+Lw%<%{= KY} %Y-%m-%d %c"
 
-startup_message off
