@@ -19,6 +19,9 @@ bind -c REGION o focus
 bind -c REGION \^ resize
 bind x command -c REGION
 
+# idle
+idle 300
+blankerprg fortune startrek
 # status
 hardstatus alwayslastline "%{= KC}[%H] %<%{= KW}%-Lw%{= WK}%50>%n%f* %t%{-}%+Lw%<%{= KY} %Y-%m-%d %c"
 
