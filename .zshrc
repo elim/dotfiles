@@ -143,14 +143,14 @@ if [ -f ${ZUSERDIR}/options ]; then
     source ${ZUSERDIR}/options
 fi
  
-### functions
-if [ -f ${ZUSERDIR}/functions ]; then
-    source ${ZUSERDIR}/functions
-fi
- 
 ### aliases
 if [ -f ${ZUSERDIR}/aliases ]; then
     source ${ZUSERDIR}/aliases
+fi
+ 
+### functions
+if [ -f ${ZUSERDIR}/functions ]; then
+    source ${ZUSERDIR}/functions
 fi
  
 ### completion
