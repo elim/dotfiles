@@ -1,4 +1,4 @@
 # -*- mode: shell-script; coding: utf-8-unix -*-
 # $Id$
 
-launch_app esd --search-word '^esd' --background --arg -nobeeps
+launch_app esd --search-word ' esd' --background --arg -nobeeps
