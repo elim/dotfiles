@@ -2,4 +2,4 @@
 # $Id$
 
 launch_app --env LC_ALL=C mobileimap
-launch_app tiarra --background --exec tiarra --quiet
+launch_app tiarra --background
