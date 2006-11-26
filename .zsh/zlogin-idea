@@ -1,0 +1,17 @@
+# -*- shell-script -*-
+# $Id$
+
+ARG=tiarra
+if [ 0 = $(ps ax | grep -v 'grep' |grep ${ARG} |wc -l) ]; then
+    echo "launching ${ARG}..."
+    ${ARG}&
+fi
+
+ARG=mobileimap
+if [ 0 = $(ps ax | grep -v 'grep' |grep ${ARG} |wc -l) ]; then
+    echo "launching ${ARG}..."
+    ${ARG}
+fi
+
+
+unset ARG
