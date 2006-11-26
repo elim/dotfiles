@@ -1,0 +1,22 @@
+# -*- shell-script -*-
+# $Id: .zshrc 92 2006-10-22 16:50:39Z takeru $
+
+if [ 0 = $(ps ax | grep $(cat /usr/local/var/run/rskkserv.pid) |wc -l) ]; then
+    echo "launching rskkserv..."
+    skkserv.rb
+fi
+
+if [ 0 = $(ps ax | grep pageant |wc -l) ]; then
+    echo "launching pageant..."
+    pageant $(cygpath -w ~/.ssh/id_rsa.ppk) &
+fi
+
+if [ 0 = $(ps ax | grep firefox |wc -l) ]; then
+    echo "launching Firefox..."
+    firefox&
+fi
+
+if [ 0 = $(ps ax | grep sylpheed |wc -l) ]; then
+    echo "launching Sylpheed..."
+    LC_ALL=ja_JP.sjis sylpheed
+fi

@@ -17,6 +17,9 @@ case ${UNAME} in
 	    source /sw/bin/init.sh
 	fi
 	;;
+    CYGWIN*)
+	PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:${PATH}"
+	;;
 esac
 export PATH
 
@@ -38,9 +41,8 @@ case ${UNAME} in
 	;;
     CYGWIN*)
 	export PAGER='lv -Os'
-	export LANG=ja_JP.SJIS
-	export LC_MESSAGES=en_US.UTF-8
-	export LC_TIME=en_US.UTF-8
+	export LANG=en_US.UTF-8
+	export LC_CTYPE=ja_JP.SJIS
 	;;
 esac
 
@@ -163,7 +165,6 @@ if [ -f ${ZUSERDIR}/lscolors ]; then
     source ${ZUSERDIR}/lscolors
 fi
 
-
 if type clear &> /dev/null; then
     clear
 fi
@@ -173,20 +174,22 @@ case ${UNAME} in
 	unlimit
 	limit core 0
 	limit -s
-
-	if type linux_logo &> /dev/null; then
-	    linux_logo -a
-	fi
 	;;
 esac
 
-if [ ! ${UID} = 0 ]; then
-    if type keychain &> /dev/null; then
-	keychain ${HOME}/.ssh/id_rsa
-	source ${HOME}/.keychain/$(hostname)-sh
-    fi
+if type linux_logo &> /dev/null; then
+    linux_logo -a
+fi
+
+if type keychain &> /dev/null; then
+    keychain ${HOME}/.ssh/id_rsa
+    source ${HOME}/.keychain/$(hostname)-sh
 fi
 
 if type fortune &> /dev/null; then
     fortune
+fi
+
+if [ -f ${ZUSERDIR}/zlogin-$(hostname) ]; then
+    source ${ZUSERDIR}/zlogin-$(hostname)
 fi

@@ -53,7 +53,7 @@ case ${UNAME} in
 	alias emacsclient='/Applications/Emacs.app/Contents/MacOS/bin/emacsclient'
 	;;
     CYGWIN*)
-	alias meadow='HOME=$(cygpath -w ${HOME}) Meadow --load $(cygpath -w ~/dot.files/.emacs)'
+	alias meadow='HOME=$(cygpath -w ${HOME}) Meadow'
 	alias emacs=meadow
 	;;
     *)
