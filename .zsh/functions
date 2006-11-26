@@ -40,7 +40,7 @@ if [ "$TERM" = "screen" ]; then
 		if (( $#cmd == 2)); then
 		    cmd[1]=$cmd[2]
 		fi
-		;&
+		;;
 		*)
     echo -n "k$cmd[1]:t\\"
     return
@@ -97,9 +97,9 @@ function launch_app() {
     if [ 0 = $(ps ax | grep -v 'grep' |grep ${SEARCH_WORD} |wc -l) ]; then
 	echo "launching ${EXEC}..."
 	if [ X${BACKGROUND} = X ]; then
-	    eval $EXTRA_ENV ${EXEC} ${EXEC_ARG}
+	    env $EXTRA_ENV ${EXEC} ${EXEC_ARG}
 	else
-	    eval ${EXTRA_ENV} ${EXEC} ${EXEC_ARG} &
+	    env ${EXTRA_ENV} ${EXEC} ${EXEC_ARG} &
 	fi
     fi
 }
