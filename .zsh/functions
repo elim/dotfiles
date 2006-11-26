@@ -66,6 +66,10 @@ function launch_app() {
     while [ "$#" -gt 0 ]
     do
 	case $1 in
+	    -a|--arg)
+		shift; EXEC_ARG=$*
+		break
+		;;
 	    -b|--background)
 		BACKGROUND=t
 		;;
@@ -90,7 +94,6 @@ function launch_app() {
     if [ 0 = $(ps ax | grep -v 'grep' |grep ${SEARCH_WORD} |wc -l) ]; then
 	echo "launching ${SEARCH_WORD}..."
 	if [ X${BACKGROUND} = X ]; then
-	    echo ${EXTRA_ENV} ${EXEC} ${EXEC_ARG}
 	    eval $EXTRA_ENV ${EXEC} ${EXEC_ARG}
 	else
 	    eval ${EXTRA_ENV} ${EXEC} ${EXEC_ARG} &

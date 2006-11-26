@@ -1,0 +1,4 @@
+# -*- shell-script -*-
+# $Id$
+
+launch_app /esd --background --exec esd -nobeeps
