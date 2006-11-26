@@ -6,11 +6,6 @@
 #   http://kitaj.no-ip.com/tdiary/20060927.html
 #   http://web.archive.org/web/20021201105430/www.nijino.com/ari/diary/200206.shtml
 
-#  rm¤ò .trash-dir ¤Ë°ÜÆ°¤¹¤ë¤è¤¦¤Ë¤¹¤ë¤¿¤á´Ø¿ôÄêµÁ
-function trash () {
-    mv $* ${HOME}/.Trash
-}
-
 function chpwd() {
   echo -n "_`dirs`\\"
   ls
@@ -22,7 +17,7 @@ function cdup() {
   zle reset-prompt
 }
 zle -N cdup
-#bindkey '(J\(B^' cdup
+#bindkey 'Â¥^' cdup
 
 if [ "$TERM" = "screen" ]; then
     preexec() {
@@ -55,8 +50,50 @@ if [ "$TERM" = "screen" ]; then
     local -A jt; jt=(${(kv)jobtexts})
 
     $cmd >> (read num rest
-	cmd=(${(z)${(e):-(J\(B$jt$num}})
+	cmd=(${(z)${(e):-Â¥$jt$num}})
 	echo -n "k$cmd[1]:t\\") 2>/dev/null
     }
     chpwd
 fi
+
+function launch_app() {
+    unset SEARCH_WORD
+    unset BACKGROUND
+    unset EXEC
+    unset EXEC_ARG
+    unset EXTRA_ENV
+
+    while [ "$#" -gt 0 ]
+    do
+	case $1 in
+	    -b|--background)
+		BACKGROUND=t
+		;;
+	    --env)
+		shift; EXTRA_ENV=$1
+		;;
+	    -e|--exec)
+		shift; EXEC=$1
+		shift; EXEC_ARG=$*
+		break
+		;;
+	    *)
+		SEARCH_WORD=$1
+		;;
+	esac
+	shift
+    done
+    if [ X${EXEC} = X ]; then
+	EXEC=${SEARCH_WORD}
+    fi
+
+    if [ 0 = $(ps ax | grep -v 'grep' |grep ${SEARCH_WORD} |wc -l) ]; then
+	echo "launching ${SEARCH_WORD}..."
+	if [ X${BACKGROUND} = X ]; then
+	    echo ${EXTRA_ENV} ${EXEC} ${EXEC_ARG}
+	    eval $EXTRA_ENV ${EXEC} ${EXEC_ARG}
+	else
+	    eval ${EXTRA_ENV} ${EXEC} ${EXEC_ARG} &
+	fi
+    fi
+}
