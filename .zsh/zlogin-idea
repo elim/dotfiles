@@ -1,4 +1,4 @@
-# -*- shell-script -*-
+# -*- mode: shell-script; coding: utf-8-unix -*-
 # $Id$
 
 launch_app --env LC_ALL=C mobileimap

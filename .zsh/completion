@@ -1,4 +1,4 @@
-# -*- shell-script -*-
+# -*- mode: shell-script; coding: utf-8-unix -*-
 # $Id$
 compctl -l '' nohup exec nice eval time sudo man
 

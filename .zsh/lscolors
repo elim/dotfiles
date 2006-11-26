@@ -1,5 +1,5 @@
-# -*- shell-script -*-
-# $Id: .zshrc 131 2005-09-17 01:42:30Z takeru $
+# -*- mode: shell-script; coding: utf-8-unix -*-
+# $Id$
 
 # archive
 LS_COLORS="${LS_COLORS}:*.rpm=01;31"

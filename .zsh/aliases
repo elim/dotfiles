@@ -1,12 +1,6 @@
-# -*- shell-script -*-
+# -*- mode: shell-script; coding: utf-8-unix -*-
 # $Id$
-# rm を mv に置換する --> function の方へ
-# alias rm='trash'
  
-# ゴミ箱一覧・削除用
-alias trash-look='ls -al ~/.Trash/ 2> /dev/null'
-alias trash-clean='\rm -rf ~/.Trash/* 2> /dev/null'
-
 alias -g L='| lv'
 alias -g H='| head'
 alias -g T='| tail'
@@ -32,7 +26,7 @@ esac
 # ls
 alias ll='ls -alF'
 alias la='ls -aF'
-alias lj='ls -NF | nkf -e'
+
 case ${UNAME} in 
     FreeBSD|Darwin)
 	alias ls='ls -wGF'
@@ -69,9 +63,3 @@ case ${UNAME} in
 	alias open='start'
 	;;
 esac
-
-alias fd='SORTTYPE=1 fd'
-
-CDRECORD_OPTIONS="dev=ATAPI:0,0 driveropts=burnfree,noforcespeed -v -useinfo -eject -pad"
-alias cdrecord="cdrecord ${CDRECORD_OPTIONS} speed=4"
-alias mp3burn="mp3burn -o '${CDRECORD_OPTIONS} speed=4'"

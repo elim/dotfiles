@@ -1,4 +1,4 @@
-# -*- shell-script -*-
+# -*- mode: shell-script; coding: utf-8-unix -*-
 # $Id$
 
 launch_app $(cat /usr/local/var/run/rskkserv.pid) --exec skkserv.rb

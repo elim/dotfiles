@@ -1,4 +1,4 @@
-# -*- shell-script -*-
+# -*- mode: shell-script; coding: utf-8-unix -*-
 # $Id$
 # based on http://nyan2.tdiary.net/20020923.html#p12
 
@@ -16,5 +16,5 @@ case ${UNAME} in
 	;;
     CYGWIN*)
 	export ZUSERDIR=${HOME}/dot.files/.zsh
-	;
+	;;
 esac

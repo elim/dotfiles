@@ -1,4 +1,4 @@
-# -*- shell-script -*-
+# -*- mode: shell-script; coding: utf-8-unix -*-
 # $Id$
 # based on
 #   http://namazu.org/%7Esatoru/unimag/3/
@@ -32,15 +32,14 @@ export G_BROKEN_FILENAMES=1
 export EDITOR=vi
 export GZIP='-v9N'
 export TZ=JST-9
+export PAGER=lv
 
 case ${UNAME} in 
     FreeBSD|Linux|Darwin)
-	export PAGER=lv
 	export LANG=en_US.UTF-8
 	export LC_CTYPE=ja_JP.UTF-8
 	;;
     CYGWIN*)
-	export PAGER='lv -Os'
 	export LANG=en_US.UTF-8
 	export LC_CTYPE=ja_JP.SJIS
 	;;
