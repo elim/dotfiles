@@ -1,4 +1,4 @@
-#  -*- shell-script -*-
+#  -*- mode: shell-script; coding: utf-8-unix -*-
 #  $Id$
 # based on
 #   http://namazu.org/%7Esatoru/unimag/3/
@@ -16,8 +16,8 @@ function cdup() {
   cd ..
   zle reset-prompt
 }
-zle -N cdup
-#bindkey '¥^' cdup
+bindkey '\^' cdup
+#zle -N cdup
 
 if [ "$TERM" = "screen" ]; then
     preexec() {
@@ -50,7 +50,7 @@ if [ "$TERM" = "screen" ]; then
     local -A jt; jt=(${(kv)jobtexts})
 
     $cmd >> (read num rest
-	cmd=(${(z)${(e):-¥$jt$num}})
+	cmd=(${(z)${(e):-\$jt$num}})
 	echo -n "k$cmd[1]:t\\") 2>/dev/null
     }
     chpwd
@@ -81,18 +81,21 @@ function launch_app() {
 		shift; EXEC_ARG=$*
 		break
 		;;
+	    -s|--search-word)
+		shift; SEARCH_WORD=$1
+		;;
 	    *)
-		SEARCH_WORD=$1
+		EXEC=$1
 		;;
 	esac
 	shift
     done
-    if [ X${EXEC} = X ]; then
-	EXEC=${SEARCH_WORD}
+    if [ X${SEARCH_WORD} = X ]; then
+	SEARCH_WORD=${EXEC}
     fi
 
     if [ 0 = $(ps ax | grep -v 'grep' |grep ${SEARCH_WORD} |wc -l) ]; then
-	echo "launching ${SEARCH_WORD}..."
+	echo "launching ${EXEC}..."
 	if [ X${BACKGROUND} = X ]; then
 	    eval $EXTRA_ENV ${EXEC} ${EXEC_ARG}
 	else
