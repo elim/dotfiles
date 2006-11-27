@@ -57,11 +57,9 @@ if [ "$TERM" = "screen" ]; then
 fi
 
 function launch_app() {
-    unset SEARCH_WORD
-    unset BACKGROUND
-    unset EXEC
-    unset EXEC_ARG
-    unset EXTRA_ENV
+    for e in SEARCH_WORD BACKGROUND EXEC EXEC_ARG EXTRA_ENV; do
+	unset $e
+    done
 
     while [ "$#" -gt 0 ]
     do
