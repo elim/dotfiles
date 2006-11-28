@@ -1,4 +1,4 @@
-# -*- mode: shell-script; coding: utf-8-unix -*-
+
 #  $Id$
 # based on
 #   http://namazu.org/%7Esatoru/unimag/3/
@@ -6,12 +6,11 @@
 #   http://kitaj.no-ip.com/tdiary/20060927.html
 #   http://web.archive.org/web/20021201105430/www.nijino.com/ari/diary/200206.shtml
 
-function chpwd() {
-  echo -n "_`dirs`\\"
+chpwd() {
   ls
 }
 
-function cdup() {
+cdup() {
   echo
   cd ..
   zle reset-prompt
@@ -20,28 +19,32 @@ bindkey '\^' cdup
 #zle -N cdup
 
 if [ "$TERM" = "screen" ]; then
+    chpwd () {
+	echo -n "_`dirs`\\"
+	ls
+    }
     preexec() {
-		# see [zsh-workers:13180]
-		# http://www.zsh.org/mla/workers/2000/msg03993.html
-	emulate -L zsh
-	local -a cmd; cmd=(${(z)2})
-	case $cmd[1] in
-	    fg)
-		if (( $#cmd == 1 )); then
-		    cmd=(builtin jobs -l %+)
-		else
-		    cmd=(builtin jobs -l $cmd[2])
-		fi
-		;;
-	    %*) 
-		cmd=(builtin jobs -l $cmd[1])
-		;;
-	    cd)
-		if (( $#cmd == 2)); then
-		    cmd[1]=$cmd[2]
-		fi
-		;;
-		*)
+        # see [zsh-workers:13180]
+        # http://www.zsh.org/mla/workers/2000/msg03993.html
+        emulate -L zsh
+        local -a cmd; cmd=(${(z)2})
+        case $cmd[1] in
+            fg)
+                if (( $#cmd == 1 )); then
+                    cmd=(builtin jobs -l %+)
+                else
+                    cmd=(builtin jobs -l $cmd[2])
+                fi
+                ;;
+            %*) 
+                cmd=(builtin jobs -l $cmd[1])
+                ;;
+            cd)
+                if (( $#cmd == 2)); then
+                    cmd[1]=$cmd[2]
+                fi
+                ;&
+                *)
     echo -n "k$cmd[1]:t\\"
     return
     ;;
@@ -49,9 +52,9 @@ if [ "$TERM" = "screen" ]; then
 
     local -A jt; jt=(${(kv)jobtexts})
 
-    $cmd >> (read num rest
-	cmd=(${(z)${(e):-\$jt$num}})
-	echo -n "k$cmd[1]:t\\") 2>/dev/null
+    $cmd >>(read num rest
+        cmd=(${(z)${(e):-\$jt$num}})
+        echo -n "k$cmd[1]:t\\") 2>/dev/null
     }
     chpwd
 fi
