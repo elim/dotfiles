@@ -3,6 +3,7 @@
 # encoding
 defencoding UTF-8
 defutf8 on
+cjkwidth on
 
 # basic
 escape ^l^l
