@@ -1,4 +1,14 @@
 # -*- mode: shell-script; coding: utf-8-unix -*-
 # $Id$
 
+AGENT_PATH=${HOME}/Library/LaunchAgents
+AGENT_NAME=howm-synchronizer
+
+if [ 0 = $(launchctl list | grep ${AGENT_NAME} | wc -l) ]; then
+    echo "t"
+    launchctl load ${AGENT_PATH}/${AGENT_NAME}.plist && \
+	launchctl start ${AGENT_NAME} 
+fi
+
 launch_app esd --search-word ' esd' --background --arg -nobeeps
+

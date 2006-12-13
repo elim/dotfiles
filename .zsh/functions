@@ -6,24 +6,24 @@
 #   http://kitaj.no-ip.com/tdiary/20060927.html
 #   http://web.archive.org/web/20021201105430/www.nijino.com/ari/diary/200206.shtml
 
-chpwd() {
+function chpwd() {
   ls
 }
 
-cdup() {
+function cdup() {
   echo
   cd ..
   zle reset-prompt
 }
-bindkey '\^' cdup
+#bindkey '\^' cdup
 #zle -N cdup
 
 if [ "$TERM" = "screen" ]; then
-    chpwd () {
+    function chpwd () {
 	echo -n "_`dirs`\\"
 	ls
     }
-    preexec() {
+    function preexec() {
         # see [zsh-workers:13180]
         # http://www.zsh.org/mla/workers/2000/msg03993.html
         emulate -L zsh
