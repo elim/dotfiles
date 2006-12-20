@@ -1,17 +1,17 @@
-# $Id$
+### $Id$
 
-# encoding
+## encoding
 defencoding UTF-8
 defutf8 on
 cjkwidth on
 
-# basic
+## basic
 escape ^l^l
 defscrollback 3000
 defflow off
 startup_message off
 
-# key binding
+## key binding
 bind w windowlist
 bind -c REGION 2 split
 bind -c REGION 1 only
@@ -20,9 +20,9 @@ bind -c REGION o focus
 bind -c REGION \^ resize
 bind x command -c REGION
 
-# idle
-idle 1800
-blankerprg fortune startrek
-# status
-hardstatus alwayslastline "%{= KC}[%H] %<%{= KW}%-Lw%{= WK}%50>%n%f* %t%{-}%+Lw%<%{= KY} %Y-%m-%d %c"
+## idle
+# idle 1800
+# blankerprg fortune startrek
 
+## status
+hardstatus alwayslastline "%{= KC}[%H] %<%{= KW}%-Lw%{= WK}%50>%n%f* %t%{-}%+Lw%<%{= KY} %Y-%m-%d %c"
