@@ -26,3 +26,6 @@ bind x command -c REGION
 
 ## status
 hardstatus alwayslastline "%{= KC}[%H] %<%{= KW}%-Lw%{= WK}%50>%n%f* %t%{-}%+Lw%<%{= KY} %Y-%m-%d %c"
+
+## environment.specific
+source ${HOME}/.screenrc.specific

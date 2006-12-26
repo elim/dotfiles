@@ -1,0 +1,10 @@
+### $Id: .screenrc 109 2006-12-13 14:01:01Z takeru $
+
+## cygwin
+#termcapinfo cygwin KJ=SJIS
+#termcapinfo cygwin KJ=SJ G0=0
+defencoding SJIS
+encoding SJIS
+
+## shell
+shell /bin/zsh

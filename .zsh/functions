@@ -68,7 +68,7 @@ function launch_app() {
     do
 	case $1 in
 	    -a|--arg)
-		shift; EXEC_ARG=$*
+		shift; EXEC_ARG=$(echo $* | sed -e 's! !\ !g')
 		break
 		;;
 	    -b|--background)
