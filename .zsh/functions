@@ -19,10 +19,6 @@ function cdup() {
 #zle -N cdup
 
 if [ "$TERM" = "screen" ]; then
-    function chpwd () {
-	echo -n "_`dirs`\\"
-	ls
-    }
     function preexec() {
         # see [zsh-workers:13180]
         # http://www.zsh.org/mla/workers/2000/msg03993.html
