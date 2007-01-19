@@ -5,22 +5,20 @@
 #   http://nyan2.tdiary.net/20020923.html#p12
 
 ### PATH
-# 個人用の PATH を追加
-PATH="${HOME}/bin:/usr/games:/usr/local/bin:/usr/local/sbin:${PATH}"
-
 case ${UNAME} in 
     Darwin)
 	if [ -d /Developer/Tools ];then
-	    PATH="${PATH}:/Developer/Tools"
+	    PATH="/Developer/Tools:${PATH}"
 	fi
 	if [ -f /sw/bin/init.sh ]; then
 	    source /sw/bin/init.sh
 	fi
-	;;
-    CYGWIN*)
-	PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:${PATH}"
+	if [ -d /opt/local/bin ]; then
+	    PATH="/opt/local/bin:/opt/local/sbin/:${PATH}"
+	fi
 	;;
 esac
+PATH="${HOME}/bin:/usr/games:/usr/local/bin:/usr/local/sbin:${PATH}"
 export PATH
 
 # 重複を許可しない
