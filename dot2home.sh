@@ -2,7 +2,7 @@
 # -*- mode: shell-script; coding: utf-8-unix -*-
 # $Id: .screenrc 110 2006-12-20 15:42:18Z takeru $
 
-DOTDIR=~/dot.files
+DOTDIR=${HOME}/dot.files
 
 cd ${DOTDIR}
 
@@ -10,15 +10,15 @@ cd ${DOTDIR}
 ln -vsf .xsession .xinitrc
 
 ### screenrc
-SCREENRC_HOST_SPECIFIC_FILE=.screenrc.$(hostname)
-SCREENRC_SPECIFIC_FILENAME=.screenrc.specific
+SPECIFIC_SCREENRC_SRC=.screenrc.$(hostname)
+SPECIFIC_SCREENRC_DEST=.screenrc.specific
 
-rm -f ${DOTDIR}/${SCREENRC_SPECIFIC_FILENAME}
+rm -f ${DOTDIR}/${SPECIFIC_SCREENRC_DEST}
 
-if [ -f ${SCREENRC_HOST_SPECIFIC_FILE} ]; then
-    cp -v ${SCREENRC_HOST_SPECIFIC_FILE} ${SCREENRC_SPECIFIC_FILENAME}
+if [ -f ${SPECIFIC_SCREENRC_SRC} ]; then
+    cp -v ${SPECIFIC_SCREENRC_SRC} ${SPECIFIC_SCREENRC_DEST}
 else
-    touch ${SCREENRC_SPECIFIC_FILENAME}
+    touch ${SPECIFIC_SCREENRC_DEST}
 fi
     
 ### disposition
