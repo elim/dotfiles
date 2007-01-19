@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN"
+	  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- $Id$ -->
+<plist version="1.0">
+  <dict>
+    <key>PATH</key>
+    <string>/opt/local/bin:/opt/local/sbin/:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin</string>
+  </dict>
+</plist>
+<!-- Local Variables: -->
+<!-- mode: XML -->
+<!-- coding: utf-8-unix -->
+<!-- End: -->
