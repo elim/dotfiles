@@ -10,16 +10,14 @@ alias -g A='| awk'
 alias -g W='| wc'
 
 alias close='eject -t'
-
 alias dpkg='COLUMNS=${COLUMNS:-80} dpkg' 
 
-# lv
+# shell
 case ${UNAME} in 
     CYGWIN*)
-	export LV='-Os -c'
-	;;
-    *)
-	export LV='-Ou8 -c'
+	alias cmd='CMD'
+	alias start='cmd /cstart'
+	alias open='start'
 	;;
 esac
 
@@ -40,6 +38,19 @@ case ${UNAME} in
 esac
 alias \\ls=ls
 
+# lv
+case ${UNAME} in 
+    CYGWIN*)
+	export LV='-Os -c'
+	;;
+    *)
+	export LV='-Ou8 -c'
+	;;
+esac
+
+# grep 
+alias grep='grep --color=auto'
+
 # emacsen
 case ${UNAME} in 
     Darwin)
@@ -47,19 +58,11 @@ case ${UNAME} in
 	alias emacsclient='/Applications/Emacs.app/Contents/MacOS/bin/emacsclient'
 	;;
     CYGWIN*)
-	alias meadow='HOME=$(cygpath -w ${HOME}) Meadow'
-	alias emacs=meadow
+	alias meadow='HOME=$(cygpath -d ${HOME}) Meadow'
+	alias emacs='meadow'
 	;;
     *)
 	alias emacs='XMODIFIERS="@im=none" emacs'
 	;;
 esac
 
-# shell
-case ${UNAME} in 
-    CYGWIN*)
-	alias cmd='CMD'
-	alias start='cmd /cstart'
-	alias open='start'
-	;;
-esac
