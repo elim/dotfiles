@@ -21,6 +21,7 @@ setopt NO_flow_control
 setopt hash_cmds
 setopt NO_hup
 setopt ignore_eof
+setopt list_packed
 setopt list_types
 setopt long_list_jobs
 setopt magic_equal_subst
