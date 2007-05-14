@@ -66,3 +66,4 @@ case ${UNAME} in
 	;;
 esac
 
+alias zzz="osascript -e 'tell application \"System Events\" to sleep'"
