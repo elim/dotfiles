@@ -5,4 +5,4 @@ launch_app skkserv.rb --search-word $(cat /usr/local/var/run/rskkserv.pid)
 launch_app pageant --background --exec pageant $(cygpath -m ~/.ssh/id_rsa.ppk)
 launch_app firefox --background
 launch_app Meadow --background
-launch_app howm-synchronizer.sh --background
+launch_app howm-synchronizer --background
