@@ -56,7 +56,7 @@ if [ "$TERM" = "screen" ]; then
 fi
 
 function launch_app() {
-    for e in SEARCH_WORD BACKGROUND EXEC EXEC_ARG EXTRA_ENV; do
+    for e in SEARCH_WORD FOREGROUND EXEC EXEC_ARG EXTRA_ENV; do
 	unset $e
     done
 
@@ -67,8 +67,8 @@ function launch_app() {
 		shift; EXEC_ARG=$(echo $* | sed -e 's! !\ !g')
 		break
 		;;
-	    -b|--background)
-		BACKGROUND=t
+	    -b|--foreground)
+		FOREGROUND=t
 		;;
 	    --env)
 		shift; EXTRA_ENV=$1
@@ -93,11 +93,10 @@ function launch_app() {
 
     if [ 0 = $(ps ax | grep -v 'grep' |grep ${SEARCH_WORD} |wc -l) ]; then
 	echo "launching ${EXEC}..."
-	if [ X${BACKGROUND} = X ]; then
-	    env $EXTRA_ENV ${EXEC} ${EXEC_ARG}
-	else
+	if [ X${FOREGROUND} = X ]; then
 	    env ${EXTRA_ENV} ${EXEC} ${EXEC_ARG} &
+	else
+	    env $EXTRA_ENV ${EXEC} ${EXEC_ARG}
 	fi
     fi
 }
-
