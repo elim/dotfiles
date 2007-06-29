@@ -1,5 +1,5 @@
 # -*- mode: shell-script; coding: utf-8-unix -*-
 # $Id$
 
-launch_app --env LC_ALL=C mobileimap
-launch_app tiarra --background
+launch_app --foreground --env LC_ALL=C mobileimap 
+launch_app tiarra
