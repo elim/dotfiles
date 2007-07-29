@@ -15,6 +15,19 @@ function cdup() {
   cd ..
   zle reset-prompt
 }
+
+function emacsclient() {
+    case ${UNAME} in 
+	CYGWIN*)
+	    echo "note: converted a pass into mixture type."
+	    \\emacsclient "$(cygpath -m $1)"
+	    ;;
+	*)
+	    \\emacsclient $*
+	    ;;
+    esac
+}
+
 #bindkey '\^' cdup
 #zle -N cdup
 
