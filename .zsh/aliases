@@ -17,7 +17,6 @@ case ${UNAME} in
     CYGWIN*)
 	alias cmd='CMD'
 	alias start='cmd /cstart'
-	alias open='start'
 	;;
 esac
 
