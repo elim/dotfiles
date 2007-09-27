@@ -45,29 +45,35 @@ if type esd &> /dev/null; then
     esd -nobeeps&
 fi
 
-if type xscreensaver &> /dev/null; then
-    xscreensaver -nosplash&
+# if type xscreensaver &> /dev/null; then
+#     xscreensaver -nosplash&
+# fi
+
+# for CMD in wmcube wmmoonclock wmxmms wmpuzzle wmtimer volume.app; do
+#     if type ${CMD} &> /dev/null;then
+# 	${CMD} &
+#     fi
+# done
+
+if type screen &> /dev/null; then
+	EXEC_SCREEN="-e screen -UOxRR"
+else
+	EXEC_SCREEN=""
 fi
 
-for CMD in wmcube wmmoonclock wmxmms wmpuzzle wmtimer volume.app; do
-    if type ${CMD} &> /dev/null;then
-	${CMD} &
-    fi
-done
-
-if type mlterm &> /dev/null; then
-    if type screen &> /dev/null; then
-	mlterm --title `hostname`@mlterm \
-	    --daemon=blend -e screen -UxRR &
-    else
-	mlterm --title mlterm@`hostname`@mlterm \
-	    --daemon=blend &
-    fi
+if type gnome-terminal &> /dev/null; then
+	TERMINAL="gnome-terminal --title $(hostname)"
+elif type mlterm &> /dev/null; then
+	TERMINAL="mlterm --title $(hostname)" 
 elif type xterm &> /dev/null; then
-	xterm &
+	TERMINAL="xterm -T $(hostname)"
 fi
 
-if type fluxbox &> /dev/null; then
+${TERMINAL} ${EXEC_SCREEN} &
+
+if type gnome-session &> /dev/null; then
+   gnome-session
+elif type fluxbox &> /dev/null; then
     fluxbox
 elif type quartz-wm &> /dev/null; then
     quartz-wm
