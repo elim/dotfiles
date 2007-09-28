@@ -15,10 +15,13 @@ case ${UNAME} in
 	    PATH="/opt/local/bin:/opt/local/sbin/:${PATH}"
 	fi
 	;;
+    CYGWIN*)
+	PATH="/usr/bin:/usr/sbin:/bin:/sbin:${PATH}"
+	;;
 esac
 PATH="${HOME}/bin:/usr/games:/usr/local/bin:/usr/local/sbin:${PATH}"
 export PATH
 
 if type zsh &> /dev/null; then
-	exec zsh -l
+    exec zsh -l
 fi
