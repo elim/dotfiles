@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-# $Id$
+# $Id: .irbrc 82 2006-04-01 17:29:35Z takeru $
 # Copyright (c) 2006 Takeru Naito <takeru@at-mac.com>
 
 # Permission is hereby granted, free of charge, to any person obtaining
@@ -23,6 +23,8 @@
 
 require 'irb/completion'
 require 'kconv'
+
+IRB.conf[:EVAL_HISTORY] = 32
 
 module Kernel
   def r(arg)
