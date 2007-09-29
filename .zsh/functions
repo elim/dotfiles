@@ -16,18 +16,6 @@ function cdup() {
   zle reset-prompt
 }
 
-function emacsclient() {
-  case ${UNAME} in 
-    CYGWIN*)
-      echo "note: converted a pass into mixture type."
-      \\emacsclient "$(cygpath -m $1)"
-      ;;
-    *)
-      \\emacsclient $*
-      ;;
-  esac
-}
-
 #bindkey '\^' cdup
 #zle -N cdup
 
@@ -39,21 +27,21 @@ if [ "$TERM" = "screen" ]; then
     local -a cmd; cmd=(${(z)2})
     case $cmd[1] in
       fg)
-        if (( $#cmd == 1 )); then
-          cmd=(builtin jobs -l %+)
-        else
-          cmd=(builtin jobs -l $cmd[2])
-        fi
-        ;;
+	if (( $#cmd == 1 )); then
+	  cmd=(builtin jobs -l %+)
+	else
+	  cmd=(builtin jobs -l $cmd[2])
+	fi
+	;;
       %*) 
-        cmd=(builtin jobs -l $cmd[1])
-        ;;
+	cmd=(builtin jobs -l $cmd[1])
+	;;
       cd)
-        if (( $#cmd == 2)); then
-          cmd[1]=$cmd[2]
-        fi
-        ;&
-        *)
+	if (( $#cmd == 2)); then
+	  cmd[1]=$cmd[2]
+	fi
+	;&
+	*)
   echo -n "k$cmd[1]:t\\"
   return
   ;;
@@ -70,12 +58,11 @@ fi
 
 function launch_app() {
   for e in SEARCH_WORD FOREGROUND EXEC EXEC_ARG EXTRA_ENV; do
-    unset $e
+    unset ${e}
   done
 
-  while [ "$#" -gt 0 ]
-  do
-    case $1 in
+  while [ "$#" -gt 0 ]; do
+    case ${1} in
       -a|--arg)
 	shift; EXEC_ARG=$(echo $* | sed -e 's! !\ !g')
 	break
@@ -84,18 +71,18 @@ function launch_app() {
 	FOREGROUND=t
 	;;
       --env)
-	shift; EXTRA_ENV=$1
+	shift; EXTRA_ENV=${1}
 	;;
       -e|--exec)
-	shift; EXEC=$1
-	shift; EXEC_ARG=$*
+	shift; EXEC=${1}
+	shift; EXEC_ARG=${*}
 	break
 	;;
       -s|--search-word)
-	shift; SEARCH_WORD=$1
+	shift; SEARCH_WORD=${1}
 	;;
       *)
-	EXEC=$1
+	EXEC=${1}
 	;;
     esac
     shift
@@ -116,24 +103,65 @@ function launch_app() {
 
 case ${UNAME} in 
   CYGWIN*)
-    function open() {
-      while [ "$#" -gt 0 ]
-      do
-	case $1 in
-	  -a)
+    function emacsclient() {
+      unset ARG
+      while [ "$#" -gt 0 ]; do
+	case ${1} in
+	  -*)
+	    ARG="${ARG} ${1}"
 	    shift
-	    cmd /cstart $1
-	    break
 	    ;;
 	  *)
-	    if [ -d $1 -o -f $1 ]; then
-	      cmd /cstart $(cygpath -d $1)
-	    elif
-	      cmd /cstart $1
+	    if [ -d ${1} -o -f ${1} ]; then
+	      ARG="${ARG} $(cygpath --absolute --mixed ${1})"
+	    else
+	      ARG="${ARG} ${1}"
+	    fi
+	    shift
 	    ;;
 	esac
+      done
+      
+      eval '\\emacsclient' ${ARG}
+      unset ARG
+    }
+
+    function open() {
+      ARG=""
+      if [ "$#" -gt 1 ]; then
+	case ${1} in
+	  -a)
+	    shift
+	    EXEC="${1}"
+	    shift
+	    ;;    
+	  -e)
+	    EXEC="emacsclient --no-wait"
+	    shift
+	    if [ "$#" = 0 ]; then
+	      echo "Hmm... missing arguments."
+	      return
+	    fi
+	    ;;
+	  *)
+	    EXEC="cmd /cstart"
+	    ;;
+	esac
+      else
+	echo "Hmm... missing arguments."
+	return
+      fi
+      
+      while [ "$#" -gt 0 ]; do
+	if [ -d ${1} -o -f ${1} ]; then
+	  ARG="${ARG} $(cygpath --absolute --mixed ${1})"
+	else
+	  ARG="${ARG} ${1}"
+	fi
 	shift
-      done     
+      done
+      eval ${EXEC} ${ARG} &
+      unset ARG
     }
     ;;
 esac
