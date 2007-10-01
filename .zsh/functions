@@ -1,28 +1,29 @@
 # -*- mode: shell-script; coding: utf-8-unix -*-
 #  $Id$
-# based on
-#   http://namazu.org/%7Esatoru/unimag/3/
-#   http://nyan2.tdiary.net/20020923.html#p12
-#   http://kitaj.no-ip.com/tdiary/20060927.html
-#   http://web.archive.org/web/20021201105430/www.nijino.com/ari/diary/200206.shtml
 
+## based upon
+## http://d.hatena.ne.jp/spiritloose/20060927/1159286301
 function chpwd() {
   ls
 }
 
-function cdup() {
-  echo
-  cd ..
-  zle reset-prompt
-}
+## based upon
+## http://kitaj.no-ip.com/tdiary/20060927.html
+# function cdup() {
+#   echo
+#   cd ..
+#   zle reset-prompt
+# }
+#
+# bindkey '\^' cdup
+# zle -N cdup
 
-#bindkey '\^' cdup
-#zle -N cdup
-
+## based upon
+## http://nijino.homelinux.net/diary/200206.shtml#200206140
 if [ "$TERM" = "screen" ]; then
   function preexec() {
-        # see [zsh-workers:13180]
-        # http://www.zsh.org/mla/workers/2000/msg03993.html
+    # see [zsh-workers:13180]
+    # http://www.zsh.org/mla/workers/2000/msg03993.html
     emulate -L zsh
     local -a cmd; cmd=(${(z)2})
     case $cmd[1] in
@@ -128,7 +129,7 @@ case ${UNAME} in
 
     function open() {
       ARG=""
-      if [ "$#" -gt 1 ]; then
+      if [ "$#" -gt 0 ]; then
 	case ${1} in
 	  -a)
 	    shift
