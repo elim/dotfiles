@@ -7,12 +7,11 @@ DOTDIR=${HOME}/dot.files
 cd ${DOTDIR}
 
 ### emacs
+rm -f .emacs
 if type emacs &> /dev/null; then 
-  if  emacs --version |grep '19\|20\|21\.'; then
+  if  emacs --version |grep '\(19\|20\|21\)\.'; then
     echo '(load (expand-file-name "~/.emacs.d/init.el"))' > .emacs
   fi
-else
-  rm -f .emacs
 fi
 
 ### xsession
