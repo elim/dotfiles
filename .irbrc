@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-# $Id: .irbrc 82 2006-04-01 17:29:35Z takeru $
+# $Id$
 # Copyright (c) 2006 Takeru Naito <takeru@at-mac.com>
 
 # Permission is hereby granted, free of charge, to any person obtaining
