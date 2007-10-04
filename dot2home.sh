@@ -1,6 +1,6 @@
 #!/bin/sh
 # -*- mode: shell-script; coding: utf-8-unix -*-
-# $Id$
+# $Id: /dot.files/dot2home.sh 25 2007-10-04T11:36:59.992983Z takeru  $
 
 DOTDIR=${HOME}/dot.files
 
