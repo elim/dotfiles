@@ -1,6 +1,6 @@
 #!/bin/sh
 # -*- mode: shell-script; coding: utf-8-unix -*-
-# $Id: .screenrc 110 2006-12-20 15:42:18Z takeru $
+# $Id$
 
 DOTDIR=${HOME}/dot.files
 
