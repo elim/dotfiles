@@ -155,7 +155,7 @@ case ${UNAME} in
       
       while [ "$#" -gt 0 ]; do
 	if [ -d ${1} -o -f ${1} ]; then
-	  ARG="${ARG} $(cygpath --absolute --mixed ${1})"
+	  ARG="${ARG} $(cygpath --absolute --mixed --short-name ${1})"
 	else
 	  ARG="${ARG} ${1}"
 	fi
