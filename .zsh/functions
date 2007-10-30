@@ -58,111 +58,111 @@ if [ "$TERM" = "screen" ]; then
 fi
 
 function launch_app() {
-  for e in SEARCH_WORD FOREGROUND EXEC EXEC_ARG EXTRA_ENV; do
-    unset ${e}
-  done
+  local search_word foreground exec exec_arg extra_env
 
   while [ "$#" -gt 0 ]; do
     case ${1} in
       -a|--arg)
-	shift; EXEC_ARG=$(echo $* | sed -e 's! !\ !g')
+	shift; exec_arg=$(echo $* | sed -e 's! !\ !g')
 	break
 	;;
       -b|--foreground)
-	FOREGROUND=t
+	foreground=t
 	;;
       --env)
-	shift; EXTRA_ENV=${1}
+	shift; extra_env=${1}
 	;;
       -e|--exec)
-	shift; EXEC=${1}
-	shift; EXEC_ARG=${*}
+	shift; exec=${1}
+	shift; exec_arg=${*}
 	break
 	;;
       -s|--search-word)
-	shift; SEARCH_WORD=${1}
+	shift; search_word=${1}
 	;;
       *)
-	EXEC=${1}
+	exec=${1}
 	;;
     esac
     shift
   done
-  if [ X${SEARCH_WORD} = X ]; then
-    SEARCH_WORD=${EXEC}
+  if [ x${search_word} = x ]; then
+    search_word=${exec}
   fi
 
-  if [ 0 = $(ps ax | grep -v 'grep' |grep ${SEARCH_WORD} |wc -l) ]; then
-    echo "launching ${EXEC}..."
-    if [ X${FOREGROUND} = X ]; then
-      env ${EXTRA_ENV} ${EXEC} ${EXEC_ARG} &
+  if [ 0 = $(ps ax | grep -v 'grep' |grep ${search_word} |wc -l) ]; then
+    echo "launching ${exec}..."
+    if [ x${foreground} = x ]; then
+      env ${extra_env} ${exec} ${exec_arg} &
     else
-      env $EXTRA_ENV ${EXEC} ${EXEC_ARG}
+      env $extra_env ${exec} ${exec_arg}
     fi
   fi
 }
 
-case ${UNAME} in 
-  CYGWIN*)
+case ${uname} in 
+  cygwin*)
     function emacsclient() {
-      unset ARG
+      local arg
+
       while [ "$#" -gt 0 ]; do
 	case ${1} in
 	  -*)
-	    ARG="${ARG} ${1}"
+	    arg="${arg} ${1}"
 	    shift
 	    ;;
 	  *)
 	    if [ -d ${1} -o -f ${1} ]; then
-	      ARG="${ARG} $(cygpath --absolute --mixed ${1})"
+	      arg="${arg} $(cygpath --absolute --mixed ${1})"
 	    else
-	      ARG="${ARG} ${1}"
+	      arg="${arg} ${1}"
 	    fi
 	    shift
 	    ;;
 	esac
       done
       
-      eval '\\emacsclient' ${ARG}
-      unset ARG
+      eval '\\emacsclient' ${arg}
+      unset arg
     }
 
     function open() {
-      ARG=""
+      local arg
+
       if [ "$#" -gt 0 ]; then
 	case ${1} in
 	  -a)
 	    shift
-	    EXEC="${1}"
+	    exec="${1}"
 	    shift
 	    ;;    
 	  -e)
-	    EXEC="emacsclient --no-wait"
+	    exec="emacsclient --no-wait"
 	    shift
 	    if [ "$#" = 0 ]; then
-	      echo "Hmm... missing arguments."
+	      echo "hmm... missing arguments."
 	      return
 	    fi
 	    ;;
 	  *)
-	    EXEC="cmd /cstart"
+	    exec="cmd /cstart"
 	    ;;
 	esac
       else
-	echo "Hmm... missing arguments."
+	echo "hmm... missing arguments."
 	return
       fi
       
       while [ "$#" -gt 0 ]; do
 	if [ -d ${1} -o -f ${1} ]; then
-	  ARG="${ARG} $(cygpath --absolute --mixed --short-name ${1})"
+	  arg="${arg} $(cygpath --absolute --mixed --short-name ${1})"
 	else
-	  ARG="${ARG} ${1}"
+	  arg="${arg} ${1}"
 	fi
 	shift
       done
-      eval ${EXEC} ${ARG} &
-      unset ARG
+      eval ${exec} ${arg} &
+      unset arg
     }
     ;;
 esac
