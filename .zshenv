@@ -10,11 +10,4 @@ if [ -z ${ZDOTDIR} ]; then
 fi
  
 # 切り分けた設定ファイルを読み込むディレクトリを指定
-case ${UNAME} in 
-    FreeBSD|Linux|Darwin)
-	export ZUSERDIR=${ZDOTDIR}/.zsh
-	;;
-    CYGWIN*)
-	export ZUSERDIR=${HOME}/dot.files/.zsh
-	;;
-esac
+export ZUSERDIR=${ZDOTDIR}/.zshrc.d
