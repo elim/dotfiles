@@ -2,7 +2,7 @@
 # -*- mode: shell-script; coding: utf-8-unix -*-
 # $Id$
 
-DOTDIR=${HOME}/dot.files
+DOTDIR=$(dirname $0)
 
 cd ${DOTDIR}
 
