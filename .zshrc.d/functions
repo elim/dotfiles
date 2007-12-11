@@ -100,8 +100,8 @@ function launch_app() {
   fi
 }
 
-case ${uname} in 
-  cygwin*)
+case ${UNAME} in 
+  CYGWIN*)
     function emacsclient() {
       local arg
 
