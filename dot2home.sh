@@ -2,8 +2,8 @@
 # -*- mode: shell-script; coding: utf-8-unix -*-
 # $Id$
 
-DOTDIR=$(dirname $0)
-
+# http://blog.hansode.org/archives/51481467.html
+DOTDIR=$(echo $(cd $(dirname $0) && pwd))
 cd ${DOTDIR}
 
 ### emacs
