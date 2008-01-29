@@ -134,6 +134,12 @@ case ${UNAME} in
 	  -a)
 	    shift
 	    exec="${1}"
+
+	    if ! where ${exec} > /dev/null; then
+	      arg=${exec}
+	      exec="cmd /cstart"
+	    fi
+
 	    shift
 	    ;;    
 	  -e)
@@ -149,7 +155,7 @@ case ${UNAME} in
 	    ;;
 	esac
       else
-	echo "hmm... missing arguments."
+	echo "hmm... missing argument(s)."
 	return
       fi
       
