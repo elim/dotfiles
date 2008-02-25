@@ -10,3 +10,4 @@ set hidden
 set backspace=2
 set showmatch
 set notitle
+set paste
