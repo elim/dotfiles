@@ -3,8 +3,8 @@
 # $Id$
 
 # http://blog.hansode.org/archives/51481467.html
-DOTDIR=$(echo $(cd $(dirname $0) && pwd))
-cd ${DOTDIR}
+dotdir=$(echo $(cd $(dirname $0) && pwd))
+cd ${dotdir}
 
 ### emacs
 rm -f .emacs
@@ -18,25 +18,26 @@ fi
 ln -vsf .xsession .xinitrc
 
 ### screenrc
-SPECIFIC_SCREENRC_SRC=.screenrc.$(hostname)
-SPECIFIC_SCREENRC_DEST=.screenrc.specific
+screenrc_d=.screenrc.d
+screenrc_local_src=${screenrc_d}/.screenrc.$(hostname)
+screenrc_local_dest=${screenrc_d}/.screenrc.local
 
-rm -f ${DOTDIR}/${SPECIFIC_SCREENRC_DEST}
+rm -f ${dotdir}/${screenrc_local_dest}
 
-if [ -f ${SPECIFIC_SCREENRC_SRC} ]; then
-    cp -v ${SPECIFIC_SCREENRC_SRC} ${SPECIFIC_SCREENRC_DEST}
+if [ -f ${screenrc_local_src} ]; then
+  ln -sfv  ${screenrc_local_src} ${screenrc_local_dest}
 else
-    touch ${SPECIFIC_SCREENRC_DEST}
+  touch ${screenrc_local_dest}
 fi
-    
+
 ### disposition
-for FILE in .*
+for f in .*
 do
-    case ${FILE} in
-	'.'|'..'|'.svn'|*~)
-	    ;;
-	*)
-	    (cd;ln -vsf ${DOTDIR}/${FILE} .)
-	    ;;
-    esac
+  case ${f} in
+    '.'|'..'|'.svn'|*~)
+      ;;
+    *)
+      (cd;ln -vsf ${dotdir}/${f} .)
+      ;;
+  esac
 done

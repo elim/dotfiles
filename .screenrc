@@ -7,7 +7,7 @@ cjkwidth on
 
 ## basic
 escape ^l^l
-defscrollback 3000
+defscrollback 10000
 defflow off
 startup_message off
 
@@ -31,4 +31,4 @@ bind 'E' eval "encoding euc"  "stuff 'export LANG=ja_JP.EUC-JP\012'"
 hardstatus alwayslastline "%{= KC}[%H] %<%{= KW}%-Lw%{= WK}%50>%n%f* %t%{-}%+Lw%<%{= KY} %Y-%m-%d %c"
 
 ## environment.specific
-source ${HOME}/.screenrc.specific
+source ${HOME}/.screenrc.d/screenrc.local
