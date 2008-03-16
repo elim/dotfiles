@@ -9,7 +9,7 @@ launch_app skkserv.rb --search-word $(cat /usr/local/var/run/rskkserv.pid)
 launch_app pageant --exec pageant $(cygpath -d ~/.ssh/id_rsa.ppk)
 launch_app howm-synchronizer --search-word $(cat ${HOME}/var/run/howm-synchronizer.pid)
 launch_app firefox
-launch_app meadow
+# launch_app meadow
 launch_app ipmsg
 launch_app set-point --search-word SetPoint
 launch_app tsktrayp --search-word TskTrayP
