@@ -111,7 +111,8 @@ zstyle ':completion:*' list-colors di=34 fi=0
  
 # zsh のキーバインドを emacs 風に
 bindkey -e
- 
+bindkey "^w" kill-region 
+
 # カーソル位置から前方削除
 # override kill-whole-line
 bindkey '^U' backward-kill-line
