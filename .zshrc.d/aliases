@@ -1,23 +1,22 @@
 # -*- mode: shell-script; coding: utf-8-unix -*-
 # $Id$
- 
-alias -g L='| lv'
-alias -g H='| head'
-alias -g T='| tail'
+
+alias -g A='| ack'
 alias -g G='| grep'
+alias -g H='| head'
+alias -g L='| lv'
 alias -g S='| sed'
-alias -g A='| awk'
+alias -g T='| tail'
 alias -g W='| wc'
 
-alias close='eject -t'
 alias dpkg='COLUMNS=${COLUMNS:-80} dpkg' 
 
 # shell
 case ${UNAME} in 
-    CYGWIN*)
-	alias cmd='CMD'
-	alias start='cmd /cstart'
-	;;
+  CYGWIN*)
+    alias cmd='CMD'
+    alias start='cmd /cstart'
+    ;;
 esac
 
 # ls
@@ -25,26 +24,26 @@ alias ll='ls -alF'
 alias la='ls -aF'
 
 case ${UNAME} in 
-    FreeBSD|Darwin)
-	alias ls='ls -wGF'
-	;;
-    Linux)
-	alias ls='ls -F --color=auto'
-	;;
-    CYGWIN*)
-	alias ls='ls -F --color=auto --show-control-chars'
-	;;
+  FreeBSD|Darwin)
+    alias ls='ls -wGF'
+    ;;
+  Linux)
+    alias ls='ls -F --color=auto'
+    ;;
+  CYGWIN*)
+    alias ls='ls -F --color=auto --show-control-chars'
+    ;;
 esac
 alias \\ls=ls
 
 # lv
 case ${UNAME} in 
-    CYGWIN*)
-	export LV='-Os -c'
-	;;
-    *)
-	export LV='-Ou8 -c'
-	;;
+  CYGWIN*)
+    export LV='-Os -c'
+    ;;
+  *)
+    export LV='-Ou8 -c'
+    ;;
 esac
 
 # grep 
@@ -52,17 +51,24 @@ alias grep='grep --color=auto'
 
 # emacsen
 case ${UNAME} in 
-    Darwin)
-	alias emacs='/Applications/Emacs.app/Contents/MacOS/Emacs'
-	alias emacsclient='/Applications/Emacs.app/Contents/MacOS/bin/emacsclient'
-	;;
-    CYGWIN*)
-	alias meadow='(HOME=$(cygpath -d ${HOME});PWD=$(cygpath -d ${PWD}) Meadow)'
-	alias emacs='meadow'
-	;;
-    *)
-	alias emacs='XMODIFIERS="@im=none" emacs'
-	;;
+  Darwin)
+    local carbon
+    carbon=/Applications/Emacs.app/Contents/MacOS/Emacs
+    carbonclient=/Applications/Emacs.app/Contents/MacOS/bin/emacsclient
+    if [ -x ${carbon} ]; then
+      alias emacs="${carbon}"
+      alias emacsclient="${carbonclient}"
+    fi
+    ;;
+  CYGWIN*)
+    if type meadow &> /dev/null; then
+      alias meadow='(HOME=$(cygpath -d ${HOME});PWD=$(cygpath -d ${PWD}) Meadow)'
+      alias emacs='meadow'
+    fi
+    ;;
+  *)
+    alias emacs='XMODIFIERS="@im=none" emacs'
+    ;;
 esac
 
 alias zzz="osascript -e 'tell application \"System Events\" to sleep'"
