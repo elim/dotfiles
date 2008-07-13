@@ -1,8 +1,11 @@
-"$Id$/
+" http://www.stripey.com/vim/vimrc.html
+" have syntax highlighting in terminals which can display colours:
+if has('syntax') && (&t_Co > 2)
+  syntax on
+endif
 
-syntax on
 set fileencoding=japan
-set fileencodings=utf-8,iso-2022-jp,euc-jp,ucs2le,ucs-2,cp932
+set fileencodings=cp932,utf-8,iso-2022-jp,euc-jp,ucs2le,ucs-2
 set number
 set ignorecase
 set smartindent
