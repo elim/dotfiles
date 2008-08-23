@@ -5,7 +5,7 @@
 <plist version="1.0">
   <dict>
     <key>PATH</key>
-    <string>/opt/local/bin:/opt/local/sbin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin</string>
+    <string>/Developer/SDKs/flex_sdk_3/bin:/opt/local/bin:/opt/local/sbin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin</string>
   </dict>
 </plist>
 <!-- Local Variables: -->

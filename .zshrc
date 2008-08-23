@@ -89,7 +89,7 @@ case ${UNAME} in
 	compinit -u
 	;;
     *)
-	compinit
+	compinit -u
 	;;
 esac
 
