@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+
+session_name = ENV['STY'].gsub(/.+?\.(.+)/, '\1')
+status_format = %Q|hardstatus alwayslastline "%{= KC}[%H:#{session_name}] %<%{= KW}%-Lw%{= WK}%50>%n%f* %t%{-}%+Lw%<%{= KY} %Y-%m-%d %c"|
+
+system("screen", "-X", "eval", status_format)
