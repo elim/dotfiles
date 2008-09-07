@@ -1,13 +1,10 @@
 # -*- mode: shell-script; coding: utf-8-unix -*-
-#  $Id$
 
-## based upon
 ## http://d.hatena.ne.jp/spiritloose/20060927/1159286301
 function chpwd() {
   ls
 }
 
-## based upon
 ## http://kitaj.no-ip.com/tdiary/20060927.html
 # function cdup() {
 #   echo
@@ -18,7 +15,6 @@ function chpwd() {
 # bindkey '\^' cdup
 # zle -N cdup
 
-## based upon
 ## http://nijino.homelinux.net/diary/200206.shtml#200206140
 if [ "$TERM" = "screen" ]; then
   function preexec() {
@@ -57,101 +53,34 @@ if [ "$TERM" = "screen" ]; then
   chpwd
 fi
 
-function launch_app() {
-  local search_word foreground exec exec_arg extra_env
-
-  while [ "$#" -gt 0 ]; do
-    case ${1} in
-      -a|--arg)
-	shift; exec_arg=$(echo $* | sed -e 's! !\ !g')
-	break
-	;;
-      -b|--foreground)
-	foreground=t
-	;;
-      --env)
-	shift; extra_env=${1}
-	;;
-      -e|--exec)
-	shift; exec=${1}
-	shift; exec_arg=${*}
-	break
-	;;
-      -s|--search-word)
-	shift; search_word=${1}
-	;;
-      *)
-	exec=${1}
-	;;
-    esac
-    shift
-  done
-  if [ x${search_word} = x ]; then
-    search_word=${exec}
-  fi
-
-  if [ 0 = $(ps ax | grep -v 'grep' |grep ${search_word} |wc -l) ]; then
-    echo "launching ${exec}..."
-    if [ x${foreground} = x ]; then
-      env ${extra_env} ${exec} ${exec_arg} &
-    else
-      env $extra_env ${exec} ${exec_arg}
-    fi
-  fi
-}
-
 case ${UNAME} in 
   CYGWIN*)
-    function emacsclient() {
-      local arg
-
-      while [ "$#" -gt 0 ]; do
-	case ${1} in
-	  -*)
-	    arg="${arg} ${1}"
-	    shift
-	    ;;
-	  *)
-	    if [ -d ${1} -o -f ${1} ]; then
-	      arg="${arg} $(cygpath --absolute --mixed ${1})"
-	    else
-	      arg="${arg} ${1}"
-	    fi
-	    shift
-	    ;;
-	esac
-      done
-      
-      eval '\\emacsclient' ${arg}
-      unset arg
-    }
-
     function open() {
-      local arg
+      local prog arg
 
       if [ "$#" -gt 0 ]; then
 	case ${1} in
 	  -a)
 	    shift
-	    exec="${1}"
+	    prog="${1}"
 
-	    if ! where ${exec} > /dev/null; then
-	      arg=${exec}
-	      exec="cmd /cstart"
+	    if ! where ${prog} > /dev/null; then
+	      arg=${prog}
+	      prog="cmd /cstart"
 	    fi
 
 	    shift
 	    ;;    
 	  -e)
-	    exec="emacsclient --no-wait"
+	    prog="emacsclient --no-wait"
 	    shift
 	    if [ "$#" = 0 ]; then
-	      echo "hmm... missing arguments."
+	      echo "hmm... missing argument(s)."
 	      return
 	    fi
 	    ;;
 	  *)
-	    exec="cmd /cstart"
+	    prog="cmd /cstart"
 	    ;;
 	esac
       else
@@ -167,7 +96,7 @@ case ${UNAME} in
 	fi
 	shift
       done
-      eval ${exec} ${arg} &
+      eval ${prog} ${arg} &
       unset arg
     }
     ;;
