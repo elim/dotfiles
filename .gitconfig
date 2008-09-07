@@ -1,3 +1,4 @@
 [alias]
 	di = diff
 	co = checkout
+	ci = commit
