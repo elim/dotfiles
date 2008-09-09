@@ -1,10 +1,3 @@
-### $Id$
-
-## encoding
-defencoding UTF-8
-defutf8 on
-cjkwidth on
-
 ## basic
 escape ^l^l
 defscrollback 10000
@@ -24,11 +17,10 @@ bind ^x command -c REGION
 bind 'U' eval "encoding utf8" "stuff 'export LANG=ja_JP.UTF-8\012'"
 bind 'E' eval "encoding euc"  "stuff 'export LANG=ja_JP.EUC-JP\012'"
 
-## idle
+## idle.
 # idle 1800
 # blankerprg fortune startrek
 
-## status
-# hardstatus alwayslastline "%{= KC}[%H] %<%{= KW}%-Lw%{= WK}%50>%n%f* %t%{-}%+Lw%<%{= KY} %Y-%m-%d %c"
+## environment specific configurations.
 screen
-screen $HOME/.screenrc.d/screenrc.rb
+exec $HOME/.screenrc.d/screenrc.rb
