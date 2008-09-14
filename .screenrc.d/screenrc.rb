@@ -79,7 +79,7 @@ commands.instance_eval do |c|
       push "screen 3 ./script/console"
       push "screen 4 ./script/server"
     end
-    push "select 0"
+    push "select 0" unless ENV['WINDOW'] == "0"
   end
 
   ## zombie
