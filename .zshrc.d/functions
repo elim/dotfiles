@@ -66,7 +66,7 @@ case ${UNAME} in
 
 	    if ! where ${prog} > /dev/null; then
 	      arg=${prog}
-	      prog="cmd /cstart"
+	      prog="cygstart"
 	    fi
 
 	    shift
@@ -80,7 +80,7 @@ case ${UNAME} in
 	    fi
 	    ;;
 	  *)
-	    prog="cmd /cstart"
+	    prog="cygstart"
 	    ;;
 	esac
       else
@@ -89,15 +89,10 @@ case ${UNAME} in
       fi
       
       while [ "$#" -gt 0 ]; do
-	if [ -d ${1} -o -f ${1} ]; then
-	  arg="${arg} $(cygpath --absolute --mixed --short-name ${1})"
-	else
-	  arg="${arg} ${1}"
-	fi
+	arg="${arg} ${1}"
 	shift
       done
       eval ${prog} ${arg} &
-      unset arg
     }
     ;;
 esac
