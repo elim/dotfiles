@@ -4,7 +4,7 @@
 ############################################################
 ### functions
 
-def screen_eval(args)
+def screen(args)
   exec('screen', '-X', 'eval', *args)
 end
 
@@ -12,6 +12,26 @@ def startup?
   %x(screen -ls).match(/\t#{Process::ppid}\./) || $DEBUG
 end
 
+def make_sh_wrapper(hash)
+  dir    = hash[:dir]    || '.'
+  number = hash[:number] || ''
+  env    = hash[:env]
+  prog   = hash[:prog]
+  arg    = hash[:arg]
+  title  = hash[:title]
+
+  ["screen",
+    ("-t #{title}" if title),
+    ("#{number}" if number),
+    "sh -c '",
+    ("cd #{dir} &&" if dir),
+    ("eval #{env}" if env),
+    prog,
+    ("#{arg}" if arg),
+    "'"
+  ].join(' ')
+
+end
 
 ############################################################
 ### main
@@ -47,33 +67,41 @@ commands.instance_eval do |c|
   if startup?
     case session_name
     when "daemon"
-      pwd = Dir.pwd
-      debug = ENV["DEBUG"]
-
       tiarraconf_path = File::expand_path %q(~/.tiarra)
       tiarra_path     = File::expand_path %q(~/src/lang/perl/tiarra)
-      netirc_path     = File::expand_path %q(~/src/lang/ruby/net-irc/examples)
+      netirc_path     = File::expand_path %q(~/src/lang/ruby/net-irc)
       mobirc_path     = File::expand_path %q(~/src/lang/perl/mobirc)
 
-      push "chdir #{tiarraconf_path}"
-      push "screen 5 #{tiarra_path}/tiarra"
-      push "title tiarra"
+      push make_sh_wrapper({
+          :title  => "tiarra",
+          :dir    => tiarraconf_path,
+          :prog   => "#{tiarra_path}/tiarra",
+          :number => 5
+        })
 
-      push "chdir #{netirc_path}"
-      push "screen 2 ./wig.rb --debug"
-      push "title wig"
+      push make_sh_wrapper({
+          :title  => "wig.rb",
+          :dir    => netirc_path,
+          :prog   => "examples/wig.rb",
+          :arg    => "--debug",
+          :number => 2
+        })
 
-      push "screen 3 ./tig.rb --debug"
-      push "title tig"
+      push make_sh_wrapper({
+          :title  => "tig.rb",
+          :dir    => netirc_path,
+          :prog   => "examples/tig.rb",
+          :arg    => "--debug",
+          :number => 3
+        })
 
-      push "chdir #{mobirc_path}"
-      push "setenv DEBUG 1"
-      push "screen 6 ./mobirc"
-      push "title mobirc"
-
-      push debug ? "setenv DEBUG #{debug}" : "unsetenv DEBUG"
-
-      push "chdir #{pwd}"
+      push make_sh_wrapper({
+          :title  => "mobirc",
+          :dir    => mobirc_path,
+          :env    => "DEBUG=1",
+          :prog   => "./mobirc",
+          :number => 6
+        })
 
     when "rails"
       push "screen 3 ./script/console"
@@ -94,5 +122,5 @@ if $DEBUG
   require 'pp'
   pp commands
 else
-  screen_eval commands
+  screen commands
 end
