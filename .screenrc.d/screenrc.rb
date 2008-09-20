@@ -26,7 +26,7 @@ def make_sh_wrapper(hash)
     "sh -c '",
     ("cd #{dir} &&" if dir),
     ("eval #{env}" if env),
-    prog,
+    "exec #{prog}",
     ("#{arg}" if arg),
     "'"
   ].join(' ')
