@@ -25,12 +25,21 @@ export PATH
 typeset -U path PATH
 typeset -U fpath
 
+### GNU Screen
+
+if type screen &> /dev/null; then 
+  if [ "x${WINDOW}" = "x" -a \
+         "$(screen -ls |grep main |awk '{print $2}')" != "(Attached)" ]; then
+    exec screen -UODRRS main
+  fi
+fi
+
 ### environment variables
 export G_BROKEN_FILENAMES=1
 export EDITOR=vi
+export PAGER=lv
 export GZIP='-v9N'
 export TZ=JST-9
-export PAGER=lv
 
 case ${UNAME} in 
     FreeBSD|Linux|Darwin)
@@ -89,7 +98,7 @@ case ${UNAME} in
 	compinit -u
 	;;
     *)
-	compinit -u
+	compinit
 	;;
 esac
 
@@ -138,30 +147,9 @@ bindkey '^W' tcsh-backward-delete-word
 ## 各種設定を include
 ## （$ZUSERDIR は .zshenv で指定）
  
-### zsh options
-if [ -f ${ZUSERDIR}/options ]; then
-    source ${ZUSERDIR}/options
-fi
- 
-### aliases
-if [ -f ${ZUSERDIR}/aliases ]; then
-    source ${ZUSERDIR}/aliases
-fi
- 
-### functions
-if [ -f ${ZUSERDIR}/functions ]; then
-    source ${ZUSERDIR}/functions
-fi
- 
-### completion
-if [ -f ${ZUSERDIR}/completion ]; then
-    source ${ZUSERDIR}/completion
-fi
- 
-### color ls
-if [ -f ${ZUSERDIR}/lscolors ]; then
-    source ${ZUSERDIR}/lscolors
-fi
+for conf in ${ZUSERDIR}/*; do
+  source "${conf}"
+done
 
 if type clear &> /dev/null; then
     clear
@@ -188,6 +176,3 @@ if type fortune &> /dev/null; then
     fortune
 fi
 
-if [ -f ${ZUSERDIR}/zlogin-$(hostname) ]; then
-    source ${ZUSERDIR}/zlogin-$(hostname)
-fi
