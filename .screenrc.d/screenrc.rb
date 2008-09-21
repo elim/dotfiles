@@ -13,8 +13,8 @@ def startup?
 end
 
 def make_sh_wrapper(hash)
-  dir    = hash[:dir]    || '.'
-  number = hash[:number] || ''
+  dir    = hash[:dir]
+  number = hash[:number]
   env    = hash[:env]
   prog   = hash[:prog]
   arg    = hash[:arg]
