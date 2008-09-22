@@ -103,11 +103,13 @@ commands.instance_eval do |c|
           :number => 6
         })
 
+    push "select 0"
+
     when "rails"
       push "screen 3 ./script/console"
       push "screen 4 ./script/server"
+      push "select 0"
     end
-    push "select 0"
   end
 
   ## zombie
