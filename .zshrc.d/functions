@@ -39,7 +39,7 @@ if [ "$TERM" = "screen" ]; then
 	fi
 	;&
 	*)
-  echo -n "k$cmd[1]:t\\"
+  printf "\033k$cmd[1]:t\033\\"
   return
   ;;
   esac
@@ -48,7 +48,7 @@ if [ "$TERM" = "screen" ]; then
 
   $cmd >>(read num rest
     cmd=(${(z)${(e):-\$jt$num}})
-    echo -n "k$cmd[1]:t\\") 2>/dev/null
+    printf "\033k$cmd[1]:t\033\\") 2>/dev/null
   }
   chpwd
 fi

@@ -1,20 +1,17 @@
 # -*- mode: shell-script; coding: utf-8-unix -*-
-# $Id$
-# based on
-#   http://namazu.org/%7Esatoru/unimag/3/
-#   http://nyan2.tdiary.net/20020923.html#p12
+# based on http://namazu.org/%7Esatoru/unimag/3/
 
 ### PATH
 case ${UNAME} in 
     Darwin)
-	if [ -d /Developer/Tools ];then
+	if [ -d /Developer/Tools ]; then
 	    PATH="/Developer/Tools:${PATH}"
-	fi
-	if [ -f /sw/bin/init.sh ]; then
-	    source /sw/bin/init.sh
 	fi
 	if [ -d /opt/local/bin ]; then
 	    PATH="/opt/local/bin:/opt/local/sbin/:${PATH}"
+	fi
+	if [ -d /Applications/Emacs.app/Contents/MacOS/bin ]; then
+	    PATH="/Applications/Emacs.app/Contents/MacOS/bin:${PATH}"
 	fi
 	;;
 esac
@@ -26,17 +23,27 @@ typeset -U path PATH
 typeset -U fpath
 
 ### GNU Screen
-
 if type screen &> /dev/null; then 
-  if [ "x${WINDOW}" = "x" -a \
-         "$(screen -ls |grep main |awk '{print $2}')" != "(Attached)" ]; then
-    exec screen -UODRRS main
+  if [ "x${WINDOW}" = "x" ]; then
+    if ! (screen -ls |egrep -i 'main.+(attached|dead)'); then
+      exec screen -UODRRS main
+    fi
   fi
 fi
 
+# core control
+case ${UNAME} in
+    Darwin|FreeBSD|Linux)
+	unlimit
+	limit core 0
+	limit -s
+	;;
+esac
+
 ### environment variables
-export G_BROKEN_FILENAMES=1
-export EDITOR=vi
+# export G_BROKEN_FILENAMES=1
+export ALTERNATE_EDITOR=vi #for emacsclient
+export EDITOR=emacsclient
 export PAGER=lv
 export GZIP='-v9N'
 export TZ=JST-9
@@ -155,14 +162,6 @@ if type clear &> /dev/null; then
     clear
 fi
 
-case ${UNAME} in
-    Darwin|FreeBSD|Linux)
-	unlimit
-	limit core 0
-	limit -s
-	;;
-esac
-
 if type linux_logo &> /dev/null; then
     linux_logo -a
 fi
@@ -175,4 +174,3 @@ fi
 if type fortune &> /dev/null; then
     fortune
 fi
-

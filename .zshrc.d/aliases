@@ -1,5 +1,4 @@
 # -*- mode: shell-script; coding: utf-8-unix -*-
-# $Id$
 
 alias -g A='| ack'
 alias -g G='| grep'
@@ -51,15 +50,6 @@ alias grep='grep --color=auto'
 
 # emacsen
 case ${UNAME} in 
-  Darwin)
-    local carbon
-    carbon=/Applications/Emacs.app/Contents/MacOS/Emacs
-    carbonclient=/Applications/Emacs.app/Contents/MacOS/bin/emacsclient
-    if [ -x ${carbon} ]; then
-      alias emacs="${carbon}"
-      alias emacsclient="${carbonclient}"
-    fi
-    ;;
   CYGWIN*)
     if type meadow &> /dev/null; then
       alias meadow='(HOME=$(cygpath -d ${HOME});PWD=$(cygpath -d ${PWD}) Meadow)'
@@ -71,4 +61,6 @@ case ${UNAME} in
     ;;
 esac
 
-alias zzz="osascript -e 'tell application \"System Events\" to sleep'"
+if [ ${UNAME} == Darwin ]; then
+  alias zzz="osascript -e 'tell application \"System Events\" to sleep'"
+fi
