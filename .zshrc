@@ -25,8 +25,8 @@ typeset -U fpath
 ### GNU Screen
 if [ ${UID} != 0 -a "x${WINDOW}" = "x" ]; then
   if type screen &> /dev/null; then
-    if ! (screen -ls |egrep -i 'main.+(attached|dead)'); then
-      exec screen -UODRRS main
+    if ! (screen -ls |egrep -i 'main.+(attached|dead)' &> /dev/null); then
+      exec screen -DRRS main
     fi
   fi
 fi
@@ -41,9 +41,11 @@ case ${UNAME} in
 esac
 
 ### environment variables
-# export G_BROKEN_FILENAMES=1
-export ALTERNATE_EDITOR=vi #for emacsclient
-export EDITOR=emacsclient
+if type emacsclient &> /dev/null; then
+  export EDITOR='emacsclient --alternate-editor=vi'
+else
+  export EDITOR=vi
+fi
 export PAGER=lv
 export GZIP='-v9N'
 export TZ=JST-9
