@@ -1,4 +1,13 @@
+[user]
+        name = Takeru Naito
+        email = takeru.naito@gmail.com
+
 [alias]
 	di = diff
 	co = checkout
 	ci = commit
+
+[color]
+	branch = true
+	diff = auto
+	interactive = true
