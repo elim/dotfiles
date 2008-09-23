@@ -10,9 +10,6 @@ case ${UNAME} in
 	if [ -d /opt/local/bin ]; then
 	    PATH="/opt/local/bin:/opt/local/sbin/:${PATH}"
 	fi
-	if [ -d /Applications/Emacs.app/Contents/MacOS/bin ]; then
-	    PATH="/Applications/Emacs.app/Contents/MacOS/bin:${PATH}"
-	fi
 	;;
 esac
 PATH="${HOME}/bin:/usr/games:/usr/local/bin:/usr/local/sbin:${PATH}"
