@@ -23,8 +23,8 @@ typeset -U path PATH
 typeset -U fpath
 
 ### GNU Screen
-if type screen &> /dev/null; then 
-  if [ "x${WINDOW}" = "x" ]; then
+if [ ${UID} != 0 -a "x${WINDOW}" = "x" ]; then
+  if type screen &> /dev/null; then
     if ! (screen -ls |egrep -i 'main.+(attached|dead)'); then
       exec screen -UODRRS main
     fi
