@@ -50,6 +50,14 @@ alias grep='grep --color=auto'
 
 # emacsen
 case ${UNAME} in 
+  Darwin)
+    carbon=/Applications/Emacs.app/Contents/MacOS/Emacs
+    carbonclient=/Applications/Emacs.app/Contents/MacOS/bin/emacsclient
+    if [ -x ${carbon} ]; then
+      alias emacs="${carbon}"
+      alias emacsclient="${carbonclient}"
+    fi
+    ;;
   CYGWIN*)
     if type meadow &> /dev/null; then
       alias meadow='(HOME=$(cygpath -d ${HOME});PWD=$(cygpath -d ${PWD}) Meadow)'
