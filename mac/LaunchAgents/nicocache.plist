@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>Label</key>
+    <string>nicocache</string>
+
+    <key>ProgramArguments</key>
+    <array>
+      <string>/usr/bin/java</string>
+      <string>-jar</string>
+      <string>NicoCache_nl.jar</string>
+    </array>
+
+    <key>WorkingDirectory</key>
+    <string>/Users/takeru/srv/NicoCache_nl_natu.06</string>
+
+    <key>KeepAlive</key>
+    <true/>
+
+    <key>StandardErrorPath</key>
+    <string>/Users/takeru/var/log/nicocache.log</string>
+
+    <key>StandardOutPath</key>
+    <string>/Users/takeru/var/log/nicocache.log</string>
+
+  </dict>
+</plist>

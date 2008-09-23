@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>Label</key>
+    <string>ruby-reference-manual</string>
+
+    <key>ProgramArguments</key>
+    <array>
+      <string>/opt/local/bin/ruby</string>
+      <string>server.rb</string>
+    </array>
+
+    <key>WorkingDirectory</key>
+    <string>/Users/takeru/srv/ruby-reference-manual</string>
+
+    <key>KeepAlive</key>
+    <true/>
+
+    <key>StandardErrorPath</key>
+    <string>/Users/takeru/var/log/ruby-reference-manual.log</string>
+
+    <key>StandardOutPath</key>
+    <string>/Users/takeru/var/log/ruby-reference-manual.log</string>
+
+  </dict>
+</plist>
