@@ -69,6 +69,6 @@ case ${UNAME} in
     ;;
 esac
 
-if [ ${UNAME} == Darwin ]; then
+if [ ${UNAME} = Darwin ]; then
   alias zzz="osascript -e 'tell application \"System Events\" to sleep'"
 fi
