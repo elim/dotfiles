@@ -1,6 +1,9 @@
 # -*- mode: shell-script; coding: utf-8-unix -*-
 # based on http://namazu.org/%7Esatoru/unimag/3/
 
+### Title on Terminal Emulator.
+printf "\033P\033]0;${USER}@${HOST}\007\033\\"
+
 ### PATH
 case ${UNAME} in 
     Darwin)
