@@ -1,13 +1,14 @@
 [user]
-        name = Takeru Naito
-        email = takeru.naito@gmail.com
+  name = Takeru Naito
+  email = takeru.naito@gmail.com
 
 [alias]
-	di = diff
-	co = checkout
-	ci = commit
+  ci = commit
+  co = checkout
+  di = diff
 
 [color]
-	branch = true
-	diff = auto
-	interactive = true
+  diff = auto
+  status = auto
+  branch = auto
+  interactive = auto
