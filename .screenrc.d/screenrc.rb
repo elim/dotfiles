@@ -73,13 +73,6 @@ commands.instance_eval do |c|
       mobirc_path     = File::expand_path %q(~/src/lang/perl/mobirc)
 
       push make_sh_wrapper({
-          :title  => "tiarra",
-          :dir    => tiarraconf_path,
-          :prog   => "#{tiarra_path}/tiarra",
-          :number => 5
-        })
-
-      push make_sh_wrapper({
           :title  => "wig.rb",
           :dir    => netirc_path,
           :prog   => "examples/wig.rb",
@@ -96,11 +89,24 @@ commands.instance_eval do |c|
         })
 
       push make_sh_wrapper({
+          :title  => "tiarra",
+          :dir    => tiarraconf_path,
+          :prog   => "#{tiarra_path}/tiarra",
+          :number => 5
+        })
+
+      push make_sh_wrapper({
           :title  => "mobirc",
           :dir    => mobirc_path,
           :env    => "DEBUG=1",
           :prog   => "./mobirc",
           :number => 6
+        })
+
+      push make_sh_wrapper({
+          :title  => "fastri",
+          :prog   => "fastri-server",
+          :number => 8
         })
 
     push "select 0"
