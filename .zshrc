@@ -1,9 +1,6 @@
 # -*- mode: shell-script; coding: utf-8-unix -*-
 # based on http://namazu.org/%7Esatoru/unimag/3/
 
-### Title on Terminal Emulator.
-printf "\033P\033]0;${USER}@${HOST}\007\033\\"
-
 ### PATH
 case ${UNAME} in 
     Darwin)
@@ -18,7 +15,7 @@ esac
 PATH="${HOME}/bin:/usr/games:/usr/local/bin:/usr/local/sbin:${PATH}"
 export PATH
 
-# 重複を許可しない
+## 重複を許可しない
 typeset -U path PATH
 typeset -U fpath
 
@@ -31,7 +28,12 @@ if [ ${UID} != 0 -a "x${WINDOW}" = "x" ]; then
   fi
 fi
 
-# core control
+### Title on Terminal Emulator.
+if [ "${TERM}" = "screen" ]; then
+  printf "\033P\033]0;${USER}@${HOST}\007\033\\"
+fi
+
+# Core Control
 case ${UNAME} in
     Darwin|FreeBSD|Linux)
 	unlimit
