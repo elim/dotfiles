@@ -1,4 +1,4 @@
-app.Env("CYGWIN") = "ntsec error_start=dumper";
+app.Env("CYGWIN") = "binmode ntsec tty";
 app.Env("LANG")   = "ja_JP.Shift_JIS";
 app.Env("LC_ALL") = "ja_JP.Shift_JIS";
 
@@ -11,7 +11,7 @@ Config.tty.scroll_key = 1;
 Config.tty.scroll_output = 0;
 Config.tty.bs_as_del = 0;
 Config.tty.use_bell = 0;
-Config.tty.cjk_width = 0;
+Config.tty.cjk_width = 1;
 
 Config.accelkey.new_shell    = Keys.ShiftL | Keys.CtrlL | Keys.N;
 Config.accelkey.new_window   = Keys.ShiftL | Keys.CtrlL | Keys.M;
@@ -33,7 +33,7 @@ Config.window.position_x = null;
 Config.window.position_y = null;
 Config.window.cols = 140;
 Config.window.rows = 45;
-Config.window.scrollbar_show = 1;
+Config.window.scrollbar_show = 0;
 Config.window.scrollbar_right = 1;
 Config.window.blink_cursor = 0;
 Config.window.transparent = WinTransp.GrassNoEdge;
