@@ -1,20 +1,19 @@
 # -*- mode: ruby; coding: utf-8-unix; indent-tabs-mode: nil -*-
 
-require 'pathname'
-
 task :default => [:dotfiles, :cygwin, :darwin]
 
-dotfiles = FileList["./.*"].exclude(/\.$/).
+dotfiles = FileList[".*"].
+  exclude(/\.$/).
   exclude(/\.git$/).
   exclude(/\.gitignore$/)
 
-desc 'Deployment dotfiles.'
+desc 'Deployment dotfialles.'
 file :dotfiles => dotfiles do |d|
   dotdir = Dir::pwd
-  Dir::chdir
   d.prerequisites.each do |fname|
-    src =  Pathname.new("#{dotdir}/#{fname}").realpath
-    dest = fname
+    src =  File::expand_path("#{dotdir}/#{fname}")
+    dest = File::expand_path("#{ENV['HOME']}/#{fname}")
+    FileUtils::remove(dest,{:force => true, :verbose => true})
     FileUtils::symlink(src, dest,
       {:force => true, :verbose => true})
   end
@@ -54,7 +53,7 @@ task :cygwin do
     fs = WIN32OLE.new('Scripting.FileSystemObject')
     sh = WIN32OLE.new('WScript.Shell')
 
-    title = 'GNU Screen'
+    title = 'ck'
     prog  = fs.GetFile("#{home}\\bin\\ck.exe")
     conf  = "#{home}\\dotfiles\\.ck.config.js"
     arg   = %Q[-f #{conf} -e sh -c "screen -DRRS main"]
@@ -67,7 +66,7 @@ task :cygwin do
     sc.TargetPath = prog.Path
     sc.Arguments = arg
     sc.WorkingDirectory = home
-    sc.Description = 'GNU Screen on ck.'
+    sc.Description = 'Terminal Emulator.'
     sc.save
   end
 end
