@@ -29,7 +29,12 @@ if [ ${UID} != 0 -a "x${WINDOW}" = "x" ]; then
 fi
 
 ### Title on Terminal Emulator.
-if [ "${TERM}" = "screen" ]; then
+if [ ${TERM} = screen ]; then
+  case ${UNAME} in
+    CYGWIN*)
+      USER=${USERNAME}
+	;;
+  esac
   printf "\033P\033]0;${USER}@${HOST}\007\033\\"
 fi
 
