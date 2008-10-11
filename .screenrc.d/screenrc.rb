@@ -13,24 +13,16 @@ def startup?
 end
 
 def make_sh_wrapper(opts = {})
-  dir    = opts[:dir]
+  title  = opts[:title]  && "-t   #{opts[:title]}"
   number = opts[:number]
-  env    = opts[:env]
-  prog   = opts[:prog]
-  arg    = opts[:arg]
-  title  = opts[:title]
+  dir    = opts[:dir]    && "cd   #{File::expand_path(opts[:dir])} &&"
+  env    = opts[:env]    && "eval #{opts[:env]}"
+  prog   = opts[:prog]   && "exec #{File::expand_path(opts[:prog])}"
+  args   = opts[:args]
 
-  ["screen",
-    ("-t #{title}" if title),
-    ("#{number}" if number),
-    "sh -c '",
-    ("cd #{dir} &&" if dir),
-    ("eval #{env}" if env),
-    "exec #{prog}",
-    ("#{arg}" if arg),
-    "'"
-  ].join(' ')
-
+  "screen %s %s sh -c '%s %s %s %s'" % [
+    title, number, dir, env, prog, args
+  ]
 end
 
 ############################################################
@@ -41,7 +33,6 @@ commands = []
 
 commands.instance_eval do |c|
   ## encoding
-
   case PLATFORM
   when /cygwin/
     encoding = 'SJIS'
@@ -55,7 +46,6 @@ commands.instance_eval do |c|
   push "encoding #{encoding} #{encoding}"
 
   ## hardstatus
-
   push %W(
     hardstatus alwayslastline
     "%{= KC}[%H:#{session_name}]
@@ -63,41 +53,35 @@ commands.instance_eval do |c|
     %t%{-}%+Lw%<%{= KY} %Y-%m-%d %c").join(' ')
 
   ## startup
-
   if startup?
     case session_name
     when "daemon"
-      tiarraconf_path = File::expand_path %q(~/.tiarra)
-      tiarra_path     = File::expand_path %q(~/src/lang/perl/tiarra)
-      netirc_path     = File::expand_path %q(~/src/lang/ruby/net-irc)
-      mobirc_path     = File::expand_path %q(~/src/lang/perl/mobirc)
-
       push make_sh_wrapper({
           :title  => "wig.rb",
-          :dir    => netirc_path,
-          :prog   => "examples/wig.rb",
-          :arg    => "--debug",
+          :dir    => "~/src/lang/ruby/net-irc/examples",
+          :prog   => "./wig.rb",
+          :args   => "--debug",
           :number => 2
         })
 
       push make_sh_wrapper({
           :title  => "tig.rb",
-          :dir    => netirc_path,
-          :prog   => "examples/tig.rb",
-          :arg    => "--debug",
+          :dir    => "~/src/lang/ruby/net-irc/examples",
+          :prog   => "./tig.rb",
+          :args   => "--debug",
           :number => 3
         })
 
       push make_sh_wrapper({
           :title  => "tiarra",
-          :dir    => tiarraconf_path,
-          :prog   => "#{tiarra_path}/tiarra",
+          :dir    => "~/.tiarra",
+          :prog   => "~/src/lang/perl/tiarra/tiarra",
           :number => 5
         })
 
       push make_sh_wrapper({
           :title  => "mobirc",
-          :dir    => mobirc_path,
+          :dir    => "~/src/lang/perl/mobirc",
           :env    => "DEBUG=1",
           :prog   => "./mobirc",
           :number => 6
@@ -109,7 +93,7 @@ commands.instance_eval do |c|
           :number => 8
         })
 
-    push "select 0"
+      push "select 0"
 
     when "rails"
       push "screen 3 ./script/console"
