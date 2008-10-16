@@ -8,10 +8,6 @@ def screen(args)
   exec('screen', '-X', 'eval', *args)
 end
 
-def startup?
-  %x(screen -ls).match(/\t#{Process::ppid}\./) || $DEBUG
-end
-
 def make_sh_wrapper(opts = {})
   title  = opts[:title]  && "-t   #{opts[:title]}"
   number = opts[:number]
@@ -33,7 +29,7 @@ commands = []
 
 commands.instance_eval do |c|
   ## encoding
-  case PLATFORM
+  case RUBY_PLATFORM
   when /cygwin/
     encoding = 'SJIS'
   else
@@ -52,55 +48,63 @@ commands.instance_eval do |c|
     %<%{= KW}%-Lw%{= WK}%50>%n%f*
     %t%{-}%+Lw%<%{= KY} %Y-%m-%d %c").join(' ')
 
-  ## startup
-  if startup?
-    case session_name
-    when "daemon"
-      push make_sh_wrapper({
-          :title  => "wig.rb",
-          :dir    => "~/src/lang/ruby/net-irc/examples",
-          :prog   => "./wig.rb",
-          :args   => "--debug",
-          :number => 2
-        })
+  ## startup programs
+  case session_name
+  when "daemon"
+    push make_sh_wrapper({
+        :title  => "wig.rb",
+        :dir    => "~/src/lang/ruby/net-irc/examples",
+        :prog   => "./wig.rb",
+        :args   => "--debug",
+        :number => 2
+      })
 
-      push make_sh_wrapper({
-          :title  => "tig.rb",
-          :dir    => "~/src/lang/ruby/net-irc/examples",
-          :prog   => "./tig.rb",
-          :args   => "--debug",
-          :number => 3
-        })
+    push make_sh_wrapper({
+        :title  => "tig.rb",
+        :dir    => "~/src/lang/ruby/net-irc/examples",
+        :prog   => "./tig.rb",
+        :args   => "--debug",
+        :number => 3
+      })
 
-      push make_sh_wrapper({
-          :title  => "tiarra",
-          :dir    => "~/.tiarra",
-          :prog   => "~/src/lang/perl/tiarra/tiarra",
-          :number => 5
-        })
+    push make_sh_wrapper({
+        :title  => "tiarra",
+        :dir    => "~/.tiarra",
+        :prog   => "~/src/lang/perl/tiarra/tiarra",
+        :number => 5
+      })
 
-      push make_sh_wrapper({
-          :title  => "mobirc",
-          :dir    => "~/src/lang/perl/mobirc",
-          :env    => "DEBUG=1",
-          :prog   => "./mobirc",
-          :number => 6
-        })
+    push make_sh_wrapper({
+        :title  => "mobirc",
+        :dir    => "~/src/lang/perl/mobirc",
+        :env    => "DEBUG=1",
+        :prog   => "./mobirc",
+        :number => 6
+      })
 
-      push make_sh_wrapper({
-          :title  => "fastri",
-          :prog   => "fastri-server",
-          :number => 8
-        })
+    push make_sh_wrapper({
+        :title  => "fastri",
+        :prog   => "fastri-server",
+        :number => 8
+      })
 
-      push "select 0"
+  when "rails"
+    push make_sh_wrapper({
+        :title  => "console",
+        :prog   => "./script/console",
+        :number => 3
+      })
 
-    when "rails"
-      push "screen 3 ./script/console"
-      push "screen 4 ./script/server"
-      push "select 0"
-    end
+    push make_sh_wrapper({
+        :title  => "server",
+        :prog   => "./script/server",
+        :number => 4
+      })
+
   end
+
+  push "select 0"
+
 
   ## zombie
   case session_name
