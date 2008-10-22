@@ -68,7 +68,3 @@ case ${UNAME} in
     alias emacs='XMODIFIERS="@im=none" emacs'
     ;;
 esac
-
-if [ ${UNAME} = Darwin ]; then
-  alias zzz="osascript -e 'tell application \"System Events\" to sleep'"
-fi

@@ -95,4 +95,20 @@ case ${UNAME} in
       eval ${prog} ${arg} &
     }
     ;;
+  Darwin)
+    function zzz() {
+      local prev_hibernatemode
+      prev_hibernatemode=$(pmset -g | awk '/hibernatemode/ {print $2}')
+
+      if [ "$#" -gt 0 ]; then
+	case ${1} in
+          -s|--safe) sudo pmset -a hibernatemode 3 ;;
+          -d|--deep) sudo pmset -a hibernatemode 1 ;;
+        esac
+      fi
+
+      osascript -e "tell application \"System Events\" to sleep"
+      sudo pmset -a hibernatemode ${prev_hibernatemode}
+    }
+    ;;
 esac
