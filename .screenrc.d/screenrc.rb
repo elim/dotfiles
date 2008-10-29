@@ -11,9 +11,9 @@ end
 def make_sh_wrapper(opts = {})
   title  = opts[:title]  && "-t   #{opts[:title]}"
   number = opts[:number]
-  dir    = opts[:dir]    && "cd   #{File::expand_path(opts[:dir])} &&"
+  dir    = opts[:dir]    && "cd   #{opts[:dir]} &&"
   env    = opts[:env]    && "eval #{opts[:env]}"
-  prog   = opts[:prog]   && "exec #{File::expand_path(opts[:prog])}"
+  prog   = opts[:prog]   && "exec #{opts[:prog]}"
   args   = opts[:args]
 
   "screen %s %s sh -c '%s %s %s %s'" % [
