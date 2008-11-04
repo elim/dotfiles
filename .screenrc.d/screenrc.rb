@@ -52,6 +52,13 @@ commands.instance_eval do |c|
   case session_name
   when "daemon"
     push make_sh_wrapper({
+        :title  => "dbcli.py",
+        :prog   => "dbcly.py",
+        :args   => "status",
+        :number => 1
+      })
+
+    push make_sh_wrapper({
         :title  => "wig.rb",
         :dir    => "~/src/lang/ruby/net-irc/examples",
         :prog   => "./wig.rb",
