@@ -11,9 +11,9 @@ end
 def make_sh_wrapper(opts = {})
   title  = opts[:title]  && "-t   #{opts[:title]}"
   number = opts[:number]
-  dir    = opts[:dir]    && "cd   #{File::expand_path(opts[:dir])} &&"
+  dir    = opts[:dir]    && "cd   #{opts[:dir]} &&"
   env    = opts[:env]    && "eval #{opts[:env]}"
-  prog   = opts[:prog]   && "exec #{File::expand_path(opts[:prog])}"
+  prog   = opts[:prog]   && "exec #{opts[:prog]}"
   args   = opts[:args]
 
   "screen %s %s sh -c '%s %s %s %s'" % [
@@ -51,6 +51,13 @@ commands.instance_eval do |c|
   ## startup programs
   case session_name
   when "daemon"
+    push make_sh_wrapper({
+        :title  => "dbcli.py",
+        :prog   => "dbcly.py",
+        :args   => "status",
+        :number => 1
+      })
+
     push make_sh_wrapper({
         :title  => "wig.rb",
         :dir    => "~/src/lang/ruby/net-irc/examples",
