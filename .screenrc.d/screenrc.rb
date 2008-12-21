@@ -53,7 +53,7 @@ commands.instance_eval do |c|
   when "daemon"
     push make_sh_wrapper({
         :title  => "dbcli.py",
-        :prog   => "dbcly.py",
+        :prog   => "/usr/local/bin/dbcli.py",
         :args   => "status",
         :number => 1
       })
