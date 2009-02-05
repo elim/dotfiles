@@ -16,9 +16,7 @@ def make_sh_wrapper(opts = {})
   prog   = opts[:prog]   && "exec #{opts[:prog]}"
   args   = opts[:args]
 
-  "screen %s %s sh -c '%s %s %s %s'" % [
-    title, number, dir, env, prog, args
-  ]
+  "screen #{title} #{number} sh -c '#{dir} #{env} #{prog} #{args}'"
 end
 
 ############################################################
