@@ -1,5 +1,4 @@
-# -*- mode: shell-script; coding: utf-8-unix -*-
-# based on http://namazu.org/%7Esatoru/unimag/3/
+### based on http://namazu.org/%7Esatoru/unimag/3/
 
 ### PATH
 case ${UNAME} in 
@@ -13,11 +12,12 @@ case ${UNAME} in
     ;;
 esac
 PATH="${HOME}/bin:/usr/games:/usr/local/bin:/usr/local/sbin:${PATH}"
-export PATH
 
 ## 重複を許可しない
 typeset -U path PATH
 typeset -U fpath
+
+export PATH
 
 ### LANGUAGE
 case ${UNAME} in 
@@ -31,22 +31,21 @@ case ${UNAME} in
     ;;
 esac
 
-### fbterm and/or GNU Screen
-if [ "x${TERM}" = "xlinux" -a "x${FBTERM_RUNNING}" = "x" ]; then
-  if [ -c /dev/fb0 -a -w /dev/fb0 ]; then
-    if type fbset &> /dev/null; then
-      if ! fbset --show | grep 1024x768 &> /dev/null; then
-        fbset --all 1024x768-60
-      fi
-      if type fbterm &> /dev/null; then
-        export FBTERM_RUNNING=true
-        exec fbterm
-      fi
+### FbTerm and GNU Screen
+if [ "x${TERM}" = "xlinux" -a "x${FBTERM_RUNNING}" = "x" -a \
+  -c /dev/fb0 -a -w /dev/fb0 ]; then
+  if type fbset &> /dev/null; then
+    if ! fbset --show | grep 1024x768 &> /dev/null; then
+      fbset --all 1024x768-60
+    fi
+    if type fbterm &> /dev/null; then
+      export FBTERM_RUNNING=true
+      exec fbterm
     fi
   fi
 elif [ ${UID} != 0 -a "x${WINDOW}" = "x" ]; then
   if type screen &> /dev/null; then
-    if ! (screen -ls |egrep -i 'main.+(attached|dead)' &> /dev/null); then
+    if ! (screen -ls |grep -iE 'main.+(attached|dead)' &> /dev/null); then
       exec screen -DRRS main
     fi
   fi
@@ -196,3 +195,10 @@ fi
 if type fortune &> /dev/null; then
   fortune
 fi
+
+# Local Variables:
+# mode: shell-script
+# coding: utf-8-unix
+# indent-tabs-mode: nil
+# sh-basic-offset: 2
+# End:
