@@ -2,6 +2,13 @@
 # -*- mode: ruby; coding: utf-8-unix; indent-tabs-mode: nil -*-
 
 ############################################################
+### libraries
+
+require 'rubygems'
+require 'pit'
+
+
+############################################################
 ### functions
 
 def screen(args)
@@ -16,9 +23,7 @@ def make_sh_wrapper(opts = {})
   prog   = opts[:prog]   && "exec #{opts[:prog]}"
   args   = opts[:args]
 
-  "screen %s %s sh -c '%s %s %s %s'" % [
-    title, number, dir, env, prog, args
-  ]
+  "screen #{title} #{number} sh -c '#{dir} #{env} #{prog} #{args}'"
 end
 
 ############################################################
@@ -50,68 +55,74 @@ commands.instance_eval do |c|
 
   ## startup programs
   case session_name
-  when "daemon"
+  when 'daemon'
     push make_sh_wrapper({
-        :title  => "dbcli.py",
-        :prog   => "/usr/local/bin/dbcli.py",
-        :args   => "status",
+        :title  => 'dbcli.py',
+        :prog   => '/usr/local/bin/dbcli.py',
+        :args   => 'status',
         :number => 1
       })
 
     push make_sh_wrapper({
-        :title  => "wig.rb",
-        :dir    => "~/src/lang/ruby/net-irc/examples",
-        :prog   => "./wig.rb",
-        :args   => "--debug",
+        :title  => 'wig.rb',
+        :dir    => '~/src/lang/ruby/net-irc/examples',
+        :prog   => './wig.rb',
+        :args   => '--debug',
         :number => 2
       })
-
     push make_sh_wrapper({
-        :title  => "tig.rb",
-        :dir    => "~/src/lang/ruby/net-irc/examples",
-        :prog   => "./tig.rb",
-        :args   => "--debug",
+        :title  => 'tig.rb',
+        :dir    => '~/src/lang/ruby/net-irc/examples',
+        :prog   => './tig.rb',
+        :args   => '--debug',
         :number => 3
       })
 
     push make_sh_wrapper({
-        :title  => "tiarra",
-        :dir    => "~/.tiarra",
-        :prog   => "~/src/lang/perl/tiarra/tiarra",
+        :title  => 'tiarra',
+        :dir    => '~/.tiarra',
+        :prog   => '~/src/lang/perl/tiarra/tiarra',
         :number => 5
       })
 
     push make_sh_wrapper({
-        :title  => "mobirc",
-        :dir    => "~/src/lang/perl/mobirc",
-        :env    => "DEBUG=1",
-        :prog   => "./mobirc",
+        :title  => 'tiarra',
+        :dir    => '~/.tiarra',
+        :prog   => '~/src/lang/perl/tiarra/tiarra',
+        :args   => '--config=fetch-title-bot.conf --debug',
         :number => 6
       })
 
     push make_sh_wrapper({
-        :title  => "fastri",
-        :prog   => "fastri-server",
+        :title  => 'mobirc',
+        :dir    => '~/src/lang/perl/mobirc',
+        :env    => 'DEBUG=1',
+        :prog   => './mobirc',
+        :number => 7
+      })
+
+    push make_sh_wrapper({
+        :title  => 'fastri',
+        :prog   => 'fastri-server',
         :number => 8
       })
 
-  when "rails"
+  when 'rails'
     push make_sh_wrapper({
-        :title  => "console",
-        :prog   => "./script/console",
+        :title  => 'console',
+        :prog   => './script/console',
         :number => 3
       })
 
     push make_sh_wrapper({
-        :title  => "server",
-        :prog   => "./script/server",
+        :title  => 'server',
+        :prog   => './script/server',
         :number => 4
       })
 
   end
 
-  push "select 0"
-
+  push 'select 0'
 
   ## zombie
   case session_name
