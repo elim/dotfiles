@@ -39,7 +39,7 @@ if [ "$TERM" = "screen" ]; then
 	fi
 	;&
 	*)
-  printf "\033k$cmd[1]:t\033\\"
+  echo -n "\ek$cmd[1]:t\e\\"
   return
   ;;
   esac
