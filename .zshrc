@@ -184,7 +184,16 @@ if type clear &> /dev/null; then
 fi
 
 if type linux_logo &> /dev/null; then
-  linux_logo -a
+  case "$(cat /etc/issue)" in
+    Debian*)
+      linux_logo -L debian
+      ;;
+    Ubuntu*)
+      linux_logo -L ubuntu
+      ;;
+    *)
+      linux_logo -g
+  esac
 fi
 
 if type keychain &> /dev/null; then
@@ -195,6 +204,13 @@ fi
 if type fortune &> /dev/null; then
   fortune
 fi
+
+case "$TERM" in
+  dumb | emacs)
+    PROMPT="%m:%~> "
+    unsetopt zle
+    ;;
+esac
 
 # Local Variables:
 # mode: shell-script
