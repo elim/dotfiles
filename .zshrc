@@ -72,7 +72,8 @@ esac
 
 ### environment variables
 if type emacsclient &> /dev/null; then
-  export EDITOR="emacsclient --alternate-editor=vi"
+  export ALTERNATE_EDITOR=vi
+  export EDITOR=emacsclient
 else
   export EDITOR=vi
 fi
