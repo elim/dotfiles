@@ -111,10 +111,24 @@ colors
 
 # プロンプト設定
 #parameter expansion、command substitute、arthmetic expansionがプロンプト中で行われる。
-setopt prompt_subst
-PROMPT='${WINDOW:+"[$WINDOW]"}[%n@%M]:%c%(#.#.$) '
-RPROMPT='[%~]'
 
+# http://d.hatena.ne.jp/mollifier/20090814/p1
+
+setopt prompt_subst
+autoload -Uz vcs_info
+# zstyle ':vcs_info:*' formats '(%s)-[%b]'
+# zstyle ':vcs_info:*' actionformats '(%s)-[%b|%a]'
+zstyle ':vcs_info:*' formats ' [%b]'
+zstyle ':vcs_info:*' actionformats ' [%b|%a]'
+
+precmd () {
+    psvar=()
+    LANG=en_US.UTF-8 vcs_info
+    [[ -n "$vcs_info_msg_0_" ]] && psvar[1]="$vcs_info_msg_0_"
+}
+
+PROMPT='${WINDOW:+"[$WINDOW]"}[%n@%M]:%c%(#.#.$) '
+RPROMPT="[%~%1(v|%F{green}%1v%f|)]"
 
 # ファイル作成時のパーミッション設定
 umask 022
