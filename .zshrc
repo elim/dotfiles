@@ -212,7 +212,7 @@ if type linux_logo &> /dev/null; then
 fi
 
 if type keychain &> /dev/null; then
-  keychain --nogui ${HOME}/.ssh/id_rsa
+  keychain --nogui --noask ${HOME}/.ssh/id_rsa
   source ${HOME}/.keychain/$(hostname)-sh
 fi
 
