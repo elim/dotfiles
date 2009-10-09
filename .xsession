@@ -55,28 +55,17 @@ fi
 #     fi
 # done
 
-if type screen &> /dev/null; then
-	EXEC_SCREEN="-e screen -UOxRR"
-else
-	EXEC_SCREEN=""
+if [ ${UNAME} != "Darwin" ]; then
+  if type gnome-terminal &> /dev/null; then
+    TERMINAL="gnome-terminal --title $(hostname)"
+  elif type xterm &> /dev/null; then
+    TERMINAL="xterm -T $(hostname)"
+  fi
+  ${TERMINAL} &
 fi
 
-if type gnome-terminal &> /dev/null; then
-	TERMINAL="gnome-terminal --title $(hostname)"
-elif type mlterm &> /dev/null; then
-	TERMINAL="mlterm --title $(hostname)" 
-elif type xterm &> /dev/null; then
-	TERMINAL="xterm -T $(hostname)"
-fi
-
-${TERMINAL} ${EXEC_SCREEN} &
-
-if type gnome-session &> /dev/null; then
-   gnome-session
-elif type fluxbox &> /dev/null; then
-    fluxbox
-elif type quartz-wm &> /dev/null; then
-    quartz-wm
-elif type twm &> /dev/null; then
-    twm
-fi
+for WM in quartz-wm gnome-session fluxbox twm; do
+  if type ${WM} &> /dev/null; then
+    ${WM}; exit
+  fi
+done
