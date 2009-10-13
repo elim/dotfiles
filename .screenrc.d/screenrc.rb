@@ -34,15 +34,9 @@ commands = []
 
 commands.instance_eval do |c|
   ## encoding
-  case RUBY_PLATFORM
-  when /cygwin/
-    encoding = 'SJIS'
-  else
-    encoding = 'UTF-8'
-    push 'defutf8 on'
-    push 'cjkwidth on'
-  end
-
+  encoding = 'UTF-8'
+  push 'defutf8 on'
+  push 'cjkwidth on'
   push "defencoding #{encoding}"
   push "encoding #{encoding} #{encoding}"
 

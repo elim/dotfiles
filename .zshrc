@@ -20,16 +20,8 @@ typeset -U fpath
 export PATH
 
 ### LANGUAGE
-case ${UNAME} in 
-  FreeBSD|Linux|Darwin)
-    export LANG=en_US.UTF-8
-    export LC_CTYPE=ja_JP.UTF-8
-    ;;
-  CYGWIN*)
-    export LANG=en_US.UTF-8
-    export LC_CTYPE=ja_JP.SJIS
-    ;;
-esac
+export LANG=en_US.UTF-8
+export LC_CTYPE=ja_JP.UTF-8
 
 ### FbTerm and GNU Screen
 if [ "x${TERM}" = "xlinux" -a "x${FBTERM_RUNNING}" = "x" -a \
