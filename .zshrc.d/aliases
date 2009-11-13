@@ -68,3 +68,4 @@ case ${UNAME} in
     alias emacs='XMODIFIERS="@im=none" emacs'
     ;;
 esac
+alias ec='emacsclient -n'
