@@ -170,6 +170,11 @@ autoload -U history-search-end
 zle -N history-beginning-search-backward-end history-search-end
 zle -N history-beginning-search-forward-end history-search-end
 
+
+# http://subtech.g.hatena.ne.jp/secondlife/20091124/1259041009
+bindkey '^R' history-incremental-pattern-search-backward
+bindkey '^S' history-incremental-pattern-search-forward
+
 # tcsh 風味の単語削除
 tcsh-backward-delete-word () {
   local WORDCHARS="${WORDCHARS:s#/#}"
