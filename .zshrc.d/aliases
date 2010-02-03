@@ -36,17 +36,10 @@ esac
 alias \\ls=ls
 
 # lv
-case ${UNAME} in 
-  CYGWIN*)
-    export LV='-Os -c'
-    ;;
-  *)
-    export LV='-Ou8 -c'
-    ;;
-esac
+export LV='-Ou8 -c'
 
 # grep 
-alias grep='grep --color=auto'
+alias grep='grep --color=always'
 
 # emacsen
 case ${UNAME} in 
