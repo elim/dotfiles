@@ -50,7 +50,6 @@ if [ "$TERM" = "screen" ]; then
     cmd=(${(z)${(e):-\$jt$num}})
     printf "\033k$cmd[1]:t\033\\") 2>/dev/null
   }
-  chpwd
 fi
 
 case ${UNAME} in 
