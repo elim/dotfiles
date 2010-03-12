@@ -10,6 +10,9 @@ case ${UNAME} in
       PATH="/opt/local/bin:/opt/local/sbin/:${PATH}"
     fi
     ;;
+  CYGWIN*)
+    PATH="/usr/bin:/usr/sbin:${PATH}"
+    ;;
 esac
 PATH="${HOME}/bin:/usr/games:/usr/local/bin:/usr/local/sbin:${PATH}"
 
