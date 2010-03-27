@@ -41,6 +41,11 @@ export LV='-Ou8 -c'
 # grep 
 alias grep='grep --color=always'
 
+# Vim
+if type vim &> /dev/null; then
+  alias vi=vim
+fi
+
 # emacsen
 case ${UNAME} in 
   Darwin)
