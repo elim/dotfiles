@@ -16,7 +16,7 @@ function chpwd() {
 # zle -N cdup
 
 ## http://nijino.homelinux.net/diary/200206.shtml#200206140
-if [ "$TERM" = "screen" ]; then
+if [[ "$TERM" = "screen" ]]; then
   function preexec() {
     # see [zsh-workers:13180]
     # http://www.zsh.org/mla/workers/2000/msg03993.html
@@ -57,7 +57,7 @@ case ${UNAME} in
     function open() {
       local prog arg
 
-      if [ "$#" -gt 0 ]; then
+      if [[ "$#" -gt 0 ]]; then
 	case ${1} in
 	  -a)
 	    shift
@@ -73,7 +73,7 @@ case ${UNAME} in
 	  -e)
 	    prog="emacsclient --no-wait"
 	    shift
-	    if [ "$#" = 0 ]; then
+	    if [[ "$#" = 0 ]]; then
 	      echo "hmm... missing argument(s)."
 	      return
 	    fi
@@ -87,7 +87,7 @@ case ${UNAME} in
 	return
       fi
       
-      while [ "$#" -gt 0 ]; do
+      while [[ "$#" -gt 0 ]]; do
 	arg="${arg} ${1}"
 	shift
       done
@@ -99,7 +99,7 @@ case ${UNAME} in
       local prev_hibernatemode
       prev_hibernatemode=$(pmset -g | awk '/hibernatemode/ {print $2}')
 
-      if [ "$#" -gt 0 ]; then
+      if [[ "$#" -gt 0 ]]; then
 	case ${1} in
           -s|--safe) sudo pmset -a hibernatemode 3 ;;
           -d|--deep) sudo pmset -a hibernatemode 1 ;;
