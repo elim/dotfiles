@@ -65,6 +65,14 @@ case ${UNAME} in
     ;;
 esac
 
+#####################################################################
+## 各種設定を include
+## （$ZUSERDIR は .zshenv で指定）
+
+for conf in ${ZUSERDIR}/*; do
+  source "${conf}"
+done
+
 ### environment variables
 if type emacsclient &> /dev/null; then
   export ALTERNATE_EDITOR=vi
