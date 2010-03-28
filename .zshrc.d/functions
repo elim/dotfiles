@@ -142,7 +142,9 @@ function zsh-implement-p() {
   else
     case ${1} in
       history-incremental-pattern-search)
-        zsh-grater-version-p 4.3.9
+        if zle -al |grep history-incremental-pattern-search; then
+          return 0
+        fi
         ;;
       vcs_info)
         local p
