@@ -14,7 +14,7 @@ case ${UNAME} in
     PATH="/usr/bin:/usr/sbin:${PATH}"
     ;;
 esac
-PATH="${HOME}/bin:/usr/games:/usr/local/bin:/usr/local/sbin:${PATH}"
+PATH="${HOME}/bin:${HOME}/local/bin:/usr/games:/usr/local/bin:/usr/local/sbin:${PATH}"
 
 ## 重複を許可しない
 typeset -U path PATH
