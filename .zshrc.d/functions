@@ -144,6 +144,8 @@ function zsh-implement-p() {
       history-incremental-pattern-search)
         if zle -al |grep history-incremental-pattern-search; then
           return 0
+        else
+          return 1
         fi
         ;;
       vcs_info)
