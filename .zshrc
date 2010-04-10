@@ -119,22 +119,24 @@ colors
 
 setopt prompt_subst
 
-if zsh-implement-p vcs_info; then
-  autoload -Uz vcs_info
+for _fpath in $fpath; do
+  if [[ -e ${_fpath}/vcs_info ]]; then
+    autoload -Uz vcs_info
 
-  zstyle ':vcs_info:*' enable git svn hg bzr
-  zstyle ':vcs_info:bzr:*' use-simple true
-  zstyle ':vcs_info:(svn|bzr):*' branchformat '%b:r%r'
-  zstyle ':vcs_info:*' formats ' [%b]'
-  zstyle ':vcs_info:*' actionformats ' [%b|%a]'
+    zstyle ':vcs_info:*' enable git svn hg bzr
+    zstyle ':vcs_info:bzr:*' use-simple true
+    zstyle ':vcs_info:(svn|bzr):*' branchformat '%b:r%r'
+    zstyle ':vcs_info:*' formats ' [%b]'
+    zstyle ':vcs_info:*' actionformats ' [%b|%a]'
 
-  precmd () {
-    psvar=()
-    LANG=en_US.UTF-8 vcs_info
-    [[ -n "$vcs_info_msg_0_" ]] && psvar[1]="$vcs_info_msg_0_"
-  }
-fi
-
+    precmd () {
+      psvar=()
+      LANG=en_US.UTF-8 vcs_info
+      [[ -n "$vcs_info_msg_0_" ]] && psvar[1]="$vcs_info_msg_0_"
+    }
+  fi
+done
+unset _fpath
 
 PROMPT='${WINDOW:+"[$WINDOW]"}[%n@%M]:%c%(#.#.$) '
 RPROMPT="[%~%1(v|%F{green}%1v%f|)]"
@@ -188,7 +190,7 @@ zle -N history-beginning-search-backward-end history-search-end
 zle -N history-beginning-search-forward-end history-search-end
 
 # http://subtech.g.hatena.ne.jp/secondlife/20091124/1259041009
-if zsh-implement-p history-incremental-pattern-search; then
+if zle -al |grep history-incremental-pattern-search &> /dev/null; then
   bindkey '^R' history-incremental-pattern-search-backward
   bindkey '^S' history-incremental-pattern-search-forward
 fi
