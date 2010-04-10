@@ -209,10 +209,6 @@ for conf in ${ZUSERDIR}/*; do
   source "${conf}"
 done
 
-if type clear &> /dev/null; then
-  clear
-fi
-
 if type linux_logo &> /dev/null; then
   case "$(cat /etc/issue)" in
     Debian*)
