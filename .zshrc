@@ -15,6 +15,7 @@ case ${UNAME} in
     ;;
 esac
 PATH="${HOME}/bin:${HOME}/local/bin:/usr/games:/usr/local/bin:/usr/local/sbin:${PATH}"
+[[ -s $HOME/.rvm/scripts/rvm ]] && source $HOME/.rvm/scripts/rvm
 
 ## 重複を許可しない
 typeset -U path PATH
