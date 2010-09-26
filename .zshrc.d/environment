@@ -12,3 +12,7 @@ Times of major page faults              : %F
 Times of minor page faults              : %R"
 
 export TIME
+
+
+HOMEBREW_VERBOSE=1
+HOMEBREW_DEBUG=1
