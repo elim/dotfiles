@@ -63,12 +63,6 @@ case ${UNAME} in
       alias emacsclient="${carbonclient}"
     fi
     ;;
-  CYGWIN*)
-    if type meadow &> /dev/null; then
-      alias meadow='(HOME=$(cygpath -d ${HOME});PWD=$(cygpath -d ${PWD}) Meadow)'
-      alias emacs='meadow'
-    fi
-    ;;
   *)
     alias emacs='XMODIFIERS="@im=none" emacs'
     ;;
