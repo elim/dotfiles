@@ -14,7 +14,7 @@ alias dpkg='COLUMNS=${COLUMNS:-80} dpkg'
 case ${UNAME} in 
   CYGWIN*)
     alias cmd='CMD'
-    alias start='cmd /cstart'
+    alias start='cygstart'
     ;;
 esac
 
@@ -34,6 +34,13 @@ case ${UNAME} in
     ;;
 esac
 alias \\ls=ls
+
+case ${UNAME} in
+  CYGWIN*)
+    alias open='cygstart'
+    alias start='cygstart'
+    ;;
+esac
 
 # lv
 export LV='-Ou8 -c'
