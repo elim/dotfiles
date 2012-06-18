@@ -49,9 +49,7 @@ export LV='-Ou8 -c'
 alias grep='grep --color=always'
 
 # Vim
-if type vim &> /dev/null; then
-  alias vi=vim
-fi
+type vim &> /dev/null && alias vi=vim
 
 # emacsen
 case ${UNAME} in 
