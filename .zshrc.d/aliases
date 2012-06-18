@@ -8,10 +8,10 @@ alias -g S='| sed'
 alias -g T='| tail'
 alias -g W='| wc'
 
-alias dpkg='COLUMNS=${COLUMNS:-80} dpkg' 
+alias dpkg='COLUMNS=${COLUMNS:-80} dpkg'
 
 # shell
-case ${UNAME} in 
+case ${UNAME} in
   CYGWIN*)
     alias cmd='CMD'
     alias start='cygstart'
@@ -22,7 +22,7 @@ esac
 alias ll='ls -alF'
 alias la='ls -aF'
 
-case ${UNAME} in 
+case ${UNAME} in
   FreeBSD|Darwin)
     alias ls='ls -wGF'
     ;;
@@ -45,7 +45,7 @@ esac
 # lv
 export LV='-Ou8 -c'
 
-# grep 
+# grep
 alias grep='grep --color=always'
 
 # git / hub
@@ -58,7 +58,7 @@ fi
 type vim &> /dev/null && alias vi=vim
 
 # emacsen
-case ${UNAME} in 
+case ${UNAME} in
   Darwin)
     carbon=/Applications/Emacs.app/Contents/MacOS/Emacs
     carbonclient=/Applications/Emacs.app/Contents/MacOS/bin/emacsclient
