@@ -14,6 +14,11 @@ case ${UNAME} in
     PATH="/usr/bin:/usr/sbin:${PATH}"
     ;;
 esac
+
+if [ -d $HOME/.nodebrew/current/bin ]; then
+  PATH=$HOME/.nodebrew/current/bin:$PATH
+fi
+
 PATH="${HOME}/bin:${HOME}/local/bin:/usr/games:/usr/local/bin:/usr/local/sbin:${PATH}"
 [[ -s $HOME/.rvm/scripts/rvm ]] && source $HOME/.rvm/scripts/rvm
 
