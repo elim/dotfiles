@@ -8,13 +8,13 @@ alias -g S='| sed'
 alias -g T='| tail'
 alias -g W='| wc'
 
-alias dpkg='COLUMNS=${COLUMNS:-80} dpkg' 
+alias dpkg='COLUMNS=${COLUMNS:-80} dpkg'
 
 # shell
-case ${UNAME} in 
+case ${UNAME} in
   CYGWIN*)
     alias cmd='CMD'
-    alias start='cmd /cstart'
+    alias start='cygstart'
     ;;
 esac
 
@@ -22,7 +22,7 @@ esac
 alias ll='ls -alF'
 alias la='ls -aF'
 
-case ${UNAME} in 
+case ${UNAME} in
   FreeBSD|Darwin)
     alias ls='ls -wGF'
     ;;
@@ -35,10 +35,17 @@ case ${UNAME} in
 esac
 alias \\ls=ls
 
+case ${UNAME} in
+  CYGWIN*)
+    alias open='cygstart'
+    alias start='cygstart'
+    ;;
+esac
+
 # lv
 export LV='-Ou8 -c'
 
-# grep 
+# grep
 alias grep='grep --color=always'
 
 # git
@@ -52,20 +59,17 @@ if type vim &> /dev/null; then
   alias vi=vim
 fi
 
+# Vim
+type vim &> /dev/null && alias vi=vim
+
 # emacsen
-case ${UNAME} in 
+case ${UNAME} in
   Darwin)
     carbon=/Applications/Emacs.app/Contents/MacOS/Emacs
     carbonclient=/Applications/Emacs.app/Contents/MacOS/bin/emacsclient
     if [ -x ${carbon} ]; then
       alias emacs="${carbon}"
       alias emacsclient="${carbonclient}"
-    fi
-    ;;
-  CYGWIN*)
-    if type meadow &> /dev/null; then
-      alias meadow='(HOME=$(cygpath -d ${HOME});PWD=$(cygpath -d ${PWD}) Meadow)'
-      alias emacs='meadow'
     fi
     ;;
   *)

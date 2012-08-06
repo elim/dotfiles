@@ -4,6 +4,13 @@
 
 export UNAME=$(uname)
 
+### Cygwin 1.7
+case ${UNAME} in
+  CYGWIN*)
+    unset nodosfilewarning
+    ;;
+esac
+
 # zsh の個人用設定ファイルの位置を指定
 if [ -z ${ZDOTDIR} ]; then
   export ZDOTDIR=${HOME}
