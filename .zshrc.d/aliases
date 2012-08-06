@@ -41,6 +41,12 @@ export LV='-Ou8 -c'
 # grep 
 alias grep='grep --color=always'
 
+# git
+if type hub &> /dev/null; then
+  alias git=hub
+fi
+alias g=git
+
 # Vim
 if type vim &> /dev/null; then
   alias vi=vim
