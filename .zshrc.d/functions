@@ -56,7 +56,48 @@ if [[ "$TERM" = "screen" ]]; then
   }
 fi
 
-case ${UNAME} in 
+case ${UNAME} in
+  CYGWIN*)
+    function open() {
+      local prog arg
+
+      if [[ "$#" -gt 0 ]]; then
+	case ${1} in
+	  -a)
+	    shift
+	    prog="${1}"
+
+	    if ! where ${prog} > /dev/null; then
+	      arg=${prog}
+	      prog="cygstart"
+	    fi
+
+	    shift
+	    ;;
+	  -e)
+	    prog="emacsclient --no-wait"
+	    shift
+	    if [[ "$#" = 0 ]]; then
+	      echo "hmm... missing argument(s)."
+	      return
+	    fi
+	    ;;
+	  *)
+	    prog="cygstart"
+	    ;;
+	esac
+      else
+	echo "hmm... missing argument(s)."
+	return
+      fi
+
+      while [[ "$#" -gt 0 ]]; do
+	arg="${arg} ${1}"
+	shift
+      done
+      eval ${prog} ${arg} &
+    }
+    ;;
   Darwin)
     function zzz() {
       local prev_hibernatemode
