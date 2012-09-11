@@ -1,11 +1,7 @@
 # -*- mode: shell-script; coding: utf-8-unix -*-
 
 ## http://d.hatena.ne.jp/spiritloose/20060927/1159286301
-## http://d.hatena.ne.jp/secondlife/20080218/1203303528
-source ${ZUSERDIR}/cdd
-export CDD_PWD_FILE=${ZUSERDIR}/cdd_pwd_list
 function chpwd() {
-  _reg_pwd_screennum
   ls
 }
 
