@@ -32,6 +32,13 @@ export PATH
 export LANG=en_US.UTF-8
 export LC_CTYPE=ja_JP.UTF-8
 
+### Rubies (rbenv)
+if type rbenv &> /dev/null; then
+  eval "$(rbenv init -)"
+  rbenv global system
+  rbenv rehash;rehash
+fi
+
 ### FbTerm and GNU Screen
 if [ "x${TERM}" = "xlinux" -a "x${FBTERM_RUNNING}" = "x" -a \
   -c /dev/fb0 -a -w /dev/fb0 ]; then
