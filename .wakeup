@@ -1,7 +1,0 @@
-#/bin/sh
-
-cmd=~/bin/server-mount.sh
-
-if [ -x ${cmd} ]; then
-  source ~/bin/server-mount.sh
-fi
