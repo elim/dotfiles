@@ -1,7 +1,7 @@
 ### based on http://namazu.org/%7Esatoru/unimag/3/
 
 ### PATH
-case ${UNAME} in 
+case ${UNAME} in
   Darwin)
     if [ -d /Developer/Tools ]; then
       PATH="/Developer/Tools:${PATH}"
@@ -174,7 +174,7 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 # 補完候補をカーソル選択
 zstyle ':completion:*' menu select=1
 # 補完候補に色付け
-zstyle ':completion:*' list-colors di=34 fi=0  
+zstyle ':completion:*' list-colors di=34 fi=0
 
 #####################################################################
 # key bindings
@@ -187,7 +187,7 @@ zstyle ':completion:*' list-colors di=34 fi=0
 
 # zsh のキーバインドを emacs 風に
 bindkey -e
-bindkey "^w" kill-region 
+bindkey "^w" kill-region
 
 # カーソル位置から前方削除
 # override kill-whole-line
