@@ -1,32 +1,62 @@
-### based on http://namazu.org/%7Esatoru/unimag/3/
+#
+# based on
+# - http://namazu.org/%7Esatoru/unimag/3/
+# - http://yonchu.hatenablog.com/entry/20120415/1334506855
 
-### PATH
+
+#
+# note:
+#
+#   typeset
+#    -U 重複パスを登録しない
+#    -x exportも同時に行う
+#    -T 環境変数へ紐付け
+#
+#   path=xxxx(N-/)
+#     (N-/): 存在しないディレクトリは登録しない
+#     パス(...): ...という条件にマッチするパスのみ残す
+#        N: NULL_GLOBオプションを設定。
+#           globがマッチしなかったり存在しないパスを無視する
+#        -: シンボリックリンク先のパスを評価
+#        /: ディレクトリのみ残す
+#        .: 通常のファイルのみ残す
+
+
+#
+# path
+#
+path=(/Developer/Tools(N-/) ${path})
+path=(/opt/local/bin(N-/) /opt/local/sbin/(N-/) ${path})
+path=(/usr/local/bin(N-/) /usr/local/sbin/(N-/) ${path})
+path=(${HOME}/.nodebrew/current/bin(N-/) ${path})
+path=(${HOME}/bin(N-/) /usr/games(N-/) ${path})
+
+#
+# fpath
+#
+fpath=(${ZUSERDIR}/functions(N-/) ${fpath})
+
+#
+# 重複パスを登録しない
+#
+typeset -U path cdpath fpath manpath
+
+#
+# sudo 用の path を設定
+#
+# - Cygwin には sudo がないので
+#   そのまま path に追加
+#
+typeset -xT SUDO_PATH sudo_path
+typeset -U sudo_path
+sudo_path=({/usr/local,/usr,}/sbin(N-/))
+
 case ${UNAME} in
-  Darwin)
-    if [ -d /Developer/Tools ]; then
-      PATH="/Developer/Tools:${PATH}"
-    fi
-    if [ -d /opt/local/bin ]; then
-      PATH="/opt/local/bin:/opt/local/sbin/:${PATH}"
-    fi
-    ;;
   CYGWIN*)
-    PATH="/usr/bin:/usr/sbin:${PATH}"
+    path=(${path} ${sudo_path})
     ;;
 esac
 
-if [ -d $HOME/.nodebrew/current/bin ]; then
-  PATH=$HOME/.nodebrew/current/bin:$PATH
-fi
-
-PATH="${HOME}/bin:${HOME}/local/bin:/usr/games:/usr/local/bin:/usr/local/sbin:${PATH}"
-[[ -s $HOME/.rvm/scripts/rvm ]] && source $HOME/.rvm/scripts/rvm
-
-## 重複を許可しない
-typeset -U path PATH
-typeset -U fpath
-
-export PATH
 
 ### LANGUAGE
 export LANG=en_US.UTF-8
