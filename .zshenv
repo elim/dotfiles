@@ -17,4 +17,4 @@ if [ -z ${ZDOTDIR} ]; then
 fi
  
 # 切り分けた設定ファイルを読み込むディレクトリを指定
-export ZUSERDIR=${ZDOTDIR}/.zshrc.d
+export ZUSERDIR=${ZDOTDIR}/.zsh.d
