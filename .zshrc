@@ -65,7 +65,7 @@ export LC_CTYPE=ja_JP.UTF-8
 ### Rubies (rbenv)
 if type rbenv &> /dev/null; then
   eval "$(rbenv init -)"
-  rbenv global system
+  rbenv global 2.0.0-preview1
   rbenv rehash;rehash
 fi
 
