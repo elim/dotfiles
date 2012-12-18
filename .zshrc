@@ -251,7 +251,7 @@ bindkey '^W' tcsh-backward-delete-word
 ## 各種設定を include
 ## （$ZUSERDIR は .zshenv で指定）
 
-for conf in ${ZUSERDIR}/*; do
+for conf in ${ZUSERDIR}/**/*~*_*(.); do
   source "${conf}"
 done
 
