@@ -1,5 +1,5 @@
 ## basic
-escape ^l^l
+escape ^z^z
 defscrollback 10000
 defflow off
 startup_message off
