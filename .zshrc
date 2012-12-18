@@ -62,10 +62,11 @@ esac
 export LANG=en_US.UTF-8
 export LC_CTYPE=ja_JP.UTF-8
 
-### Rubies (rbenv)
+### Rubies
 if type rbenv &> /dev/null; then
   eval "$(rbenv init -)"
-  rbenv global 2.0.0-preview1
+  # rbenv global 2.0.0-preview1
+  rbenv global 1.9.3-p327
   rbenv rehash;rehash
 fi
 
