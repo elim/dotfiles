@@ -49,18 +49,14 @@ export LV='-Ou8 -c'
 alias grep='grep --color=always'
 
 # git
-if type hub &> /dev/null; then
-  alias git=hub
-fi
 alias g=git
 
 # Vim
 if type vim &> /dev/null; then
   alias vi=vim
+  export EDITOR=vim
+  export ALTERNATE_EDITOR=vim
 fi
-
-# Vim
-type vim &> /dev/null && alias vi=vim
 
 # emacsen
 case ${UNAME} in
@@ -70,10 +66,22 @@ case ${UNAME} in
     if [ -x ${carbon} ]; then
       alias emacs="${carbon}"
       alias emacsclient="${carbonclient}"
+      alias e="${carbonclient} -n"
+      export EDITOR="${carbonclient} -n"
+      export GIT_EDITOR="${carbonclient}"
     fi
     ;;
   *)
-    alias emacs='XMODIFIERS="@im=none" emacs'
+    if type emacsclient &> /dev/null; then
+      alias emacs='XMODIFIERS="@im=none" emacs'
+      alias e="emacs -n"
+      export EDITOR="emacsclient -n"
+      export GIT_EDITOR="emacsclient"
+    fi
     ;;
 esac
-alias ec='emacsclient -n'
+
+if type e &> /dev/null; then
+else
+  export EDITOR=vi
+fi

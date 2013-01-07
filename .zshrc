@@ -118,12 +118,6 @@ for conf in ${ZUSERDIR}/*; do
 done
 
 ### environment variables
-if type emacsclient &> /dev/null; then
-  export ALTERNATE_EDITOR=vi
-  export EDITOR=emacsclient
-else
-  export EDITOR=vi
-fi
 export PAGER=lv
 export GZIP='-v9N'
 export TZ=JST-9
