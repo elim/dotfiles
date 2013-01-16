@@ -271,6 +271,13 @@ if type fortune &> /dev/null; then
   fortune
 fi
 
+if type brew &> /dev/null; then
+  z_sh=$(brew --prefix)/etc/profile.d/z.sh
+  if [[ -f ${z_sh} ]]; then
+    source $(brew --prefix)/etc/profile.d/z.sh
+  fi
+fi
+
 case "$TERM" in
   dumb | emacs)
     PROMPT="%m:%~> "
