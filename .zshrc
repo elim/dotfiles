@@ -70,22 +70,13 @@ if type rbenv &> /dev/null; then
   rbenv rehash;rehash
 fi
 
-### FbTerm and GNU Screen
-if [ "x${TERM}" = "xlinux" -a "x${FBTERM_RUNNING}" = "x" -a \
-  -c /dev/fb0 -a -w /dev/fb0 ]; then
-  if type fbset &> /dev/null; then
-    if ! fbset --show | grep 1024x768 &> /dev/null; then
-      fbset --all 1024x768-60
-    fi
-    if type fbterm &> /dev/null; then
-      export FBTERM_RUNNING=true
-      exec fbterm
-    fi
-  fi
-elif [ ${UID} != 0 -a "x${WINDOW}" = "x" ]; then
-  if type screen &> /dev/null; then
-    if ! (screen -ls |grep -iE 'main.+(attached|dead)' &> /dev/null); then
-      exec screen -DRRS main
+### tmux
+if [ ${UID} != 0 -a "x${TMUX}" = "x" ]; then
+  if type tmux &> /dev/null; then
+    if ! (tmux ls | grep 'main' &> /dev/null); then
+      exec tmux new-session -s main
+    elif ! (tmux ls | grep -E 'main.+attached' &> /dev/null); then
+      exec tmux attach-session -t main
     fi
   fi
 fi
