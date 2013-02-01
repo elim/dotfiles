@@ -74,9 +74,9 @@ fi
 if [ ${UID} != 0 -a "x${TMUX}" = "x" ]; then
   if type tmux &> /dev/null; then
     if ! (tmux ls | grep 'main' &> /dev/null); then
-      exec tmux new-session -s main
+      tmux new-session -s main
     elif ! (tmux ls | grep -E 'main.+attached' &> /dev/null); then
-      exec tmux attach-session -t main
+      tmux attach-session -t main
     fi
   fi
 fi

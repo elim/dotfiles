@@ -87,7 +87,6 @@ case ${UNAME} in
     ;;
 esac
 
-if type e &> /dev/null; then
-else
+if ! type e &> /dev/null; then
   export EDITOR=vi
 fi
