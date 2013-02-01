@@ -90,3 +90,7 @@ esac
 if ! type e &> /dev/null; then
   export EDITOR=vi
 fi
+
+# bundler
+alias b='bundle'
+alias be='bundle exec'
