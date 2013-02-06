@@ -4,6 +4,7 @@
 
 [alias]
   br = branch
+  brs = "!f() {(for i in `git branch | colrm 1 2`; do echo `git log --date=iso8601 -n 1 --pretty='format:[%ai] %h' $i` $i; done) | sort -r;}; f"
   ci = commit
   co = checkout
   di = diff
