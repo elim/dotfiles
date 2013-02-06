@@ -5,7 +5,7 @@ function realpath() {
 }
 
 function blacklistcheck() {
-  for black in . .. .git .gitignore; do
+  for black in . .. .git; do
     if [ "${1}x" = "${black}x" ];then
       echo 'black'
       return
@@ -18,7 +18,7 @@ dotdir=$(dirname $(realpath ${0}))
 cd $dotdir
 
 for f in .*; do
-  if [ $(blacklistcheck ${f}) = white  ]; then
+  if [ $(blacklistcheck ${f}) = white ]; then
     ln -sfv $(realpath ${f}) ~
   fi
 done
