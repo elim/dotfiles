@@ -54,8 +54,8 @@ alias gco='g co'
 alias gdi='g di'
 alias gpl='g pull'
 alias gps='g push'
-alias gl='g log'
-alias glp='g log -p'
+alias gl='g log --stat'
+alias glp='gl -p'
 
 # Vim
 if type vim &> /dev/null; then
