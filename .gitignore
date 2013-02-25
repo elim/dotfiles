@@ -11,5 +11,6 @@
 /*/test/tmp
 /.bundle
 /.rbenv-version
+/.ruby-version
 /.rvmrc
 /Gemfile.lock
