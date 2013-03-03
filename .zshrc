@@ -65,9 +65,9 @@ export LC_CTYPE=ja_JP.UTF-8
 ### Rubies
 if type rbenv &> /dev/null; then
   eval "$(rbenv init -)"
-  # rbenv global 2.0.0-preview1
-  rbenv global 1.9.3-p327
-  rbenv rehash;rehash
+  rbenv global 2.0.0-p0
+  alias rehash='rbenv rehash && rehash'
+  rehash
 fi
 
 ### tmux
