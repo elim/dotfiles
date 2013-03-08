@@ -262,12 +262,8 @@ if type fortune &> /dev/null; then
   fortune
 fi
 
-if type brew &> /dev/null; then
-  z_sh=$(brew --prefix)/etc/profile.d/z.sh
-  if [[ -f ${z_sh} ]]; then
-    source $(brew --prefix)/etc/profile.d/z.sh
-  fi
-fi
+z_sh=~/src/z/z.sh
+[[ -f ${z_sh} ]] && source ${z_sh}
 
 case "$TERM" in
   dumb | emacs)
