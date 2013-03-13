@@ -187,6 +187,8 @@ esac
 
 # 補完の時に大文字小文字を区別しない
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+
+zstyle ':completion:*' group-name ''
 # 補完候補をカーソル選択
 zstyle ':completion:*' menu select=1
 # 補完候補に色付け
