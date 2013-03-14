@@ -21,3 +21,6 @@
 
 [help]
   autocorrect = 1
+
+[commit]
+  cleanup = whitespace
