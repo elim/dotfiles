@@ -26,8 +26,8 @@
 # path
 #
 path=(/Developer/Tools(N-/) ${path})
-path=(/opt/local/bin(N-/) /opt/local/sbin/(N-/) ${path})
-path=(/usr/local/bin(N-/) /usr/local/sbin/(N-/) ${path})
+path=(/opt/local/bin(N-/) /opt/local/sbin(N-/) ${path})
+path=(/usr/local/bin(N-/) /usr/local/sbin(N-/) ${path})
 path=(/usr/local/share/git-core/contrib/workdir(N-/) ${path})
 path=(/usr/share/git-core/contrib/workdir(N-/) ${path})
 path=(${HOME}/.nodebrew/current/bin(N-/) ${path})
