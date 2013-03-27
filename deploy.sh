@@ -15,7 +15,7 @@ function blacklistcheck() {
 }
 
 dotdir=$(dirname $(realpath ${0}))
-cd $dotdir
+cd ${dotdir}
 
 for f in .*; do
   if [ $(blacklistcheck ${f}) = white ]; then
