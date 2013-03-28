@@ -25,24 +25,21 @@
 #
 # path
 #
+path=(/usr/games(N-/) ${path})
 path=(/Developer/Tools(N-/) ${path})
 path=(/opt/local/bin(N-/) /opt/local/sbin(N-/) ${path})
 path=(/usr/local/bin(N-/) /usr/local/sbin(N-/) ${path})
 path=(/usr/local/share/git-core/contrib/workdir(N-/) ${path})
 path=(/usr/share/git-core/contrib/workdir(N-/) ${path})
-path=(${HOME}/.rbenv/bin(N-/) ${path})
 path=(${HOME}/.nodebrew/current/bin(N-/) ${path})
-path=(${HOME}/bin(N-/) /usr/games(N-/) ${path})
+path=(${HOME}/.rbenv/bin(N-/) ${path})
+path=(${HOME}/.rbenv/shims(N-/) ${path})
+path=(${HOME}/bin(N-/) ${path})
 
 #
 # fpath
 #
 fpath=(${ZUSERDIR}/functions(N-/) ${fpath})
-
-#
-# 重複パスを登録しない
-#
-typeset -U path cdpath fpath manpath
 
 #
 # sudo 用の path を設定
@@ -276,6 +273,11 @@ case "$TERM" in
     unsetopt zle
     ;;
 esac
+
+#
+# Remove duplicate paths
+#
+typeset -U path cdpath fpath manpath
 
 #
 # Homebrew
