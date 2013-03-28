@@ -277,6 +277,13 @@ case "$TERM" in
     ;;
 esac
 
+#
+# Homebrew
+#
+export HOMEBREW_CURL_VERBOSE=1
+export HOMEBREW_VERBOSE=1
+export HOMEBREW_DEBUG=1
+
 # Local Variables:
 # mode: shell-script
 # coding: utf-8-unix
