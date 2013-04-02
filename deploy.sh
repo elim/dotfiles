@@ -1,10 +1,10 @@
 #!/bin/sh
 
-function realpath() {
+realpath() {
   echo $(cd $(dirname ${1}) && pwd)/$(basename $1)
 }
 
-function blacklistcheck() {
+blacklistcheck() {
   for black in . .. .git; do
     if [ "${1}x" = "${black}x" ];then
       echo 'black'
