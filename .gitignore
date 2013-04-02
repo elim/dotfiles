@@ -1,4 +1,6 @@
-.xinitrc
+/.xinitrc
+/.zsh.d/functions/_brew
+
 **.orig
 *.rbc
 *.sassc
