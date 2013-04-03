@@ -272,7 +272,10 @@ export _Z_NO_COMPLETE_CD=1
 z_sh=~/src/z/z.sh
 [[ -f ${z_sh} ]] && source ${z_sh}
 
-case "$TERM" in
+#
+# $TERM
+#
+case "${TERM}" in
   dumb | emacs)
     PROMPT="%m:%~> "
     unsetopt zle
