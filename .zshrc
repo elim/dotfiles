@@ -275,16 +275,16 @@ case "$TERM" in
 esac
 
 #
-# Remove duplicate paths
-#
-typeset -U path cdpath fpath manpath
-
-#
 # Homebrew
 #
 export HOMEBREW_CURL_VERBOSE=1
 export HOMEBREW_VERBOSE=1
 export HOMEBREW_DEBUG=1
+
+#
+# Remove duplicate paths
+#
+typeset -U path cdpath fpath manpath
 
 # Local Variables:
 # mode: shell-script
