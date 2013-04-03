@@ -1,0 +1,15 @@
+**.orig
+*.rbc
+*.sassc
+*~
+.DS_Store
+.Gemfile
+.sass-cache
+.yardoc
+/*/doc
+/*/test/tmp
+/.bundle
+/.rbenv-version
+/.ruby-version
+/.rvmrc
+/Gemfile.lock

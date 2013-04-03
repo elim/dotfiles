@@ -17,7 +17,7 @@
   interactive = auto
 
 [core]
-  excludesfile = ~/.gitignore
+  excludesfile = ~/.global-gitignore
 
 [help]
   autocorrect = 1
