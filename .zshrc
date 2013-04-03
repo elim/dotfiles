@@ -264,6 +264,11 @@ if type fortune &> /dev/null; then
   fortune
 fi
 
+#
+# z
+#
+export _Z_NO_RESOLVE_SYMLINKS=1
+export _Z_NO_COMPLETE_CD=1
 z_sh=~/src/z/z.sh
 [[ -f ${z_sh} ]] && source ${z_sh}
 
