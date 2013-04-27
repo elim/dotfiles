@@ -39,6 +39,7 @@ path=(${HOME}/bin(N-/) ${path})
 #
 # fpath
 #
+fpath=(/usr/local/share/zsh-completions $fpath)
 fpath=(${ZUSERDIR}/functions(N-/) ${fpath})
 
 #
