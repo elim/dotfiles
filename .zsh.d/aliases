@@ -19,8 +19,8 @@ case ${UNAME} in
 esac
 
 # ls
-alias ll='ls -alF'
-alias la='ls -aF'
+alias ll='ls -alFH'
+alias la='ls -aFH'
 
 case ${UNAME} in
   FreeBSD|Darwin)
