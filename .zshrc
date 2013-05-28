@@ -168,7 +168,7 @@ for _fpath in $fpath; do
 done
 unset _fpath
 
-PROMPT='${WINDOW:+"[$WINDOW]"}[%n@%M]:%c%(#.#.$) '
+PROMPT='${WINDOW:+"[$WINDOW]"}[%*][%n@%M]:%c%(#.#.$) '
 RPROMPT="[%~%1(v|%F{green}%1v%f|)]"
 
 # ファイル作成時のパーミッション設定
