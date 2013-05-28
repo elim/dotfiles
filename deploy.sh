@@ -22,8 +22,3 @@ for f in .*; do
     ln -sfv $(realpath ${f}) ~
   fi
 done
-
-_brew=/usr/local/Library/Contributions/brew_zsh_completion.zsh
-if [ -f ${_brew} ]; then
-  ln -sfv ${_brew} ${dotdir}/.zsh.d/functions/_brew
-fi
