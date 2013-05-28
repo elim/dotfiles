@@ -122,8 +122,8 @@ export CVS_RSH=ssh
 ### shell variables
 ## history
 HISTFILE=${ZDOTDIR}/.zhistory         # filename
-HISTSIZE=10000                        # メモリ内の履歴の数
-SAVEHIST=100000                       # 保存される履歴の数
+HISTSIZE=100000                       # メモリ内の履歴の数
+SAVEHIST=1000000                      # 保存される履歴の数
 setopt extended_history               # 履歴ファイルに時刻を記録
 setopt inc_append_history             # 履歴をインクリメンタルに追加
 setopt share_history                  # 履歴の共有
