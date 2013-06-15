@@ -1,10 +1,10 @@
-#!/bin/bash
+#!/bin/sh
 # For non-OS X systems, a placeholder for the program from
 # https://github.com/ChrisJohnsen/tmux-MacOSX-pasteboard
 
 command="$(which reattach-to-user-namespace)"
 
-if [[ -x ${command} ]]; then
+if [ -x ${command} ]; then
   exec ${command} "$@"
 else
   exec "$@"
