@@ -57,6 +57,11 @@ alias gps='g push'
 alias gl='g log --stat'
 alias glp='gl -p'
 
+# diff
+if type colordiff &> /dev/null; then
+  alias diff=colordiff
+fi
+
 # Vim
 if type vim &> /dev/null; then
   alias vi=vim
