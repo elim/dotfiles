@@ -2,9 +2,9 @@
 # For non-OS X systems, a placeholder for the program from
 # https://github.com/ChrisJohnsen/tmux-MacOSX-pasteboard
 
-command="$(which reattach-to-user-namespace)"
+command="reattach-to-user-namespace"
 
-if [ -x ${command} ]; then
+if type ${command} &>/dev/null; then
   exec ${command} "$@"
 else
   exec "$@"
