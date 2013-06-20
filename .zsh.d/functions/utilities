@@ -52,7 +52,7 @@ if [[ "$TERM" = "screen" ]]; then
   }
 fi
 
-case ${UNAME} in
+case ${uname} in
   CYGWIN*)
     function open() {
       local prog arg

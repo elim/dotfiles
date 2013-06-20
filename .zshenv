@@ -2,10 +2,10 @@
 # $Id$
 # based on http://nyan2.tdiary.net/20020923.html#p12
 
-export UNAME=$(uname)
+export uname=$(uname)
 
 ### Cygwin 1.7
-case ${UNAME} in
+case ${uname} in
   CYGWIN*)
     unset nodosfilewarning
     ;;

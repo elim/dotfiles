@@ -11,7 +11,7 @@ alias -g W='| wc'
 alias dpkg='COLUMNS=${COLUMNS:-80} dpkg'
 
 # shell
-case ${UNAME} in
+case ${uname} in
   CYGWIN*)
     alias cmd='CMD'
     alias start='cygstart'
@@ -22,7 +22,7 @@ esac
 alias ll='ls -alFH'
 alias la='ls -aFH'
 
-case ${UNAME} in
+case ${uname} in
   FreeBSD|Darwin)
     alias ls='ls -wGF'
     ;;
@@ -35,7 +35,7 @@ case ${UNAME} in
 esac
 alias \\ls=ls
 
-case ${UNAME} in
+case ${uname} in
   CYGWIN*)
     alias open='cygstart'
     alias start='cygstart'
@@ -70,7 +70,7 @@ if type vim &> /dev/null; then
 fi
 
 # emacsen
-case ${UNAME} in
+case ${uname} in
   Darwin)
     carbon=/Applications/Emacs.app/Contents/MacOS/Emacs
     carbonclient=/Applications/Emacs.app/Contents/MacOS/bin/emacsclient

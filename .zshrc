@@ -59,7 +59,7 @@ typeset -xT SUDO_PATH sudo_path
 typeset -U sudo_path
 sudo_path=({/usr/local,/usr,}/sbin(N-/))
 
-case ${UNAME} in
+case ${uname} in
   CYGWIN*)
     path=(${path} ${sudo_path})
     ;;
@@ -90,7 +90,7 @@ fi
 
 ### Title on Terminal Emulator.
 if [ ${TERM} = screen ]; then
-  case ${UNAME} in
+  case ${uname} in
     CYGWIN*)
       USER=${USERNAME}
       ;;
@@ -99,7 +99,7 @@ if [ ${TERM} = screen ]; then
 fi
 
 ### Core Control
-case ${UNAME} in
+case ${uname} in
   Darwin|FreeBSD|Linux)
     unlimit
     limit core 0
@@ -179,7 +179,7 @@ umask 022
 # デフォルトの補完機能を有効
 autoload -U compinit
 ### 環境依存
-case ${UNAME} in
+case ${uname} in
   CYGWIN*)
     compinit -u
     ;;
