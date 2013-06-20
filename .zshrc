@@ -23,6 +23,11 @@
 
 
 #
+# variable
+#
+_z_user_dir=~/.zsh.d
+
+#
 # path
 #
 path=(/usr/games(N-/) ${path})
@@ -41,7 +46,8 @@ path=(${HOME}/bin(N-/) ${path})
 # fpath
 #
 fpath=(/usr/local/share/zsh-completions $fpath)
-fpath=(${ZUSERDIR}/functions(N-/) ${fpath})
+fpath=(${_z_user_dir}/completions(N-/) ${fpath})
+fpath=(${_z_user_dir}/functions(N-/) ${fpath})
 
 #
 # sudo 用の path を設定
@@ -101,11 +107,7 @@ case ${UNAME} in
     ;;
 esac
 
-#####################################################################
-## 各種設定を include
-## （$ZUSERDIR は .zshenv で指定）
-
-for conf in ${ZUSERDIR}/*; do
+for conf in ${_z_user_dir}/config/*; do
   source "${conf}"
 done
 
@@ -235,13 +237,6 @@ tcsh-backward-delete-word () {
 zle -N tcsh-backward-delete-word
 bindkey '^W' tcsh-backward-delete-word
 
-#####################################################################
-## 各種設定を include
-## （$ZUSERDIR は .zshenv で指定）
-
-for conf in ${ZUSERDIR}/**/*~*_*(.); do
-  source "${conf}"
-done
 
 if type linux_logo &> /dev/null; then
   case "$(cat /etc/issue)" in
