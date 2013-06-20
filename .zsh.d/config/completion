@@ -1,0 +1,13 @@
+autoload -Uz compinit && compinit
+
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*' menu select=1
+zstyle ':completion:*' list-colors di=34 fi=0
+
+# Local Variables:
+# mode: shell-script
+# coding: utf-8-unix
+# indent-tabs-mode: nil
+# sh-basic-offset: 2
+# End:

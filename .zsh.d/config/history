@@ -1,0 +1,32 @@
+HISTFILE=${HOME}/.zhistory         # filename
+HISTSIZE=100000                       # メモリ内の履歴の数
+SAVEHIST=1000000                      # 保存される履歴の数
+setopt extended_history               # 履歴ファイルに時刻を記録
+setopt inc_append_history             # 履歴をインクリメンタルに追加
+setopt share_history                  # 履歴の共有
+setopt hist_ignore_all_dups           # ヒストリに追加されるコマンド行が古いものと同じなら古いものを削除
+setopt hist_ignore_dups               # 直前と同じコマンドラインはヒストリに追加しない
+setopt hist_ignore_space              # スペースで始まるコマンド行はヒストリリストから削除
+setopt hist_verify                    # ヒストリを呼び出してから実行する間に一旦編集可能
+function history-all { history -E 1 } # 全履歴の一覧を出力する
+
+if [ ${UID} = 0 ]; then               # root のコマンドはヒストリに追加しない
+  unset HISTFILE
+  SAVEHIST=0
+fi
+
+autoload -U history-search-end
+zle -N history-beginning-search-backward-end history-search-end
+zle -N history-beginning-search-forward-end history-search-end
+
+if is-at-least 4.3.10; then
+  bindkey '^R' history-incremental-pattern-search-backward
+  bindkey '^S' history-incremental-pattern-search-forward
+fi
+
+# Local Variables:
+# mode: shell-script
+# coding: utf-8-unix
+# indent-tabs-mode: nil
+# sh-basic-offset: 2
+# End:

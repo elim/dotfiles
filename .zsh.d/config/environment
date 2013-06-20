@@ -1,8 +1,27 @@
 # -*- mode: shell-script; coding: utf-8-unix -*-
 
-## http://coderepos.org/share/browser/dotfiles/yosh/tcshrc
+export PAGER=lv
+export GZIP='-v9N'
+export TZ=JST-9
 
-TIME="
+#
+# Homebrew
+#
+# export HOMEBREW_CURL_VERBOSE=1
+# export HOMEBREW_DEBUG=1
+export HOMEBREW_VERBOSE=1
+
+#
+# cvs
+#
+export CVSEDITOR=${EDITOR}
+export CVSROOT="${HOME}/var/cvs_db"
+export CVS_RSH=ssh
+
+#
+# time
+#
+export TIME="
 Time spent in user mode   (CPU seconds) : %Us
 Time spent in kernel mode (CPU seconds) : %Ss
 Total time                              : %Es
@@ -10,9 +29,3 @@ CPU utilisation (percentage)            : %P
 Times the process was swapped           : %W
 Times of major page faults              : %F
 Times of minor page faults              : %R"
-
-export TIME
-
-
-HOMEBREW_VERBOSE=1
-HOMEBREW_DEBUG=1

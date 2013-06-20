@@ -1,0 +1,12 @@
+bindkey -e
+bindkey "^w" kill-region
+bindkey '^U' backward-kill-line
+bindkey "^P" history-beginning-search-backward-end
+bindkey "^N" history-beginning-search-forward-end
+
+# Local Variables:
+# mode: shell-script
+# coding: utf-8-unix
+# indent-tabs-mode: nil
+# sh-basic-offset: 2
+# End:
