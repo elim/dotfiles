@@ -286,9 +286,9 @@ esac
 #
 # Homebrew
 #
-export HOMEBREW_CURL_VERBOSE=1
+# export HOMEBREW_CURL_VERBOSE=1
+# export HOMEBREW_DEBUG=1
 export HOMEBREW_VERBOSE=1
-export HOMEBREW_DEBUG=1
 
 #
 # Remove duplicate paths
