@@ -140,6 +140,9 @@ if [ ${UID} = 0 ]; then               # root のコマンドはヒストリに�
   SAVEHIST=0
 fi
 
+# enable hooks
+autoload -U add-zsh-hook
+
 # プロンプトのカラー表示を有効
 autoload -U colors
 colors
@@ -161,17 +164,44 @@ for _fpath in $fpath; do
     zstyle ':vcs_info:*' formats ' [%b]'
     zstyle ':vcs_info:*' actionformats ' [%b|%a]'
 
-    precmd () {
+    _invoke_vcs_info () {
       psvar=()
       LANG=en_US.UTF-8 vcs_info
       [[ -n "$vcs_info_msg_0_" ]] && psvar[1]="$vcs_info_msg_0_"
     }
+    add-zsh-hook precmd _invoke_vcs_info
   fi
 done
 unset _fpath
 
-PROMPT='${WINDOW:+"[$WINDOW]"}[%*][%n@%M]:%c%(#.#.$) '
-RPROMPT="[%~%1(v|%F{green}%1v%f|)]"
+_git_prompt_sh=/usr/local/etc/bash_completion.d/git-prompt.sh
+if [[ -f $_git_prompt_sh ]]; then
+  GIT_PS1_SHOWUNTRACKEDFILES=1    
+  GIT_PS1_SHOWDIRTYSTATE=1
+  GIT_PS1_SHOWUPSTREAM="verbose"
+  source $_git_prompt_sh
+
+    _invoke_git_prompt () {
+      if [[ -n "$psvar" ]]; then
+        LANG=en_US.UTF-8 __git_ps1=$(__git_ps1)
+
+        if [[ -n "$__git_ps1" ]]; then
+          psvar="${__git_ps1}"
+        fi
+      fi
+    }
+    add-zsh-hook precmd _invoke_git_prompt
+fi
+
+if [[ -n "$SSH_CONNECTION" ]]; then
+  _host_color='red'
+else
+  _host_color='green'
+fi
+
+PROMPT="%F{$_host_color}%n@%m%f:%F{yellow}%c%F{red}%1(v|%1v|)%f %(#.#.$) "
+RPROMPT="%F{yellow}[%~]%f"
+
 
 # ファイル作成時のパーミッション設定
 umask 022
