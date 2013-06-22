@@ -1,10 +1,5 @@
 # -*- mode: shell-script; coding: utf-8-unix -*-
 
-## http://d.hatena.ne.jp/spiritloose/20060927/1159286301
-function chpwd() {
-  ls
-}
-
 ## http://kitaj.no-ip.com/tdiary/20060927.html
 # function cdup() {
 #   echo

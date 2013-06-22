@@ -1,0 +1,12 @@
+#
+# http://d.hatena.ne.jp/spiritloose/20060927/1159286301
+#
+function _ls_on_chpwd() {
+  ls
+}
+
+add-zsh-hook chpwd _ls_on_chpwd
+
+# Local Variables:
+# mode: sh
+# End:
