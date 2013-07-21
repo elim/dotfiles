@@ -85,6 +85,12 @@ autoload -Uz is-at-least
 
 
 #
+# shell functions
+#
+autoload -Uz zman
+
+
+#
 # ruby
 #
 if type rbenv &> /dev/null; then
