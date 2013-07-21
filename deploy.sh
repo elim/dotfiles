@@ -4,21 +4,21 @@ realpath() {
   echo $(cd $(dirname ${1}) && pwd)/$(basename $1)
 }
 
-blacklistcheck() {
+is_in_blacklist() {
   for black in . .. .git; do
     if [ "${1}x" = "${black}x" ];then
-      echo 'black'
+      echo 'true'
       return
     fi
   done
-  echo 'white'
+  echo 'false'
 }
 
 dotdir=$(dirname $(realpath ${0}))
 cd ${dotdir}
 
 for f in .*; do
-  if [ $(blacklistcheck ${f}) = white ]; then
+  if [ $(is_in_blacklist ${f}) = false ]; then
     ln -sfv $(realpath ${f}) ~
   fi
 done
