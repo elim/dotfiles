@@ -22,3 +22,6 @@ for f in .*; do
     ln -sfv $(realpath ${f}) ~
   fi
 done
+
+
+touch ~/.gitconfig-credential
