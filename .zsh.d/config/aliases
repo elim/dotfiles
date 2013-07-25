@@ -49,6 +49,7 @@ export LV='-Ou8 -c'
 alias grep='grep --color=always'
 
 # git
+type hub &> /dev/null && alias git=hub
 alias g=git
 alias gco='g co'
 alias gdi='g di'
