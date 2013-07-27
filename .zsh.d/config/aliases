@@ -52,6 +52,10 @@ alias grep='grep --color=always'
 type hub &> /dev/null && alias git=hub
 alias g=git
 alias gco='g co'
+alias gbr='g br'
+alias gbrs='g brs'
+alias gbrsr='g brsr'
+alias gbrz='g browse'
 alias gdi='g di'
 alias gpl='g pull'
 alias gps='g push'
