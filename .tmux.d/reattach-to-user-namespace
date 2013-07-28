@@ -4,8 +4,8 @@
 
 command="reattach-to-user-namespace"
 
-  exec ${command} "$@"
 if type $command 2>&1 1>/dev/null; then
+  exec $command $@
 else
-  exec "$@"
+  exec $@
 fi
