@@ -4,7 +4,7 @@
 
 command="reattach-to-user-namespace"
 
-if type $command 2>&1 1>/dev/null; then
+if type $command > /dev/null 2>&1; then
   exec $command $@
 else
   [ ${1}x = '-lx' ] && shift
