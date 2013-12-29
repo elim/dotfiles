@@ -23,5 +23,11 @@ for f in .*; do
   fi
 done
 
-
 touch ~/.gitconfig-credential
+
+if [ -d private ]; then
+  cd private
+  sh deploy.sh
+fi
+
+

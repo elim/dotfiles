@@ -1,0 +1,3 @@
+[submodule "private"]
+	path = private
+	url = ssh://git@bitbucket.org/elim/dotfiles-private.git
