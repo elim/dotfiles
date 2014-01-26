@@ -62,6 +62,14 @@ alias gpl='g pull'
 alias gps='g push'
 alias gl='g log --stat'
 alias glp='gl -p'
+alias gr='git-root'
+
+function git-root() {
+  dir=$(git rev-parse --show-toplevel)
+  if [ "${dir}" != "" ]; then
+    cd "${dir}"
+  fi
+}
 
 # diff
 if type colordiff &> /dev/null; then
