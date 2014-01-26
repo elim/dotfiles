@@ -5,7 +5,7 @@ realpath() {
 }
 
 is_in_blacklist() {
-  for black in . .. .git; do
+  for black in . .. .git .rbenv; do
     if [ "${1}x" = "${black}x" ];then
       echo 'true'
       return
@@ -23,6 +23,8 @@ for f in .*; do
   fi
 done
 
+mkdir -p ~/.rbenv
+ln -sfv $(realpath .rbenv/default-gems) ~/.rbenv
 touch ~/.gitconfig-credential
 
 if [ -d private ]; then
