@@ -84,31 +84,27 @@ if type vim &> /dev/null; then
 fi
 
 # emacsen
-case ${uname} in
-  Darwin)
-    carbon=/Applications/Emacs.app/Contents/MacOS/Emacs
-    carbonclient=/Applications/Emacs.app/Contents/MacOS/bin/emacsclient
-    if [ -x ${carbon} ]; then
-      alias emacs="${carbon}"
-      alias emacsclient="${carbonclient}"
-      alias e="${carbonclient} -n"
-      export EDITOR="${carbonclient} -n"
-      export GIT_EDITOR="${carbonclient}"
-    fi
-    ;;
-  *)
-    if type emacsclient &> /dev/null; then
-      alias emacs='XMODIFIERS="@im=none" emacs'
-      alias e="emacs -n"
-      export EDITOR="emacsclient -n"
-      export GIT_EDITOR="emacsclient"
-    fi
-    ;;
-esac
+path=(/Applications/Emacs.app/Contents/MacOS/(N-/)     ${path})
+path=(/Applications/Emacs.app/Contents/MacOS/bin(N-/)  ${path})
+path=(~/Applications/Emacs.app/Contents/MacOS/(N-/)    ${path})
+path=(~/Applications/Emacs.app/Contents/MacOS/bin(N-/) ${path})
 
-if ! type e &> /dev/null; then
-  export EDITOR=vi
+if type Emacs &> /dev/null; then
+    alias emacs_bin=Emacs
+else
+    alias emacs_bin=emacs
 fi
+
+alias emacs='XMODIFIERS="@im=none" emacs_bin'
+
+if type emacsclient &> /dev/null; then
+    alias e="emacsclient -n"
+    export EDITOR="emacsclient -n"
+    export GIT_EDITOR=emacsclient
+else
+    export EDITOR=vi
+fi
+
 
 # bundler
 alias b='bundle'
