@@ -90,16 +90,6 @@ autoload -Uz is-at-least
 # shell functions
 #
 autoload -Uz zman
-
-
-#
-# ruby
-#
-if type rbenv &> /dev/null; then
-  eval "$(rbenv init -)"
-  alias rehash='rbenv rehash && rehash'
-  rehash
-fi
 autoload -Uz title
 
 
@@ -147,6 +137,16 @@ export _Z_NO_RESOLVE_SYMLINKS=1
 export _Z_NO_COMPLETE_CD=1
 z_sh=~/src/z/z.sh
 [[ -f ${z_sh} ]] && source ${z_sh}
+
+
+#
+# ruby
+#
+if type rbenv &> /dev/null; then
+  eval "$(rbenv init -)"
+  alias rehash='rbenv rehash && rehash'
+  rehash
+fi
 
 #
 # $TERM
