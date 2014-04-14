@@ -99,7 +99,7 @@ autoload -Uz title
 if [ ${UID} != 0 -a "x${TMUX}" = "x" ]; then
   if type tmux &> /dev/null; then
     if ! (tmux ls | grep 'main' &> /dev/null); then
-      title main && exec tmux new-session -D -s main
+      title main && sleep 1 && exec tmux new-session -D -s main
     elif ! (tmux ls | grep -E 'main.+attached' &> /dev/null); then
       exec tmux attach-session -t main
     fi
