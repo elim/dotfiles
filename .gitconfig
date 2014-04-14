@@ -3,7 +3,7 @@
   email = takeru.naito@gmail.com
 
 [include]
-  path = ~/.gitconfig-credential
+  path = ~/.gitconfig-local
 
 [alias]
   br = branch
