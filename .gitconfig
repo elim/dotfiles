@@ -13,7 +13,7 @@
 	co = checkout
 	di = diff
 	tr = log --graph --pretty='format:%C(yellow)%h%Creset %s %Cgreen(%an)%Creset %Cred%d%Creset'
-	
+
 	fixup = !sh -c 'git commit -m \"fixup! $(git log -1 --format='\\''%s'\\'' $@)\"' -
 	squash = !sh -c 'git commit -m \"squash! $(git log -1 --format='\\''%s'\\'' $@)\"' -
 	ri = rebase --interactive --autosquash
@@ -49,4 +49,5 @@
 
 # Local Variables:
 # tab-width: 2
+# show-trailing-whitespace: t
 # End:
