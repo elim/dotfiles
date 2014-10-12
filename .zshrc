@@ -72,6 +72,12 @@ esac
 
 
 #
+# GOPATH
+#
+export GOPATH=$HOME
+
+
+#
 # locale
 #
 export LANG=en_US.UTF-8
