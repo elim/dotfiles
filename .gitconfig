@@ -1,47 +1,51 @@
 [user]
-  name = Takeru Naito
-  email = takeru.naito@gmail.com
+	name = Takeru Naito
+	email = takeru.naito@gmail.com
 
 [include]
-  path = ~/.gitconfig-local
+	path = ~/.gitconfig-local
 
 [alias]
-  br = branch
-  brs = "!f() {(for i in `git branch | colrm 1 2`; do echo `git log --date=iso8601 -n 1 --pretty='format:[%ai] %h' $i` $i; done) | sort -r;}; f"
-  brsr = "!f() {(for i in `git branch -r | grep -v HEAD | colrm 1 2`; do echo `git log --date=iso8601 -n 1 --pretty='format:[%ai] %h' $i` $i; done) | sort -r;}; f"
-  ci = commit
-  co = checkout
-  di = diff
-  tr = log --graph --pretty='format:%C(yellow)%h%Creset %s %Cgreen(%an)%Creset %Cred%d%Creset'
-
-  fixup = !sh -c 'git commit -m \"fixup! $(git log -1 --format='\\''%s'\\'' $@)\"' -
-  squash = !sh -c 'git commit -m \"squash! $(git log -1 --format='\\''%s'\\'' $@)\"' -
-  ri = rebase --interactive --autosquash
+	br = branch
+	brs = "!f() {(for i in `git branch | colrm 1 2`; do echo `git log --date=iso8601 -n 1 --pretty='format:[%ai] %h' $i` $i; done) | sort -r;}; f"
+	brsr = "!f() {(for i in `git branch -r | grep -v HEAD | colrm 1 2`; do echo `git log --date=iso8601 -n 1 --pretty='format:[%ai] %h' $i` $i; done) | sort -r;}; f"
+	ci = commit
+	co = checkout
+	di = diff
+	tr = log --graph --pretty='format:%C(yellow)%h%Creset %s %Cgreen(%an)%Creset %Cred%d%Creset'
+	
+	fixup = !sh -c 'git commit -m \"fixup! $(git log -1 --format='\\''%s'\\'' $@)\"' -
+	squash = !sh -c 'git commit -m \"squash! $(git log -1 --format='\\''%s'\\'' $@)\"' -
+	ri = rebase --interactive --autosquash
 
 [color]
-  diff = auto
-  status = auto
-  branch = auto
-  interactive = auto
+	diff = auto
+	status = auto
+	branch = auto
+	interactive = auto
 
 [core]
-  excludesfile = ~/.global-gitignore
-  autocrlf = input
+	excludesfile = ~/.global-gitignore
+	autocrlf = input
 
 [help]
-  autocorrect = 1
+	autocorrect = 1
 
 [commit]
-  cleanup = strip
+	cleanup = strip
 
 [tig "bind"]
-  generic = g move-first-line
-  generic = G move-last-line
+	generic = g move-first-line
+	generic = G move-last-line
 
 [grep]
-  lineNumber = true
+	lineNumber = true
 
 [pager]
-  log  = diff-highlight | less
-  show = diff-highlight | less
-  diff = diff-highlight | less
+	log  = diff-highlight | less
+	show = diff-highlight | less
+	diff = diff-highlight | less
+
+# Local Variables:
+# tab-width: 2
+# End:
