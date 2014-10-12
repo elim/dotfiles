@@ -3,6 +3,8 @@ bindkey "^w" kill-region
 bindkey '^U' backward-kill-line
 bindkey "^P" history-beginning-search-backward-end
 bindkey "^N" history-beginning-search-forward-end
+bindkey "^L" backward-kill-word
+WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 
 # Local Variables:
 # mode: shell-script
