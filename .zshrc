@@ -136,6 +136,7 @@ if type fortune &> /dev/null; then
   fortune
 fi
 
+
 #
 # z
 #
@@ -180,6 +181,19 @@ case "${TERM}" in
     unsetopt zle
     ;;
 esac
+
+
+#
+# widgets
+#
+wpath=(${_z_user_dir}/widgets(N-/) ${wpath})
+for w in ${wpath}/*; do
+  source ${w}
+done
+
+bindkey '^Xo' ghn-open
+bindkey '^Xr' peco-select-history
+bindkey '^Xs' peco-src
 
 
 #
