@@ -45,3 +45,7 @@
 	log  = diff-highlight | less
 	show = diff-highlight | less
 	diff = diff-highlight | less
+
+# Local Variables:
+# tab-width: 2
+# End:
