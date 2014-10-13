@@ -51,18 +51,19 @@ alias grep='grep --color=always'
 # git
 type hub &> /dev/null && alias git=hub
 alias g=git
-alias gco='g co'
+alias gb='g browse'
 alias gbr='g br'
 alias gbrs='g brs'
 alias gbrsr='g brsr'
 alias gbrz='g browse'
-alias gb='g browse'
+alias gco='g co'
 alias gdi='g di'
-alias gpl='g pull'
-alias gps='g push'
 alias gl='g log --stat'
 alias glp='gl -p'
+alias gpl='g pull'
+alias gps='g push'
 alias gr='git-root'
+alias gst='g st'
 
 function git-root() {
   dir=$(git rev-parse --show-toplevel)
