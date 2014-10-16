@@ -64,6 +64,7 @@ alias glp='gl -p'
 alias gpl='g pull'
 alias gps='g push'
 alias gr='git-root'
+alias gref='g ref'
 alias gst='g st'
 
 function git-root() {
