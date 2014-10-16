@@ -43,6 +43,8 @@ path=(${HOME}/.composer/vendor/bin(N-/) ${path})
 path=(${HOME}/.nodebrew/current/bin(N-/) ${path})
 path=(${HOME}/.rbenv/bin(N-/) ${path})
 path=(${HOME}/.rbenv/shims(N-/) ${path})
+path=(${HOME}/.pyenv/bin(N-/) ${path})
+path=(${HOME}/.pyenv/shims(N-/) ${path})
 path=(${HOME}/bin(N-/) ${path})
 
 
