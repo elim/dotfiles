@@ -49,9 +49,9 @@
 	root = ~/src
 
 [pager]
-	log  = diff-highlight | less
-	show = diff-highlight | less
-	diff = diff-highlight | less
+	log  = ~/.git.d/bin/diff-pager
+	show = ~/.git.d/bin/diff-pager
+	diff = ~/.git.d/bin/diff-pager
 
 # Local Variables:
 # tab-width: 2
