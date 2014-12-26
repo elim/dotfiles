@@ -45,6 +45,9 @@
 [grep]
 	lineNumber = true
 
+[ghq]
+	root = ~/src
+
 [pager]
 	log  = diff-highlight | less
 	show = diff-highlight | less
