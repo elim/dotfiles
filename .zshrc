@@ -99,6 +99,8 @@ autoload -Uz is-at-least
 #
 autoload -Uz zman
 autoload -Uz title
+autoload -Uz boot2docker-enter
+autoload -Uz boot2docker-ntp
 
 
 #
