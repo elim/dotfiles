@@ -1,0 +1,1 @@
+boot2docker ssh 'echo -n "before: "; date; sudo ntpclient -s -h pool.ntp.org; echo -n "after:  "; date'
