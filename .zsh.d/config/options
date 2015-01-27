@@ -35,3 +35,4 @@ setopt pushd_ignore_dups
 setopt NO_rm_star_silent
 setopt rm_star_wait
 setopt short_loops
+setopt transient_rprompt
