@@ -49,6 +49,13 @@ path=(${HOME}/bin(N-/) ${path})
 
 
 #
+# コマンドパスを自動で通し npm install -g しない
+# http://qiita.com/Jxck_/items/8f5d1b70b7b5aa6053ee
+#
+export PATH=$PATH:./node_modules/.bin
+
+
+#
 # fpath
 #
 fpath=(/usr/local/share/zsh-completions $fpath)
