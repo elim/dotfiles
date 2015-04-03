@@ -186,18 +186,18 @@ fi
 #
 # Docker
 #
-if type boot2docker-cli &> /dev/null; then
+if type boot2docker &> /dev/null; then
 
   function docker-ip() {
-    boot2docker-cli ip 2>/dev/null
+    boot2docker ip 2>/dev/null
   }
 
   function docker-enter() {
-    boot2docker-cli ssh '[ -f /var/lib/boot2docker/nsenter ] || docker run --rm -v /var/lib/boot2docker/:/target jpetazzo/nsenter'
-    boot2docker-cli ssh -t sudo /var/lib/boot2docker/docker-enter "$@"
+    boot2docker ssh '[ -f /var/lib/boot2docker/nsenter ] || docker run --rm -v /var/lib/boot2docker/:/target jpetazzo/nsenter'
+    boot2docker ssh -t sudo /var/lib/boot2docker/docker-enter "$@"
   }
 
-  export DOCKER_HOST=tcp://$(boot2docker-cli ip 2>/dev/null):2375
+  export DOCKER_HOST=tcp://$(boot2docker ip 2>/dev/null):2375
 fi
 
 
