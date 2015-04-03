@@ -197,7 +197,9 @@ if type boot2docker &> /dev/null; then
     boot2docker ssh -t sudo /var/lib/boot2docker/docker-enter "$@"
   }
 
-  export DOCKER_HOST=tcp://$(boot2docker ip 2>/dev/null):2375
+  if [ "$(boot2docker status)" = "running" ]; then
+    $(boot2docker shellinit 2> /dev/null)
+  fi
 fi
 
 
