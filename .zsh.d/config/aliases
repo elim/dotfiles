@@ -108,7 +108,9 @@ else
     export EDITOR=vi
 fi
 
-
 # bundler
 alias b='bundle'
 alias be='bundle exec'
+
+# vagrant
+alias v=vagrant
