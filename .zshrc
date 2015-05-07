@@ -149,12 +149,19 @@ fi
 
 
 #
-# z
+# cdr
+# http://blog.n-z.jp/blog/2013-11-12-zsh-cdr.html
 #
-export _Z_NO_RESOLVE_SYMLINKS=1
-export _Z_NO_COMPLETE_CD=1
-z_sh=~/src/z/z.sh
-[[ -f ${z_sh} ]] && source ${z_sh}
+if [[ -n $(echo ${^fpath}/chpwd_recent_dirs(N)) && -n $(echo ${^fpath}/cdr(N)) ]]; then
+  autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
+  add-zsh-hook chpwd chpwd_recent_dirs
+  zstyle ':completion:*:*:cdr:*:*' menu selection
+  zstyle ':completion:*' recent-dirs-insert both
+  zstyle ':chpwd:*' recent-dirs-max 500
+  zstyle ':chpwd:*' recent-dirs-default true
+  zstyle ':chpwd:*' recent-dirs-file "${XDG_CACHE_HOME:-$HOME/.cache}/shell/chpwd-recent-dirs"
+  zstyle ':chpwd:*' recent-dirs-pushd true
+fi
 
 
 #
