@@ -23,6 +23,8 @@ for f in .*; do
   fi
 done
 
+mkdir -p ${XDG_CACHE_HOME:-$HOME/.cache}/shell
+
 mkdir -p ~/.rbenv
 ln -sfv $(realpath .rbenv/default-gems) ~/.rbenv
 touch ~/.gitconfig-credential
