@@ -14,6 +14,7 @@
 
 local cmd=""
 local cdto="$PWD"
+local session_name=""
 local args="$@"
 
 if [ -d "$1" ]; then
@@ -21,8 +22,10 @@ if [ -d "$1" ]; then
     args="${@:2}"
 fi
 
+session_name=$(echo $(basename ${cdto}) | cut -d '.' -f 1)
+
 if [ -n "$args" ]; then
-    cmd="; $args"
+    cmd="$args"
 fi
 
 osascript &>/dev/null <<EOF
@@ -30,7 +33,8 @@ osascript &>/dev/null <<EOF
         tell current terminal
             launch session "Default Session"
             tell the last session
-                write text "cd \"$cdto\"$cmd"
+                write text " cd \"${cdto}\"; title \"${session_name}\" && exec tmux new-session -D -s \"${session_name}\" ${cmd}"
+                write text ""
             end tell
         end tell
     end tell
