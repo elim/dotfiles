@@ -216,6 +216,7 @@ fi
 # http://qiita.com/mollifier/items/81b18c012d7841ab33c3
 #
 fpath=($HOME/src/github.com/mollifier/anyframe(N-/) $fpath)
+fpath=(${_z_user_dir}(N-/) ${fpath})
 
 autoload -Uz anyframe-init
 anyframe-init
@@ -231,6 +232,9 @@ bindkey '^x^p' anyframe-widget-put-history
 
 bindkey '^xg'  anyframe-widget-cd-ghq-repository
 bindkey '^x^g' anyframe-widget-cd-ghq-repository
+
+bindkey '^xt'  anyframe-widget-tab-ghq-repository
+bindkey '^x^t' anyframe-widget-tab-ghq-repository
 
 bindkey '^xk'  anyframe-widget-kill
 bindkey '^x^k' anyframe-widget-kill
