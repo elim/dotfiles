@@ -173,6 +173,7 @@ if type rbenv &> /dev/null; then
   alias rehash='rbenv rehash && rehash'
   rehash
 fi
+export RUBYGEMS_GEMDEPS=-
 
 
 #
