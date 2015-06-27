@@ -231,8 +231,8 @@ bindkey '^x^r' anyframe-widget-execute-history
 bindkey '^xp'  anyframe-widget-put-history
 bindkey '^x^p' anyframe-widget-put-history
 
-bindkey '^xg'  anyframe-widget-cd-ghq-repository
-bindkey '^x^g' anyframe-widget-cd-ghq-repository
+bindkey '^xs'  anyframe-widget-cd-ghq-repository
+bindkey '^x^s' anyframe-widget-cd-ghq-repository
 
 bindkey '^xt'  anyframe-widget-tab-ghq-repository
 bindkey '^x^t' anyframe-widget-tab-ghq-repository
