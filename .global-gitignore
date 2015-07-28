@@ -1,15 +1,2 @@
-**.orig
-*.rbc
-*.sassc
 *~
 .DS_Store
-.Gemfile
-.sass-cache
-.yardoc
-/*/doc
-/*/test/tmp
-/.bundle
-/.python-version
-/.rbenv-version
-/.ruby-version
-/.rvmrc
