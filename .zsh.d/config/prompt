@@ -23,35 +23,39 @@ if is-at-least 4.3.7; then
   }
 fi
 
-_git_prompt_sh=/usr/local/etc/bash_completion.d/git-prompt.sh
-if [[ -f $_git_prompt_sh ]]; then
-  GIT_PS1_SHOWUNTRACKEDFILES=1
-  GIT_PS1_SHOWDIRTYSTATE=1
-  GIT_PS1_SHOWUPSTREAM="verbose"
-  source $_git_prompt_sh
+() {
+  local lib=/usr/local/etc/bash_completion.d/git-prompt.sh
 
-  _invoke_git_prompt () {
-    _git_ps1=''
-    LANG=en_US.UTF-8 _git_ps1=$(__git_ps1)
+  if [[ -f $lib ]]; then
+    GIT_PS1_SHOWUNTRACKEDFILES=1
+    GIT_PS1_SHOWDIRTYSTATE=1
+    GIT_PS1_SHOWUPSTREAM="verbose"
+    source $lib
 
-    if [[ -n "$_git_ps1" ]]; then
-      psvar="${_git_ps1}"
-    fi
-  }
-  add-zsh-hook precmd _invoke_git_prompt
-fi
+    _invoke_git_prompt () {
+      _git_ps1=''
+      LANG=en_US.UTF-8 _git_ps1=$(__git_ps1)
 
-if [[ -n "$SSH_CONNECTION" ]]; then
-  _host_color='red'
-else
-  _host_color='green'
-fi
+      if [[ -n "$_git_ps1" ]]; then
+        psvar="${_git_ps1}"
+      fi
+    }
+    add-zsh-hook precmd _invoke_git_prompt
+  fi
+}
 
-PROMPT="%F{$_host_color}%n@%m%f:%F{yellow}%c%F{red}%1(v|%1v|)%f %(#.#.$) "
-RPROMPT="%F{yellow}[%~]%f"
+() {
+  local host_color
 
-unset _git_prompt_sh
-unset _host_color
+  if [[ -n "$SSH_CONNECTION" ]]; then
+    host_color='red'
+  else
+    host_color='green'
+  fi
+
+  PROMPT="%F{$host_color}%n@%m%f:%F{yellow}%c%F{red}%1(v|%1v|)%f %(#.#.$) "
+  RPROMPT="%F{yellow}[%~]%f"
+}
 
 # Local Variables:
 # mode: sh
