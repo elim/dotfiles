@@ -7,6 +7,14 @@ zstyle ':completion:*' list-colors di=34 fi=0
 
 compdef hub=git
 
+() {
+  local aws_completion=/usr/local/share/zsh/site-functions/_aws
+
+  if [[ -f $aws_completion ]]; then
+    source /usr/local/share/zsh/site-functions/_aws
+  fi
+}
+
 # Local Variables:
 # mode: shell-script
 # coding: utf-8-unix
