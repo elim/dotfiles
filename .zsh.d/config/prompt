@@ -22,24 +22,30 @@ if is-at-least 4.3.7; then
 fi
 
 () {
-  local lib=/usr/local/etc/bash_completion.d/git-prompt.sh
+  local lib
+  local -a libs
+  libs=(/usr/local/etc/bash_completion.d/git-prompt.sh /etc/bash_completion.d/git-prompt)
 
-  if [[ -f $lib ]]; then
-    GIT_PS1_SHOWUNTRACKEDFILES=1
-    GIT_PS1_SHOWDIRTYSTATE=1
-    GIT_PS1_SHOWUPSTREAM="verbose"
-    source $lib
+  for l in $libs; do
+    [[ -f $l ]] && lib=$l 
+  done
+  
+  [[ ${lib} = '' ]] && return
+  
+  GIT_PS1_SHOWUNTRACKEDFILES=1
+  GIT_PS1_SHOWDIRTYSTATE=1
+  GIT_PS1_SHOWUPSTREAM="verbose"
+  source $lib
 
-    _invoke_git_prompt () {
-      _git_ps1=''
-      LANG=en_US.UTF-8 _git_ps1=$(__git_ps1)
+  _invoke_git_prompt () {
+    local git_ps1
+    LANG=en_US.UTF-8 git_ps1=$(__git_ps1)
 
-      if [[ -n "$_git_ps1" ]]; then
-        psvar="${_git_ps1}"
-      fi
-    }
-    add-zsh-hook precmd _invoke_git_prompt
-  fi
+    if [[ -n "${git_ps1}" ]]; then
+      psvar="${git_ps1}"
+    fi
+  }
+  add-zsh-hook precmd _invoke_git_prompt
 }
 
 () {
