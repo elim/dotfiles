@@ -1,6 +1,10 @@
 #!/bin/sh
 
-if type diff-highlight &> /dev/null; then
+_debian=/usr/share/doc/git/contrib/diff-highlight/diff-highlight
+
+if [ -f $_debian ]; then
+  cat - | perl $_debian | ${PAGER}  
+elif type diff-highlight &> /dev/null; then
   cat - | diff-highlight | ${PAGER}
 else
   cat - | ${PAGER}
