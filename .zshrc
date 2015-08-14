@@ -45,6 +45,7 @@ path=(${HOME}/.rbenv/bin(N-/) ${path})
 path=(${HOME}/.rbenv/shims(N-/) ${path})
 path=(${HOME}/.pyenv/bin(N-/) ${path})
 path=(${HOME}/.pyenv/shims(N-/) ${path})
+path=(${HOME}/local/bin(N-/) ${HOME}/local/sbin(N-/) ${path})
 path=(${HOME}/bin(N-/) ${path})
 
 
