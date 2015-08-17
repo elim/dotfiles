@@ -87,9 +87,9 @@ if type vim &> /dev/null; then
 fi
 
 # emacsen
-path=(/Applications/Emacs.app/Contents/MacOS/(N-/)     ${path})
+path=(/Applications/Emacs.app/Contents/MacOS(N-/)      ${path})
 path=(/Applications/Emacs.app/Contents/MacOS/bin(N-/)  ${path})
-path=(~/Applications/Emacs.app/Contents/MacOS/(N-/)    ${path})
+path=(~/Applications/Emacs.app/Contents/MacOS(N-/)     ${path})
 path=(~/Applications/Emacs.app/Contents/MacOS/bin(N-/) ${path})
 
 if type Emacs &> /dev/null; then
