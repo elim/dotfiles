@@ -1,0 +1,13 @@
+local branch_name
+local url_base
+
+url_base=$(git remote show -n origin |
+              grep Fetch |
+              gsed 's|.\+ssh://git@bitbucket.org/\(.\+\)\?/\(.\+\)\?.git|https://bitbucket.org/\1/\2/pull-requests/new?t=1\&source=|')
+branch_name=$(git rev-parse --abbrev-ref HEAD)
+
+open "${url_base}${branch_name}"
+
+# Local Variables:
+# mode: sh
+# End:
