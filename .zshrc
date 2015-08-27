@@ -105,9 +105,10 @@ autoload -Uz is-at-least
 #
 # shell functions
 #
-autoload -Uz zman
-autoload -Uz title
+autoload -Uz bbpr
 autoload -Uz tab
+autoload -Uz title
+autoload -Uz zman
 
 
 #
