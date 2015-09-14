@@ -108,6 +108,8 @@ autoload -Uz is-at-least
 autoload -Uz bbpr
 autoload -Uz tab
 autoload -Uz title
+autoload -Uz tmux-grunt-serve
+autoload -Uz tmux-docker-compose
 autoload -Uz zman
 
 

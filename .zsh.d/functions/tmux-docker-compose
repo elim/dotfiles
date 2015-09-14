@@ -1,0 +1,16 @@
+local tmux_window_number=9
+local arg=$*
+
+if [[ "${arg}" != '' ]]; then
+  arg="up"
+fi
+
+git-root
+docker-machine start default
+
+tmux neww -n 'docker-compose' -t ${tmux_window_number} 'eval "$(docker-machine env default)"; docker-compose '"${arg}"
+tmux setw -t ${tmux_window_number} remain-on-exit on
+
+# Local Variables:
+# mode: sh
+# End:
