@@ -1,0 +1,14 @@
+local tmux_window_number=8
+local ui_dir=.
+
+if [[ -d ui ]]; then
+  ui_dir=ui
+fi
+
+git-root
+tmux neww -n 'grunt serve' -t ${tmux_window_number} "cd ${ui_dir} && grunt serve"
+tmux setw -t ${tmux_window_number} remain-on-exit on
+
+# Local Variables:
+# mode: sh
+# End:
