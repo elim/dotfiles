@@ -18,16 +18,6 @@ realpath() {
   echo $(cd $(dirname ${1}) && pwd)/$(basename $1)
 }
 
-zhistory_cloud_link() {
-  local cloud_dir=~/Dropbox
-  local src=${cloud_dir}/__core__/zsh_history
-  local dest=~/.zhistory
-
-  if [ -f ${src} -a ! -f ${dest} ]; then
-    ln -v ${src} ${dest}
-  fi
-}
-
 # --------------------------------------
 # Main
 # --------------------------------------
@@ -46,8 +36,6 @@ mkdir -p ${XDG_CACHE_HOME:-$HOME/.cache}/shell
 mkdir -p ~/.rbenv
 ln -sfv $(realpath .rbenv/default-gems) ~/.rbenv
 touch ~/.gitconfig-credential
-
-zhistory_cloud_link
 
 if [ -d private ]; then
   cd private
