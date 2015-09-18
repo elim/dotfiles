@@ -1,8 +1,8 @@
 #!/bin/sh
 
-realpath() {
-  echo $(cd $(dirname ${1}) && pwd)/$(basename $1)
-}
+# --------------------------------------
+# Declare functions
+# --------------------------------------
 
 is_in_blacklist() {
   for black in . .. .git .rbenv; do
@@ -13,6 +13,14 @@ is_in_blacklist() {
   done
   echo 'false'
 }
+
+realpath() {
+  echo $(cd $(dirname ${1}) && pwd)/$(basename $1)
+}
+
+# --------------------------------------
+# Main
+# --------------------------------------
 
 dotdir=$(dirname $(realpath ${0}))
 cd ${dotdir}
