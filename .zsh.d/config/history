@@ -1,6 +1,16 @@
-HISTFILE=${HOME}/.zhistory         # filename
-HISTSIZE=100000                       # メモリ内の履歴の数
-SAVEHIST=1000000                      # 保存される履歴の数
+() {
+  local hist_dir=$HOME
+  local variables_dotfiles=~/Dropbox/variable-dotfiles
+
+  if [[ -d $variables_dotfiles ]]; then
+    hist_dir=$variables_dotfiles
+  fi
+
+  HISTFILE=${hist_dir}/.zhistory      # filename
+  HISTSIZE=100000                     # メモリ内の履歴の数
+  SAVEHIST=1000000                    # 保存される履歴の数
+}
+
 setopt extended_history               # 履歴ファイルに時刻を記録
 setopt inc_append_history             # 履歴をインクリメンタルに追加
 setopt share_history                  # 履歴の共有
