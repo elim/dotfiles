@@ -4,37 +4,37 @@
 # Declare functions
 # --------------------------------------
 
-is_in_blacklist() {
-  for black in . .. .git .rbenv; do
-    if [ "${1}x" = "${black}x" ];then
-      echo 'true'
-      return
-    fi
-  done
-  echo 'false'
-}
-
 realpath() {
   echo $(cd $(dirname ${1}) && pwd)/$(basename $1)
+}
+
+vcs_link() {
+  local dotdir=$(dirname $(realpath ${0}))
+
+  ln -fvs ${dotdir}/.cvsrc            ~
+  ln -fvs ${dotdir}/.git.d            ~
+  ln -fvs ${dotdir}/.global-gitignore ~
+  ln -fvs ${dotdir}/.my.cnf           ~
+  ln -fvs ${dotdir}/.tmux.conf        ~
+  ln -fvs ${dotdir}/.tmux.d           ~
+  ln -fvs ${dotdir}/.vimrc            ~
+  ln -fvs ${dotdir}/.xsession         ~
+  ln -fvs ${dotdir}/.zsh.d            ~
+  ln -fvs ${dotdir}/.zshenv           ~
+  ln -fvs ${dotdir}/.zshrc            ~
+
+  mkdir -p ~/.rbenv
+  ln -fvs ${dotdir}/.rbenv/default-gems ~/.rbenv
+
 }
 
 # --------------------------------------
 # Main
 # --------------------------------------
 
-dotdir=$(dirname $(realpath ${0}))
-cd ${dotdir}
-
-for f in .*; do
-  if [ $(is_in_blacklist ${f}) = false ]; then
-    ln -sfv $(realpath ${f}) ~
-  fi
-done
+vcs_link
 
 mkdir -p ${XDG_CACHE_HOME:-$HOME/.cache}/shell
-
-mkdir -p ~/.rbenv
-ln -sfv $(realpath .rbenv/default-gems) ~/.rbenv
 touch ~/.gitconfig-credential
 
 if [ -d private ]; then
