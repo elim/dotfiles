@@ -1,7 +1,7 @@
 local tmux_window_number=9
 local arg=$*
 
-if [[ "${arg}" != '' ]]; then
+if [[ "${arg}" = '' ]]; then
   arg="up"
 fi
 
