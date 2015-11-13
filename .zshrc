@@ -171,7 +171,7 @@ fi
 # ruby
 #
 if type rbenv &> /dev/null; then
-  eval "$(rbenv init -)"
+  eval "$(rbenv init - zsh)"
   alias rehash='rbenv rehash && rehash'
   rehash
 fi
