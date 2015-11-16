@@ -1,9 +1,40 @@
+# http://qiita.com/syui/items/ed2d36698a5cc314557d
+
 autoload -Uz compinit && compinit
 
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+# 補完候補をハイライトする
+zstyle ':completion:*:default' menu select=2
+
+# 補完関数の表示を強化する
+zstyle ':completion:*' verbose yes
+zstyle ':completion:*' completer _expand _complete _match _prefix _approximate _list _history
+zstyle ':completion:*:messages' format '%F{YELLOW}%d'$DEFAULT
+zstyle ':completion:*:warnings' format '%F{RED}No matches for:''%F{YELLOW} %d'$DEFAULT
+zstyle ':completion:*:descriptions' format '%F{YELLOW}completing %B%d%b'$DEFAULT
+zstyle ':completion:*:options' description 'yes'
+zstyle ':completion:*:descriptions' format '%F{yellow}Completing %B%d%b%f'$DEFAULT
+
+# マッチ種別を別々に表示
 zstyle ':completion:*' group-name ''
-zstyle ':completion:*' menu select=1
-zstyle ':completion:*' list-colors di=34 fi=0
+
+# セパレータを設定する
+zstyle ':completion:*' list-separator '-->'
+zstyle ':completion:*:manuals' separate-sections true
+
+# ファイル補完候補に色を付ける
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+
+# manの補完をセクション番号別に表示させる
+zstyle ':completion:*:manuals' separate-sections true
+
+# 変数の添字を補完する
+zstyle ':completion:*:*:-subscript-:*' tag-order indexes parameters
+
+# apt-getとかdpkgコマンドをキャッシュを使って速くする
+zstyle ':completion:*' use-cache true
+
+# オブジェクトファイルとか中間ファイルとかはfileとして補完させない
+zstyle ':completion:*:*files' ignored-patterns '*?.o' '*?~' '*\#'
 
 compdef hub=git
 
