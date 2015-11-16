@@ -52,9 +52,11 @@
 	log  = ~/.git.d/bin/diff-pager
 	show = ~/.git.d/bin/diff-pager
 	diff = ~/.git.d/bin/diff-pager
+
+[github]
+	user = elim
+
 [filter "lfs"]
 	clean = git-lfs clean %f
 	smudge = git-lfs smudge %f
 	required = true
-[github]
-	user = elim
