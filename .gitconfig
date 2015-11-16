@@ -53,13 +53,18 @@
 	show = ~/.git.d/bin/diff-pager
 	diff = ~/.git.d/bin/diff-pager
 
-# Local Variables:
-# tab-width: 2
-# show-trailing-whitespace: t
-# End:
+[github]
+	user = elim
+
 [filter "lfs"]
 	clean = git-lfs clean %f
 	smudge = git-lfs smudge %f
 	required = true
-[github]
-	user = elim
+
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path =
+
+[mergetool "sourcetree"]
+	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
