@@ -11,6 +11,7 @@ realpath() {
 vcs_link() {
   local dotdir=$(dirname $(realpath ${0}))
 
+  ln -fvs ${dotdir}/.bashrc           ~
   ln -fvs ${dotdir}/.cvsrc            ~
   ln -fvs ${dotdir}/.git.d            ~
   ln -fvs ${dotdir}/.global-gitignore ~
