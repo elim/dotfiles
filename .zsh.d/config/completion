@@ -24,17 +24,17 @@ zstyle ':completion:*:manuals' separate-sections true
 # ファイル補完候補に色を付ける
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 
-# manの補完をセクション番号別に表示させる
-zstyle ':completion:*:manuals' separate-sections true
+# # manの補完をセクション番号別に表示させる
+# zstyle ':completion:*:manuals' separate-sections true
 
-# 変数の添字を補完する
-zstyle ':completion:*:*:-subscript-:*' tag-order indexes parameters
+# # 変数の添字を補完する
+# zstyle ':completion:*:*:-subscript-:*' tag-order indexes parameters
 
-# apt-getとかdpkgコマンドをキャッシュを使って速くする
-zstyle ':completion:*' use-cache true
+# # apt-getとかdpkgコマンドをキャッシュを使って速くする
+# zstyle ':completion:*' use-cache true
 
-# オブジェクトファイルとか中間ファイルとかはfileとして補完させない
-zstyle ':completion:*:*files' ignored-patterns '*?.o' '*?~' '*\#'
+# # オブジェクトファイルとか中間ファイルとかはfileとして補完させない
+# zstyle ':completion:*:*files' ignored-patterns '*?.o' '*?~' '*\#'
 
 compdef hub=git
 
