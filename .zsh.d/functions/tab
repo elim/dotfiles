@@ -22,7 +22,7 @@ if [ -d "$1" ]; then
     args="${@:2}"
 fi
 
-session_name=$(echo $(basename ${cdto}) | cut -d '.' -f 1)
+session_name=$(echo $(basename ${cdto}) | sed -e 's|\.|-|')
 
 if [ -n "$args" ]; then
     cmd="$args"
