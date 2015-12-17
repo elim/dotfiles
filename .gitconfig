@@ -47,6 +47,7 @@
 
 [ghq]
 	root = ~/src
+	root = ~/Dropbox/src
 
 [pager]
 	log  = ~/.git.d/bin/diff-pager
