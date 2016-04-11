@@ -1,6 +1,7 @@
 [user]
 	name = Takeru Naito
 	email = takeru.naito@gmail.com
+	signingkey = 0A2D3E0E
 
 [include]
 	path = ~/.gitconfig-local
@@ -38,6 +39,7 @@
 
 [commit]
 	cleanup = strip
+	gpgsign = true
 
 [tig "bind"]
 	generic = g move-first-line
@@ -70,3 +72,5 @@
 [mergetool "sourcetree"]
 	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true
+[gpg]
+	program = gpg2
