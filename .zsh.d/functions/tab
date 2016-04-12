@@ -7,7 +7,7 @@
 #     tab                   Opens the current directory in a new tab
 #     tab [PATH]            Open PATH in a new tab
 #     tab [CMD]             Open a new tab and execute CMD
-#     tab [PATH] [CMD] ...  You can prob'ly guess
+#     tab [PATH] [CMD] ...  You can probably guess
 
 # Only for teh Mac users
 [ `uname -s` != "Darwin" ] && return
