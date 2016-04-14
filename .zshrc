@@ -142,7 +142,14 @@ umask 022
 
 
 if type keychain &> /dev/null; then
-  eval $(keychain --inherit any --agents "gpg,ssh" --eval id_rsa 0A2D3E0E)
+  case ${uname} in
+    Darwin)
+      eval $(keychain --inherit any --agents "gpg,ssh" --eval id_rsa 0A2D3E0E)
+      ;;
+    *)
+      eval $(keychain --agents "gpg,ssh" --eval id_rsa 0A2D3E0E)
+      ;;
+  esac
 fi
 
 
