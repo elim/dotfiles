@@ -142,19 +142,8 @@ umask 022
 
 
 if type keychain &> /dev/null; then
-  keychain --nogui --noask ${HOME}/.ssh/id_rsa
-  source ${HOME}/.keychain/$(hostname)-sh
+  eval $(keychain --inherit any --agents "gpg,ssh" --eval id_rsa 0A2D3E0E)
 fi
-
-
-#
-# gpg2
-# https://www.insaneworks.co.jp/kota/git%E3%81%A7%E7%BD%B2%E5%90%8D%E4%BB%98%E3%81%8Dcommits%E3%82%84tag%E3%82%92%E4%BD%9C%E3%82%8B/
-#
-pgrep -q gpg-agent || eval $(gpg-agent --daemon --write-env-file ${HOME}/.gpg-agent-info)
-[ -f ${HOME}/.gpg-agent-info ] && source ${HOME}/.gpg-agent-info
-export GPG_AGENT_INFO
-export GPG_TTY=`tty`
 
 
 if type fortune &> /dev/null; then
