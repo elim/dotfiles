@@ -22,6 +22,7 @@ export ZPLUG_HOME=~/.zplug
   source  $zplug_init
 
   zplug 'felixr/docker-zsh-completion'
+  zplug 'mollifier/anyframe'
   zplug load --verbose
 }
 
@@ -226,7 +227,6 @@ fi
 # anyframe
 # http://qiita.com/mollifier/items/81b18c012d7841ab33c3
 #
-fpath=($HOME/src/github.com/mollifier/anyframe(N-/) $fpath)
 fpath=(${_z_user_dir}(N-/) ${fpath})
 
 autoload -Uz anyframe-init
