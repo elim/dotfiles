@@ -5,6 +5,26 @@
 
 
 #
+# zplug
+#
+export ZPLUG_HOME=~/.zplug
+
+() {
+  local zplug_init=$ZPLUG_HOME/init.zsh
+
+  if [[ ! -f $zplug_init ]]; then
+    echo 'zplug not found.'
+    echo ''
+    echo 'Try: `curl -sL https://git.io/zplug | zsh`'
+    return
+  fi
+
+  source  $zplug_init
+  zplug load --verbose
+}
+
+
+#
 # note:
 #
 #   typeset
