@@ -20,6 +20,8 @@ export ZPLUG_HOME=~/.zplug
   fi
 
   source  $zplug_init
+
+  zplug 'felixr/docker-zsh-completion'
   zplug load --verbose
 }
 
