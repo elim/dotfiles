@@ -161,9 +161,6 @@ done
 # ファイル作成時のパーミッション設定
 umask 022
 
-# zsh のキーバインドを emacs 風に
-
-
 if type keychain &> /dev/null; then
   case ${uname} in
     Darwin)
