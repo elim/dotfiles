@@ -15,7 +15,7 @@ export ZPLUG_HOME=~/.zplug
   if [[ ! -f $zplug_init ]]; then
     echo 'zplug not found.'
     echo ''
-    echo 'Try: `curl -sL https://git.io/zplug | zsh`'
+    echo 'Try: `git clone https://github.com/zplug/zplug $ZPLUG_HOME && exec zsh`'
     return
   fi
 
@@ -23,7 +23,21 @@ export ZPLUG_HOME=~/.zplug
 
   zplug 'felixr/docker-zsh-completion'
   zplug 'mollifier/anyframe'
+  zplug 'mollifier/cd-gitroot'
+  zplug 'zplug/zplug'
+  zplug 'zsh-users/zsh-completions'
+  zplug 'zsh-users/zsh-syntax-highlighting', nice:10
+
+  if ! zplug check --verbose; then
+    printf 'Install? [y/N]: '
+    if read -q; then
+      echo; zplug install
+    fi
+  fi
+
   zplug load --verbose
+
+  fpath=($fpath $ZPLUG_HOME/repos/mollifier/cd-gitroot/(N-/))
 }
 
 
