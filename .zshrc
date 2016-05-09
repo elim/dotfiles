@@ -23,6 +23,14 @@ export ZPLUG_HOME=~/.zplug
 
   zplug 'felixr/docker-zsh-completion'
   zplug 'mollifier/anyframe'
+
+  if ! zplug check --verbose; then
+    printf 'Install? [y/N]: '
+    if read -q; then
+      echo; zplug install
+    fi
+  fi
+
   zplug load --verbose
 }
 
