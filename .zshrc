@@ -23,6 +23,7 @@ export ZPLUG_HOME=~/.zplug
 
   zplug 'felixr/docker-zsh-completion'
   zplug 'mollifier/anyframe'
+  zplug 'mollifier/cd-gitroot'
 
   if ! zplug check --verbose; then
     printf 'Install? [y/N]: '
@@ -32,6 +33,8 @@ export ZPLUG_HOME=~/.zplug
   fi
 
   zplug load --verbose
+
+  fpath=($fpath $ZPLUG_HOME/repos/mollifier/cd-gitroot/(N-/))
 }
 
 
