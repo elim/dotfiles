@@ -15,7 +15,7 @@ export ZPLUG_HOME=~/.zplug
   if [[ ! -f $zplug_init ]]; then
     echo 'zplug not found.'
     echo ''
-    echo 'Try: `curl -sL https://git.io/zplug | zsh`'
+    echo 'Try: `git clone https://github.com/zplug/zplug $ZPLUG_HOME && exec zsh`'
     return
   fi
 
