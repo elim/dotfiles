@@ -26,6 +26,7 @@ export ZPLUG_HOME=~/.zplug
   zplug 'mollifier/cd-gitroot'
   zplug 'zplug/zplug'
   zplug 'zsh-users/zsh-completions'
+  zplug 'zsh-users/zsh-syntax-highlighting', nice:10
 
   if ! zplug check --verbose; then
     printf 'Install? [y/N]: '
