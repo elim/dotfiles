@@ -24,6 +24,7 @@ export ZPLUG_HOME=~/.zplug
   zplug 'felixr/docker-zsh-completion'
   zplug 'mollifier/anyframe'
   zplug 'mollifier/cd-gitroot'
+  zplug 'zplug/zplug'
 
   if ! zplug check --verbose; then
     printf 'Install? [y/N]: '
