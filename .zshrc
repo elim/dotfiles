@@ -25,6 +25,7 @@ export ZPLUG_HOME=~/.zplug
   zplug 'mollifier/anyframe'
   zplug 'mollifier/cd-gitroot'
   zplug 'zplug/zplug'
+  zplug 'zsh-users/zsh-completions'
 
   if ! zplug check --verbose; then
     printf 'Install? [y/N]: '
