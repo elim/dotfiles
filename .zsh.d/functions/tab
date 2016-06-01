@@ -28,16 +28,16 @@ if [ -n "$args" ]; then
     cmd="$args"
 fi
 
-osascript &>/dev/null <<EOF
-    tell application "iTerm"
-        tell current terminal
-            launch session "Default Session"
-            tell the last session
-                write text " cd \"${cdto}\"; title \"${session_name}\" && exec tmux new-session -D -s \"${session_name}\" ${cmd}"
-                write text ""
-            end tell
-        end tell
-    end tell
+osascript -l JavaScript &> /dev/null <<EOF
+var iTerm = Application('iTerm');
+var window = iTerm.currentWindow();
+var tab = window.createTab({ withProfile: 'Default', command: 'sh'});
+var session = tab.currentSession;
+
+session.select();
+session.write({text: 'cd "${cdto}"' });
+session.write({text: 'echo -ne "\\\033]0;"${session_name}"\\\007"' });
+session.write({text: 'PATH=/usr/local/bin/:$PATH exec tmux new-session -D -s "${session_name}" ${cmd}' });
 EOF
 
 # Local Variables:
