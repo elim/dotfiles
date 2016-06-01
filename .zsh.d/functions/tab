@@ -28,18 +28,16 @@ if [ -n "$args" ]; then
     cmd="$args"
 fi
 
-osascript &>/dev/null <<EOF
-tell application "iTerm"
-  tell current window
-    set newTab to (create tab with profile "Default")
-    tell newTab
-      select
-    end tell
-  end tell
-  tell current session of first window
-     write text " cd \"${cdto}\"; title \"${session_name}\" && exec tmux new-session -D -s \"${session_name}\" ${cmd}"
-  end tell
-end tell
+osascript -l JavaScript &> /dev/null <<EOF
+var iTerm = Application('iTerm');
+var window = iTerm.currentWindow();
+var tab = window.createTab({ withProfile: 'Default' });
+var session = tab.currentSession;
+
+session.select();
+session.write({text: ' cd "${cdto}"' });
+session.write({text: ' title "${session_name}"'});
+session.write({text: ' exec tmux new-session -D -s "${session_name}" ${cmd}' });
 EOF
 
 # Local Variables:
