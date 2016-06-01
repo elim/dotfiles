@@ -29,15 +29,17 @@ if [ -n "$args" ]; then
 fi
 
 osascript &>/dev/null <<EOF
-    tell application "iTerm"
-        tell current terminal
-            launch session "Default Session"
-            tell the last session
-                write text " cd \"${cdto}\"; title \"${session_name}\" && exec tmux new-session -D -s \"${session_name}\" ${cmd}"
-                write text ""
-            end tell
-        end tell
+tell application "iTerm"
+  tell current window
+    set newTab to (create tab with profile "Default")
+    tell newTab
+      select
     end tell
+  end tell
+  tell current session of first window
+     write text " cd \"${cdto}\"; title \"${session_name}\" && exec tmux new-session -D -s \"${session_name}\" ${cmd}"
+  end tell
+end tell
 EOF
 
 # Local Variables:
