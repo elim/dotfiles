@@ -75,21 +75,9 @@ path=(/usr/local/share/npm/bin(N-/) ${path})
 path=(/usr/local/share/git-core/contrib/*(N-/) ${path})
 path=(/usr/share/git-core/contrib/*(N-/) ${path})
 path=(/usr/share/doc/git/contrib/*(N-/) ${path})
-path=(${HOME}/.composer/vendor/bin(N-/) ${path})
-path=(${HOME}/.nodebrew/current/bin(N-/) ${path})
-path=(${HOME}/.rbenv/bin(N-/) ${path})
-path=(${HOME}/.rbenv/shims(N-/) ${path})
-path=(${HOME}/.pyenv/bin(N-/) ${path})
-path=(${HOME}/.pyenv/shims(N-/) ${path})
+path=(${HOME}/.anyenv/bin(N-/) ${path})
 path=(${HOME}/local/bin(N-/) ${HOME}/local/sbin(N-/) ${path})
 path=(${HOME}/bin(N-/) ${path})
-
-
-#
-# コマンドパスを自動で通し npm install -g しない
-# http://qiita.com/Jxck_/items/8f5d1b70b7b5aa6053ee
-#
-export PATH=$PATH:./node_modules/.bin
 
 
 #
@@ -208,20 +196,13 @@ fi
 
 
 #
-# ruby
+# anyenv
 #
-if type rbenv &> /dev/null; then
-  eval "$(rbenv init - zsh)"
-  alias rehash='rbenv rehash && rehash'
-  rehash
-fi
-
-
-#
-# python
-#
-if type pyenv &> /dev/null; then
-    eval "$(pyenv init -)";
+if type anyenv &> /dev/null; then
+  eval "$(anyenv init -)"
+  for d in $(ls ~/.anyenv/envs); do
+    path=(${HOME}/.anyenv/envs/${d}/shims $path)
+  done
 fi
 
 
