@@ -74,3 +74,5 @@
 	trustExitCode = true
 [gpg]
 	program = gpg2
+[diff]
+	compactionHeuristic = true
