@@ -200,7 +200,7 @@ fi
 #
 if type anyenv &> /dev/null; then
   eval "$(anyenv init -)"
-  for d in $(ls ~/.anyenv/envs); do
+  for d in $(command ls ~/.anyenv/envs); do
     path=(${HOME}/.anyenv/envs/${d}/shims $path)
   done
 fi
