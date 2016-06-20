@@ -65,22 +65,6 @@ _z_user_dir=~/.zsh.d
 
 
 #
-# path
-#
-path=(/usr/games(N-/) ${path})
-path=(/Developer/Tools(N-/) ${path})
-path=(/opt/local/bin(N-/) /opt/local/sbin(N-/) ${path})
-path=(/usr/local/bin(N-/) /usr/local/sbin(N-/) ${path})
-path=(/usr/local/share/npm/bin(N-/) ${path})
-path=(/usr/local/share/git-core/contrib/*(N-/) ${path})
-path=(/usr/share/git-core/contrib/*(N-/) ${path})
-path=(/usr/share/doc/git/contrib/*(N-/) ${path})
-path=(${HOME}/.anyenv/bin(N-/) ${path})
-path=(${HOME}/local/bin(N-/) ${HOME}/local/sbin(N-/) ${path})
-path=(${HOME}/bin(N-/) ${path})
-
-
-#
 # fpath
 #
 fpath=(/usr/local/share/zsh-completions $fpath)
@@ -192,17 +176,6 @@ if [[ -n $(echo ${^fpath}/chpwd_recent_dirs(N)) && -n $(echo ${^fpath}/cdr(N)) ]
   zstyle ':chpwd:*' recent-dirs-default true
   zstyle ':chpwd:*' recent-dirs-file "${XDG_CACHE_HOME:-$HOME/.cache}/shell/chpwd-recent-dirs"
   zstyle ':chpwd:*' recent-dirs-pushd true
-fi
-
-
-#
-# anyenv
-#
-if type anyenv &> /dev/null; then
-  eval "$(anyenv init -)"
-  for d in $(command ls ~/.anyenv/envs); do
-    path=(${HOME}/.anyenv/envs/${d}/shims $path)
-  done
 fi
 
 
