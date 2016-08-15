@@ -40,6 +40,7 @@ zstyle ':completion:*' use-cache true
 zstyle ':completion:*:*files' ignored-patterns '*?.o' '*?~' '*\#'
 
 compdef hub=git
+compdef sshrc=ssh
 
 () {
   local aws_completion=/usr/local/share/zsh/site-functions/_aws
