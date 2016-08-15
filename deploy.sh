@@ -26,8 +26,9 @@ vcs_link() {
   ln -fvs ${dotdir}/.zshenv           ~
   ln -fvs ${dotdir}/.zshrc            ~
 
-  mkdir -p ~/.rbenv
-  ln -fvs ${dotdir}/.rbenv/default-gems ~/.rbenv
+  local rbenv_dir=$(anyenv root)/envs/rbenv
+  mkdir -p ${rbenv_dir}
+  ln -fvs ${dotdir}/rbenv/default-gems ${rbenv_dir}
 
 }
 
