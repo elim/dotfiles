@@ -16,6 +16,8 @@ vcs_link() {
   ln -fvs ${dotdir}/.git.d            ~
   ln -fvs ${dotdir}/.global-gitignore ~
   ln -fvs ${dotdir}/.my.cnf           ~
+  ln -fvs ${dotdir}/.sshrc            ~
+  ln -fvs ${dotdir}/.sshrc.d          ~
   ln -fvs ${dotdir}/.tmux.conf        ~
   ln -fvs ${dotdir}/.tmux.d           ~
   ln -fvs ${dotdir}/.vimrc            ~
