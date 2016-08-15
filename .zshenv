@@ -29,7 +29,6 @@ path=(${HOME}/.anyenv/bin(N-/) ${path})
 path=(${HOME}/local/bin(N-/) ${HOME}/local/sbin(N-/) ${path})
 path=(${HOME}/bin(N-/) ${path})
 
-echo $path > /tmp/envpath
 
 #
 # anyenv
