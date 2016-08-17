@@ -10,7 +10,7 @@
 #     tab [PATH] [CMD] ...  You can probably guess
 
 # Only for teh Mac users
-[ `uname -s` != "Darwin" ] && return
+[[ `uname -s` != "Darwin" ]] && return
 
 local cmd=""
 local cdto="$PWD"
