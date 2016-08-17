@@ -10,8 +10,10 @@
 #     tab [PATH] [CMD] ...  You can probably guess
 
 # Only for teh Mac users
-[ `uname -s` != "Darwin" ] && return
+[[ `uname -s` != "Darwin" ]] && return
+type tmux &> /dev/null || return
 
+local tmux=$(which tmux)
 local cmd=""
 local cdto="$PWD"
 local session_name=""
@@ -37,7 +39,7 @@ var session = tab.currentSession;
 session.select();
 session.write({text: 'cd "${cdto}"' });
 session.write({text: 'echo -ne "\\\033]0;"${session_name}"\\\007"' });
-session.write({text: 'PATH=/usr/local/bin/:$PATH exec tmux new-session -D -s "${session_name}" ${cmd}' });
+session.write({text: 'exec ${tmux} new-session -D -s "${session_name}" ${cmd}' });
 EOF
 
 # Local Variables:
