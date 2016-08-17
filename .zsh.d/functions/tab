@@ -11,6 +11,7 @@
 
 # Only for teh Mac users
 [[ `uname -s` != "Darwin" ]] && return
+type tmux &> /dev/null || return
 
 local tmux=$(which tmux)
 local cmd=""
