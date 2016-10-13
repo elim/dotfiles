@@ -1,9 +1,9 @@
 () {
-  local hist_dir=$HOME
-  local variables_dotfiles=~/Dropbox/variable-dotfiles
+  local hist_dir=${HOME}
+  local var_dir=${HOME}/Dropbox/var
 
-  if [[ -d $variables_dotfiles ]]; then
-    hist_dir=$variables_dotfiles
+  if [[ -d ${var_dir} ]]; then
+    hist_dir=${var_dir}
   fi
 
   HISTFILE=${hist_dir}/.zhistory      # filename
