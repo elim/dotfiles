@@ -8,6 +8,14 @@ alias -g S='| sed'
 alias -g T='| tail'
 alias -g W='| wc'
 
+() {
+  local a
+
+  for a in ${_z_user_dir}/config/alias.d/*; do
+    source ${a}
+  done
+}
+
 alias dpkg='COLUMNS=${COLUMNS:-80} dpkg'
 
 # shell
@@ -47,26 +55,6 @@ export LV='-Ou8 -c'
 
 # grep
 alias grep='grep --color=always'
-
-# git
-type hub &> /dev/null && alias git=hub
-alias g=git
-alias gb='g browse'
-alias gbr='g br'
-alias gbrs='g brs'
-alias gbrsr='g brsr'
-alias gbrz='g browse'
-alias gco='g co'
-alias gdi='g di'
-alias gg='g grep'
-alias gl='g log --stat --show-signature'
-alias glp='gl -p'
-alias gpl='g pull'
-alias gpr='g pr'
-alias gps='g push'
-alias gr='git-root'
-alias gref='g ref'
-alias gst='g st'
 
 function git-root() {
   dir=$(git rev-parse --show-toplevel)
