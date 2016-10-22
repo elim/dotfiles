@@ -22,9 +22,7 @@ HISTFILE=~/.bash_history-elim
 
 # alias etc... as you like
 source ${SSHHOME}/.sshrc.d/.zsh.d/config/alias.d/git
-
-alias ll='ls -l'
-alias la='ls -A'
+source ${SSHHOME}/.sshrc.d/.zsh.d/config/alias.d/ls
 alias git="HOME=$SSHHOME/.sshrc.d/ git"
 
 # Local Variables:
