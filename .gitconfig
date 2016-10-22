@@ -30,7 +30,6 @@
 	interactive = auto
 
 [core]
-	excludesfile = ~/.global-gitignore
 	autocrlf = input
 	quotepath = false
 
