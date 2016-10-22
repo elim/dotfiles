@@ -1,7 +1,3 @@
-[difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path =
-
 [filter "lfs"]
 	clean = git-lfs clean %f
 	required = true
@@ -21,9 +17,6 @@
 	path = ~/.git.d/common
 	path = ~/.git.d/local
 
-[mergetool "sourcetree"]
-	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
 
 [tig "bind"]
 	generic = g move-first-line
