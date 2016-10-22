@@ -18,10 +18,14 @@ tmux() {
 export VIMINIT="let \$MYVIMRC='$SSHHOME/.sshrc.d/.vimrc' | source \$MYVIMRC"
 export SHELL=$(which bash)
 
+HISTFILE=~/.bash_history-elim
+
 # alias etc... as you like
+source ${SSHHOME}/.sshrc.d/.zsh.d/config/alias.d/git
+
 alias ll='ls -l'
 alias la='ls -A'
-alias git="HOME=$SSHHOME git"
+alias git="HOME=$SSHHOME/.sshrc.d/ git"
 
 # Local Variables:
 # mode: sh

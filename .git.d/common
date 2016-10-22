@@ -38,11 +38,6 @@
 [help]
 	autocorrect = 1
 
-[pager]
-	log  = ~/.git.d/bin/diff-pager
-	show = ~/.git.d/bin/diff-pager
-	diff = ~/.git.d/bin/diff-pager
-
 # Local Variables:
 # mode: gitconfig
 # End:
