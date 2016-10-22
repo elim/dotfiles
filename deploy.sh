@@ -37,11 +37,3 @@ vcs_link() {
 # --------------------------------------
 
 vcs_link
-
-mkdir -p ${XDG_CACHE_HOME:-$HOME/.cache}/shell
-touch ~/.gitconfig-credential
-
-if [ -d private ]; then
-  cd private
-  sh deploy.sh
-fi
