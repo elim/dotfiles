@@ -4,57 +4,16 @@
 	signingkey = 0A2D3E0E
 
 [include]
-	path = ~/.gitconfig-local
-
-[alias]
-	br = branch
-	brs = "!f() {(for i in `git branch | colrm 1 2`; do echo `git log --date=iso8601 -n 1 --pretty='format:[%ai] %h' $i` $i; done) | sort -r;}; f"
-	brsr = "!f() {(for i in `git branch -r | grep -v HEAD | colrm 1 2`; do echo `git log --date=iso8601 -n 1 --pretty='format:[%ai] %h' $i` $i; done) | sort -r;}; f"
-	ci = commit
-	co = checkout
-	di = diff
-	g = grep
-	ref = reflog
-	st = status
-	tr = log --graph --pretty='format:%C(yellow)%h%Creset %s %Cgreen(%an)%Creset %Cred%d%Creset'
-
-	pr = !sh -c 'hub browse -- pull/$(git rev-parse --abbrev-ref HEAD)'
-	fixup = !sh -c 'git commit -m \"fixup! $(git log -1 --format='\\''%s'\\'' $@)\"' -
-	squash = !sh -c 'git commit -m \"squash! $(git log -1 --format='\\''%s'\\'' $@)\"' -
-	ri = rebase --interactive --autosquash
-
-[color]
-	diff = auto
-	status = auto
-	branch = auto
-	interactive = auto
-
-[core]
-	autocrlf = input
-	quotepath = false
-
-[help]
-	autocorrect = 1
-
-[commit]
-	cleanup = strip
-	gpgsign = true
+	path = ~/.git.d/common
+	path = ~/.git.d/local
 
 [tig "bind"]
 	generic = g move-first-line
 	generic = G move-last-line
 
-[grep]
-	lineNumber = true
-
 [ghq]
 	root = ~/src
 	root = ~/Dropbox/src
-
-[pager]
-	log  = ~/.git.d/bin/diff-pager
-	show = ~/.git.d/bin/diff-pager
-	diff = ~/.git.d/bin/diff-pager
 
 [github]
 	user = elim
@@ -71,7 +30,6 @@
 [mergetool "sourcetree"]
 	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true
+
 [gpg]
 	program = gpg2
-[diff]
-	compactionHeuristic = true
