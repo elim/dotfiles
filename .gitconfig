@@ -17,6 +17,10 @@
 	path = ~/.git.d/common
 	path = ~/.git.d/local
 
+[pager]
+	log  = ~/.git.d/bin/diff-pager
+	show = ~/.git.d/bin/diff-pager
+	diff = ~/.git.d/bin/diff-pager
 
 [tig "bind"]
 	generic = g move-first-line
