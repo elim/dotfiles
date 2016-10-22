@@ -26,23 +26,6 @@ case ${uname} in
     ;;
 esac
 
-# ls
-alias ll='ls -alFH'
-alias la='ls -aFH'
-
-case ${uname} in
-  FreeBSD|Darwin)
-    alias ls='ls -wGF'
-    ;;
-  Linux)
-    alias ls='ls -F --color=auto'
-    ;;
-  CYGWIN*)
-    alias ls='ls -F --color=auto --show-control-chars'
-    ;;
-esac
-alias \\ls=ls
-
 case ${uname} in
   CYGWIN*)
     alias open='cygstart'
