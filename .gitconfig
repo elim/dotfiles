@@ -1,15 +1,11 @@
-[user]
-	name = Takeru Naito
-	email = takeru.naito@gmail.com
-	signingkey = 0A2D3E0E
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path =
 
-[include]
-	path = ~/.git.d/common
-	path = ~/.git.d/local
-
-[tig "bind"]
-	generic = g move-first-line
-	generic = G move-last-line
+[filter "lfs"]
+	clean = git-lfs clean %f
+	required = true
+	smudge = git-lfs smudge %f
 
 [ghq]
 	root = ~/src
@@ -18,18 +14,22 @@
 [github]
 	user = elim
 
-[filter "lfs"]
-	clean = git-lfs clean %f
-	smudge = git-lfs smudge %f
-	required = true
+[gpg]
+	program = gpg2
 
-[difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path =
+[include]
+	path = ~/.git.d/common
+	path = ~/.git.d/local
 
 [mergetool "sourcetree"]
 	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true
 
-[gpg]
-	program = gpg2
+[tig "bind"]
+	generic = g move-first-line
+	generic = G move-last-line
+
+[user]
+	email = takeru.naito@gmail.com
+	name = Takeru Naito
+	signingkey = 0A2D3E0E
