@@ -8,7 +8,15 @@ realpath() {
   echo $(cd $(dirname ${1}) && pwd)/$(basename $1)
 }
 
-vcs_link() {
+default_gems() {
+  local dotdir=$(dirname $(realpath ${0}))
+  local rbenv_dir=$(anyenv root)/envs/rbenv
+
+  mkdir -p ${rbenv_dir}
+  ln -fvs ${dotdir}/rbenv/default-gems ${rbenv_dir}
+}
+
+simple_link() {
   local dotdir=$(dirname $(realpath ${0}))
 
   ln -fvs ${dotdir}/.bashrc           ~
@@ -25,15 +33,11 @@ vcs_link() {
   ln -fvs ${dotdir}/.zsh.d            ~
   ln -fvs ${dotdir}/.zshenv           ~
   ln -fvs ${dotdir}/.zshrc            ~
-
-  local rbenv_dir=$(anyenv root)/envs/rbenv
-  mkdir -p ${rbenv_dir}
-  ln -fvs ${dotdir}/rbenv/default-gems ${rbenv_dir}
-
 }
 
 # --------------------------------------
 # Main
 # --------------------------------------
 
-vcs_link
+simple_link
+default_gems
