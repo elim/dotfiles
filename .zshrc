@@ -21,6 +21,7 @@ export ZPLUG_HOME=~/.zplug
 
   source  $zplug_init
 
+  zplug 'elim/git-open', at:feature/separate-url-gitlab, as:command
   zplug 'felixr/docker-zsh-completion'
   zplug 'mollifier/anyframe'
   zplug 'mollifier/cd-gitroot'
