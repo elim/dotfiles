@@ -1,4 +1,9 @@
 [alias]
+  # command
+	fixup = !sh -c 'git commit -m \"fixup! $(git log -1 --format='\\''%s'\\'' $@)\"' -
+	squash = !sh -c 'git commit -m \"squash! $(git log -1 --format='\\''%s'\\'' $@)\"' -
+
+	# shortcut
 	br = branch
 	brs = "!f() {(for i in `git branch | colrm 1 2`; do echo `git log --date=iso8601 -n 1 --pretty='format:[%ai] %h' $i` $i; done) | sort -r;}; f"
 	brsr = "!f() {(for i in `git branch -r | grep -v HEAD | colrm 1 2`; do echo `git log --date=iso8601 -n 1 --pretty='format:[%ai] %h' $i` $i; done) | sort -r;}; f"
@@ -6,14 +11,11 @@
 	co = checkout
 	di = diff
 	g = grep
+	pr = !sh -c 'hub browse -- pull/$(git rev-parse --abbrev-ref HEAD)'
 	ref = reflog
+	ri = rebase --interactive --autosquash
 	st = status
 	tr = log --graph --pretty='format:%C(yellow)%h%Creset %s %Cgreen(%an)%Creset %Cred%d%Creset'
-
-	pr = !sh -c 'hub browse -- pull/$(git rev-parse --abbrev-ref HEAD)'
-	fixup = !sh -c 'git commit -m \"fixup! $(git log -1 --format='\\''%s'\\'' $@)\"' -
-	squash = !sh -c 'git commit -m \"squash! $(git log -1 --format='\\''%s'\\'' $@)\"' -
-	ri = rebase --interactive --autosquash
 
 [color]
 	diff = auto
