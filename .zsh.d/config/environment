@@ -12,13 +12,6 @@ export TZ=JST-9
 export HOMEBREW_VERBOSE=1
 
 #
-# cvs
-#
-export CVSEDITOR=${EDITOR}
-export CVSROOT="${HOME}/var/cvs_db"
-export CVS_RSH=ssh
-
-#
 # time
 #
 export TIME="
@@ -29,9 +22,3 @@ CPU utilisation (percentage)            : %P
 Times the process was swapped           : %W
 Times of major page faults              : %F
 Times of minor page faults              : %R"
-
-#
-# Vagrant
-#
-# Only effect in Customized Vagrant environment.
-export VAGRANT_IDENTIFIER=elim
