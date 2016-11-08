@@ -1,7 +1,8 @@
 # -*- mode: shell-script; coding: utf-8-unix -*-
 
-export PAGER=lv
 export GZIP='-v9N'
+export LESS='-g -i -M -R -S -W -z-4 -x4'
+export PAGER=less
 export TZ=JST-9
 
 #
