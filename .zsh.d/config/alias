@@ -33,9 +33,6 @@ case ${uname} in
     ;;
 esac
 
-# lv
-export LV='-Ou8 -c'
-
 # grep
 alias grep='grep --color=always'
 

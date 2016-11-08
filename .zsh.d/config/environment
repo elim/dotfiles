@@ -11,6 +11,9 @@ export TZ=JST-9
 # export HOMEBREW_DEBUG=1
 export HOMEBREW_VERBOSE=1
 
+# lv
+export LV='-Ou8 -c'
+
 #
 # time
 #
