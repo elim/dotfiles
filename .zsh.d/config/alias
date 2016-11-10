@@ -77,6 +77,10 @@ else
     export EDITOR=vi
 fi
 
+# Docker
+alias d='docker'
+alias dc='docker-compose'
+
 # bundler
 alias b='bundle'
 alias be='bundle exec'
