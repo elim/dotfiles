@@ -18,21 +18,6 @@ alias -g W='| wc'
 
 alias dpkg='COLUMNS=${COLUMNS:-80} dpkg'
 
-# shell
-case ${uname} in
-  CYGWIN*)
-    alias cmd='CMD'
-    alias start='cygstart'
-    ;;
-esac
-
-case ${uname} in
-  CYGWIN*)
-    alias open='cygstart'
-    alias start='cygstart'
-    ;;
-esac
-
 # grep
 alias grep='grep --color=always'
 
