@@ -1,53 +1,21 @@
 # -*- mode: shell-script; coding: utf-8-unix -*-
 
-alias -g A='| ack'
-alias -g G='| grep'
-alias -g H='| head'
-alias -g L='| less'
-alias -g S='| sed'
-alias -g T='| tail'
-alias -g W='| wc'
-
-() {
-  local a
-
-  for a in ${_z_user_dir}/config/alias.d/*; do
-    source ${a}
-  done
-}
-
-alias dpkg='COLUMNS=${COLUMNS:-80} dpkg'
-
-# grep
-alias grep='grep --color=always'
-
-function git-root() {
-  dir=$(git rev-parse --show-toplevel)
-  if [ "${dir}" != "" ]; then
-    cd "${dir}"
-  fi
-}
-
+#
 # diff
+#
 if type colordiff &> /dev/null; then
   alias diff=colordiff
 fi
 
-# Vim
-if type vim &> /dev/null; then
-  alias vi=vim
-  export EDITOR=vim
-  export ALTERNATE_EDITOR=vim
-fi
+#
+# dpkg
+#
+alias dpkg='COLUMNS=${COLUMNS:-80} dpkg'
 
-# emacsen
-if type Emacs &> /dev/null; then
-    alias emacs_bin=Emacs
-else
-    alias emacs_bin=emacs
-fi
-
-alias emacs='XMODIFIERS="@im=none" emacs_bin'
+#
+# Emacs
+#
+alias emacs='XMODIFIERS="@im=none" emacs'
 
 if type emacsclient &> /dev/null; then
     alias e="emacsclient -n"
@@ -57,16 +25,71 @@ else
     export EDITOR=vi
 fi
 
-# Docker
-alias d='docker'
-alias dc='docker-compose'
+#
+# Git
+#
+type hub &> /dev/null && alias git=hub
+alias g=git
+alias gb='g browse'
+alias gbr='g br'
+alias gbrs='g brs'
+alias gbrsr='g brsr'
+alias gco='g co'
+alias gdi='g di'
+alias gg='g grep'
+alias gl='g log --stat --show-signature'
+alias glp='gl -p'
+alias gop='g open'
+alias gpl='g pull'
+alias gpr='g pr'
+alias gps='g push'
+alias gr='cd-gitroot'
+alias gref='g ref'
+alias gst='g st'
 
-# bundler
+#
+# grep
+#
+alias grep='grep --color=always'
+
+#
+# ls
+#
+case $(uname) in
+  FreeBSD|Darwin)
+    alias ls='ls -wGF'
+    ;;
+  Linux)
+    alias ls='ls -F --color=auto'
+    ;;
+esac
+
+alias la='ls -AFH'
+alias ll='la -l'
+
+#
+# Vim
+#
+type vim &> /dev/null && alias vi=vim
+
+#
+# Shorthand
+#
 alias b='bundle'
 alias be='bundle exec'
-
-# Pager
+alias d='docker'
+alias dc='docker-compose'
 alias l=${PAGER}
-
-# vagrant
 alias v=vagrant
+
+#
+# Zsh Shorthand
+#
+if [[ $(basename $0) == 'zsh' ]]; then
+  alias -g G='| grep'
+  alias -g H='| head'
+  alias -g L='| less'
+  alias -g S='| sed'
+  alias -g T='| tail'
+  alias -g W='| wc'
+fi
