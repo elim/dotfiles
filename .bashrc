@@ -78,3 +78,18 @@ export HISTSIZE=9999  # 履歴のMAX保存数を指定
 # ----------------------------------------------------------
 
 export GOPATH=$HOME
+
+# ----------------------------------------------------------
+# Aliases
+# ----------------------------------------------------------
+load_aliases() {
+  local libs=(
+    ~/.zsh.d/config/alias
+    $SSHHOME/.sshrc.d/.zsh.d/config/alias
+  )
+
+  for lib in ${libs[@]}; do
+    [[ -f $lib ]] && source $lib && return
+  done
+}
+load_aliases
