@@ -27,11 +27,11 @@ fi
   libs=(/usr/local/etc/bash_completion.d/git-prompt.sh /etc/bash_completion.d/git-prompt)
 
   for l in $libs; do
-    [[ -f $l ]] && lib=$l 
+    [[ -f $l ]] && lib=$l
   done
-  
+
   [[ ${lib} = '' ]] && return
-  
+
   GIT_PS1_SHOWUNTRACKEDFILES=1
   GIT_PS1_SHOWDIRTYSTATE=1
   GIT_PS1_SHOWUPSTREAM="verbose"
