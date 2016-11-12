@@ -4,11 +4,11 @@
 # ----------------------------------------------------------
 
 load_git_completion() {
-  local libs="
-/Library/Developer/CommandLineTools/usr/share/git-core/git-completion.bash
-/mingw64/share/git/completion/git-completion.bash
-/usr/local/etc/bash_completion.d/git-completion.bash
-"
+  local libs=(
+    /usr/local/etc/bash_completion.d/git-completion.bash
+    /Library/Developer/CommandLineTools/usr/share/git-core/git-completion.bash
+    /mingw64/share/git/completion/git-completion.bash
+  )
 
   for lib in ${libs[@]}; do
     [[ -f $lib ]] && source $lib && return
@@ -17,13 +17,13 @@ load_git_completion() {
 load_git_completion
 
 load_git_prompt() {
-  local libs="
-/etc/bash_completion.d/git-prompt
-/Library/Developer/CommandLineTools/usr/share/git-core/git-prompt.sh
-/mingw64/share/git/completion/git-prompt.sh
-/usr/local/etc/bash_completion.d/git-prompt.sh
-/usr/share/git-core/contrib/completion/git-prompt.sh
-"
+  local libs=(
+    /usr/local/etc/bash_completion.d/git-prompt.sh
+    /usr/share/git-core/contrib/completion/git-prompt.sh
+    /etc/bash_completion.d/git-prompt
+    /Library/Developer/CommandLineTools/usr/share/git-core/git-prompt.sh
+    /mingw64/share/git/completion/git-prompt.sh
+  )
 
   for lib in ${libs[@]}; do
     [[ -f $lib ]] && source $lib && return
@@ -84,8 +84,8 @@ export GOPATH=$HOME
 # ----------------------------------------------------------
 load_aliases() {
   local libs=(
-    ~/.zsh.d/config/alias
     $SSHHOME/.sshrc.d/.zsh.d/config/alias
+    ~/.zsh.d/config/alias
   )
 
   for lib in ${libs[@]}; do
