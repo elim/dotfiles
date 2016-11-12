@@ -24,7 +24,11 @@ fi
 () {
   local lib
   local -a libs
-  libs=(/usr/local/etc/bash_completion.d/git-prompt.sh /etc/bash_completion.d/git-prompt)
+  libs=(
+    /usr/local/etc/bash_completion.d/git-prompt.sh
+    /Library/Developer/CommandLineTools/usr/share/git-core/git-prompt.sh
+    /etc/bash_completion.d/git-prompt
+  )
 
   for l in $libs; do
     [[ -f $l ]] && lib=$l
