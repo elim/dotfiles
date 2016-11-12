@@ -4,19 +4,27 @@
 # ----------------------------------------------------------
 
 load_git_completion() {
-  local libs=(/mingw64/share/git/completion/git-completion.bash /usr/local/etc/bash_completion.d/git-completion.bash)
+  local libs="
+/Library/Developer/CommandLineTools/usr/share/git-core/git-completion.bash
+/mingw64/share/git/completion/git-completion.bash
+/usr/local/etc/bash_completion.d/git-completion.bash
+"
 
   for lib in ${libs[@]}; do
-    [[ -f $lib ]] && source $lib
+    [[ -f $lib ]] && source $lib && return
   done
 }
 load_git_completion
 
 load_git_prompt() {
-  local libs=(/mingw64/share/git/completion/git-prompt.sh /usr/local/etc/bash_completion.d/git-prompt.sh)
+  local libs="
+/Library/Developer/CommandLineTools/usr/share/git-core/git-prompt.sh
+/mingw64/share/git/completion/git-prompt.sh
+/usr/local/etc/bash_completion.d/git-prompt.sh
+"
 
   for lib in ${libs[@]}; do
-    [[ -f $lib ]] && source $lib
+    [[ -f $lib ]] && source $lib && return
   done
 }
 load_git_prompt
@@ -37,6 +45,13 @@ GIT_PS1_SHOWSTASHSTATE=1
 # \[ 表示させない文字列の開始
 # \] 表示させない文字列の終了
 # \$ $
+
+if [[ ! $(declare -F __git_ps1) ]]; then
+  __git_ps1() {
+    echo ''
+  }
+fi
+
 export PS1='\[\033[1;32m\]\u\[\033[00m\]:\[\033[1;34m\]\w\[\033[1;31m\]$(__git_ps1)\[\033[00m\] \$ '
 ##############
 
