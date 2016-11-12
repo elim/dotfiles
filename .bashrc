@@ -18,9 +18,11 @@ load_git_completion
 
 load_git_prompt() {
   local libs="
+/etc/bash_completion.d/git-prompt
 /Library/Developer/CommandLineTools/usr/share/git-core/git-prompt.sh
 /mingw64/share/git/completion/git-prompt.sh
 /usr/local/etc/bash_completion.d/git-prompt.sh
+/usr/share/git-core/contrib/completion/git-prompt.sh
 "
 
   for lib in ${libs[@]}; do
@@ -31,8 +33,8 @@ load_git_prompt
 
 # プロンプトに各種情報を表示
 GIT_PS1_SHOWDIRTYSTATE=1
-GIT_PS1_SHOWUPSTREAM=1
-GIT_PS1_SHOWUNTRACKEDFILES=
+GIT_PS1_SHOWUPSTREAM="verbose"
+GIT_PS1_SHOWUNTRACKEDFILES=1
 GIT_PS1_SHOWSTASHSTATE=1
 
 ############### ターミナルのコマンド受付状態の表示変更

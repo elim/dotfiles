@@ -21,26 +21,11 @@ export SHELL=$(which bash)
 HISTFILE=~/.bash_history-elim
 
 # alias etc... as you like
+source ${SSHHOME}/.sshrc.d/.bashrc
+source ${SSHHOME}/.sshrc.d/.zsh.d/config/alias.d/git
 source ${SSHHOME}/.sshrc.d/.zsh.d/config/alias.d/git
 source ${SSHHOME}/.sshrc.d/.zsh.d/config/alias.d/ls
 alias git="HOME=$SSHHOME/.sshrc.d/ git"
-
-_git_prompt_libs="
-/etc/bash_completion.d/git-prompt
-/usr/local/etc/bash_completion.d/git-prompt.sh
-/usr/share/git-core/contrib/completion/git-prompt.sh
-"
-
-GIT_PS1_SHOWUNTRACKEDFILES=1
-GIT_PS1_SHOWDIRTYSTATE=1
-GIT_PS1_SHOWUPSTREAM="verbose"
-
-for _git_prompt_lib in ${_git_prompt_libs}; do
-  if [[ -f ${_git_prompt_lib} ]]; then
-    source ${_git_prompt_lib}
-    export PS1='[\u@\h \W$(__git_ps1 " (%s)")]\$ '
-    fi
-done
 
 # Local Variables:
 # mode: sh
