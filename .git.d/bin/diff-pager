@@ -1,11 +1,22 @@
-#!/bin/sh
+#!/bin/bash -eu
 
-_debian=/usr/share/doc/git/contrib/diff-highlight/diff-highlight
+diff-pager () {
+  local s
+  local script
+  local scripts=(
+    /usr/local/share/git-core/contrib/diff-highlight/diff-highlight
+    /usr/share/doc/git/contrib/diff-highlight/diff-highlight
+  )
 
-if [ -f $_debian ]; then
-  cat - | perl $_debian | ${PAGER}  
-elif type diff-highlight &> /dev/null; then
-  cat - | diff-highlight | ${PAGER}
-else
+  for s in $scripts; do
+    [[ -f $s ]] && script=$s; break
+  done
+
+  if [ ${script} ]; then
+    cat - | perl ${script} | ${PAGER}
+    exit 0
+  fi
+
   cat - | ${PAGER}
-fi
+}
+diff-pager
