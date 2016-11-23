@@ -79,7 +79,7 @@ alias b='bundle'
 alias be='bundle exec'
 alias d='docker'
 alias dc='docker-compose'
-alias l=${PAGER}
+alias l=less
 alias v=vagrant
 
 #
