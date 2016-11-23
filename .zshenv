@@ -19,18 +19,12 @@ esac
 #
 path=(/usr/games(N-/) ${path})
 path=(/Developer/Tools(N-/) ${path})
-path=(/opt/local/bin(N-/) /opt/local/sbin(N-/) ${path})
 path=(/usr/local/bin(N-/) /usr/local/sbin(N-/) ${path})
-path=(/usr/local/share/npm/bin(N-/) ${path})
-path=(/usr/local/share/git-core/contrib/*(N-/) ${path})
-path=(/usr/share/git-core/contrib/*(N-/) ${path})
-path=(/usr/share/doc/git/contrib/*(N-/) ${path})
 path=(/Applications/Emacs.app/Contents/MacOS(N-/) ${path})
 path=(/Applications/Emacs.app/Contents/MacOS/bin(N-/) ${path})
 path=(~/Applications/Emacs.app/Contents/MacOS(N-/) ${path})
 path=(~/Applications/Emacs.app/Contents/MacOS/bin(N-/) ${path})
 path=(${HOME}/.anyenv/bin(N-/) ${path})
-path=(${HOME}/local/bin(N-/) ${HOME}/local/sbin(N-/) ${path})
 path=(${HOME}/bin(N-/) ${path})
 
 
