@@ -14,6 +14,7 @@
 setopt extended_history               # 履歴ファイルに時刻を記録
 setopt inc_append_history             # 履歴をインクリメンタルに追加
 setopt share_history                  # 履歴の共有
+setopt hist_fcntl_lock                #
 setopt hist_ignore_all_dups           # ヒストリに追加されるコマンド行が古いものと同じなら古いものを削除
 setopt hist_ignore_dups               # 直前と同じコマンドラインはヒストリに追加しない
 setopt hist_ignore_space              # スペースで始まるコマンド行はヒストリリストから削除
