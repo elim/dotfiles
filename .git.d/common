@@ -41,6 +41,9 @@
 [help]
 	autocorrect = 1
 
+[log]
+	follow = true
+
 # Local Variables:
 # mode: gitconfig
 # End:
