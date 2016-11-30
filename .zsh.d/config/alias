@@ -15,7 +15,7 @@ alias dpkg='COLUMNS=${COLUMNS:-80} dpkg'
 #
 # Emacs
 #
-alias emacs='XMODIFIERS="@im=none" emacs'
+alias emacs="XMODIFIERS='@im=none' $(which emacs)"
 
 if type emacsclient &> /dev/null; then
     alias e="emacsclient -n"
