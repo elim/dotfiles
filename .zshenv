@@ -20,6 +20,7 @@ esac
 path=(/usr/games(N-/) ${path})
 path=(/Developer/Tools(N-/) ${path})
 path=(/usr/local/bin(N-/) /usr/local/sbin(N-/) ${path})
+path=(/usr/local/MacGPG2/bin(N-/) ${path})
 path=(/Applications/Emacs.app/Contents/MacOS(N-/) ${path})
 path=(/Applications/Emacs.app/Contents/MacOS/bin(N-/) ${path})
 path=(~/Applications/Emacs.app/Contents/MacOS(N-/) ${path})

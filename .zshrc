@@ -149,6 +149,7 @@ umask 022
 if type keychain &> /dev/null; then
   case ${uname} in
     Darwin)
+      export GPG_AGENT_INFO="~/.gnupg/S.gpg-agent:$(pgrep gpg-agent):1"
       eval $(keychain --inherit any --agents "gpg,ssh" --eval id_rsa 0A2D3E0E)
       ;;
     *)
