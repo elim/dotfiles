@@ -59,12 +59,6 @@ export ZPLUG_HOME=~/.zplug
 
 
 #
-# variable
-#
-_z_user_dir=~/.zsh.d
-
-
-#
 # sudo 用の path を設定
 #
 # - Cygwin には sudo がないので
