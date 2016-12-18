@@ -67,7 +67,7 @@ _z_user_dir=~/.zsh.d
 #
 # fpath
 #
-fpath=(/usr/local/share/zsh-completions $fpath)
+fpath=(/usr/local/share/zsh-completions(N-/) $fpath)
 fpath=(${_z_user_dir}/completions(N-/) ${fpath})
 fpath=(${_z_user_dir}/functions(N-/) ${fpath})
 
