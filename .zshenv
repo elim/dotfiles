@@ -30,6 +30,14 @@ path=(${HOME}/bin(N-/) ${path})
 
 
 #
+# fpath
+#
+fpath=(/usr/local/share/zsh-completions(N-/) $fpath)
+fpath=(${_z_user_dir}/completions(N-/) ${fpath})
+fpath=(${_z_user_dir}/functions(N-/) ${fpath})
+
+
+#
 # anyenv
 #
 if type anyenv &> /dev/null; then
