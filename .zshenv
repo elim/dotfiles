@@ -13,6 +13,7 @@ case ${uname} in
     ;;
 esac
 
+_z_user_dir=~/.zsh.d
 
 #
 # path
