@@ -60,9 +60,14 @@ remapKey({'ctrl'}, 'w', keyCode('x', {'cmd'}))
 remapKey({'ctrl'}, 'y', keyCode('v', {'cmd'}))
 remapKey({'ctrl'}, 'd', keyCode('forwarddelete'))
 remapKey({'ctrl'}, 'h', keyCode('delete'))
+remapKey({'ctrl'}, 'm', keyCode('return'))
 remapKey({'ctrl'}, 'k', keyCodeSet({
          keyCode('right', {'cmd', 'shift'}),
          keyCode('x', {'cmd'})
+}))
+remapKey({'ctrl'}, 'u', keyCodeSet({
+         keyCode('left', {'cmd', 'shift'}),
+         keyCode('delete')
 }))
 
 -- コマンド
