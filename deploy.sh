@@ -46,19 +46,20 @@ git_ignore() {
 simple_link() {
   local dotdir=$(dirname $(realpath ${0}))
 
-  ln -fvs ${dotdir}/.bashrc    ~
-  ln -fvs ${dotdir}/.cvsrc     ~
-  ln -fvs ${dotdir}/.git.d     ~
-  ln -fvs ${dotdir}/.my.cnf    ~
-  ln -fvs ${dotdir}/.sshrc     ~
-  ln -fvs ${dotdir}/.sshrc.d   ~
-  ln -fvs ${dotdir}/.tmux.conf ~
-  ln -fvs ${dotdir}/.tmux.d    ~
-  ln -fvs ${dotdir}/.vimrc     ~
-  ln -fvs ${dotdir}/.xsession  ~
-  ln -fvs ${dotdir}/.zsh.d     ~
-  ln -fvs ${dotdir}/.zshenv    ~
-  ln -fvs ${dotdir}/.zshrc     ~
+  ln -fvs ${dotdir}/.bashrc      ~
+  ln -fvs ${dotdir}/.cvsrc       ~
+  ln -fvs ${dotdir}/.git.d       ~
+  ln -fvs ${dotdir}/.hammerspoon ~
+  ln -fvs ${dotdir}/.my.cnf      ~
+  ln -fvs ${dotdir}/.sshrc       ~
+  ln -fvs ${dotdir}/.sshrc.d     ~
+  ln -fvs ${dotdir}/.tmux.conf   ~
+  ln -fvs ${dotdir}/.tmux.d      ~
+  ln -fvs ${dotdir}/.vimrc       ~
+  ln -fvs ${dotdir}/.xsession    ~
+  ln -fvs ${dotdir}/.zsh.d       ~
+  ln -fvs ${dotdir}/.zshenv      ~
+  ln -fvs ${dotdir}/.zshrc       ~
 }
 
 # ----------------------------
