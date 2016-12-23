@@ -60,7 +60,9 @@ remapKey({'ctrl'}, 'w', keyCode('x', {'cmd'}))
 remapKey({'ctrl'}, 'y', keyCode('v', {'cmd'}))
 remapKey({'ctrl'}, 'd', keyCode('forwarddelete'))
 remapKey({'ctrl'}, 'h', keyCode('delete'))
+remapKey({'ctrl'}, 'i', keyCode('tab'))
 remapKey({'ctrl'}, 'm', keyCode('return'))
+
 remapKey({'ctrl'}, 'k', keyCodeSet({
          keyCode('right', {'cmd', 'shift'}),
          keyCode('x', {'cmd'})
