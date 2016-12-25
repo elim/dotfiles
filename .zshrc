@@ -6,26 +6,20 @@
 #
 # zplug
 #
-export ZPLUG_HOME=~/.zplug
-
 () {
-  local zplug_init=$ZPLUG_HOME/init.zsh
-
-  if [[ ! -f $zplug_init ]]; then
-    echo 'zplug not found.'
-    echo ''
-    echo 'Try: `git clone https://github.com/zplug/zplug $ZPLUG_HOME && exec zsh`'
-    return
+  if [[ ! -d ~/.zplug ]]; then
+    git clone https://github.com/zplug/zplug ~/.zplug
+    source ~/.zplug/init.zsh && zplug update --self
   fi
 
-  source  $zplug_init
+  source ~/.zplug/init.zsh
 
   zplug 'elim/git-open', at:feature/separate-url-gitlab, as:command
   zplug 'felixr/docker-zsh-completion'
   zplug 'mollifier/anyframe'
   zplug 'mollifier/cd-gitroot'
   zplug 'zsh-users/zsh-completions'
-  zplug 'zsh-users/zsh-syntax-highlighting', nice:10
+  zplug 'zsh-users/zsh-syntax-highlighting', defer:2
 
   if ! zplug check --verbose; then
     printf 'Install? [y/N]: '
@@ -34,7 +28,7 @@ export ZPLUG_HOME=~/.zplug
     fi
   fi
 
-  zplug load --verbose
+  zplug load
 
   fpath=($fpath $ZPLUG_HOME/repos/mollifier/cd-gitroot/(N-/))
 }
