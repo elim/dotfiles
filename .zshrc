@@ -132,18 +132,15 @@ done
 # ファイル作成時のパーミッション設定
 umask 022
 
-if type keychain &> /dev/null; then
-  case ${uname} in
-    Darwin)
-      export GPG_AGENT_INFO="~/.gnupg/S.gpg-agent:$(pgrep gpg-agent):1"
-      eval $(keychain --inherit any --agents "gpg,ssh" --eval id_rsa 0A2D3E0E)
-      ;;
-    *)
-      eval $(keychain --agents "gpg,ssh" --eval id_rsa 0A2D3E0E)
-      ;;
-  esac
-fi
+() {
+  local inherit='local-once'
+  [[ ${uname} == 'Darwin' ]] && inherit='any-once'
 
+  if type keychain &> /dev/null; then
+    export GPG_AGENT_INFO="~/.gnupg/S.gpg-agent:$(pgrep gpg-agent):1"
+    eval $(keychain --inherit ${inherit} --agents 'gpg,ssh' --eval id_rsa 0A2D3E0E)
+  fi
+}
 
 if type fortune &> /dev/null; then
   fortune
