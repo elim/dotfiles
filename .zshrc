@@ -15,7 +15,6 @@
   source ~/.zplug/init.zsh
 
   zplug 'elim/git-open', at:feature/separate-url-gitlab, as:command
-  zplug 'felixr/docker-zsh-completion'
   zplug 'mollifier/anyframe'
   zplug 'mollifier/cd-gitroot'
   zplug 'zsh-users/zsh-completions'
