@@ -182,8 +182,13 @@ bindkey '^x^p' anyframe-widget-put-history
 bindkey '^xs'  anyframe-widget-cd-ghq-repository
 bindkey '^x^s' anyframe-widget-cd-ghq-repository
 
-bindkey '^xt'  anyframe-widget-tab-ghq-repository
-bindkey '^x^t' anyframe-widget-tab-ghq-repository
+if [[ ${uname} == 'Darwin' ]]; then
+  bindkey '^xt'  anyframe-widget-tab-ghq-repository
+  bindkey '^x^t' anyframe-widget-tab-ghq-repository
+else
+  bindkey '^xt'  anyframe-widget-cd-ghq-repository
+  bindkey '^x^t' anyframe-widget-cd-ghq-repository
+fi
 
 bindkey '^xk'  anyframe-widget-kill
 bindkey '^x^k' anyframe-widget-kill
