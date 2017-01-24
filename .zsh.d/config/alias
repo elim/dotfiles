@@ -48,6 +48,7 @@ alias gpl='g pull'
 alias gpr='g pr'
 alias gps='g push'
 alias gr='cd-gitroot'
+alias grb='g rb'
 alias gref='g ref'
 alias gst='g st'
 

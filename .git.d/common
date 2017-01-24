@@ -13,6 +13,7 @@
 	g = grep
 	op = open
 	pr = !sh -c 'hub browse -- pull/$(git rev-parse --abbrev-ref HEAD)'
+	rb = rebase
 	ref = reflog
 	ri = rebase --interactive --autosquash
 	st = status
