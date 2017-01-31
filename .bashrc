@@ -48,7 +48,7 @@ GIT_PS1_SHOWSTASHSTATE=1
 # \] 表示させない文字列の終了
 # \$ $
 
-if [[ ! $(declare -F __git_ps1) ]]; then
+if ! type __git_ps1 &> /dev/null; then
   __git_ps1() {
     echo ''
   }
