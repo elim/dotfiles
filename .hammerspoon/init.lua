@@ -72,11 +72,6 @@ remapKey({'ctrl'}, 'u', keyCodeSet({
          keyCode('delete')
 }))
 
--- コマンド
-remapKey({'ctrl'}, 's', keyCode('f', {'cmd'}))
-remapKey({'ctrl'}, '/', keyCode('z', {'cmd'}))
-remapKey({'ctrl'}, 'g', keyCode('escape'))
-
 -- ページスクロール
 remapKey({'ctrl'}, 'v', keyCode('pagedown'))
 remapKey({'alt'}, 'v', keyCode('pageup'))
