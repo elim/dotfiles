@@ -21,6 +21,7 @@ export SHELL=$(which bash)
 HISTFILE=~/.bash_history-elim
 
 # alias etc... as you like
+source ${HOME}/.bashrc
 source ${SSHHOME}/.sshrc.d/.bashrc
 alias git="HOME=$SSHHOME/.sshrc.d/ git"
 
