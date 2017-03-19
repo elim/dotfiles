@@ -36,6 +36,7 @@ setup-anyenv() {
 simply-link() {
   ln -fvs "${dot_dir}"/.bashrc      ~
   ln -fvs "${dot_dir}"/.cvsrc       ~
+  ln -fvs "${dot_dir}"/.gitconfig   ~
   ln -fvs "${dot_dir}"/.git.d       ~
   ln -fvs "${dot_dir}"/.hammerspoon ~
   ln -fvs "${dot_dir}"/.my.cnf      ~
