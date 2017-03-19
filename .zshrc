@@ -128,7 +128,7 @@ umask 022
 
   if type keychain &> /dev/null; then
     export GPG_AGENT_INFO="~/.gnupg/S.gpg-agent:$(pgrep gpg-agent):1"
-    eval $(keychain --inherit ${inherit} --agents 'gpg,ssh' --eval id_ed25519 id_rsa 0A2D3E0E)
+    eval $(keychain --inherit ${inherit} --agents 'gpg,ssh' --eval id_ed25519 0A2D3E0E)
   fi
 }
 
