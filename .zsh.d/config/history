@@ -1,30 +1,36 @@
 () {
-  local hist_dir=${HOME}
-  local var_dir=${HOME}/Dropbox/var
+  local hist_dir var_dir
+  hist_dir=${HOME}
+  var_dir=${HOME}/Dropbox/var
 
   if [[ -d ${var_dir} ]]; then
     hist_dir=${var_dir}
   fi
 
-  HISTFILE=${hist_dir}/.zhistory      # filename
-  HISTSIZE=1000000                    # メモリ内の履歴の数
-  SAVEHIST=10000000                   # 保存される履歴の数
+  HISTFILE=${hist_dir}/.zhistory
+  HISTSIZE=1000000
+  SAVEHIST=10000000
+
+  if [[ ${UID} = 0 ]]; then
+    unset HISTFILE
+    SAVEHIST=0
+  fi
 }
 
-setopt extended_history               # 履歴ファイルに時刻を記録
-setopt inc_append_history             # 履歴をインクリメンタルに追加
-setopt share_history                  # 履歴の共有
-setopt hist_fcntl_lock                #
-setopt hist_ignore_all_dups           # ヒストリに追加されるコマンド行が古いものと同じなら古いものを削除
-setopt hist_ignore_dups               # 直前と同じコマンドラインはヒストリに追加しない
-setopt hist_ignore_space              # スペースで始まるコマンド行はヒストリリストから削除
-setopt hist_verify                    # ヒストリを呼び出してから実行する間に一旦編集可能
-function history-all { history -E 1 } # 全履歴の一覧を出力する
+setopt append_history
+setopt extended_history
+setopt hist_expire_dups_first
+setopt hist_find_no_dups
+setopt hist_ignore_all_dups
+setopt hist_ignore_dups
+setopt hist_ignore_space
+setopt hist_no_store
+setopt hist_save_no_dups
+setopt hist_verify
+setopt inc_append_history
+setopt share_history
 
-if [ ${UID} = 0 ]; then               # root のコマンドはヒストリに追加しない
-  unset HISTFILE
-  SAVEHIST=0
-fi
+function history-all { history -E 1 }
 
 autoload -U history-search-end
 zle -N history-beginning-search-backward-end history-search-end
@@ -37,7 +43,4 @@ fi
 
 # Local Variables:
 # mode: shell-script
-# coding: utf-8-unix
-# indent-tabs-mode: nil
-# sh-basic-offset: 2
 # End:
