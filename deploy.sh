@@ -1,71 +1,71 @@
-#!/bin/sh -eu
-
-# ----------------------------
-# prepare
-# ----------------------------
-
-realpath() {
-  echo $(cd $(dirname ${1}) && pwd)/$(basename $1)
-}
+#!/bin/bash -eu
 
 # ----------------------------
 # functions
 # ----------------------------
 
-default_gems() {
-  local dotdir=$(dirname $(realpath ${0}))
-  local rbenv_dir=$(anyenv root)/envs/rbenv
-
-  mkdir -p ${rbenv_dir}
-  ln -fvs ${dotdir}/rbenv/default-gems ${rbenv_dir}
+dot_dir() {
+  dirname "$(realpath "${0}")"
 }
 
-git_ignore() {
-  local dest src
-  local d f
+setup-anyenv() {
+  local anyenv_dir
+  anyenv_dir=~/.anyenv
 
-  local dotdir=$(dirname $(realpath ${0}))
-  local xdg_config_home=${XDG_CONFIG_HOME:-$HOME/.config}
+  if   type anyenv &> /dev/null; then return; fi
+  if ! type git    &> /dev/null; then return; fi
 
-  if [ -d ${xdg_config_home} ]; then
-    cd ${dotdir}/.config
+  git clone https://github.com/riywo/anyenv.git "${anyenv_dir}"
+  cd "$_"
 
-    for d in $(find . -type d); do
-      mkdir -p $(realpath ${xdg_config_home}/${d})
-    done
+  export PATH="${anyenv_dir}/bin:$PATH"
+  eval "$(anyenv init -)"
 
-    for f in $(find . -type f); do
-      src=$(realpath ${dotdir}/.config/${f})
-      dest=$(realpath ${xdg_config_home}/${f})
+  git clone https://github.com/znz/anyenv-update.git plugins/anyenv-update
 
-      ln -fvs ${src} ${dest}
-    done
-  fi
+  anyenv install ndenv
+
+  anyenv install pyenv
+  git clone https://github.com/yyuu/pyenv-virtualenv envs/pyenv/plugins/pyenv-virtualenv
+
+  anyenv install rbenv
+  git clone https://github.com/rbenv/rbenv-default-gems.git envs/rbenv/plugins/rbenv-default-gems
+  ln -fvs "${dot_dir}"/rbenv/default-gems envs/rbenv/
 }
 
-simple_link() {
-  local dotdir=$(dirname $(realpath ${0}))
+simply-link() {
+  ln -fvs "${dot_dir}"/.bashrc      ~
+  ln -fvs "${dot_dir}"/.cvsrc       ~
+  ln -fvs "${dot_dir}"/.git.d       ~
+  ln -fvs "${dot_dir}"/.hammerspoon ~
+  ln -fvs "${dot_dir}"/.my.cnf      ~
+  ln -fvs "${dot_dir}"/.sshrc       ~
+  ln -fvs "${dot_dir}"/.sshrc.d     ~
+  ln -fvs "${dot_dir}"/.tmux.conf   ~
+  ln -fvs "${dot_dir}"/.tmux.d      ~
+  ln -fvs "${dot_dir}"/.vimrc       ~
+  ln -fvs "${dot_dir}"/.xsession    ~
+  ln -fvs "${dot_dir}"/.zsh.d       ~
+  ln -fvs "${dot_dir}"/.zshenv      ~
+  ln -fvs "${dot_dir}"/.zshrc       ~
+}
 
-  ln -fvs ${dotdir}/.bashrc      ~
-  ln -fvs ${dotdir}/.cvsrc       ~
-  ln -fvs ${dotdir}/.git.d       ~
-  ln -fvs ${dotdir}/.hammerspoon ~
-  ln -fvs ${dotdir}/.my.cnf      ~
-  ln -fvs ${dotdir}/.sshrc       ~
-  ln -fvs ${dotdir}/.sshrc.d     ~
-  ln -fvs ${dotdir}/.tmux.conf   ~
-  ln -fvs ${dotdir}/.tmux.d      ~
-  ln -fvs ${dotdir}/.vimrc       ~
-  ln -fvs ${dotdir}/.xsession    ~
-  ln -fvs ${dotdir}/.zsh.d       ~
-  ln -fvs ${dotdir}/.zshenv      ~
-  ln -fvs ${dotdir}/.zshrc       ~
+xdg-config() {
+  local config_dir
+  config_dir=${XDG_CONFIG_HOME:-$HOME/.config}
+  mkdir -p "${config_dir}"
+
+  cd "${dot_dir}"/.config
+  find . -type d -exec mkdir -p "${config_dir}/{}" \;
+  find . -type f -exec ln -fvs "${dot_dir}"/.config/{} "${config_dir}"/{} \;
 }
 
 # ----------------------------
 # main
 # ----------------------------
 
-simple_link
-default_gems
-git_ignore
+dot_dir=$(dot_dir)
+
+simply-link
+setup-anyenv
+xdg-config
