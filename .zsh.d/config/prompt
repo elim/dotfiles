@@ -31,7 +31,7 @@ fi
   )
 
   for l in $libs; do
-    [[ -f $l ]] && lib=$l; break
+    [[ -f $l ]] && lib=$l && break
   done
 
   [[ ${lib} = '' ]] && return
