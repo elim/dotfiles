@@ -132,6 +132,9 @@ umask 022
   fi
 }
 
+GPG_TTY=$(tty)
+export GPG_TTY
+
 if type fortune &> /dev/null; then
   fortune
 fi
