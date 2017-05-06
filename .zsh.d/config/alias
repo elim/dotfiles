@@ -15,8 +15,8 @@ alias dpkg='COLUMNS=${COLUMNS:-80} dpkg'
 #
 # Emacs
 #
-if type Emacs &> /dev/null; then
-  alias emacs="XMODIFIERS='@im=none' Emacs"
+if [[ $(uname) == "Darwin" ]]; then
+  alias emacs="open -a Emacs"
 else
   alias emacs="XMODIFIERS='@im=none' emacs"
 fi
