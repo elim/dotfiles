@@ -13,10 +13,6 @@
 [gpg]
 	program = gpg2
 
-[include]
-	path = ~/.git.d/common
-	path = ~/.git.d/local
-
 [pager]
 	log  = ~/.git.d/bin/diff-pager
 	show = ~/.git.d/bin/diff-pager
@@ -30,3 +26,12 @@
 	email = takeru.naito@gmail.com
 	name = Takeru Naito
 	signingkey = 0A2D3E0E
+
+# ------------------------------
+
+[include]
+	path = ~/.git.d/common
+	path = ~/.git.d/local
+
+[includeIf "gitdir:~/src/github.com/codetakt/"]
+	path = ~/.git.d/codetakt
