@@ -1,7 +1,7 @@
 # -*- mode: shell-script; coding: utf-8-unix -*-
 
 export GZIP='-v9N'
-export LESS='--hilite-search --HILITE-UNREAD --ignore-case --LONG-PROMPT --RAW-CONTROL-CHARS --tabs=4'
+export LESS='--hilite-search --HILITE-UNREAD --ignore-case --LONG-PROMPT --no-init --RAW-CONTROL-CHARS --tabs=4 --quit-if-one-screen'
 export PAGER=less
 export TZ=JST-9
 
