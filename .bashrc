@@ -87,14 +87,17 @@ export GOPATH=$HOME
 # ----------------------------------------------------------
 # Aliases
 # ----------------------------------------------------------
-load_aliases() {
-  local libs=(
-    $SSHHOME/.sshrc.d/.zsh.d/config/alias
-    ~/.zsh.d/config/alias
-  )
+load_config() {
+  local base
+  local config
+  local fname
 
-  for lib in ${libs[@]}; do
-    [[ -f $lib ]] && source $lib && return
+  [[ -n "$SSHHOME" ]] && base=$SSHHOME/.sshrc.d || base=$HOME
+  config=(alias environment)
+
+  for c in ${config[@]}; do
+    fname="${base}/.zsh.d/config/${c}"
+    [[ -f "${fname}" ]] && source "${fname}"
   done
 }
-load_aliases
+load_config
