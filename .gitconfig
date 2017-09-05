@@ -45,6 +45,7 @@
 [ghq]
 	root = ~/src
 	root = ~/Dropbox/src
+	user = elim
 
 [github]
 	user = elim
