@@ -14,9 +14,9 @@
 
   source ~/.zplug/init.zsh
 
-  zplug 'elim/git-open', at:feature/separate-url-gitlab, as:command
   zplug 'mollifier/anyframe'
   zplug 'mollifier/cd-gitroot'
+  zplug 'paulirish/git-open', as:command
   zplug 'zsh-users/zsh-completions'
   zplug 'zsh-users/zsh-syntax-highlighting', defer:2
 
