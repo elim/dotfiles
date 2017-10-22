@@ -8,6 +8,10 @@ dot_dir() {
   dirname "$(realpath "${0}")"
 }
 
+realpath() {
+  echo $(cd $(dirname ${1}) && pwd)/$(basename $1)
+}
+
 setup-anyenv() {
   local anyenv_dir
   anyenv_dir=~/.anyenv
