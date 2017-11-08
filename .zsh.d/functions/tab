@@ -31,12 +31,12 @@ if [ -n "$args" ]; then
 fi
 
 osascript -l JavaScript &> /dev/null <<EOF
-var iTerm = Application('iTerm');
-var window = iTerm.currentWindow();
-var tab = window.createTab({ withProfile: 'Default', command: 'sh'});
-var session = tab.currentSession;
+const iTerm = Application('iTerm');
+const window = iTerm.currentWindow();
+const tab = window.createTab({ withProfile: 'Default', command: 'sh'});
+const session = tab.currentSession;
 
-var commands = \`
+const commands = \`
 cd "${cdto}"
 echo -ne "\\\033]0;"${session_name}"\\\007"
 
