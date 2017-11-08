@@ -36,10 +36,24 @@ var window = iTerm.currentWindow();
 var tab = window.createTab({ withProfile: 'Default', command: 'sh'});
 var session = tab.currentSession;
 
+var commands = \`
+cd "${cdto}"
+echo -ne "\\\033]0;"${session_name}"\\\007"
+
+if ${tmux} list-session -F'#S' | grep -E "\\\b${session_name}\\\b" 1>/dev/null 2>&1; then
+  if [ -n "${cmd}" ]; then
+    exec ${tmux} attach-session -t "${session_name}" \\\; new-window ${cmd}
+  else
+    exec ${tmux} attach-session -t "${session_name}"
+  fi
+else
+  exec ${tmux} new-session -D -s "${session_name}" ${cmd}
+fi
+\`
+
 session.select();
-session.write({text: 'cd "${cdto}"' });
-session.write({text: 'echo -ne "\\\033]0;"${session_name}"\\\007"' });
-session.write({text: 'exec ${tmux} new-session -D -s "${session_name}" ${cmd}' });
+session.write({text: commands });
+
 EOF
 
 # Local Variables:
