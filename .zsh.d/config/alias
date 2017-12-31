@@ -22,11 +22,11 @@ else
 fi
 
 if type emacsclient &> /dev/null; then
-    alias e="emacsclient -n"
-    export EDITOR="emacsclient -n"
-    export GIT_EDITOR=emacsclient
+  alias e="emacsclient -n"
+  export EDITOR="emacsclient -n"
+  export GIT_EDITOR=emacsclient
 else
-    export EDITOR=vi
+  export EDITOR=vi
 fi
 
 #
