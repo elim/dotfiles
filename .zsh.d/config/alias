@@ -15,11 +15,11 @@ alias dpkg='COLUMNS=${COLUMNS:-80} dpkg'
 #
 # Emacs
 #
-if [[ $(uname) == "Darwin" ]]; then
-  alias emacs="open -a Emacs"
-else
-  alias emacs="XMODIFIERS='@im=none' emacs"
-fi
+# HACK: Use the Cocoa Emacs if possible.
+_emacs=emacs
+[[ $(uname) == "Darwin" ]] && _emacs=Emacs
+alias emacs="XMODIFIERS='@im=none' $(which ${_emacs})"
+unset _emacs
 
 if type emacsclient &> /dev/null; then
   alias e="emacsclient -n"
