@@ -124,7 +124,7 @@ umask 022
 
 () {
   local inherit='local-once'
-  [[ ${uname} == 'Darwin' ]] && inherit='any-once'
+  [[ ${uname} == 'Darwin' ]] && inherit='any'
 
   if type keychain &> /dev/null; then
     export GPG_AGENT_INFO="~/.gnupg/S.gpg-agent:$(pgrep gpg-agent):1"
