@@ -37,8 +37,8 @@ const tab = window.createTab({ withProfile: 'Default', command: 'sh'});
 const session = tab.currentSession;
 
 const commands = \`
-cd "${cdto}"
 echo -ne "\\\033]0;"${session_name}"\\\007"
+cd "${cdto}"
 
 if ${tmux} list-session -F'#S' | grep -E "\\\b${session_name}\\\b" 1>/dev/null 2>&1; then
   if [ -n "${cmd}" ]; then
