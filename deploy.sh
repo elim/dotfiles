@@ -9,7 +9,7 @@ dot_dir() {
 }
 
 realpath() {
-  echo $(cd $(dirname ${1}) && pwd)/$(basename $1)
+  echo "$(cd "$(dirname "${1}")" && pwd)/$(basename "${1}")"
 }
 
 setup-anyenv() {
