@@ -27,7 +27,8 @@ setup-anyenv() {
 
   git clone https://github.com/znz/anyenv-update.git plugins/anyenv-update
 
-  anyenv install ndenv
+  anyenv install nodenv
+  git clone https://github.com/nodenv/nodenv-package-rehash.git "$(nodenv root)"/plugins/nodenv-package-rehash
 
   anyenv install pyenv
   git clone https://github.com/yyuu/pyenv-virtualenv envs/pyenv/plugins/pyenv-virtualenv
