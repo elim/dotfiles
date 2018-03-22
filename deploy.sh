@@ -31,10 +31,10 @@ setup-anyenv() {
   git clone https://github.com/nodenv/nodenv-package-rehash.git "$(nodenv root)"/plugins/nodenv-package-rehash
 
   anyenv install pyenv
-  git clone https://github.com/yyuu/pyenv-virtualenv envs/pyenv/plugins/pyenv-virtualenv
+  git clone https://github.com/yyuu/pyenv-virtualenv "$(pyenv root)"/plugins/pyenv-virtualenv
 
   anyenv install rbenv
-  git clone https://github.com/rbenv/rbenv-default-gems.git envs/rbenv/plugins/rbenv-default-gems
+  git clone https://github.com/rbenv/rbenv-default-gems.git "$(pyenv root)"/plugins/rbenv-default-gems
   ln -fvs "${dot_dir}"/rbenv/default-gems envs/rbenv/
 }
 
