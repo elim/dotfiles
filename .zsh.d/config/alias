@@ -93,7 +93,7 @@ alias v=vagrant
 #
 # Zsh Shorthand
 #
-if [[ $(basename ${SHELL}) == 'zsh' ]]; then
+if [[ "$0" = *"zsh"* ]];then
   alias -g G='| grep'
   alias -g H='| head'
   alias -g L='| less'
