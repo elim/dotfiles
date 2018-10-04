@@ -50,6 +50,8 @@ compdef sshrc=ssh
   fi
 }
 
+() { type kubectl &> /dev/null && source <(kubectl completion zsh) }
+
 # Local Variables:
 # mode: shell-script
 # coding: utf-8-unix
