@@ -86,9 +86,12 @@ type vim &> /dev/null && alias vi=vim
 alias b='bundle'
 alias be='bundle exec'
 alias d='docker'
-alias dc='docker-compose'
 alias l=less
 alias v=vagrant
+
+dc() {
+  PRODUCT_WORK_DIR=$(git rev-parse --show-toplevel 2> /dev/null) docker-compose "$@"
+}
 
 #
 # Zsh Shorthand
