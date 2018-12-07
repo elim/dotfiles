@@ -90,7 +90,20 @@ alias l=less
 alias v=vagrant
 
 dc() {
-  PRODUCT_WORK_DIR=$(git rev-parse --show-toplevel 2> /dev/null) docker-compose "$@"
+  local toplevel=$(git rev-parse --show-toplevel 2> /dev/null)
+
+  (
+    chpwd_functions= cd "${toplevel}" &&
+      PRODUCT_WORK_DIR="${toplevel}" docker-compose "$@"
+  )
+}
+
+dcn() {
+  dc -f docker-compose.yml -f docker-compose-nfs.yml "$@"
+}
+
+dcd() {
+  dc -f docker-compose.yml -f docker-compose-dev.yml "$@"
 }
 
 #
