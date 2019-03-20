@@ -85,3 +85,5 @@
 
 [includeIf "gitdir:~/src/github.com/codetakt/"]
 	path = ~/.git.d/codetakt
+[merge]
+	conflictstyle = diff3
