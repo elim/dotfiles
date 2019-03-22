@@ -4,32 +4,22 @@
 # - http://yonchu.hatenablog.com/entry/20120415/1334506855
 
 #
-# zplug
+# zplugin
 #
 () {
-  if [[ ! -d ~/.zplug ]]; then
-    git clone https://github.com/zplug/zplug ~/.zplug
-    source ~/.zplug/init.zsh && zplug update --self
+  if [[ ! -d ${HOME}/.zplugin ]]; then
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zplugin/master/doc/install.sh)"
   fi
 
-  source ~/.zplug/init.zsh
+  source ${HOME}/.zplugin/bin/zplugin.zsh
+  autoload -Uz _zplugin
+  (( ${+_comps} )) && _comps[zplugin]=_zplugin
 
-  zplug 'mollifier/anyframe'
-  zplug 'mollifier/cd-gitroot'
-  zplug 'paulirish/git-open', as:command
-  zplug 'zsh-users/zsh-completions'
-  zplug 'zsh-users/zsh-syntax-highlighting', defer:2
-
-  if ! zplug check --verbose; then
-    printf 'Install? [y/N]: '
-    if read -q; then
-      echo; zplug install
-    fi
-  fi
-
-  zplug load
-
-  fpath=($fpath $ZPLUG_HOME/repos/mollifier/cd-gitroot/(N-/))
+  zplugin load mollifier/anyframe
+  zplugin load mollifier/cd-gitroot
+  zplugin load paulirish/git-open
+  zplugin load zsh-users/zsh-completions
+  zplugin load zsh-users/zsh-syntax-highlighting
 }
 
 
@@ -170,7 +160,6 @@ fi
 #
 fpath=(${_z_user_dir}(N-/) ${fpath})
 
-autoload -Uz anyframe-init
 anyframe-init
 
 bindkey '^xb'  anyframe-widget-cdr
