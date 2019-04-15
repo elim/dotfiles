@@ -84,6 +84,15 @@ export HISTCONTROL=ignoreboth:erasedups
 export HISTTIMEFORMAT='%Y-%m-%d %T%z '
 
 # ----------------------------------------------------------
+# Settings of the detach keys on Docker
+# ----------------------------------------------------------
+if [[ "${SSHHOME}" ]] &&
+     type python &> /dev/null &&
+     type docker &> /dev/null; then
+  $SSHHOME/.sshrc.d/docker_set_detach_keys.py
+fi
+
+# ----------------------------------------------------------
 # Go
 # ----------------------------------------------------------
 
