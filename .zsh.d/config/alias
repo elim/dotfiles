@@ -99,12 +99,16 @@ dc() {
   )
 }
 
+dcd() {
+  dc -f docker-compose.yml -f docker-compose-dev.yml "$@"
+}
+
 dcn() {
   dc -f docker-compose.yml -f docker-compose-nfs.yml "$@"
 }
 
-dcd() {
-  dc -f docker-compose.yml -f docker-compose-dev.yml "$@"
+dcm() {
+  dc -f docker-compose.yml -f docker-compose-mutagen.yml "$@"
 }
 
 #
