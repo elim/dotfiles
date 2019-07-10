@@ -24,7 +24,7 @@ if [ -d "$1" ]; then
     args="${@:2}"
 fi
 
-session_name=$(echo $(basename ${cdto}) | sed -e 's|\.|-|g')
+session_name=$(basename ${cdto} | sed -e 's|\.|-|g')
 
 if [ -n "$args" ]; then
     cmd="$args"
