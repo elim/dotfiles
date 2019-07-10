@@ -40,7 +40,7 @@ const commands = \`
 echo -ne "\\\033]0;"${session_name}"\\\007"
 cd "${cdto}"
 
-if ${tmux} list-session -F'#S' | grep -E "\\\b${session_name}\\\b" 1>/dev/null 2>&1; then
+if ${tmux} list-session -F'#S' | grep -E "^${session_name}$" 1>/dev/null 2>&1; then
   if [ -n "${cmd}" ]; then
     exec ${tmux} attach-session -t "${session_name}" \\\; new-window ${cmd}
   else
