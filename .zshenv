@@ -4,6 +4,8 @@
 
 setopt no_global_rcs
 
+[[ "${ZPROF}" ]] && zmodload zsh/zprof && zprof
+
 export uname=$(uname)
 
 ### Cygwin 1.7
