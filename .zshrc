@@ -208,6 +208,12 @@ esac
 #
 typeset -U path cdpath fpath manpath
 
+
+#
+# Show shell profile
+#
+type zprof &> /dev/null && zprof
+
 # Local Variables:
 # mode: shell-script
 # coding: utf-8-unix
