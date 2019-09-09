@@ -15,7 +15,7 @@ case ${uname} in
     ;;
 esac
 
-_z_user_dir=~/.zsh.d
+ZDOTDIR=~/.zsh.d
 
 #
 # path
@@ -37,8 +37,8 @@ path=(${HOME}/bin(N-/) ${path})
 #
 fpath=(/usr/local/share/zsh/functions(N-/) $fpath)
 fpath=(/usr/local/share/zsh-completions(N-/) $fpath)
-fpath=(${_z_user_dir}/completions(N-/) ${fpath})
-fpath=(${_z_user_dir}/functions(N-/) ${fpath})
+fpath=(${ZDOTDIR}/completions(N-/) ${fpath})
+fpath=(${ZDOTDIR}/functions(N-/) ${fpath})
 
 
 #

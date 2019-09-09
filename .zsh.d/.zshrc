@@ -104,7 +104,7 @@ fi
 #
 # load configuration
 #
-for conf in ${_z_user_dir}/config/*; do
+for conf in ${ZDOTDIR}/config/*; do
   source "${conf}"
 done
 
@@ -158,7 +158,7 @@ fi
 # anyframe
 # http://qiita.com/mollifier/items/81b18c012d7841ab33c3
 #
-fpath=(${_z_user_dir}(N-/) ${fpath})
+fpath=(${ZDOTDIR}(N-/) ${fpath})
 
 anyframe-init
 

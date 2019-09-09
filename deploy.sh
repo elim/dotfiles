@@ -53,7 +53,6 @@ simply-link() {
   ln -fvs "${dot_dir}"/.xsession    ~
   ln -fvs "${dot_dir}"/.zsh.d       ~
   ln -fvs "${dot_dir}"/.zshenv      ~
-  ln -fvs "${dot_dir}"/.zshrc       ~
 }
 
 xdg-config() {
