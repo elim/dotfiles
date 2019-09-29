@@ -107,7 +107,7 @@ umask 022
 
 () {
   local inherit='local-once'
-  [[ ${uname} == 'Darwin' ]] && inherit='any'
+  [[ ${OSTYPE} =~ '^darwin*' ]] && inherit='any'
 
   if type keychain &> /dev/null; then
     export GPG_AGENT_INFO="~/.gnupg/S.gpg-agent:$(pgrep gpg-agent):1"
@@ -167,7 +167,7 @@ bindkey '^x^p' anyframe-widget-put-history
 bindkey '^xs'  anyframe-widget-cd-ghq-repository
 bindkey '^x^s' anyframe-widget-cd-ghq-repository
 
-if [[ ${uname} == 'Darwin' ]]; then
+if [[ ${OSTYPE} =~ '^darwin*' ]]; then
   bindkey '^xt'  anyframe-widget-tab-ghq-repository
   bindkey '^x^t' anyframe-widget-tab-ghq-repository
 else

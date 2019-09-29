@@ -17,7 +17,7 @@ alias dpkg='COLUMNS=${COLUMNS:-80} dpkg'
 #
 # HACK: Use the Cocoa Emacs if possible.
 _emacs=emacs
-[[ $(uname) == "Darwin" ]] && _emacs=Emacs
+[[ ${OSTYPE} =~ '^darwin*' ]] && _emacs=Emacs
 if type ${_emacs} &> /dev/null; then
   alias emacs="XMODIFIERS='@im=none' $(which ${_emacs})"
 fi
@@ -63,11 +63,11 @@ alias grep='grep --color=always'
 #
 # ls
 #
-case $(uname) in
-  FreeBSD|Darwin)
+case ${OSTYPE} in
+  freebsd*|darwin*)
     alias ls='ls -wGF'
     ;;
-  Linux)
+  linux*)
     alias ls='ls -F --color=auto'
     ;;
 esac
