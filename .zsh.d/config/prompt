@@ -2,6 +2,11 @@
 # http://d.hatena.ne.jp/mollifier/20090814/p1
 #
 
+if type starship &> /dev/null; then
+  eval "$(starship init zsh)"
+  return
+fi
+
 setopt prompt_subst
 
 if is-at-least 4.3.7; then
