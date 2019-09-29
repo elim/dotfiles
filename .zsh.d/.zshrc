@@ -203,6 +203,13 @@ typeset -U path cdpath fpath manpath
 
 
 #
+# direnv
+if type direnv &> /dev/null; then
+  eval "$(direnv hook zsh)"
+fi
+
+
+#
 # Show shell profile
 #
 type zprof &> /dev/null && zprof
