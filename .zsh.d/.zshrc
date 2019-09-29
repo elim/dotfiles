@@ -15,10 +15,10 @@
   autoload -Uz _zplugin
   (( ${+_comps} )) && _comps[zplugin]=_zplugin
 
-  zplugin load mollifier/anyframe
-  zplugin load mollifier/cd-gitroot
-  zplugin load zsh-users/zsh-completions
-  zplugin load zsh-users/zsh-syntax-highlighting
+  zplugin light mollifier/anyframe
+  zplugin light mollifier/cd-gitroot
+  zplugin light zsh-users/zsh-completions
+  zplugin light zsh-users/zsh-syntax-highlighting
 }
 
 
