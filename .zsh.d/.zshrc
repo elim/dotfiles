@@ -50,12 +50,6 @@ typeset -xT SUDO_PATH sudo_path
 typeset -U sudo_path
 sudo_path=({/usr/local,/usr,}/sbin(N-/))
 
-case ${uname} in
-  CYGWIN*)
-    path=(${path} ${sudo_path})
-    ;;
-esac
-
 
 #
 # GOPATH
