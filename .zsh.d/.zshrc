@@ -15,10 +15,10 @@
   autoload -Uz _zplugin
   (( ${+_comps} )) && _comps[zplugin]=_zplugin
 
-  zplugin light mollifier/anyframe
-  zplugin light mollifier/cd-gitroot
-  zplugin light zsh-users/zsh-completions
-  zplugin light zsh-users/zsh-syntax-highlighting
+  zplugin ice wait'!'; zplugin light mollifier/anyframe
+  zplugin ice wait'!'; zplugin light mollifier/cd-gitroot
+  zplugin ice wait'!'; zplugin light zsh-users/zsh-completions
+  zplugin ice wait'!'; zplugin light zsh-users/zsh-syntax-highlighting
 }
 
 
@@ -159,7 +159,7 @@ fi
 #
 fpath=(${ZDOTDIR}(N-/) ${fpath})
 
-anyframe-init
+autoload -Uz anyframe-init
 
 bindkey '^xb'  anyframe-widget-cdr
 bindkey '^x^b' anyframe-widget-checkout-git-branch
