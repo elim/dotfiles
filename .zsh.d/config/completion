@@ -40,6 +40,11 @@ zstyle ':completion:*' use-cache true
 zstyle ':completion:*:*files' ignored-patterns '*?.o' '*?~' '*\#'
 
 compdef hub=git
+compdef d=docker
+compdef dc=docker-compose
+compdef dcd=docker-compose
+compdef dcn=docker-compose
+compdef dcm=docker-compose
 compdef sshrc=ssh
 
 () {
