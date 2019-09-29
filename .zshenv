@@ -8,13 +8,6 @@ setopt no_global_rcs
 
 export uname=$(uname)
 
-### Cygwin 1.7
-case ${uname} in
-  CYGWIN*)
-    unset nodosfilewarning
-    ;;
-esac
-
 ZDOTDIR=~/.zsh.d
 
 #
