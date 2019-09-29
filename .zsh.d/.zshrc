@@ -17,7 +17,6 @@
 
   zplugin load mollifier/anyframe
   zplugin load mollifier/cd-gitroot
-  zplugin load paulirish/git-open
   zplugin load zsh-users/zsh-completions
   zplugin load zsh-users/zsh-syntax-highlighting
 }
