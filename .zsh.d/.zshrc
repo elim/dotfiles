@@ -105,15 +105,7 @@ done
 # ファイル作成時のパーミッション設定
 umask 022
 
-() {
-  local inherit='local-once'
-  [[ ${OSTYPE} =~ '^darwin*' ]] && inherit='any'
-
-  if (( $+commands[keychain] )); then
-    export GPG_AGENT_INFO="~/.gnupg/S.gpg-agent:$(pgrep gpg-agent):1"
-    eval $(keychain --inherit ${inherit} --agents 'gpg,ssh' --eval id_ed25519 0A2D3E0E)
-  fi
-}
+zplugin ice wait '!'; zplugin snippet "${ZDOTDIR}/snippets/keychain"
 
 GPG_TTY=$(tty)
 export GPG_TTY
