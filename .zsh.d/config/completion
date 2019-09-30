@@ -47,16 +47,6 @@ compdef dcn=docker-compose
 compdef dcm=docker-compose
 compdef sshrc=ssh
 
-() {
-  local aws_completion=/usr/local/share/zsh/site-functions/_aws
-
-  if [[ -f $aws_completion ]]; then
-    source /usr/local/share/zsh/site-functions/_aws
-  fi
-}
-
-() { type kubectl &> /dev/null && source <(kubectl completion zsh) }
-
 # Local Variables:
 # mode: shell-script
 # coding: utf-8-unix
