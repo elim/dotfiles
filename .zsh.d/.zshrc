@@ -84,7 +84,7 @@ autoload -Uz zman
 # tmux
 #
 if [ ${UID} != 0 -a "x${TMUX}" = "x" ]; then
-  if type tmux &> /dev/null; then
+  if (( $+commands[tmux] )); then
     if ! (tmux ls | grep 'main' &> /dev/null); then
       title main && sleep 1 && exec tmux new-session -D -s main
     elif ! (tmux ls | grep -E 'main.+attached' &> /dev/null); then
@@ -109,7 +109,7 @@ umask 022
   local inherit='local-once'
   [[ ${OSTYPE} =~ '^darwin*' ]] && inherit='any'
 
-  if type keychain &> /dev/null; then
+  if (( $+commands[keychain] )); then
     export GPG_AGENT_INFO="~/.gnupg/S.gpg-agent:$(pgrep gpg-agent):1"
     eval $(keychain --inherit ${inherit} --agents 'gpg,ssh' --eval id_ed25519 0A2D3E0E)
   fi
@@ -118,9 +118,7 @@ umask 022
 GPG_TTY=$(tty)
 export GPG_TTY
 
-if type fortune &> /dev/null; then
-  fortune
-fi
+(( $+commands[fortune] )) && fortune
 
 
 #
@@ -196,15 +194,13 @@ typeset -U path cdpath fpath manpath
 
 #
 # direnv
-if type direnv &> /dev/null; then
-  eval "$(direnv hook zsh)"
-fi
+(( $+commands[direnv] )) && eval "$(direnv hook zsh)"
 
 
 #
 # Show shell profile
 #
-type zprof &> /dev/null && zprof
+[[ "${ZPROF}" ]] && zprof
 
 # Local Variables:
 # mode: shell-script

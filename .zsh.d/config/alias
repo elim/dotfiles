@@ -3,9 +3,7 @@
 #
 # diff
 #
-if type colordiff &> /dev/null; then
-  alias diff=colordiff
-fi
+(( $+commands[colordiff] )) && alias diff=colordiff
 
 #
 # dpkg
@@ -16,14 +14,9 @@ alias dpkg='COLUMNS=${COLUMNS:-80} dpkg'
 # Emacs
 #
 # HACK: Use the Cocoa Emacs if possible.
-_emacs=emacs
-[[ ${OSTYPE} =~ '^darwin*' ]] && _emacs=Emacs
-if type ${_emacs} &> /dev/null; then
-  alias emacs="XMODIFIERS='@im=none' $(which ${_emacs})"
-fi
-unset _emacs
+alias emacs="XMODIFIERS='@im=none' ${commands[Emacs]:-${commands[emacs]}}"
 
-if type emacsclient &> /dev/null; then
+if (( $+commands[emacsclient] )); then
   alias e="emacsclient -n"
   export EDITOR="emacsclient -n"
   export GIT_EDITOR=emacsclient
@@ -34,7 +27,7 @@ fi
 #
 # Git
 #
-type hub &> /dev/null && alias git=hub
+alias git="${commands[hub]:-${commands[git]}}"
 alias g=git
 alias gb='g browse'
 alias gbr='g br'
@@ -78,7 +71,7 @@ alias ll='la -l'
 #
 # Vim
 #
-type vim &> /dev/null && alias vi=vim
+alias vi="${commands[vim]:-${commands[vi]}}"
 
 #
 # Shorthand
