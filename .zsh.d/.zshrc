@@ -140,14 +140,6 @@ fi
 
 
 #
-# npm
-#
-if type npm &> /dev/null; then
-  source <(npm completion)
-fi
-
-
-#
 # anyframe
 # http://qiita.com/mollifier/items/81b18c012d7841ab33c3
 #
