@@ -10,51 +10,30 @@
 #     tab [PATH] [CMD] ...  You can probably guess
 
 # Only for teh Mac users
+
 [[ "${OSTYPE}" =~ ^darwin* ]] || return
 (( $+commands[tmux] )) || return
 
-local tmux=$(which tmux)
 local cmd=""
 local cdto="$PWD"
 local session_name=""
 local args="$@"
+local has_session="false"
 
-if [ -d "$1" ]; then
-    cdto=$(chpwd_functions= cd "${1}" &>/dev/null; pwd)
+if [[ -d "$1" ]]; then
+    cdto=$(chpwd_functions= cd "${1}" &> /dev/null; pwd)
     args="${@:2}"
 fi
 
+[[ -n "$args" ]] && cmd="$args"
+
 session_name=$(basename ${cdto} | sed -e 's|\.|-|g')
 
-if [ -n "$args" ]; then
-    cmd="$args"
+if (tmux list-session -F'#S' | grep -E "^${session_name}$" &> /dev/null); then
+  has_session="true"
 fi
 
-osascript -l JavaScript &> /dev/null <<EOF
-const iTerm = Application('iTerm');
-const window = iTerm.currentWindow();
-const tab = window.createTab({ withProfile: 'Default', command: 'sh'});
-const session = tab.currentSession;
-
-const commands = \`
-echo -ne "\\\033]0;"${session_name}"\\\007"
-cd "${cdto}"
-
-if ${tmux} list-session -F'#S' | grep -E "^${session_name}$" 1>/dev/null 2>&1; then
-  if [ -n "${cmd}" ]; then
-    exec ${tmux} attach-session -t "${session_name}" \\\; new-window ${cmd}
-  else
-    exec ${tmux} attach-session -t "${session_name}"
-  fi
-else
-  exec ${tmux} new-session -D -s "${session_name}" ${cmd}
-fi
-\`
-
-session.select();
-session.write({text: commands });
-
-EOF
+${ZDOTDIR}/functions/tab.js ${commands[tmux]} ${cdto} ${session_name} ${has_session} ${cmd}
 
 # Local Variables:
 # mode: sh
