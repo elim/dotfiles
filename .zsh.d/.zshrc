@@ -83,8 +83,8 @@ autoload -Uz zman
 #
 # tmux
 #
-if [ ${UID} != 0 -a "x${TMUX}" = "x" ]; then
-  if (( $+commands[tmux] )); then
+if (( $+commands[tmux] )); then
+  if [ ${UID} != 0 -a "x${TMUX}" = "x" ]; then
     if ! (tmux ls | grep 'main' &> /dev/null); then
       title main && sleep 1 && exec tmux new-session -D -s main
     elif ! (tmux ls | grep -E 'main.+attached' &> /dev/null); then
