@@ -1,3 +1,5 @@
+*.zwc
 /.git.d/local
 /.xinitrc
+/.zsh.d/.zcompcache
 /.zsh.d/.zcompdump
