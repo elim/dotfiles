@@ -1,0 +1,12 @@
+{
+  (( $+commands[tmux] )) || return
+  (( ${UID} == 0 ))      && return
+  [[ -n ${TMUX} ]]       && return
+
+  tmux has-session -t main ||
+    exec tmux new-session -D -s main \; \
+         set-option set-titles-string main
+
+  (tmux ls | grep -E '^main.+attached$') &&
+    exec tmux attach-session -t main
+}
