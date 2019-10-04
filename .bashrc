@@ -9,7 +9,7 @@ bind '"\C-l": unix-filename-rubout'
 # http://qiita.com/varmil/items/9b0aeafa85975474e9b6
 # ----------------------------------------------------------
 
-load_git_completion() {
+__load_git_completion() {
   unset -f ${FUNCNAME[0]}
 
   local libs=(
@@ -22,9 +22,9 @@ load_git_completion() {
     [[ -f $lib ]] && source $lib && return
   done
 }
-load_git_completion
+__load_git_completion
 
-load_git_prompt() {
+__load_git_prompt() {
   unset -f ${FUNCNAME[0]}
 
   local libs=(
@@ -39,7 +39,7 @@ load_git_prompt() {
     [[ -f $lib ]] && source $lib && return
   done
 }
-load_git_prompt
+__load_git_prompt
 
 # プロンプトに各種情報を表示
 GIT_PS1_SHOWDIRTYSTATE=1
@@ -104,7 +104,7 @@ export GOPATH=$HOME
 # ----------------------------------------------------------
 # Aliases
 # ----------------------------------------------------------
-load_config() {
+__load_config() {
   unset -f ${FUNCNAME[0]}
 
   local base
@@ -115,4 +115,4 @@ load_config() {
     source "${conf}"
   done
 }
-load_config
+__load_config
