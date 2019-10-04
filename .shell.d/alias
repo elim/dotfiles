@@ -1,0 +1,112 @@
+# -*- mode: shell-script; coding: utf-8-unix -*-
+
+# This file must be loadable by Bash and Zsh.
+
+#
+# diff
+#
+type colordiff &> /dev/null && alias diff=colordiff
+
+#
+# dpkg
+#
+alias dpkg='COLUMNS=${COLUMNS:-80} dpkg'
+
+#
+# Emacs
+#
+# HACK: Use the Cocoa Emacs if possible.
+{
+  _emacs=emacs
+  type Emacs && emacs=Emacs
+  alias emacs="XMODIFIERS='@im=none' $(which ${_emacs})"
+  unset _emacs
+
+  if type emacsclient; then
+    alias e="emacsclient -n"
+    export EDITOR="emacsclient -n"
+    export GIT_EDITOR=emacsclient
+  else
+    export EDITOR=vi
+  fi
+} &> /dev/null
+
+#
+# Git
+#
+type hub &> /dev/null && alias git=hub
+alias g=git
+alias gb='g browse'
+alias gbr='g br'
+alias gbrs='g brs'
+alias gbrsr='g brsr'
+alias gco='g co'
+alias gf='g fetch'
+alias gdi='g di'
+alias gg='g grep'
+alias gl='g log --stat --show-signature'
+alias glp='gl -p'
+alias gop='g open'
+alias gpl='g pull'
+alias gp='g p'
+alias gps='g push'
+alias gr='cd-gitroot'
+alias grb='g rb'
+alias gref='g ref'
+alias gst='g st'
+
+#
+# grep
+#
+alias grep='grep --color=always'
+
+#
+# ls
+#
+case ${OSTYPE} in
+  freebsd*|darwin*)
+    alias ls='ls -wGF'
+    ;;
+  linux*)
+    alias ls='ls -F --color=auto'
+    ;;
+esac
+
+alias la='ls -AFH'
+alias ll='la -l'
+
+#
+# Vim
+#
+type vim &> /dev/null && alias vi=vim
+
+#
+# Shorthand
+#
+alias b='bundle'
+alias be='bundle exec'
+alias d='docker'
+alias l=less
+alias v=vagrant
+
+dc() {
+  local toplevel=$(git rev-parse --show-toplevel 2> /dev/null)
+
+  # The PRODUCT_WORK_DIR environment variable is for NFS storage.
+  (
+    chpwd_functions= cd "${toplevel}" &&
+      PRODUCT_WORK_DIR="${toplevel}" docker-compose "$@"
+  )
+}
+
+dcd() {
+  dc -f docker-compose.yml -f docker-compose-dev.yml "$@"
+}
+
+dcn() {
+  dc -f docker-compose.yml -f docker-compose-nfs.yml "$@"
+}
+
+dcm() {
+  dc -f docker-compose.yml -f docker-compose-mutagen.yml "$@"
+}

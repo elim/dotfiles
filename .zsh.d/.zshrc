@@ -89,7 +89,8 @@ zplugin snippet "${ZDOTDIR}/snippets/tmux"
 #
 # load configuration
 #
-for conf in ${ZDOTDIR}/config/*; do
+
+for conf in ~/.shell.d/* ${ZDOTDIR}/config/*; do
   source "${conf}"
 done
 

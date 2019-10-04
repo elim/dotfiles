@@ -1,10 +1,12 @@
-case ${OSTYPE} in
+{
+  case ${OSTYPE} in
   darwin*|freebsd*|linux*)
-    unlimit
+    ulimit
     limit core 0
     limit -s
     ;;
-esac
+  esac
+} &> /dev/null
 
 # Local Variables:
 # mode: shell-script
