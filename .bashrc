@@ -10,6 +10,8 @@ bind '"\C-l": unix-filename-rubout'
 # ----------------------------------------------------------
 
 load_git_completion() {
+  unset -f ${FUNCNAME[0]}
+
   local libs=(
     /usr/local/etc/bash_completion.d/git-completion.bash
     /Library/Developer/CommandLineTools/usr/share/git-core/git-completion.bash
@@ -23,6 +25,8 @@ load_git_completion() {
 load_git_completion
 
 load_git_prompt() {
+  unset -f ${FUNCNAME[0]}
+
   local libs=(
     /usr/local/etc/bash_completion.d/git-prompt.sh
     /usr/share/git-core/contrib/completion/git-prompt.sh
@@ -101,6 +105,8 @@ export GOPATH=$HOME
 # Aliases
 # ----------------------------------------------------------
 load_config() {
+  unset -f ${FUNCNAME[0]}
+
   local base
 
   [[ -n "$SSHHOME" ]] && base=$SSHHOME/.sshrc.d || base=$HOME
