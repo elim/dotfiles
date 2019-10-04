@@ -102,15 +102,11 @@ export GOPATH=$HOME
 # ----------------------------------------------------------
 load_config() {
   local base
-  local config
-  local fname
 
   [[ -n "$SSHHOME" ]] && base=$SSHHOME/.sshrc.d || base=$HOME
-  config=(alias environment)
 
-  for c in ${config[@]}; do
-    fname="${base}/.zsh.d/config/${c}"
-    [[ -f "${fname}" ]] && source "${fname}"
+  for conf in ${base}/.shell.d/*; do
+    source "${conf}"
   done
 }
 load_config

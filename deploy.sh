@@ -45,6 +45,7 @@ simply-link() {
   ln -fvs "${dot_dir}"/.git.d       ~
   ln -fvs "${dot_dir}"/.hammerspoon ~
   ln -fvs "${dot_dir}"/.my.cnf      ~
+  ln -fvs "${dot_dir}"/.shell.d     ~
   ln -fvs "${dot_dir}"/.sshrc       ~
   ln -fvs "${dot_dir}"/.sshrc.d     ~
   ln -fvs "${dot_dir}"/.tmux.conf   ~
