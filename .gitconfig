@@ -10,7 +10,7 @@
 
 	# shortcut
 	br = branch
-	brs  = "!f() {(for i in $(git list-local-branches);   do echo $(git updated-at $i) $i; done) | sort -r;}; f"
+	brs  = "!f() {(for i in $(git list-local-branches);  do echo $(git updated-at $i) $i; done) | sort -r;}; f"
 	brsr = "!f() {(for i in $(git list-remote-branches); do echo $(git updated-at $i) $i; done) | sort -r;}; f"
 	ci = commit
 	co = checkout
