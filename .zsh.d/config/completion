@@ -40,11 +40,15 @@ zstyle ':completion:*' use-cache true
 zstyle ':completion:*:*files' ignored-patterns '*?.o' '*?~' '*\#'
 
 compdef hub=git
+
+zplugin ice wait'!'; zplugin snippet https://github.com/docker/cli/blob/master/contrib/completion/zsh/_docker
+zplugin ice wait'!'; zplugin snippet https://github.com/docker/compose/blob/master/contrib/completion/zsh/_docker-compose
 compdef d=docker
 compdef dc=docker-compose
 compdef dcd=docker-compose
 compdef dcn=docker-compose
 compdef dcm=docker-compose
+
 compdef sshrc=ssh
 
 # Local Variables:
