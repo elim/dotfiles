@@ -29,6 +29,7 @@ setup-anyenv() {
 
   anyenv install nodenv
   git clone https://github.com/nodenv/nodenv-package-rehash.git "$(nodenv root)"/plugins/nodenv-package-rehash
+  ln -fvs "${dot_dir}"/nodenv/default-packages envs/nodenv/
 
   anyenv install pyenv
   git clone https://github.com/yyuu/pyenv-virtualenv "$(pyenv root)"/plugins/pyenv-virtualenv
