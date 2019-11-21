@@ -1,5 +1,5 @@
 #
-# http://d.hatena.ne.jp/spiritloose/20060927/1159286301
+# https://spiritloose.hatenadiary.org/entry/20060927/1159286301
 #
 function _ls_on_chpwd() {
   ls
