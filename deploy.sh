@@ -4,6 +4,11 @@
 # functions
 # ----------------------------
 
+delete-bloken-links() {
+  find ~                    -maxdepth 1 -type l -follow -print0 |xargs -0 rm -v
+  find "$(xdg-config-path)"             -type l -follow -print0 |xargs -0 rm -v
+}
+
 dot_dir() {
   dirname "$(realpath "${0}")"
 }
@@ -51,11 +56,19 @@ simply-link() {
   ln -fvs "${dot_dir}"/.vimrc     ~
   ln -fvs "${dot_dir}"/.zsh.d     ~
   ln -fvs "${dot_dir}"/.zshenv    ~
+
+  find ~ -maxdepth 1 -type l -follow -print0 |xargs -0 rm -v
+}
+
+xdg-config-path() {
+  local config_dir
+  echo "${XDG_CONFIG_HOME:-$HOME/.config}"
 }
 
 xdg-config() {
   local config_dir
-  config_dir=${XDG_CONFIG_HOME:-$HOME/.config}
+  config_dir=$(xdg-config-path)
+
   mkdir -p "${config_dir}"
   (
     cd "${dot_dir}"/.config
@@ -74,3 +87,4 @@ dot_dir=$(dot_dir)
 simply-link
 setup-anyenv
 xdg-config
+delete-bloken-links
