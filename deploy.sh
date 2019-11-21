@@ -46,8 +46,6 @@ setup-anyenv() {
 
 simply-link() {
   ln -fvs "${dot_dir}"/.bashrc    ~
-  ln -fvs "${dot_dir}"/.gitconfig ~
-  ln -fvs "${dot_dir}"/.git.d     ~
   ln -fvs "${dot_dir}"/.shell.d   ~
   ln -fvs "${dot_dir}"/.sshrc     ~
   ln -fvs "${dot_dir}"/.sshrc.d   ~
