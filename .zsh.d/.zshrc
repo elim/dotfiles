@@ -188,8 +188,6 @@ typeset -U path cdpath fpath manpath
 [[ "${ZPROF}" ]] && zprof
 
 # Local Variables:
-# mode: shell-script
-# coding: utf-8-unix
-# indent-tabs-mode: nil
-# sh-basic-offset: 2
+# mode: sh
+# sh-shell: zsh
 # End:

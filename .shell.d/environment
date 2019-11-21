@@ -1,5 +1,3 @@
-# -*- mode: shell-script; coding: utf-8-unix -*-
-
 export GZIP='-v9N'
 export LESS='--hilite-search --HILITE-UNREAD --ignore-case --LONG-PROMPT --no-init --RAW-CONTROL-CHARS --shift=4 --tabs=4 --quit-if-one-screen'
 export PAGER=less
@@ -26,3 +24,8 @@ CPU utilisation (percentage)            : %P
 Times the process was swapped           : %W
 Times of major page faults              : %F
 Times of minor page faults              : %R"
+
+# Local Variables:
+# mode: sh
+# sh-shell: bash
+# End:

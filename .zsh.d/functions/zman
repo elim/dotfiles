@@ -2,4 +2,5 @@ PAGER="less -g -s '+/^       "$1"'" man zshall
 
 # Local Variables:
 # mode: sh
+# sh-shell: zsh
 # End:

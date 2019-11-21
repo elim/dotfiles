@@ -71,4 +71,5 @@ fi
 
 # Local Variables:
 # mode: sh
+# sh-shell: zsh
 # End:

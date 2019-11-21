@@ -10,3 +10,8 @@
   (tmux ls | grep -E '^main.+attached$') &&
     exec tmux attach-session -t main
 }
+
+# Local Variables:
+# mode: sh
+# sh-shell: zsh
+# End:

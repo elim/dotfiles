@@ -2,4 +2,5 @@ echo -ne "\033]0;"$*"\007"
 
 # Local Variables:
 # mode: sh
+# sh-shell: zsh
 # End:

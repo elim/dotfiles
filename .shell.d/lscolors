@@ -1,6 +1,3 @@
-# -*- mode: shell-script; coding: utf-8-unix -*-
-# $Id$
-
 # archive
 LS_COLORS="${LS_COLORS}:*.rpm=01;31"
 LS_COLORS="${LS_COLORS}:*.tar=01;31:*.gz=01;31:*.tgz=01;31:*.z=01;31:*.bz2=01;31"
@@ -37,3 +34,8 @@ LS_COLORS="${LS_COLORS}:*.XPM=01;33:*.XBM=01;33:*.XWD=01;33:*.XCF=01;33:*.ICO=01
  
 # export
 export LS_COLORS
+
+# Local Variables:
+# mode: sh
+# sh-shell: bash
+# End:
