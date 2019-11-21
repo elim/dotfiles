@@ -61,10 +61,12 @@ xdg-config() {
   local config_dir
   config_dir=${XDG_CONFIG_HOME:-$HOME/.config}
   mkdir -p "${config_dir}"
+  (
+    cd "${dot_dir}"/.config
 
-  cd "${dot_dir}"/.config
-  find . -type d -exec mkdir -p "${config_dir}/{}" \;
-  find . -type f -exec ln -fvs "${dot_dir}"/.config/{} "${config_dir}"/{} \;
+    find . -type d -exec mkdir -p "${config_dir}/{}" \;
+    find . -type f -exec ln -fvs "${dot_dir}"/.config/{} "${config_dir}"/{} \;
+  )
 }
 
 # ----------------------------
