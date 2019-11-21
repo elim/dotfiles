@@ -65,9 +65,9 @@
 	follow = true
 
 [pager]
-	log  = ~/.git.d/bin/diff-pager
-	show = ~/.git.d/bin/diff-pager
-	diff = ~/.git.d/bin/diff-pager
+	log  = ${XDG_CONFIG_HOME}/git/bin/diff-pager
+	show = ${XDG_CONFIG_HOME}/git/bin/diff-pager
+	diff = ${XDG_CONFIG_HOME}/git/bin/diff-pager
 
 [tig "bind"]
 	generic = g move-first-line
@@ -80,10 +80,5 @@
 
 # ------------------------------
 
-[include]
-	path = ~/.git.d/local
-
-[includeIf "gitdir:~/src/github.com/codetakt/"]
-	path = ~/.git.d/codetakt
 [merge]
 	conflictstyle = diff3
