@@ -1,5 +1,3 @@
-# -*- mode: shell-script; coding: utf-8-unix -*-
-# $Id$
 # based on http://nyan2.tdiary.net/20020923.html#p12
 
 setopt no_global_rcs
@@ -41,3 +39,8 @@ if type anyenv &> /dev/null; then
     path=(${HOME}/.anyenv/envs/${d}/shims $path)
   done
 fi
+
+# Local Variables:
+# mode: sh
+# sh-shell: zsh
+# End:

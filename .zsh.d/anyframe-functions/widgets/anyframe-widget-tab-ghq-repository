@@ -3,6 +3,6 @@ anyframe-source-ghq-repository \
   | anyframe-action-execute tab
 
 # Local Variables:
-# mode: Shell-Script
+# mode: sh
+# sh-shell: zsh
 # End:
-# vim: ft=zsh

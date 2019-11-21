@@ -42,5 +42,6 @@ if is-at-least 4.3.10; then
 fi
 
 # Local Variables:
-# mode: shell-script
+# mode: sh
+# sh-shell: zsh
 # End:

@@ -9,4 +9,5 @@ add-zsh-hook chpwd _ls_on_chpwd
 
 # Local Variables:
 # mode: sh
+# sh-shell: zsh
 # End:

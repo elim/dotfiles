@@ -1,5 +1,3 @@
-# -*- mode: shell-script; coding: utf-8-unix -*-
-
 # This file must be loadable by Bash and Zsh.
 
 #
@@ -110,3 +108,8 @@ dcn() {
 dcm() {
   dc -f docker-compose.yml -f docker-compose-mutagen.yml "$@"
 }
+
+# Local Variables:
+# mode: sh
+# sh-shell: bash
+# End:

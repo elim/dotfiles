@@ -37,4 +37,5 @@ ${ZDOTDIR}/functions/tab.js ${commands[tmux]} ${cdto} ${session_name} ${has_sess
 
 # Local Variables:
 # mode: sh
+# sh-shell: zsh
 # End:

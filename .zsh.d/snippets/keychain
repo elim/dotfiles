@@ -12,3 +12,8 @@
              id_ed25519 0A2D3E0E)
   fi
 }
+
+# Local Variables:
+# mode: sh
+# sh-shell: zsh
+# End:
