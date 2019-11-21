@@ -1,10 +1,15 @@
 #!/bin/bash -eu
 
+bold=$(tput bold)
+normal=$(tput sgr0)
+
 # ----------------------------
 # functions
 # ----------------------------
 
 delete-bloken-links() {
+  right-here
+
   find ~                    -maxdepth 1 -type l -follow -print0 |xargs -0 rm -v
   find "$(xdg-config-path)"             -type l -follow -print0 |xargs -0 rm -v
 }
@@ -13,11 +18,17 @@ dot_dir() {
   dirname "$(realpath "${0}")"
 }
 
+right-here() {
+  echo; echo "${bold}${FUNCNAME[1]}${normal}"; echo
+}
+
 realpath() {
   echo "$(cd "$(dirname "${1}")" && pwd)/$(basename "${1}")"
 }
 
 setup-anyenv() {
+  right-here
+
   local anyenv_dir
   anyenv_dir=~/.anyenv
 
@@ -45,6 +56,8 @@ setup-anyenv() {
 }
 
 simply-link() {
+  right-here
+
   ln -fvs "${dot_dir}"/.bashrc    ~
   ln -fvs "${dot_dir}"/.shell.d   ~
   ln -fvs "${dot_dir}"/.sshrc     ~
@@ -64,6 +77,8 @@ xdg-config-path() {
 }
 
 xdg-config() {
+  right-here
+
   local config_dir
   config_dir=$(xdg-config-path)
 
