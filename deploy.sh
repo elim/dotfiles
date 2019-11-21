@@ -40,21 +40,17 @@ setup-anyenv() {
 }
 
 simply-link() {
-  ln -fvs "${dot_dir}"/.bashrc      ~
-  ln -fvs "${dot_dir}"/.cvsrc       ~
-  ln -fvs "${dot_dir}"/.gitconfig   ~
-  ln -fvs "${dot_dir}"/.git.d       ~
-  ln -fvs "${dot_dir}"/.hammerspoon ~
-  ln -fvs "${dot_dir}"/.my.cnf      ~
-  ln -fvs "${dot_dir}"/.shell.d     ~
-  ln -fvs "${dot_dir}"/.sshrc       ~
-  ln -fvs "${dot_dir}"/.sshrc.d     ~
-  ln -fvs "${dot_dir}"/.tmux.conf   ~
-  ln -fvs "${dot_dir}"/.tmux.d      ~
-  ln -fvs "${dot_dir}"/.vimrc       ~
-  ln -fvs "${dot_dir}"/.xsession    ~
-  ln -fvs "${dot_dir}"/.zsh.d       ~
-  ln -fvs "${dot_dir}"/.zshenv      ~
+  ln -fvs "${dot_dir}"/.bashrc    ~
+  ln -fvs "${dot_dir}"/.gitconfig ~
+  ln -fvs "${dot_dir}"/.git.d     ~
+  ln -fvs "${dot_dir}"/.shell.d   ~
+  ln -fvs "${dot_dir}"/.sshrc     ~
+  ln -fvs "${dot_dir}"/.sshrc.d   ~
+  ln -fvs "${dot_dir}"/.tmux.conf ~
+  ln -fvs "${dot_dir}"/.tmux.d    ~
+  ln -fvs "${dot_dir}"/.vimrc     ~
+  ln -fvs "${dot_dir}"/.zsh.d     ~
+  ln -fvs "${dot_dir}"/.zshenv    ~
 }
 
 xdg-config() {
