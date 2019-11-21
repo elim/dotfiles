@@ -35,7 +35,7 @@ setup-anyenv() {
   git clone https://github.com/yyuu/pyenv-virtualenv "$(pyenv root)"/plugins/pyenv-virtualenv
 
   anyenv install rbenv
-  git clone https://github.com/rbenv/rbenv-default-gems.git "$(pyenv root)"/plugins/rbenv-default-gems
+  git clone https://github.com/rbenv/rbenv-default-gems.git "$(rbenv root)"/plugins/rbenv-default-gems
   ln -fvs "${dot_dir}"/rbenv/default-gems envs/rbenv/
 }
 
