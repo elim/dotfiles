@@ -15,10 +15,8 @@ alias dpkg='COLUMNS=${COLUMNS:-80} dpkg'
 #
 # HACK: Use the Cocoa Emacs if possible.
 {
-  _emacs=emacs
-  type Emacs && emacs=Emacs
-  alias emacs="XMODIFIERS='@im=none' $(which ${_emacs})"
-  unset _emacs
+  # shellcheck disable=SC2139
+  alias emacs="XMODIFIERS='@im=none' $(command -v Emacs || command -v emacs)"
 
   if type emacsclient; then
     alias e="emacsclient -n"
