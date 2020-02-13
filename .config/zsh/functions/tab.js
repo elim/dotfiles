@@ -3,16 +3,15 @@ function buildCommand(argv) {
   const tmux = argv.shift()
   const cdTo = argv.shift()
   const sessionName = argv.shift()
-  const isSessionExists = argv.shift() === 'true'
   const extraCommand = argv.join(' ')
 
   let tmuxCommand = [
     `exec ${tmux}`,
-    `${isSessionExists ? 'attach-session -t' : 'new-session -s'} ${sessionName}`
+    `new-session -A -s ${sessionName}`
   ]
 
   if (extraCommand) {
-    tmuxCommand.push(`${isSessionExists ? '\\; new-window' : ''} '${extraCommand}'`)
+    tmuxCommand.push(`\\; '${extraCommand}'`)
   }
 
   tmuxCommand.push(`\\; set-option set-titles-string ${sessionName}`)

@@ -18,7 +18,6 @@ local cmd=""
 local cdto="$PWD"
 local session_name=""
 local args="$@"
-local has_session="false"
 
 if [[ -d "$1" ]]; then
     cdto=$(chpwd_functions= cd "${1}" &> /dev/null; pwd)
@@ -29,12 +28,8 @@ fi
 
 session_name=$(basename ${cdto} | sed -e 's|\.|-|g')
 
-if (tmux list-session -F'#S' | grep -E "^${session_name}$" &> /dev/null); then
-  has_session="true"
-fi
-
 /usr/bin/osascript -l JavaScript \
-                   ${ZDOTDIR}/functions/tab.js ${commands[tmux]} ${cdto} ${session_name} ${has_session} ${cmd}
+                   ${ZDOTDIR}/functions/tab.js ${commands[tmux]} ${cdto} ${session_name} ${cmd}
 
 # Local Variables:
 # mode: sh
