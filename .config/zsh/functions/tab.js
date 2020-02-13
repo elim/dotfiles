@@ -1,5 +1,3 @@
-#!/usr/bin/osascript -l JavaScript
-
 function buildCommand(argv) {
   // The sh requires the full path of tmux
   const tmux = argv.shift()
