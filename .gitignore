@@ -1,4 +1,4 @@
+*.zcompcache
+*.zcompdump
 *.zwc
 /.xinitrc
-/.zsh.d/.zcompcache
-/.zsh.d/.zcompdump
