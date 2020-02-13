@@ -48,8 +48,8 @@
 	smudge = git-lfs smudge %f
 
 [ghq]
-	root = ~/src
 	root = ~/Dropbox/src
+	root = ~/src
 	user = elim
 
 [github]
