@@ -2,13 +2,14 @@ function buildCommand(argv) {
   // The sh requires the full path of tmux
   const tmux = argv.shift()
   const cdTo = argv.shift()
+  const tabName = argv.shift()
   const sessionName = argv.shift()
   const extraScript = argv.shift() || ''
 
   let tmuxCommand = [
     `exec ${tmux}`,
     `new-session -ADs ${sessionName} ${extraScript}`,
-    `\\; set-option set-titles-string '${sessionName}'`
+    `\\; set-option set-titles-string '${tabName}'`
   ]
 
   return [
