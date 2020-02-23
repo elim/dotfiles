@@ -9,7 +9,7 @@
 #     tab [CMD]             Open a new tab and execute CMD
 #     tab [PATH] [CMD] ...  You can probably guess
 
-# Only for teh Mac users
+# Only for the iTerm users
 
 [[ "${OSTYPE}" =~ ^darwin* ]] || return
 (( $+commands[tmux] )) || return
