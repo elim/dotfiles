@@ -20,8 +20,8 @@ local session_name=""
 local args="$@"
 
 if [[ -d "$1" ]]; then
-    cdto=$(chpwd_functions= cd "${1}" &> /dev/null; pwd)
-    args="${@:2}"
+  cdto=$(realpath "${1}")
+  args="${@:2}"
 fi
 
 [[ -n "$args" ]] && cmd="$args"
