@@ -17,15 +17,17 @@
 local new_session_script=''
 local cdto="$PWD"
 local session_name=""
+local tab_name=""
 local args="$@"
 
 if [[ -d "$1" ]]; then
   cdto=$(realpath "${1}")
   args="${@:2}"
-  session_name="${${${cdto##*/}//\./-}// /_}"
+  tab_name="${cdto##*/}"
 else
-  session_name="${${${args}//\./-}// /_}"
+  tab_name="${args}"
 fi
+session_name="${${${tab_name}//\./-}// /_}"
 
 if [[ -n "$args" ]]; then
   new_session_script="/tmp/tmux-new-session-${RANDOM}.zsh"
@@ -40,6 +42,7 @@ fi
                    ${ZDOTDIR}/functions/tab.js \
                    ${commands[tmux]} \
                    ${cdto} \
+                   ${tab_name} \
                    ${session_name} \
                    ${new_session_script}
 
