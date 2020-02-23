@@ -3,8 +3,18 @@
   (( ${UID} == 0 ))      && return
   [[ -n ${TMUX} ]]       && return
 
-  exec tmux new-session -A -s main \; \
-       set-option set-titles-string main
+  # If the main session does not exist, create it.
+  tmux has -t main ||
+    exec tmux new -Ds main \; \
+         set-option set-titles-string main
+
+  # If the main session exists but detached, attach to it.
+  (tmux ls -F '#{session_name} #{session_attached}' |
+     grep -E '^main 0$') &&
+    exec tmux attach -t main
+
+  # If the main session exists and attached from another
+  # client, do nothing.
 }
 
 # Local Variables:
