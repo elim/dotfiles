@@ -14,7 +14,7 @@
 [[ "${OSTYPE}" =~ ^darwin* ]] || return
 (( $+commands[tmux] )) || return
 
-local cmd=""
+local new_session_script=''
 local cdto="$PWD"
 local session_name=""
 local args="$@"
@@ -22,18 +22,26 @@ local args="$@"
 if [[ -d "$1" ]]; then
   cdto=$(realpath "${1}")
   args="${@:2}"
+  session_name="${${${cdto##*/}//\./-}// /_}"
+else
+  session_name="${${${args}//\./-}// /_}"
 fi
 
-[[ -n "$args" ]] && cmd="$args"
-
-session_name=$(basename ${cdto} | sed -e 's|\.|-|g')
+if [[ -n "$args" ]]; then
+  new_session_script="/tmp/tmux-new-session-${RANDOM}.zsh"
+  {
+    echo "#!${commands[zsh]}"
+    echo "$args"
+  } > ${new_session_script}
+  chmod +x ${new_session_script}
+fi
 
 /usr/bin/osascript -l JavaScript \
                    ${ZDOTDIR}/functions/tab.js \
                    ${commands[tmux]} \
                    ${cdto} \
                    ${session_name} \
-                   ${cmd}
+                   ${new_session_script}
 
 # Local Variables:
 # mode: sh

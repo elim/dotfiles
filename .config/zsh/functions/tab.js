@@ -3,18 +3,13 @@ function buildCommand(argv) {
   const tmux = argv.shift()
   const cdTo = argv.shift()
   const sessionName = argv.shift()
-  const extraCommand = argv.join(' ')
+  const extraScript = argv.shift() || ''
 
   let tmuxCommand = [
     `exec ${tmux}`,
-    `new-session -A -s ${sessionName}`
+    `new-session -ADs ${sessionName} ${extraScript}`,
+    `\\; set-option set-titles-string '${sessionName}'`
   ]
-
-  if (extraCommand) {
-    tmuxCommand.push(`\\; '${extraCommand}'`)
-  }
-
-  tmuxCommand.push(`\\; set-option set-titles-string ${sessionName}`)
 
   return [
     `cd ${cdTo}`,
