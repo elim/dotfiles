@@ -29,7 +29,11 @@ fi
 session_name=$(basename ${cdto} | sed -e 's|\.|-|g')
 
 /usr/bin/osascript -l JavaScript \
-                   ${ZDOTDIR}/functions/tab.js ${commands[tmux]} ${cdto} ${session_name} ${cmd}
+                   ${ZDOTDIR}/functions/tab.js \
+                   ${commands[tmux]} \
+                   ${cdto} \
+                   ${session_name} \
+                   ${cmd}
 
 # Local Variables:
 # mode: sh
