@@ -4,21 +4,21 @@
 # - http://yonchu.hatenablog.com/entry/20120415/1334506855
 
 #
-# zplugin
+# zinit
 #
 () {
-  if [[ ! -d ${HOME}/.zplugin ]]; then
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zplugin/master/doc/install.sh)"
+  if [[ ! -d ${HOME}/.zinit ]]; then
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zinit/master/doc/install.sh)"
   fi
 
-  source ${HOME}/.zplugin/bin/zplugin.zsh
-  autoload -Uz _zplugin
-  (( ${+_comps} )) && _comps[zplugin]=_zplugin
+  source ${HOME}/.zinit/bin/zinit.zsh
+  autoload -Uz _zinit
+  (( ${+_comps} )) && _comps[zinit]=_zinit
 
-  zplugin ice wait'!'; zplugin light mollifier/anyframe
-  zplugin ice wait'!'; zplugin light mollifier/cd-gitroot
-  zplugin ice wait'!'; zplugin light zsh-users/zsh-completions
-  zplugin ice wait'!'; zplugin light zsh-users/zsh-syntax-highlighting
+  zinit ice wait'!'; zinit light mollifier/anyframe
+  zinit ice wait'!'; zinit light mollifier/cd-gitroot
+  zinit ice wait'!'; zinit light zsh-users/zsh-completions
+  zinit ice wait'!'; zinit light zsh-users/zsh-syntax-highlighting
 }
 
 
@@ -83,7 +83,7 @@ autoload -Uz zman
 #
 # tmux
 #
-zplugin snippet "${ZDOTDIR}/snippets/tmux"
+zinit snippet "${ZDOTDIR}/snippets/tmux"
 
 
 #
@@ -98,7 +98,7 @@ done
 # ファイル作成時のパーミッション設定
 umask 022
 
-zplugin ice wait '!'; zplugin snippet "${ZDOTDIR}/snippets/keychain"
+zinit ice wait '!'; zinit snippet "${ZDOTDIR}/snippets/keychain"
 
 GPG_TTY=$(tty)
 export GPG_TTY
