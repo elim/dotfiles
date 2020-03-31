@@ -30,6 +30,14 @@ fpath=(/usr/local/share/zsh-completions(N-/) $fpath)
 fpath=(${ZDOTDIR}/completions(N-/) ${fpath})
 fpath=(${ZDOTDIR}/functions(N-/) ${fpath})
 
+# Homebrew Shell Completion
+# https://docs.brew.sh/Shell-Completion
+if (( $+commands[brew] )); then
+  fpath=($(brew --prefix)/share/zsh/site-functions $fpath)
+
+  autoload -Uz compinit
+  compinit
+fi
 
 #
 # anyenv
