@@ -34,7 +34,7 @@ fpath=(${ZDOTDIR}/functions(N-/) ${fpath})
 #
 # anyenv
 #
-if type anyenv &> /dev/null; then
+if (( $+commands[anyenv] )); then
   eval "$(anyenv init -)"
   for d in $(command ls ~/.anyenv/envs); do
     path=(${HOME}/.anyenv/envs/${d}/shims $path)
