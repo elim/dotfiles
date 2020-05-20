@@ -3,7 +3,7 @@
   (( ${UID} == 0 ))      && return
   [[ -n ${TMUX} ]]       && return
 
-  local initial_session_name=main
+  local initial_session_name=scratch
 
   # If the $initial_session_name session does not exist, create it.
   tmux has -t "${initial_session_name}" ||
