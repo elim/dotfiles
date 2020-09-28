@@ -18,7 +18,7 @@
 	f = fetch
 	g = grep
 	op = open
-	p = !sh -c 'hub browse -- pull/$(git rev-parse --abbrev-ref HEAD)'
+	p = !sh -c 'gh pr view --web 2> /dev/null || gh pr create --web 2> /dev/null || gh repo view --web'
 	rb = rebase
 	ref = reflog
 	ri = rebase --interactive --autosquash
