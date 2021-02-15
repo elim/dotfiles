@@ -98,6 +98,25 @@ done
 # ファイル作成時のパーミッション設定
 umask 022
 
+# Reuse the ssh-agent on the tmux even if ForwardAgent is
+# enabled.
+# https://qiita.com/sonots/items/2d7950a68da0a02ba7e4
+() {
+  local agent="$HOME/.ssh/agent"
+
+  if [ -S "$SSH_AUTH_SOCK" ]; then
+    case $SSH_AUTH_SOCK in
+      /tmp/*/agent.[0-9]*)
+        ln -snf "$SSH_AUTH_SOCK" $agent &&
+          export SSH_AUTH_SOCK=$agent
+    esac
+  elif [ -S $agent ]; then
+    export SSH_AUTH_SOCK=$agent
+  else
+    echo "no ssh-agent"
+  fi
+}
+
 zinit ice wait '!'; zinit snippet "${ZDOTDIR}/snippets/keychain"
 
 GPG_TTY=$(tty)
