@@ -5,6 +5,9 @@
 
   local initial_session_name=scratch
 
+  # HACK: Continues use the Zsh on the tmux even the SHELL is not Zsh.
+  export SHELL=$ZSH_ARGZERO
+
   # If the $initial_session_name session does not exist, create it.
   tmux has -t "${initial_session_name}" ||
     exec tmux new -Ds "${initial_session_name}" \; \
