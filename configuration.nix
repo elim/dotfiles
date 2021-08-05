@@ -14,6 +14,36 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+
+  # Based on https://nixos.wiki/wiki/Yubikey_based_Full_Disk_Encryption_(FDE)_on_NixOS
+  #
+  # Minimal list of modules to use the EFI system partition and the YubiKey
+  boot.initrd.kernelModules = [
+    "dm-snapshot"
+    "nls_cp437"
+    "nls_iso8859-1"
+    "usbhid"
+    "vfat"
+  ];
+
+  # Enable support for the YubiKey PBA
+  boot.initrd.luks.yubikeySupport = true;
+
+  # Configuration to use your Luks device
+  boot.initrd.luks.devices = {
+    "nixos-enc" = {
+      device = "/dev/nvme0n1p2";
+      preLVM = true; # You may want to set this to false if you need to start a network service first
+      yubikey = {
+        slot = 2;
+        twoFactor = true; # Set to false if you did not set up a user password.
+        storage = {
+          device = "/dev/nvme0n1p1";
+        };
+      };
+    };
+  };
+
   # networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
