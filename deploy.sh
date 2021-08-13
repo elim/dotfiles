@@ -65,7 +65,6 @@ simply-link() {
   ln -fvs "${dot_dir}"/.tmux.conf ~
   ln -fvs "${dot_dir}"/.tmux.d    ~
   ln -fvs "${dot_dir}"/.vimrc     ~
-  ln -fvs "${dot_dir}"/.zsh.d     ~
   ln -fvs "${dot_dir}"/.zshenv    ~
 
   find ~ -maxdepth 1 -type l -follow -print0 |xargs -0 rm -v
