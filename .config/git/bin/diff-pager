@@ -1,22 +1,21 @@
-#!/bin/bash -eu
+#!/bin/sh -eu
 
-diff-pager () {
-  local s
-  local script=""
-  local scripts=(
-    /usr/local/share/git-core/contrib/diff-highlight/diff-highlight
-    /usr/share/doc/git/contrib/diff-highlight/diff-highlight
-  )
+scripts () {
+  echo "/usr/local/share/git-core/contrib/diff-highlight/diff-highlight"
+       "/usr/share/doc/git/contrib/diff-highlight/diff-highlight"
+}
 
-  for s in $scripts; do
-    [[ -f $s ]] && script=$s; break
+diff_pager () {
+  for s in $(scripts); do
+    [ -f "${s}" ] && script=$s; break
   done
 
-  if [[ ${script} ]]; then
-    cat - | perl ${script} | ${PAGER}
+  if [ -z "${script+x}" ]; then
+    cat - | ${PAGER}
     exit 0
   fi
 
-  cat - | ${PAGER}
+  cat - | perl "${script}" | ${PAGER}
 }
-diff-pager
+
+diff_pager
