@@ -31,6 +31,7 @@
 
   zinit ice wait'!'; zinit light mollifier/anyframe
   zinit ice wait'!'; zinit light mollifier/cd-gitroot
+  zinit ice wait'!'; zinit light spwhitt/nix-zsh-completions
   zinit ice wait'!'; zinit light zsh-users/zsh-completions
   zinit ice wait'!'; zinit light zsh-users/zsh-syntax-highlighting
 }
