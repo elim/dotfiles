@@ -9,9 +9,8 @@
 #     tab [CMD]             Open a new tab and execute CMD
 #     tab [PATH] [CMD] ...  You can probably guess
 
-# Only for the iTerm users
-
-[[ "${OSTYPE}" =~ ^darwin* ]] || return
+# Only for the iTerm or the Gnome-terminal users.
+[[ "${OSTYPE}" =~ ^(darwin|linux) ]] || return
 (( $+commands[tmux] )) || return
 
 local new_session_script=''
@@ -38,13 +37,27 @@ if [[ -n "$args" ]]; then
   chmod +x ${new_session_script}
 fi
 
-/usr/bin/osascript -l JavaScript \
-                   ${ZDOTDIR}/functions/tab.js \
-                   ${commands[tmux]} \
-                   ${cdto} \
-                   ${tab_name} \
-                   ${session_name} \
-                   ${new_session_script}
+case ${OSTYPE} in
+  darwin)
+    /usr/bin/osascript \
+      -l JavaScript ${ZDOTDIR}/functions/tab.js \
+        ${commands[tmux]} \
+        ${cdto} \
+        ${tab_name} \
+        ${session_name} \
+        ${new_session_script}
+    ;;
+  linux-gnu)
+    gnome-terminal \
+      --tab \
+      --title ${tab_name} \
+      -- sh -c "
+        cd ${cdto} &&
+          exec tmux new-session \\
+            -ADs ${session_name} ${new_session_script} \\; \\
+            set-option set-titles-string '${tab_name}'"
+    ;;
+esac
 
 # Local Variables:
 # mode: sh
