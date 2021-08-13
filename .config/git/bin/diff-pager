@@ -1,8 +1,14 @@
 #!/bin/sh -eu
 
 scripts () {
-  echo "/usr/local/share/git-core/contrib/diff-highlight/diff-highlight"
-       "/usr/share/doc/git/contrib/diff-highlight/diff-highlight"
+  common_path=contrib/diff-highlight/diff-highlight
+
+  if type nix &> /dev/null; then
+    echo $(nix eval --raw nixpkgs.git.outPath)/share/git/${common_path}
+  fi
+
+  echo "/usr/local/share/git-core/${common_path}
+        /usr/share/doc/git/${common_path}"
 }
 
 diff_pager () {

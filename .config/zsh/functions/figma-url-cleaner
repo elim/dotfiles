@@ -1,0 +1,21 @@
+# Shorten URL for Figma file.
+#
+# Input example:
+# https://www.figma.com/file/abcDEfghIJklMnopqRSTUh/human-readable-file-name?node-id=1%23A45
+#
+# Output example:
+# https://www.figma.com/file/abcDEfghIJklMnopqRSTUh/?node-id=1%23A45
+
+source ${ZDOTDIR}/functions/set-copy-paste-command
+
+"${paste_command[@]}" |
+  sed -e 's|\(file/.*\)/\(.*\)\(?node-id.*\)|\1/\3|' \
+      -e 's|%3A|:|' |
+  "${copy_command[@]}"
+
+"${paste_command[@]}"
+
+# Local Variables:
+# mode: sh
+# sh-shell: zsh
+# End:

@@ -1,0 +1,25 @@
+# Reformat a markdown form links of GitHub Pull Request or Issue for
+# my format.
+#
+# Input example:
+# [Extract the logic from the list recent repositories function by elim · Pull Request #102 · elim/dotfiles](https://github.com/elim/dotfiles/pull/102)
+#
+# Output example:
+# [#102 Extract the logic from the list recent repositories function](https://github.com/elim/dotfiles/pull/102)
+
+source ${ZDOTDIR}/functions/set-copy-paste-command
+
+"${paste_command[@]}" |
+  sed -e 's|\(\\\[.*pt\\\]\) *|\1 |' \
+      -e 's|· Issue ||' \
+      -e 's|by .* Pull Request ||' \
+      -e 's| · .*]|]|' \
+      -e 's|\[\(.*\) \(#[0-9]*\)|[\2 \1|' |
+  "${copy_command[@]}"
+
+"${paste_command[@]}"
+
+# Local Variables:
+# mode: sh
+# sh-shell: zsh
+# End:

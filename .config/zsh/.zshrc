@@ -75,6 +75,8 @@ autoload -Uz is-at-least
 #
 # shell functions
 #
+autoload -Uz figma-url-cleaner
+autoload -Uz github-markdown-link-reformatter
 autoload -Uz tab
 autoload -Uz title
 autoload -Uz zman

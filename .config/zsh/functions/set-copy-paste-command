@@ -1,0 +1,18 @@
+local copy_command
+local paste_command
+
+case ${OSTYPE} in
+  darwin)
+    copy_command=(pbcopy)
+    paste_command=(pbpaste)
+    ;;
+  linux-gnu)
+    copy_command=(xsel -bi)
+    paste_command=(xsel -b)
+    ;;
+esac
+
+# Local Variables:
+# mode: sh
+# sh-shell: zsh
+# End:
