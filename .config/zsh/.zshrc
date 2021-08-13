@@ -178,7 +178,7 @@ bindkey '^x^p' anyframe-widget-put-history
 bindkey '^xs'  anyframe-widget-cd-ghq-repository
 bindkey '^x^s' anyframe-widget-cd-ghq-repository
 
-if [[ ${OSTYPE} =~ '^darwin*' ]]; then
+if [[ "${OSTYPE}" =~ ^(darwin|linux) ]]; then
   bindkey '^xt'  anyframe-widget-tab-ghq-repository
   bindkey '^x^t' anyframe-widget-tab-ghq-repository
 else
