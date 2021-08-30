@@ -20,6 +20,7 @@
   # Minimal list of modules to use the EFI system partition and the YubiKey
   boot.initrd.kernelModules = [
     "dm-snapshot"
+    "kvm-intel"
     "nls_cp437"
     "nls_iso8859-1"
     "usbhid"
@@ -113,11 +114,15 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  # environment.systemPackages = with pkgs; [
-  #   vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  #   wget
-  #   firefox
-  # ];
+  environment.systemPackages = with pkgs; [
+    # libvert
+    spice-gtk
+    virt-manager
+  ];
+
+  virtualisation = {
+    libvirtd.enable = true;
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -131,6 +136,9 @@
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
+
+  security.wrappers.spice-client-glib-usb-acl-helper.source =
+    "${pkgs.spice_gtk}/bin/spice-client-glib-usb-acl-helper.real";
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
