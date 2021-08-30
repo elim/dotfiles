@@ -76,6 +76,7 @@
 
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
+  services.xserver.displayManager.gdm.wayland = false;
   services.xserver.desktopManager.gnome.enable = true;
   
 
@@ -83,6 +84,14 @@
   # services.xserver.layout = "us";
   # services.xserver.xkbOptions = "eurosign:e";
   services.xserver.xkbOptions = "ctrl:nocaps";
+
+  i18n = {
+    defaultLocale = "en_US.UTF-8";
+    inputMethod = {
+      enabled = "fcitx";
+      fcitx.engines = with pkgs.fcitx-engines; [ skk ];
+    };
+  };
 
   # Enable CUPS to print documents.
   # services.printing.enable = true;
