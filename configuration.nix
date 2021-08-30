@@ -132,6 +132,9 @@
     gnumake
     vim
 
+    # home-manager
+    home-manager
+
     # gnupg
     gnome.gnome-keyring
     gnupg
