@@ -65,10 +65,10 @@
 
   # Select internationalisation properties.
   # i18n.defaultLocale = "en_US.UTF-8";
-  # console = {
-  #   font = "Lat2-Terminus16";
-  #   keyMap = "us";
-  # };
+  console = {
+    font = "latarcyrheb-sun32";
+    #   keyMap = "us";
+  };
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
