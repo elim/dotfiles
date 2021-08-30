@@ -109,10 +109,19 @@
   services.thermald.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  # users.users.jane = {
-  #   isNormalUser = true;
-  #   extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
-  # };
+  users.users.takeru = {
+    isNormalUser = true;
+    home = "/home/takeru";
+    description = "Takeru Naito";
+    shell = "/run/current-system/sw/bin/zsh";
+    extraGroups = [
+      "docker"
+      "input"
+      "libvirtd"
+      "networkmanager"
+      "wheel" # Enable ‘sudo’ for the user.
+    ];
+  };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -141,6 +150,7 @@
   };
 
   programs.seahorse.enable = true;
+  programs.zsh.enable = true;
 
   # List services that you want to enable:
 
