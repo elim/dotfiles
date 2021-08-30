@@ -47,6 +47,7 @@
   boot.kernelPackages = pkgs.linuxPackages_5_12;
 
   # networking.hostName = "nixos"; # Define your hostname.
+  networking.networkmanager.enable = true;
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Set your time zone.
