@@ -117,6 +117,11 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    # gnupg
+    gnome.gnome-keyring
+    gnupg
+    pinentry
+
     # libvert
     spice-gtk
     virt-manager
@@ -130,15 +135,22 @@
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
+  programs.gnupg.agent = {
+    enable = true;
+    enableSSHSupport = true;
+  };
+
+  programs.seahorse.enable = true;
 
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
+
+  services.dbus.packages = [
+    pkgs.gnome3.gnome-keyring
+    pkgs.gcr
+  ];
 
   security.wrappers.spice-client-glib-usb-acl-helper.source =
     "${pkgs.spice_gtk}/bin/spice-client-glib-usb-acl-helper.real";
