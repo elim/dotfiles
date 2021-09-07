@@ -23,6 +23,7 @@ in {
     unstable._1password-gui
     unstable.azure-cli
     unstable.brave
+    unstable.ghq
     unstable.github-cli
     unstable.slack
   ];
