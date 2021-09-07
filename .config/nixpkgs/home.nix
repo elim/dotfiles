@@ -14,6 +14,7 @@ in {
     peco
     ripgrep
     stern
+    thunderbird
     xkeysnail
     xorg.xhost
     xsel
