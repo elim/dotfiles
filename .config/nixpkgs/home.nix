@@ -7,6 +7,7 @@ let
 in {
   home.packages = with pkgs; [
     aspell
+    dash
     docker-compose
     emacs
     htop
@@ -14,6 +15,7 @@ in {
     nkf
     peco
     ripgrep
+    shellcheck
     stern
     thunderbird
     xkeysnail
