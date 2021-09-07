@@ -16,6 +16,7 @@ in {
 
     unstable._1password
     unstable._1password-gui
+    unstable.slack
   ];
 
   programs.starship = {
