@@ -6,6 +6,7 @@ let
   unstable = import <nixpkgs-unstable> {};
 in {
   home.packages = with pkgs; [
+    albert
     aspell
     dash
     docker-compose
