@@ -10,6 +10,7 @@ in {
     emacs
     htop
     keychain
+    nkf
     peco
     ripgrep
     xkeysnail
