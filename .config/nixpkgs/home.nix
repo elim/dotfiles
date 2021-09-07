@@ -21,6 +21,7 @@ in {
 
     unstable._1password
     unstable._1password-gui
+    unstable.azure-cli
     unstable.github-cli
     unstable.slack
   ];
