@@ -13,6 +13,7 @@ in {
     nkf
     peco
     ripgrep
+    stern
     xkeysnail
     xorg.xhost
     xsel
