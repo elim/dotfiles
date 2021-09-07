@@ -10,5 +10,8 @@ in {
     emacs
     xkeysnail
     xorg.xhost
+
+    unstable._1password
+    unstable._1password-gui
   ];
 }
