@@ -8,6 +8,7 @@ in {
   home.packages = with pkgs; [
     aspell
     emacs
+    keychain
     xkeysnail
     xorg.xhost
 
