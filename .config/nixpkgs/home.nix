@@ -7,6 +7,7 @@ let
 in {
   home.packages = with pkgs; [
     aspell
+    docker-compose
     emacs
     htop
     keychain
