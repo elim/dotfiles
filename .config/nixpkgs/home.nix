@@ -9,6 +9,7 @@ in {
     aspell
     emacs
     keychain
+    peco
     xkeysnail
     xorg.xhost
 
