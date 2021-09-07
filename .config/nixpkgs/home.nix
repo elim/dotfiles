@@ -12,6 +12,7 @@ in {
     peco
     xkeysnail
     xorg.xhost
+    xsel
 
     unstable._1password
     unstable._1password-gui
