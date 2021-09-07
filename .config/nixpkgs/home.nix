@@ -10,6 +10,7 @@ in {
     emacs
     keychain
     peco
+    ripgrep
     xkeysnail
     xorg.xhost
     xsel
