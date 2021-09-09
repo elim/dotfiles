@@ -15,6 +15,7 @@ in {
     keychain
     nkf
     peco
+    pgformatter
     ripgrep
     shellcheck
     stern
