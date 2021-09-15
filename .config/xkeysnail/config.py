@@ -71,6 +71,18 @@ define_keymap(
     "Brave",
 )
 
+define_keymap(
+    lambda wm_class: wm_class not in ("Emacs", "Gnome-terminal"),
+    {
+        # Some applications react to "C-j" which conflicts with
+        # SKK. So, instead of C-j, Therefore the xkeysnail will make
+        # it send out HIRAGANA key.
+        # Note that this also requires settings on the libskk side.
+        K("C-j"): K("HIRAGANA"),
+    },
+    "for SKK",
+)
+
 # Gnome Terminal
 def gnome_terminal_mapping():
     mapping = {
