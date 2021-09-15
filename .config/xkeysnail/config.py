@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import re
+import string
 from xkeysnail.transform import *
 
 # define timeout for multipurpose_modmap
@@ -85,6 +86,46 @@ def gnome_terminal_mapping():
 
 
 gnome_terminal_mapping()
+
+# macOS-like keybindings in non-Emacs applications
+#
+# Note: I swapped left-alt and left-super via Gnome tweaks because
+#       some programs such as Electron-based apps and Firefox are
+#       activating their menu when alt key pressing.
+def mac_like_mapping():
+    mapping = {
+        # History back
+        K("M-LEFT_BRACE"): K("Super-LEFT"),
+        # History forward
+        K("M-RIGHT_BRACE"): K("Super-RIGHT"),
+        # Jump to the previous open tab
+        K("M-Shift-LEFT_BRACE"): K("C-Shift-TAB"),
+        # Jump to the next open tab
+        K("M-Shift-RIGHT_BRACE"): K("C-TAB"),
+        # Jump to the previous match to your Find Bar search
+        K("M-Shift-g"): K("C-Shift-g"),
+        # Reopen previously closed tabs in the order they were closed
+        K("M-Shift-t"): K("C-Shift-t"),
+        # Make everything on the page smaller
+        K("M-EQUAL"): K("C-EQUAL"),
+        # Make everything on the page bigger
+        K("M-MINUS"): K("C-MINUS"),
+    }
+
+    for c in string.ascii_lowercase:
+        mapping[K("M-" + c)] = K("C-" + c)
+
+    for i in range(0, 10):
+        mapping[K("M-KEY_" + str(i))] = K("C-KEY_" + str(i))
+
+    define_keymap(
+        lambda wm_class: wm_class not in ("Emacs", "Gnome-terminal"),
+        mapping,
+        "macOS-like keys",
+    )
+
+
+mac_like_mapping()
 
 # Emacs-like keybindings in non-Emacs applications
 define_keymap(
