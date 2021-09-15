@@ -31,6 +31,7 @@ in {
     ghq
     github-cli
     slack
+    zoom-us
   ]);
 
   programs.starship = {
