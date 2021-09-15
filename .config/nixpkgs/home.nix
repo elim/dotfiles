@@ -20,6 +20,7 @@ in {
     shellcheck
     stern
     thunderbird
+    tmux
     xkeysnail
     xorg.xhost
     xsel
