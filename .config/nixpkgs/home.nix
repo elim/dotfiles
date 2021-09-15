@@ -20,6 +20,7 @@ in {
     emacsGcc
     file
     gimp
+    gnomeExtensions.appindicator
     htop
     k9s
     keychain
