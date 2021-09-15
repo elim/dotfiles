@@ -68,6 +68,24 @@ define_keymap(
     "Zeal",
 )
 
+# Gnome Terminal
+def gnome_terminal_mapping():
+    mapping = {
+        # Jump to the previous open tab
+        K("M-Shift-LEFT_BRACE"): K("C-PAGE_UP"),
+        # Jump to the next open tab
+        K("M-Shift-RIGHT_BRACE"): K("C-PAGE_DOWN"),
+    }
+
+    # Select a tab by Cmd+number
+    for i in range(0, 10):
+        mapping[K("M-KEY_" + str(i))] = K("Super-KEY_" + str(i))
+
+        define_keymap(re.compile("Gnome-terminal"), mapping, "Gnome Terminal")
+
+
+gnome_terminal_mapping()
+
 # Emacs-like keybindings in non-Emacs applications
 define_keymap(
     lambda wm_class: wm_class not in ("Emacs", "Gnome-terminal"),
