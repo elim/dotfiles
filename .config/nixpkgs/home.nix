@@ -25,6 +25,7 @@ in {
     k9s
     keychain
     kubectl
+    libreoffice
     mpv
     nkf
     peco
