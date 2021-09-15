@@ -70,7 +70,7 @@ define_keymap(
 
 # Emacs-like keybindings in non-Emacs applications
 define_keymap(
-    lambda wm_class: wm_class not in ("Emacs", "URxvt"),
+    lambda wm_class: wm_class not in ("Emacs", "Gnome-terminal"),
     {
         # Cursor
         K("C-b"): with_mark(K("left")),
