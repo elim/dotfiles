@@ -23,15 +23,15 @@ in {
     xkeysnail
     xorg.xhost
     xsel
-
-    unstable._1password
-    unstable._1password-gui
-    unstable.azure-cli
-    unstable.brave
-    unstable.ghq
-    unstable.github-cli
-    unstable.slack
-  ];
+  ] ++ (with unstable; [
+    _1password
+    _1password-gui
+    azure-cli
+    brave
+    ghq
+    github-cli
+    slack
+  ]);
 
   programs.starship = {
     enable = true;
