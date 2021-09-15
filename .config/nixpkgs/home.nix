@@ -19,6 +19,7 @@ in {
     emacsGcc
     htop
     keychain
+    mpv
     nkf
     peco
     pgformatter
