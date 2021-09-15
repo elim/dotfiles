@@ -22,6 +22,7 @@ in {
     htop
     k9s
     keychain
+    kubectl
     mpv
     nkf
     peco
