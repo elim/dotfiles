@@ -21,6 +21,7 @@ in {
     stern
     thunderbird
     tmux
+    unzip
     xkeysnail
     xorg.xhost
     xsel
