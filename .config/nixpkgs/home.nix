@@ -20,6 +20,7 @@ in {
     file
     gimp
     htop
+    k9s
     keychain
     mpv
     nkf
