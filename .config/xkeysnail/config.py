@@ -10,14 +10,6 @@ define_timeout(1)
 # [Global modemap] Change modifier keys as in xmodmap
 define_modmap({Key.CAPSLOCK: Key.LEFT_CTRL})
 
-# [Conditional modmap] Change modifier keys in certain applications
-define_conditional_modmap(
-    re.compile(r"Emacs"),
-    {
-        Key.RIGHT_CTRL: Key.ESC,
-    },
-)
-
 # [Multipurpose modmap] Give a key two meanings. A normal key when pressed and
 # released, and a modifier key when held down with another key. See Xcape,
 # Carabiner and caps2esc for ideas and concept.
