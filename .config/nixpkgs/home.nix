@@ -17,6 +17,7 @@ in {
     dash
     docker-compose
     emacsGcc
+    file
     htop
     keychain
     mpv
