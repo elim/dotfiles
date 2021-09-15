@@ -133,6 +133,8 @@ mac_like_mapping()
 define_keymap(
     lambda wm_class: wm_class not in ("Emacs", "Gnome-terminal"),
     {
+        # ESC
+        K("C-LEFT_BRACE"): Key.ESC,
         # Cursor
         K("C-b"): with_mark(K("left")),
         K("C-f"): with_mark(K("right")),
