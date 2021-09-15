@@ -5,12 +5,18 @@ let
     (dicts: with dicts; [ en en-computers en-science ]);
   unstable = import <nixpkgs-unstable> {};
 in {
+  nixpkgs.overlays = [
+    (import (builtins.fetchTarball {
+      url = https://github.com/nix-community/emacs-overlay/archive/bdc2b79671bf70cf73efa3ee2320bd414087315a.tar.gz;
+    }))
+  ];
+
   home.packages = with pkgs; [
     albert
     aspell
     dash
     docker-compose
-    emacs
+    emacsGcc
     htop
     keychain
     nkf
