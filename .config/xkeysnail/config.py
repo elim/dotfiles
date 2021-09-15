@@ -61,6 +61,16 @@ define_keymap(
     "Zeal",
 )
 
+# Brave
+define_keymap(
+    re.compile("Brave-browser"),
+    {
+        # Brave search tabs
+        K("M-Shift-a"): K("C-Shift-a"),
+    },
+    "Brave",
+)
+
 # Gnome Terminal
 def gnome_terminal_mapping():
     mapping = {
