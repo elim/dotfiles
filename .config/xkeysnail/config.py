@@ -103,6 +103,8 @@ define_keymap(
         K("M-d"): [K("C-delete"), set_mark(False)],
         # Kill line
         K("C-k"): [K("Shift-end"), K("C-x"), set_mark(False)],
+        # unix-line-discard
+        K("C-u"): [K("Shift-home"), K("C-x"), set_mark(False)],
         # Undo
         K("C-slash"): [K("C-z"), set_mark(False)],
         K("C-Shift-ro"): K("C-z"),
