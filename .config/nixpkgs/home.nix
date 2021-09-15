@@ -18,6 +18,7 @@ in {
     docker-compose
     emacsGcc
     file
+    gimp
     htop
     keychain
     mpv
