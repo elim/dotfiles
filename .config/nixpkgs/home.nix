@@ -50,6 +50,11 @@ in {
     zoom-us
   ]);
 
+  programs.direnv = {
+    enable = true;
+    enableNixDirenvIntegration = true;
+  };
+
   programs.starship = {
     enable = true;
     enableZshIntegration = true;
