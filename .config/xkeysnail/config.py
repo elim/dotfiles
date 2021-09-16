@@ -96,7 +96,7 @@ def gnome_terminal_mapping():
     for i in range(0, 10):
         mapping[K("M-KEY_" + str(i))] = K("Super-KEY_" + str(i))
 
-        define_keymap(re.compile("Gnome-terminal"), mapping, "Gnome Terminal")
+    define_keymap(re.compile("Gnome-terminal"), mapping, "Gnome Terminal")
 
 
 gnome_terminal_mapping()
