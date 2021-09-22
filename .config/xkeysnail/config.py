@@ -192,6 +192,8 @@ define_keymap(
         K("M-Shift-key_5"): K("C-h"),
         # Cancel
         K("C-g"): [K("esc"), set_mark(False)],
+        # Tab
+        K("C-i"): Key.TAB,
         # Escape
         K("C-q"): escape_next_key,
         # C-x YYY
