@@ -124,6 +124,8 @@ def mac_like_mapping():
         K("M-EQUAL"): K("C-EQUAL"),
         # Make everything on the page bigger
         K("M-MINUS"): K("C-MINUS"),
+        # Show preference panel
+        K("M-COMMA"): K("C-COMMA"),
     }
 
     for c in string.ascii_lowercase:
