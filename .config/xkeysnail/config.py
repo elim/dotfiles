@@ -73,6 +73,16 @@ define_keymap(
     "Brave",
 )
 
+# Keybindings for Slack
+define_keymap(
+    re.compile("Slack"),
+    {
+        # Prevent accidentally sending a message
+        K("C-ENTER"): K("Shift-ENTER"),
+    },
+    "Slack"
+)
+
 define_keymap(
     lambda wm_class: wm_class not in ("Emacs", "Gnome-terminal"),
     {
