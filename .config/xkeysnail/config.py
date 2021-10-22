@@ -67,6 +67,8 @@ define_keymap(
     {
         # Brave search tabs
         K("M-Shift-a"): K("C-Shift-a"),
+        # Developer tools
+        K("M-Super-i"): K("C-Shift-i"),
     },
     "Brave",
 )
