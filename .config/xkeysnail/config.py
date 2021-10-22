@@ -92,6 +92,10 @@ def gnome_terminal_mapping():
         K("M-Shift-LEFT_BRACE"): K("C-PAGE_UP"),
         # Jump to the next open tab
         K("M-Shift-RIGHT_BRACE"): K("C-PAGE_DOWN"),
+        # Move Tab to the Left
+        K("Super-M-Shift-LEFT_BRACE"): K("Shift-C-PAGE_UP"),
+        # Move Tab to the Right
+        K("Super-M-Shift-RIGHT_BRACE"): K("Shift-C-PAGE_DOWN"),
     }
 
     # Select a tab by Cmd+number
