@@ -10,6 +10,10 @@
 source ${ZDOTDIR}/functions/set-copy-paste-command
 
 "${paste_command[@]}" |
+  command grep 'https://github.com' &> /dev/null ||
+  return 1
+
+"${paste_command[@]}" |
   sed -e 's|\(\\\[.*pt\\\]\) *|\1 |' \
       -e 's|· Issue ||' \
       -e 's|· Discussion ||' \
