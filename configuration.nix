@@ -83,7 +83,7 @@
     desktopManager.gnome.enable = true;
 
     # Configure keymap in X11
-    xkbOptions = "ctrl:nocaps";
+    xkbOptions = "ctrl:nocaps,altwin:swap_lalt_lwin";
 
     # Enable touchpad support (enabled default in most desktopManager).
     libinput = {
