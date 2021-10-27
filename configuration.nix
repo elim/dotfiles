@@ -199,6 +199,7 @@
 
   services.gnome = {
     gnome-online-accounts.enable = false;
+    gnome-keyring.enable = true;
   };
 
   # Enable the OpenSSH daemon.
