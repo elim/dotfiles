@@ -5,6 +5,8 @@
 { config, pkgs, ... }:
 
 {
+  nixpkgs.config.allowUnfree = true;
+
   imports =
     [ # Include the results of the hardware scan.
       /etc/nixos/hardware-configuration.nix
@@ -75,13 +77,9 @@
   # Enable the X11 windowing system.
   services.xserver = {
     enable = true;
+    videoDrivers = [ "nvidia" ];
 
-    # Enable the GNOME Desktop Environment.
-    displayManager.gdm = {
-      enable = true;
-      wayland = false;
-    };
-
+    displayManager.lightdm.enable = true;
     desktopManager.gnome.enable = true;
 
     # Configure keymap in X11
@@ -93,6 +91,16 @@
       touchpad = {
         disableWhileTyping = true;
       };
+    };
+  };
+
+  hardware.nvidia = {
+    modesetting.enable = true;
+
+    prime = {
+      sync.enable = true;
+      intelBusId = "PCI:0:2:0";
+      nvidiaBusId = "PCI:1:0:0";
     };
   };
 
