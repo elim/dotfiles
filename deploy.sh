@@ -7,11 +7,12 @@ normal=$(tput sgr0)
 # functions
 # ----------------------------
 
-delete-bloken-links() {
+delete-broken-links() {
   right-here
 
-  find ~                    -maxdepth 1 -type l -follow -print0 |xargs -0 rm -v
-  find "$(xdg-config-path)"             -type l -follow -print0 |xargs -0 rm -v
+  find ~ -maxdepth 1 -type l -follow -print0 |xargs -0 rm -v
+  find ~/.config     -type l -follow -print0 |xargs -0 rm -v
+  find ~/.local      -type l -follow -print0 |xargs -0 rm -v
 }
 
 dot_dir() {
@@ -70,25 +71,19 @@ simply-link() {
   find ~ -maxdepth 1 -type l -follow -print0 |xargs -0 rm -v
 }
 
-xdg-config-path() {
-  local config_dir
-  echo "${XDG_CONFIG_HOME:-$HOME/.config}"
-}
-
-xdg-config() {
+overwrite-link() {
   right-here
 
-  local config_dir
-  config_dir=$(xdg-config-path)
+  local dir_name=$1
 
-  mkdir -p "${config_dir}"
   (
-    cd "${dot_dir}"/.config
+    cd "${dot_dir}/${dir_name}"
 
-    find . -type d -exec mkdir -p "${config_dir}/{}" \;
-    find . -type f -exec ln -fvs "${dot_dir}"/.config/{} "${config_dir}"/{} \;
+    find . -type d -exec mkdir -p "${HOME}/${dir_name}"/{} \;
+    find . -type f -exec ln -fvs "${dot_dir}/${dir_name}"/{} "${HOME}/${dir_name}"/{} \;
   )
 }
+
 
 # ----------------------------
 # main
@@ -98,5 +93,6 @@ dot_dir=$(dot_dir)
 
 simply-link
 setup-anyenv
-xdg-config
-delete-bloken-links
+overwrite-link .config
+overwrite-link .local
+delete-broken-links
