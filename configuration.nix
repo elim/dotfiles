@@ -186,6 +186,7 @@
   virtualisation = {
     docker.enable = true;
     libvirtd.enable = true;
+    spiceUSBRedirection.enable = true;
   };
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -214,9 +215,6 @@
     pkgs.gnome3.gnome-keyring
     pkgs.gcr
   ];
-
-  security.wrappers.spice-client-glib-usb-acl-helper.source =
-    "${pkgs.spice_gtk}/bin/spice-client-glib-usb-acl-helper.real";
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
