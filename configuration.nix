@@ -185,7 +185,7 @@
   # List services that you want to enable:
 
   services.gnome = {
-    gnome-online-accounts.enable = false;
+    gnome-online-accounts.enable = true;
     gnome-keyring.enable = true;
   };
 
