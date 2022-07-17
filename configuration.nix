@@ -164,25 +164,6 @@
     virt-manager
   ];
 
-  environment.gnome.excludePackages = with pkgs; [
-    epiphany
-    evince
-    gnome-photos
-    gnome-tour
-    gnome.atomix
-    gnome.cheese
-    gnome.evolution-data-server
-    gnome.geary
-    gnome.gedit
-    gnome.gnome-calendar
-    gnome.gnome-characters
-    gnome.gnome-music
-    gnome.hitori
-    gnome.iagno
-    gnome.tali
-    gnome.totem
-  ];
-
   virtualisation = {
     docker.enable = true;
     libvirtd.enable = true;
