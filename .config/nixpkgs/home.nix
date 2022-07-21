@@ -24,6 +24,7 @@ in {
     gimp
     gnomeExtensions.appindicator
     htop
+    imagemagick
     k9s
     keychain
     kubectl
