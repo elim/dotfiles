@@ -20,6 +20,7 @@ in {
     docker-compose
     emacsGcc
     file
+    firefox
     gimp
     gnomeExtensions.appindicator
     htop
