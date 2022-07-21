@@ -14,6 +14,7 @@ in {
   home.packages = with pkgs; [
     albert
     aspell
+    atomicparsley
     colordiff
     dash
     docker-compose
