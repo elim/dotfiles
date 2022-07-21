@@ -34,6 +34,7 @@ in {
     pgformatter
     ripgrep
     shellcheck
+    skktools
     stern
     thunderbird
     tmux
