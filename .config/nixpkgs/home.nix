@@ -1,13 +1,17 @@
 { config, pkgs, ... }:
 
 let
+  unstable = import <nixpkgs-unstable> {};
+
   aspell = pkgs.aspellWithDicts
     (dicts: with dicts; [ en en-computers en-science ]);
-  unstable = import <nixpkgs-unstable> {};
+  emacs = pkgs.emacsNativeComp;
 in {
   nixpkgs.overlays = [
-    (import (builtins.fetchTarball {
-      url = https://github.com/nix-community/emacs-overlay/archive/bdc2b79671bf70cf73efa3ee2320bd414087315a.tar.gz;
+    (import (builtins.fetchGit {
+      url = "https://github.com/nix-community/emacs-overlay.git";
+      ref = "master";
+      rev = "94df7ad97b2920fcf52d361c8d8e8a1ce5697c81";
     }))
   ];
 
@@ -18,7 +22,7 @@ in {
     colordiff
     dash
     docker-compose
-    emacsGcc
+    emacs
     file
     firefox
     gimp
