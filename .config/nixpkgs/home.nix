@@ -58,6 +58,10 @@ in {
     zoom-us
   ]);
 
+  services.dropbox = {
+    enable = true;
+  };
+
   programs.direnv = {
     enable = true;
     nix-direnv = {
