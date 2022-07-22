@@ -55,6 +55,7 @@ in {
     ghq
     github-cli
     slack
+    unar
     zoom-us
   ]);
 
