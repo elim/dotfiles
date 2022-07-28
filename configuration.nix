@@ -156,6 +156,7 @@
 
     # gnupg
     gnome.gnome-keyring
+    gnome.gnome-terminal
     gnupg
     pinentry
 
