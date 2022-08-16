@@ -41,7 +41,6 @@ in {
     shellcheck
     skktools
     stern
-    thunderbird
     tmux
     unzip
     xkeysnail
@@ -55,6 +54,7 @@ in {
     ghq
     github-cli
     slack
+    thunderbird
     unar
     zoom-us
   ]);
