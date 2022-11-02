@@ -11,6 +11,7 @@
     [ # Include the results of the hardware scan.
       /etc/nixos/hardware-configuration.nix
       ./fprint.nix
+      ./samba.nix
     ];
 
   # Use the systemd-boot EFI boot loader.
