@@ -14,6 +14,11 @@
       ./samba.nix
     ];
 
+  nixpkgs.overlays = [
+    # https://ww.telent.net/2019/10/2/light_touch_regulation
+    (import ./overlays/libinput.nix)
+  ];
+
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -194,6 +199,17 @@
         source = config.virtualisation.libvirtd.qemu.package + "/share/qemu/edk2-i386-vars.fd";
         mode = "0644";
         user = "libvirtd";
+      };
+
+      # Based upon #tech-linux channel which in the vim-jp Slack workspace and
+      # https://github.com/rvaiya/keyd/issues/66#issuecomment-985980317
+      "libinput/local-overrides.quirks" = {
+        text = ''
+[Serial Keyboards]
+MatchUdevType=keyboard
+MatchName=py-evdev-uinput
+AttrKeyboardIntegration=internal
+'';
       };
     };
   };
