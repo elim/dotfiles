@@ -168,7 +168,12 @@
 
   virtualisation = {
     docker.enable = true;
-    libvirtd.enable = true;
+    libvirtd = {
+      enable = true;
+      qemu = {
+        runAsRoot = false;
+      };
+    };
     spiceUSBRedirection.enable = true;
   };
 
