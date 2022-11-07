@@ -14,6 +14,7 @@ in {
       /etc/nixos/hardware-configuration.nix
       ./fprint.nix
       ./samba.nix
+      ./security.nix
     ];
 
   nixpkgs.config = {
