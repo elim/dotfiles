@@ -4,15 +4,26 @@
 
 { config, pkgs, ... }:
 
-{
-  nixpkgs.config.allowUnfree = true;
-
+let
+  unstable = import <nixos-unstable> {
+    config.allowUnfree = true;
+  };
+in {
   imports =
     [ # Include the results of the hardware scan.
       /etc/nixos/hardware-configuration.nix
       ./fprint.nix
       ./samba.nix
     ];
+
+  nixpkgs.config = {
+    allowUnfree = true;
+    packageOverrides = pkgs: {
+      unstable = import <nixos-unstable> {
+        config = config.nixpkgs.config;
+      };
+    };
+  };
 
   nixpkgs.overlays = [
     # https://ww.telent.net/2019/10/2/light_touch_regulation
@@ -169,7 +180,8 @@
     # libvert
     spice-gtk
     virt-manager
-  ];
+  ] ++ (with unstable; [
+  ]);
 
   virtualisation = {
     docker.enable = true;
