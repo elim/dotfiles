@@ -172,10 +172,30 @@
       enable = true;
       qemu = {
         runAsRoot = false;
+        # https://www.reddit.com/r/NixOS/comments/ulzr88/comment/i7ypv20/?utm_source=share&utm_medium=web2x&context=3
+        ovmf = {
+          enable = true;
+          package = pkgs.OVMFFull;
+        };
         swtpm.enable = true;
       };
     };
     spiceUSBRedirection.enable = true;
+  };
+
+  environment = {
+    etc = {
+      # https://www.reddit.com/r/NixOS/comments/ulzr88/comment/i7ypv20/?utm_source=share&utm_medium=web2x&context=3
+      "ovmf/edk2-x86_64-secure-code.fd" = {
+        source = config.virtualisation.libvirtd.qemu.package + "/share/qemu/edk2-x86_64-secure-code.fd";
+      };
+
+      "ovmf/edk2-i386-vars.fd" = {
+        source = config.virtualisation.libvirtd.qemu.package + "/share/qemu/edk2-i386-vars.fd";
+        mode = "0644";
+        user = "libvirtd";
+      };
+    };
   };
 
   # Some programs need SUID wrappers, can be configured further or are
