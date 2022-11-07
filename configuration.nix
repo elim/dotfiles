@@ -172,6 +172,7 @@
       enable = true;
       qemu = {
         runAsRoot = false;
+        swtpm.enable = true;
       };
     };
     spiceUSBRedirection.enable = true;
