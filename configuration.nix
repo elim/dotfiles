@@ -66,7 +66,7 @@ in {
     };
   };
 
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_5_19;
 
   # networking.hostName = "nixos"; # Define your hostname.
   networking.networkmanager.enable = true;
