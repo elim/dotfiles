@@ -32,6 +32,7 @@ in {
     k9s
     keychain
     kubectl
+    kubelogin
     libreoffice
     mpv
     nkf
