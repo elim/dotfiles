@@ -101,12 +101,14 @@ alias l=less
 alias v=vagrant
 
 dc() {
-  local toplevel=$(git rev-parse --show-toplevel 2> /dev/null)
+  local toplevel
+  toplevel="$(git rev-parse --show-toplevel 2> /dev/null)"
 
   # The PRODUCT_WORK_DIR environment variable is for NFS storage.
   (
-    chpwd_functions= cd "${toplevel}" &&
-      PRODUCT_WORK_DIR="${toplevel}" docker-compose "$@"
+    # shellcheck disable=SC2034
+    chpwd_functions=$(cd "${toplevel}") &&
+      PRODUCT_WORK_DIR="${toplevel}" docker compose "$@"
   )
 }
 
