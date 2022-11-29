@@ -15,6 +15,13 @@ in {
     }))
   ];
 
+  home = rec {
+    stateVersion = "22.11";
+
+    username = "takeru";
+    homeDirectory = "/home/${username}";
+  };
+
   home.packages = with pkgs; [
     albert
     aspell
