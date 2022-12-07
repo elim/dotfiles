@@ -193,7 +193,9 @@ in {
         # https://www.reddit.com/r/NixOS/comments/ulzr88/comment/i7ypv20/?utm_source=share&utm_medium=web2x&context=3
         ovmf = {
           enable = true;
-          package = pkgs.OVMFFull;
+          packages = [
+            pkgs.OVMFFull.fd
+          ];
         };
         swtpm.enable = true;
       };
