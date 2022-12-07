@@ -8,9 +8,11 @@ let
   unstable = import <nixos-unstable> {
     config.allowUnfree = true;
   };
-in {
+in
+{
   imports =
-    [ # Include the results of the hardware scan.
+    [
+      # Include the results of the hardware scan.
       /etc/nixos/hardware-configuration.nix
       ./fprint.nix
       ./samba.nix
@@ -220,11 +222,11 @@ in {
       # https://github.com/rvaiya/keyd/issues/66#issuecomment-985980317
       "libinput/local-overrides.quirks" = {
         text = ''
-[Serial Keyboards]
-MatchUdevType=keyboard
-MatchName=py-evdev-uinput
-AttrKeyboardIntegration=internal
-'';
+          [Serial Keyboards]
+          MatchUdevType=keyboard
+          MatchName=py-evdev-uinput
+          AttrKeyboardIntegration=internal
+        '';
       };
     };
   };

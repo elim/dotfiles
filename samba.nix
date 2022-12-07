@@ -1,4 +1,4 @@
-{  pkgs, ... }:
+{ pkgs, ... }:
 
 # https://nixos.wiki/wiki/Samba
 {
@@ -8,28 +8,32 @@
 
   services.samba-wsdd.enable = true; # make shares visible for windows 10 clients
   networking.firewall.allowedTCPPorts = [
-    139 445 5357 # wsdd
+    139
+    445
+    5357 # wsdd
   ];
   networking.firewall.allowedUDPPorts = [
-    137 138 3702 # wsdd
+    137
+    138
+    3702 # wsdd
   ];
   services.samba = {
     enable = true;
     securityType = "user";
     extraConfig = ''
-    workgroup = WORKGROUP
-    server string = smbnix
-    netbios name = smbnix
-    security = user
-    # use sendfile = yes
-    # max protocol = smb2
-    # note: localhost is the ipv6 localhost ::1
-    interfaces = 192.168.122.0/24 virbr0 192.168.10.0/24 wlp0s20f3
-    # hosts allow = 192.168.10 192.168.122 127.0.0.1 localhost
-    # hosts deny = 0.0.0.0/0
-    guest account = nobody
-    map to guest = bad user
-  '';
+      workgroup = WORKGROUP
+      server string = smbnix
+      netbios name = smbnix
+      security = user
+      # use sendfile = yes
+      # max protocol = smb2
+      # note: localhost is the ipv6 localhost ::1
+      interfaces = 192.168.122.0/24 virbr0 192.168.10.0/24 wlp0s20f3
+      # hosts allow = 192.168.10 192.168.122 127.0.0.1 localhost
+      # hosts deny = 0.0.0.0/0
+      guest account = nobody
+      map to guest = bad user
+    '';
     shares = {
       homes = {
         browseable = "no";
