@@ -152,7 +152,7 @@ in
     isNormalUser = true;
     home = "/home/takeru";
     description = "Takeru Naito";
-    shell = "/run/current-system/sw/bin/zsh";
+    shell = pkgs.zsh;
     extraGroups = [
       "docker"
       "input"
