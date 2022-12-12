@@ -150,7 +150,6 @@ in
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.takeru = {
     isNormalUser = true;
-    home = "/home/takeru";
     shell = pkgs.zsh;
     extraGroups = [
       "docker"
