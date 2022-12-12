@@ -2,6 +2,10 @@
   security = {
     pam.services.login.enableGnomeKeyring = true;
 
+    polkit = {
+      enable = true;
+    };
+
     pki.certificates = [
       ''
         codeTakt Certificate Authority
