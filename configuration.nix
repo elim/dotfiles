@@ -151,7 +151,6 @@ in
   users.users.takeru = {
     isNormalUser = true;
     home = "/home/takeru";
-    description = "Takeru Naito";
     shell = pkgs.zsh;
     extraGroups = [
       "docker"
