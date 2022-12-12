@@ -8,6 +8,7 @@ let
   unstable = import <nixos-unstable> {
     config.allowUnfree = true;
   };
+  my = import ./myself.nix;
 in
 {
   imports =
@@ -148,7 +149,7 @@ in
   services.thermald.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.takeru = {
+  users.users."${my.username}" = {
     isNormalUser = true;
     shell = pkgs.zsh;
     extraGroups = [
@@ -241,7 +242,7 @@ in
     _1password-gui = {
       enable = true;
 
-      polkitPolicyOwners = [ "takeru" ];
+      polkitPolicyOwners = [ "${my.username}" ];
     };
   };
 

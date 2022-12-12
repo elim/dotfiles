@@ -1,8 +1,10 @@
 { pkgs, ... }:
 
-# https://nixos.wiki/wiki/Samba
+let
+  my = import ./myself.nix;
+in
 {
-
+  # https://nixos.wiki/wiki/Samba
   networking.firewall.enable = true;
   networking.firewall.allowPing = true;
 
@@ -47,7 +49,7 @@
         "guest ok" = "no";
         "create mask" = "0644";
         "directory mask" = "0755";
-        "force user" = "takeru";
+        "force user" = "${my.username}";
         "force group" = "users";
       };
       Photos = {
@@ -57,7 +59,7 @@
         "guest ok" = "no";
         "create mask" = "0644";
         "directory mask" = "0755";
-        "force user" = "takeru";
+        "force user" = "${my.username}";
         "force group" = "users";
       };
     };
