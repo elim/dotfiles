@@ -192,7 +192,7 @@ in
       enable = true;
       qemu = {
         runAsRoot = false;
-        # https://www.reddit.com/r/NixOS/comments/ulzr88/comment/i7ypv20/?utm_source=share&utm_medium=web2x&context=3
+        # https://www.reddit.com/r/NixOS/comments/ulzr88/comment/i7ypv20/?context=3
         ovmf = {
           enable = true;
           packages = [
@@ -207,7 +207,7 @@ in
 
   environment = {
     etc = {
-      # https://www.reddit.com/r/NixOS/comments/ulzr88/comment/i7ypv20/?utm_source=share&utm_medium=web2x&context=3
+      # https://www.reddit.com/r/NixOS/comments/ulzr88/comment/i7ypv20/?context=3
       "ovmf/edk2-x86_64-secure-code.fd" = {
         source = config.virtualisation.libvirtd.qemu.package + "/share/qemu/edk2-x86_64-secure-code.fd";
       };
