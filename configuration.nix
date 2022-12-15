@@ -15,6 +15,7 @@ in
     [
       # Include the results of the hardware scan.
       /etc/nixos/hardware-configuration.nix
+      ./fonts.nix
       ./fprint.nix
       ./samba.nix
       ./security.nix
