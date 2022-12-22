@@ -1,10 +1,15 @@
 { pkgs, ... }:
 
+let
+  cica = pkgs.callPackage ./packages/cica.nix { };
+in
 {
   # https://nixos.wiki/wiki/Fonts
   fonts = {
     enableDefaultFonts = true;
     fonts = with pkgs; [
+      cica
+
       (google-fonts.override {
         fonts = [
           "BIZUDGothic"
@@ -26,11 +31,13 @@
           "Noto Serif CJK JP"
         ];
         sansSerif = [
+          "Cica"
           "BIZ UDGothic"
           "Noto Sans"
           "Noto Sans CJK JP"
         ];
         monospace = [
+          "Cica"
           "Noto Sans Mono"
           "Noto Sans Mono CJK JP"
         ];
