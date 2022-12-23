@@ -174,9 +174,11 @@ in
     # home-manager
     home-manager
 
+    # gnome
+    gnome.gnome-terminal
+
     # gnupg
     gnome.gnome-keyring
-    gnome.gnome-terminal
     gnupg
     pinentry
 
