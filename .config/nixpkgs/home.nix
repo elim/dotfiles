@@ -55,8 +55,6 @@ in {
     xorg.xhost
     xsel
   ] ++ (with unstable; [
-    _1password
-    _1password-gui
     azure-cli
     brave
     ghq
