@@ -69,6 +69,13 @@ in {
     enable = true;
   };
 
+  programs.bat = {
+    enable = true;
+    config = {
+      theme = "Nord";
+    };
+  };
+
   programs.direnv = {
     enable = true;
     nix-direnv = {
