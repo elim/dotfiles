@@ -1,6 +1,12 @@
 # This file must be loadable by Bash and Zsh.
 
 #
+# bat
+#
+alias cat=bat
+alias less=bat
+
+#
 # diff
 #
 type colordiff &> /dev/null && alias diff=colordiff

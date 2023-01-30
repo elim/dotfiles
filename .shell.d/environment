@@ -1,5 +1,6 @@
 export GZIP='-v9N'
 export LESS='--hilite-search --HILITE-UNREAD --ignore-case --LONG-PROMPT --no-init --RAW-CONTROL-CHARS --shift=4 --tabs=4 --quit-if-one-screen'
+export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 export PAGER=less
 export TZ=JST-9
 
