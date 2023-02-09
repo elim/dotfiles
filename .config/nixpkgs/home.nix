@@ -94,7 +94,6 @@ in {
 
       time = {
         disabled = false;
-        time_format = "%T";
       };
     };
   };
