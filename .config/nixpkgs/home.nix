@@ -1,12 +1,13 @@
 { config, pkgs, ... }:
 
 let
-  unstable = import <nixpkgs-unstable> {};
+  unstable = import <nixpkgs-unstable> { };
 
   aspell = pkgs.aspellWithDicts
     (dicts: with dicts; [ en en-computers en-science ]);
   emacs = pkgs.emacsNativeComp;
-in {
+in
+{
   nixpkgs.overlays = [
     (import (builtins.fetchGit {
       url = "https://github.com/nix-community/emacs-overlay.git";
@@ -88,7 +89,7 @@ in {
     enableZshIntegration = true;
 
     settings = {
-      git_commit =  {
+      git_commit = {
         tag_disabled = false;
       };
 
