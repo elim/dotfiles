@@ -5,7 +5,6 @@
 #
 alias cat=bat
 alias less=bat
-
 #
 # diff
 #
@@ -105,30 +104,6 @@ alias be='bundle exec'
 alias d='docker'
 alias l=less
 alias v=vagrant
-
-dc() {
-  local toplevel
-  toplevel="$(git rev-parse --show-toplevel 2> /dev/null)"
-
-  # The PRODUCT_WORK_DIR environment variable is for NFS storage.
-  (
-    # shellcheck disable=SC2034
-    chpwd_functions=$(cd "${toplevel}") &&
-      PRODUCT_WORK_DIR="${toplevel}" docker compose "$@"
-  )
-}
-
-dcd() {
-  dc -f docker-compose.yml -f docker-compose-dev.yml "$@"
-}
-
-dcn() {
-  dc -f docker-compose.yml -f docker-compose-nfs.yml "$@"
-}
-
-dcm() {
-  dc -f docker-compose.yml -f docker-compose-mutagen.yml "$@"
-}
 
 # Local Variables:
 # mode: sh
