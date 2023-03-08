@@ -30,10 +30,7 @@ in
     };
   };
 
-  nixpkgs.overlays = [
-    # https://ww.telent.net/2019/10/2/light_touch_regulation
-    (import ./overlays/libinput.nix)
-  ];
+  nixpkgs.overlays = [ ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
