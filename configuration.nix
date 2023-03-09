@@ -5,10 +5,14 @@
 { config, pkgs, ... }:
 
 let
+  require = path: pkgs.callPackage (import path);
+
   unstable = import <nixos-unstable> {
     config.allowUnfree = true;
   };
   my = import ./myself.nix;
+
+  fcitx5-skk = require ./packages/fcitx5-skk.nix { inherit (pkgs.libsForQt5) fcitx5-qt; };
 in
 {
   imports =
@@ -67,7 +71,7 @@ in
     };
   };
 
-  boot.kernelPackages = pkgs.linuxPackages_6_0;
+  boot.kernelPackages = pkgs.linuxPackages_6_1;
 
   # networking.hostName = "nixos"; # Define your hostname.
   networking.networkmanager.enable = true;
@@ -131,8 +135,8 @@ in
   i18n = {
     defaultLocale = "en_US.UTF-8";
     inputMethod = {
-      enabled = "fcitx";
-      fcitx.engines = with pkgs.fcitx-engines; [ skk ];
+      enabled = "fcitx5";
+      fcitx5.addons = with pkgs; [ fcitx5-skk ];
     };
   };
 
@@ -190,6 +194,7 @@ in
     libvirtd = {
       enable = true;
       qemu = {
+        package = pkgs.qemu_kvm;
         runAsRoot = false;
         # https://www.reddit.com/r/NixOS/comments/ulzr88/comment/i7ypv20/?context=3
         ovmf = {
