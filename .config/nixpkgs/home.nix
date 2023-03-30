@@ -40,7 +40,6 @@ in
     k9s
     keychain
     kubectl
-    kubelogin
     libreoffice
     mpv
     nkf
@@ -60,6 +59,7 @@ in
     brave
     ghq
     github-cli
+    kubelogin
     slack
     thunderbird
     unar
