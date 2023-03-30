@@ -1,4 +1,4 @@
-# copied from https://github.com/nyarla/nixos-configurations/blob/bcf5e63bdad961f23a7a58892e42980c5dd8750d/pkgs/fcitx5-skk/default.nix
+# copied from https://github.com/nyarla/nixos-configurations/blob/839542f/pkgs/fcitx5-skk/default.nix
 # copied from https://github.com/NixOS/nixpkgs/issues/167872 and modified
 { lib
 , stdenv
@@ -34,7 +34,9 @@ stdenv.mkDerivation rec {
 
   nativeBuildInputs = [ cmake extra-cmake-modules gettext gcc pkg-config ];
 
-  buildInputs = [ libskk fcitx5 fcitx5-qt ] ++ lib.optional enableQt qt5.full;
+  buildInputs = [ libskk fcitx5 fcitx5-qt ] ++ lib.optional enableQt qt5.qtbase;
+
+  dontWrapQtApps = true;
 
   meta = with lib; {
     description =
