@@ -9,14 +9,14 @@
     enable = true;
     allowPing = true;
     allowedTCPPorts = [
-      139
-      445
-      5357 # wsdd
+      139 # NetBIOS Session Service
+      445 # Microsoft-DS SMB file sharing
+      5357 # Web Services for Devices
     ];
     allowedUDPPorts = [
-      137
-      138
-      3702 # wsdd
+      137 # NETBIOS Name Service
+      138 # NETBIOS Datagram Service
+      3702 # Web Service Discovery
     ];
   };
 }
