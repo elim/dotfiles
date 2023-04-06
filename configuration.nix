@@ -21,6 +21,7 @@ in
       /etc/nixos/hardware-configuration.nix
       ./fonts.nix
       ./fprint.nix
+      ./networking.nix
       ./samba.nix
       ./security.nix
     ];
@@ -73,10 +74,6 @@ in
 
   boot.kernelPackages = pkgs.linuxPackages_6_1;
 
-  # networking.hostName = "nixos"; # Define your hostname.
-  networking.networkmanager.enable = true;
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  networking.wireless.interfaces = [ "wlp0s20f3" ];
 
   # Set your time zone.
   time.timeZone = "Asia/Tokyo";

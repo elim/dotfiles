@@ -5,20 +5,8 @@ let
 in
 {
   # https://nixos.wiki/wiki/Samba
-  networking.firewall.enable = true;
-  networking.firewall.allowPing = true;
-
   services.samba-wsdd.enable = true; # make shares visible for windows 10 clients
-  networking.firewall.allowedTCPPorts = [
-    139
-    445
-    5357 # wsdd
-  ];
-  networking.firewall.allowedUDPPorts = [
-    137
-    138
-    3702 # wsdd
-  ];
+
   services.samba = {
     enable = true;
     securityType = "user";
