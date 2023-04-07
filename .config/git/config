@@ -38,6 +38,10 @@
 [core]
 	autocrlf = input
 	quotepath = false
+	pager = delta
+
+[interactive]
+	diffFilter = delta --color-only
 
 [diff]
 	compactionHeuristic = true
@@ -64,11 +68,6 @@
 [log]
 	follow = true
 
-[pager]
-	log  = ${XDG_CONFIG_HOME}/git/bin/diff-pager
-	show = ${XDG_CONFIG_HOME}/git/bin/diff-pager
-	diff = ${XDG_CONFIG_HOME}/git/bin/diff-pager
-
 [tig "bind"]
 	generic = g move-first-line
 	generic = G move-last-line
@@ -77,6 +76,17 @@
 	email = takeru.naito@gmail.com
 	name = Takeru Naito
 	signingkey = 0A2D3E0E
+
+[delta]
+	navigate = true # use n and N to move between diff sections
+	light = false	# set to true if you're in a terminal w/ a light background color (e.g. the default macOS terminal)
+	syntax-theme = Monokai Extended
+
+[interactive]
+	diffFilter = delta --color-only
+
+[diff]
+	colorMoved = default
 
 # ------------------------------
 
