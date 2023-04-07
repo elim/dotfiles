@@ -29,6 +29,7 @@ in
     atomicparsley
     colordiff
     dash
+    delta
     docker-compose
     emacs
     file
