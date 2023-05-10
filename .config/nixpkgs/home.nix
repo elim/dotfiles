@@ -57,6 +57,7 @@ in
     xorg.xhost
     xsel
   ] ++ (with unstable; [
+    avidemux
     azure-cli
     brave
     ghq
