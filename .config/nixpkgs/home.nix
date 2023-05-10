@@ -60,6 +60,7 @@ in
     avidemux
     azure-cli
     brave
+    ffmpeg
     ghq
     github-cli
     handbrake
