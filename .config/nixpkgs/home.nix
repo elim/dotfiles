@@ -34,6 +34,7 @@ in
     docker-compose
     emacs
     exiftool
+    fd
     file
     firefox
     gimp
