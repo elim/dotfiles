@@ -5,14 +5,14 @@ let
 
   aspell = pkgs.aspellWithDicts
     (dicts: with dicts; [ en en-computers en-science ]);
-  emacs = pkgs.emacsNativeComp;
+  emacs = pkgs.emacsUnstable;
 in
 {
   nixpkgs.overlays = [
     (import (builtins.fetchGit {
       url = "https://github.com/nix-community/emacs-overlay.git";
       ref = "master";
-      rev = "94df7ad97b2920fcf52d361c8d8e8a1ce5697c81";
+      rev = "e6b5351ef8059316e5114626f473dd15994318db";
     }))
   ];
 
