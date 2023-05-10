@@ -99,3 +99,5 @@
 	defaultBranch = main
 [rerere]
 	enabled = true
+[push]
+	useForceIfIncludes = true
