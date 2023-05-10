@@ -6,6 +6,7 @@ let
   aspell = pkgs.aspellWithDicts
     (dicts: with dicts; [ en en-computers en-science ]);
   emacs = pkgs.emacsUnstable;
+  handbrake = pkgs.handbrake.override { useFdk = true; };
 in
 {
   nixpkgs.overlays = [
@@ -60,6 +61,7 @@ in
     brave
     ghq
     github-cli
+    handbrake
     kubelogin
     nixpkgs-fmt
     slack
