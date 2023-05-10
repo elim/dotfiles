@@ -33,6 +33,7 @@ in
     delta
     docker-compose
     emacs
+    exiftool
     file
     firefox
     gimp
