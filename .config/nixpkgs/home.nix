@@ -61,6 +61,7 @@ in
     ghq
     github-cli
     kubelogin
+    nixpkgs-fmt
     slack
     thunderbird
     unar
