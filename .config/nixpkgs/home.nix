@@ -43,7 +43,6 @@ in
     keychain
     kubectl
     libreoffice
-    mpv
     nkf
     peco
     pgformatter
@@ -65,6 +64,7 @@ in
     github-cli
     handbrake
     kubelogin
+    mpv
     nixpkgs-fmt
     slack
     thunderbird
