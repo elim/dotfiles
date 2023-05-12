@@ -36,21 +36,6 @@ define_conditional_multipurpose_modmap(
 )
 
 
-# Keybindings for Firefox/Chrome
-define_keymap(
-    re.compile("Firefox|Google-chrome"),
-    {
-        # Ctrl+Alt+j/k to switch next/previous tab
-        K("C-M-j"): K("C-TAB"),
-        K("C-M-k"): K("C-Shift-TAB"),
-        # Type C-j to focus to the content
-        K("C-j"): K("C-f6"),
-        # very naive "Edit in editor" feature (just an example)
-        K("C-o"): [K("C-a"), K("C-c"), launch(["gedit"]), sleep(0.5), K("C-v")],
-    },
-    "Firefox and Chrome",
-)
-
 # Keybindings for Zeal https://github.com/zealdocs/zeal/
 define_keymap(
     re.compile("Zeal"),
@@ -61,17 +46,32 @@ define_keymap(
     "Zeal",
 )
 
-# Brave
+# Brave and Firefox
 define_keymap(
-    re.compile("Brave-browser"),
+    re.compile("Brave-browser|Firefox"),
     {
         # Brave search tabs
         K("M-Shift-a"): K("C-Shift-a"),
         # Developer tools
         K("M-Super-i"): K("C-Shift-i"),
+        # Prevent accidentally sending a message on GitHub
+        K("C-ENTER"): K("Shift-ENTER"),
     },
-    "Brave",
+    "Brave and Firefox",
 )
+
+# Firefox
+def firefox_mapping():
+    mapping = {}
+
+    # Select a tab by Cmd+number
+    for i in range(0, 10):
+        mapping[K("M-KEY_" + str(i))] = K("Super-KEY_" + str(i))
+
+    define_keymap(re.compile("Firefox"), mapping, "Firefox")
+
+
+firefox_mapping()
 
 # Keybindings for Slack
 define_keymap(
