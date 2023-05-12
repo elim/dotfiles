@@ -46,6 +46,7 @@ in
     kubectl
     libreoffice
     nkf
+    nodePackages.sql-formatter
     peco
     pgformatter
     ripgrep
