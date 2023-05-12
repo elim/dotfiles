@@ -196,7 +196,7 @@ def aa_flipmark():
 
 # Emacs-like keybindings in non-Emacs applications
 define_keymap(
-    lambda wm_class: wm_class not in ("Emacs", "Gnome-terminal"),
+    lambda wm_class: wm_class not in ("Emacs", "Gnome-terminal", "Virt-manager"),
     {
         # ESC
         K("C-LEFT_BRACE"): Key.ESC,
