@@ -159,6 +159,41 @@ def mac_like_mapping():
 
 mac_like_mapping()
 
+
+# copied from
+# https://github.com/NixOS/nixpkgs/blob/22.11/pkgs/tools/X11/xkeysnail/browser-emacs-bindings.py#L5-L21
+
+aa = False
+
+
+def aa_setvar(v):
+    def _aa_setvar():
+        transform._mark_set = False
+        global aa
+        aa = v
+
+    return _aa_setvar
+
+
+def aa_ifvar():
+    def _aa_ifvar():
+        transform._mark_set = False
+        global aa
+        if aa:
+            aa = False
+            return K("esc")
+        return K("enter")
+
+    return _aa_ifvar
+
+
+def aa_flipmark():
+    def _aa_flipmark():
+        transform._mark_set = not transform._mark_set
+
+    return _aa_flipmark
+
+
 # Emacs-like keybindings in non-Emacs applications
 define_keymap(
     lambda wm_class: wm_class not in ("Emacs", "Gnome-terminal"),
@@ -202,14 +237,15 @@ define_keymap(
         K("C-slash"): [K("C-z"), set_mark(False)],
         K("C-Shift-ro"): K("C-z"),
         # Mark
-        K("C-space"): set_mark(True),
+        K("C-space"): aa_flipmark(),
         K("C-M-space"): with_or_set_mark(K("C-right")),
         # Search
-        K("C-s"): K("F3"),
-        K("C-r"): K("Shift-F3"),
+        K("C-s"): [K("F3"), aa_setvar(True)],
+        K("C-r"): [K("Shift-F3"), aa_setvar(True)],
         K("M-Shift-key_5"): K("C-h"),
+        K("enter"): aa_ifvar(),
         # Cancel
-        K("C-g"): [K("esc"), set_mark(False)],
+        K("C-g"): [K("C-g"), aa_setvar(False)],
         # Tab
         K("C-i"): Key.TAB,
         # Escape
