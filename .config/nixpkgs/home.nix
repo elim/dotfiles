@@ -111,6 +111,7 @@ in
     settings = {
       "org/gnome/desktop/interface" = {
         gtk-theme = "${config.gtk.theme.name}";
+        cursor-size = 96;
         cursor-theme = "${config.gtk.cursorTheme.name}";
       };
       "org/gnome/desktop/wm/preferences" = {
