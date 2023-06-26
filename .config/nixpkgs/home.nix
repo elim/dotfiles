@@ -67,7 +67,6 @@ in
     github-cli
     handbrake
     kubelogin
-    mpv
     nixpkgs-fmt
     slack
     thunderbird
@@ -136,6 +135,14 @@ in
     enable = true;
     nix-direnv = {
       enable = true;
+    };
+  };
+
+  programs.mpv = {
+    enable = true;
+    package = unstable.mpv;
+    config = {
+      save-position-on-quit = true;
     };
   };
 
