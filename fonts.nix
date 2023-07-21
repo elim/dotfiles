@@ -33,10 +33,14 @@ in
         serif = [
           "Linux Libertine"
           "BIZ UDMincho"
+          "Noto Serif"
+          "Noto Serif CJK JP"
         ];
         sansSerif = [
           "Fira Code"
           "BIZ UDGothic"
+          "Noto Sans"
+          "Noto Sans CJK JP"
         ];
         monospace = [
           "Fira Code"
