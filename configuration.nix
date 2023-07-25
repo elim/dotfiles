@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ inputs, config, pkgs, ... }:
 
 let
   require = path: pkgs.callPackage (import path);
@@ -24,7 +24,11 @@ in
       ./networking.nix
       ./samba.nix
       ./security.nix
-    ];
+    ] ++ (with inputs.nixos-hardware.nixosModules; [
+      common-cpu-intel
+      common-gpu-nvidia
+      common-pc-ssd
+    ]);
 
   nix = {
     settings = {
