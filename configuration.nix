@@ -175,9 +175,6 @@ in
     gnumake
     vim
 
-    # home-manager
-    home-manager
-
     # gnome
     gnome.gnome-terminal
 
