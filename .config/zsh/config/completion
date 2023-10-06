@@ -42,7 +42,7 @@ zstyle ':completion:*:*files' ignored-patterns '*?.o' '*?~' '*\#'
 compdef hub=git
 
 zplugin ice wait'!'; zplugin snippet https://github.com/docker/cli/blob/master/contrib/completion/zsh/_docker
-zplugin ice wait'!'; zplugin snippet https://github.com/docker/compose/blob/master/contrib/completion/zsh/_docker-compose
+zplugin ice wait'!'; zplugin snippet https://github.com/docker/compose/blob/v1/contrib/completion/zsh/_docker-compose
 
 compdef d=docker
 
