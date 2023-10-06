@@ -25,25 +25,26 @@ FIGMA_MP_MOBILE=vNkMNZjMqBvJ2rd0rUCmND
 profile=Default
 
 if
-    contains "$1" "${FIGMA_MP_MOBILE}"        ||
-    contains "$1" "${GOOGLE_ANALYTICS}"       ||
-    contains "$1" "${NEWRELIC}"               ||
-    contains "$1" "backlog"                   ||
-    contains "$1" "biz.moneyforward.com"      ||
-    contains "$1" "codetakt"                  ||
-    contains "$1" "jobcan"                    ||
-    contains "$1" "login.microsoftonline.com" ||
-    contains "$1" "lstep.jp"                  ||
-    contains "$1" "manabipocket"              ||
-    contains "$1" "manapoke"                  ||
-    contains "$1" "microsoft.com/devicelogin" ||
-    contains "$1" "miro.com"                  ||
-    contains "$1" "ms-teams-mp-redesign"      ||
-    contains "$1" "offers.jp"                 ||
-    contains "$1" "percy.io"                  ||
-    contains "$1" "realtime-lms"              ||
-    contains "$1" "report.stg-ed-cl.com"      ||
-    contains "$1" "talentio"                  ||
+    contains "$1" "${FIGMA_MP_MOBILE}"          ||
+    contains "$1" "${GOOGLE_ANALYTICS}"         ||
+    contains "$1" "${NEWRELIC}"                 ||
+    contains "$1" "backlog"                     ||
+    contains "$1" "biz.moneyforward.com"        ||
+    contains "$1" "codetakt"                    ||
+    contains "$1" "email-quarantine.google.com" ||
+    contains "$1" "jobcan"                      ||
+    contains "$1" "login.microsoftonline.com"   ||
+    contains "$1" "lstep.jp"                    ||
+    contains "$1" "manabipocket"                ||
+    contains "$1" "manapoke"                    ||
+    contains "$1" "microsoft.com/devicelogin"   ||
+    contains "$1" "miro.com"                    ||
+    contains "$1" "ms-teams-mp-redesign"        ||
+    contains "$1" "offers.jp"                   ||
+    contains "$1" "percy.io"                    ||
+    contains "$1" "realtime-lms"                ||
+    contains "$1" "report.stg-ed-cl.com"        ||
+    contains "$1" "talentio"                    ||
     contains "$1" "zoom"
 then
   profile=codeTakt
