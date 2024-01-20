@@ -5,7 +5,7 @@ let
 
   aspell = pkgs.aspellWithDicts
     (dicts: with dicts; [ en en-computers en-science ]);
-  emacs = pkgs.emacsUnstable;
+  emacs = pkgs.emacs-unstable;
   handbrake = pkgs.handbrake.override { useFdk = true; };
 in
 {
@@ -13,7 +13,6 @@ in
     (import (builtins.fetchGit {
       url = "https://github.com/nix-community/emacs-overlay.git";
       ref = "master";
-      rev = "e6b5351ef8059316e5114626f473dd15994318db";
     }))
   ];
 
