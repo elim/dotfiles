@@ -81,7 +81,7 @@ in
     };
   };
 
-  boot.kernelPackages = pkgs.linuxPackages_6_1;
+  boot.kernelPackages = pkgs.linuxPackages_xanmod_latest;
 
   # Set your time zone.
   time.timeZone = "Asia/Tokyo";
