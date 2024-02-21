@@ -146,7 +146,15 @@ in
   };
 
   # Enable CUPS to print documents.
-  services.printing.enable = true;
+  services = {
+    printing = {
+      enable = true;
+    };
+    avahi = {
+      enable = true;
+      nssmdns = true;
+    };
+  };
 
   # Enable sound.
   sound.enable = true;
