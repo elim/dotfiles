@@ -1,7 +1,6 @@
 {
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.05";
-    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
   };
 
   outputs = inputs: {
@@ -11,9 +10,6 @@
         modules = [
           ./configuration.nix
         ];
-      };
-      specialArgs = {
-        inherit inputs;
       };
     };
   };
