@@ -51,7 +51,6 @@ in
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-
   # Based on https://nixos.wiki/wiki/Yubikey_based_Full_Disk_Encryption_(FDE)_on_NixOS
   #
   # Minimal list of modules to use the EFI system partition and the YubiKey
@@ -83,7 +82,6 @@ in
   };
 
   boot.kernelPackages = pkgs.linuxPackages_6_1;
-
 
   # Set your time zone.
   time.timeZone = "Asia/Tokyo";
