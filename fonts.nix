@@ -6,8 +6,8 @@ in
 {
   # https://nixos.wiki/wiki/Fonts
   fonts = {
-    enableDefaultFonts = true;
-    fonts = with pkgs; [
+    enableDefaultPackages = true;
+    packages = with pkgs; [
       cica
 
       (google-fonts.override {
