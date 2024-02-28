@@ -101,3 +101,5 @@
 	enabled = true
 [push]
 	useForceIfIncludes = true
+[rebase]
+	autostash = true
