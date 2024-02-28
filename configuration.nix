@@ -11,8 +11,6 @@ let
     config.allowUnfree = true;
   };
   my = import ./myself.nix;
-
-  fcitx5-skk = require ./packages/fcitx5-skk.nix { inherit (pkgs.libsForQt5) fcitx5-qt; };
 in
 {
   imports =
@@ -137,7 +135,12 @@ in
     defaultLocale = "en_US.UTF-8";
     inputMethod = {
       enabled = "fcitx5";
-      fcitx5.addons = with pkgs; [ fcitx5-skk ];
+      fcitx5.addons = with pkgs; [
+        fcitx5-gtk
+        fcitx5-skk
+        fcitx5-skk-qt
+        libsForQt5.fcitx5-qt
+      ];
     };
   };
 
