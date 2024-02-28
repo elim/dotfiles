@@ -46,6 +46,7 @@ if
     contains "$1" "realtime-lms"                ||
     contains "$1" "report.stg-ed-cl.com"        ||
     contains "$1" "talentio"                    ||
+    contains "$1" "teams.microsoft.com"         ||
     contains "$1" "zoom"
 then
   profile=codeTakt
