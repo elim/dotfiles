@@ -40,6 +40,7 @@ if
     contains "$1" "microsoft.com/devicelogin"   ||
     contains "$1" "miro.com"                    ||
     contains "$1" "ms-teams-mp-redesign"        ||
+    contains "$1" "newrelic"                    ||
     contains "$1" "offers.jp"                   ||
     contains "$1" "percy.io"                    ||
     contains "$1" "realtime-lms"                ||
