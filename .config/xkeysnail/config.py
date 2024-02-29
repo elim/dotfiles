@@ -142,9 +142,12 @@ def mac_like_mapping():
 
     for c in string.ascii_lowercase:
         mapping[K("M-" + c)] = K("C-" + c)
+        mapping[K("M-Shift-" + c)] = K("C-Shift-" + c)
 
     for i in range(0, 10):
-        mapping[K("M-KEY_" + str(i))] = K("C-KEY_" + str(i))
+        num_key = "KEY_" + str(i)
+        mapping[K("M-" + num_key)] = K("C-" + num_key)
+        mapping[K("M-Shift-" + num_key)] = K("C-Shift-" + num_key)
 
     define_keymap(
         lambda wm_class: wm_class not in ("Emacs", "Gnome-terminal"),
