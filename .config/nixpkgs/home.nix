@@ -34,6 +34,7 @@ in
     emacs
     exiftool
     fd
+    fdupes
     file
     firefox
     gimp
