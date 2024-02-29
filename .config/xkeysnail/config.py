@@ -144,6 +144,9 @@ def mac_like_mapping():
         mapping[K("M-" + c)] = K("C-" + c)
         mapping[K("M-Shift-" + c)] = K("C-Shift-" + c)
 
+    # Redo
+    mapping[K("M-Shift-z")] = K("C-y")
+
     for i in range(0, 10):
         num_key = "KEY_" + str(i)
         mapping[K("M-" + num_key)] = K("C-" + num_key)
