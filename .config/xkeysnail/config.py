@@ -60,6 +60,7 @@ define_keymap(
     "Brave and Firefox",
 )
 
+
 # Firefox
 def firefox_mapping():
     mapping = {}
@@ -80,8 +81,9 @@ define_keymap(
         # Prevent accidentally sending a message
         K("C-ENTER"): K("Shift-ENTER"),
     },
-    "Slack"
+    "Slack",
 )
+
 
 # Gnome Terminal
 def gnome_terminal_mapping():
@@ -112,6 +114,7 @@ def gnome_terminal_mapping():
 
 
 gnome_terminal_mapping()
+
 
 # macOS-like keybindings in non-Emacs applications
 #
