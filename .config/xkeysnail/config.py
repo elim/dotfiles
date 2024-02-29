@@ -94,10 +94,18 @@ def gnome_terminal_mapping():
         K("Super-M-Shift-LEFT_BRACE"): K("Shift-C-PAGE_UP"),
         # Move Tab to the Right
         K("Super-M-Shift-RIGHT_BRACE"): K("Shift-C-PAGE_DOWN"),
+        # Zoom Out
+        K("M-MINUS"): K("C-MINUS"),
+        # Zoom In
+        K("M-EQUAL"): K("C-Shift-EQUAL"),
+        # Zoom In
+        K("M-Shift-EQUAL"): K("C-Shift-EQUAL"),
+        # Normal Size
+        K("M-KEY_0"): K("C-KEY_0"),
     }
 
     # Select a tab by Cmd+number
-    for i in range(0, 10):
+    for i in range(1, 10):
         mapping[K("M-KEY_" + str(i))] = K("Super-KEY_" + str(i))
 
     define_keymap(re.compile("Gnome-terminal"), mapping, "Gnome Terminal")
