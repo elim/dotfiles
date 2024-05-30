@@ -106,18 +106,18 @@ in
     desktopManager.gnome.enable = true;
 
     # Configure keymap in X11
-    xkbOptions = "ctrl:nocaps,altwin:swap_lalt_lwin";
+    xkb.options = "ctrl:nocaps,altwin:swap_lalt_lwin";
+  };
 
-    # Enable touchpad support (enabled default in most desktopManager).
-    libinput = {
-      enable = true;
-      touchpad = {
-        disableWhileTyping = true;
-        naturalScrolling = true;
-        scrollMethod = "twofinger";
-        tapping = true;
-        tappingDragLock = false;
-      };
+  # Enable touchpad support (enabled default in most desktopManager).
+  services.libinput = {
+    enable = true;
+    touchpad = {
+      disableWhileTyping = true;
+      naturalScrolling = true;
+      scrollMethod = "twofinger";
+      tapping = true;
+      tappingDragLock = false;
     };
   };
 
@@ -151,7 +151,7 @@ in
     };
     avahi = {
       enable = true;
-      nssmdns = true;
+      nssmdns4 = true;
     };
   };
 
@@ -311,5 +311,5 @@ in
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "23.11"; # Did you read the comment?
+  system.stateVersion = "24.05"; # Did you read the comment?
 }
