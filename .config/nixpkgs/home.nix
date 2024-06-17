@@ -14,6 +14,7 @@ let
   emacs = buildEmacs (epkgs: with epkgs; [ vterm treesitGrammars ]);
 
   handbrake = pkgs.handbrake.override { useFdk = true; };
+  ffmpeg = pkgs.ffmpeg.override { withVidStab = true; };
 in
 {
   nixpkgs.overlays = [
