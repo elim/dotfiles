@@ -99,6 +99,7 @@
 	defaultBranch = main
 [rerere]
 	enabled = true
+	autoUpdate = true
 [push]
 	useForceIfIncludes = true
 [rebase]
