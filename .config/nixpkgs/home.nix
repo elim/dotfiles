@@ -152,6 +152,8 @@ in
     };
   };
 
+  programs.home-manager.enable = true;
+
   programs.mpv = {
     enable = true;
     package = unstable.mpv;
