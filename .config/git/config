@@ -104,3 +104,5 @@
 	useForceIfIncludes = true
 [rebase]
 	autostash = true
+[branch]
+	sort = -committerdate
