@@ -109,6 +109,7 @@ in
     xkeysnail
     xorg.xhost
     xsel
+    yq
     whichpr
   ] ++ (with unstable; [
     avidemux
