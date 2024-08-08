@@ -105,6 +105,7 @@ in
     skktools
     stern
     tmux
+    trurl
     unzip
     xkeysnail
     xorg.xhost
