@@ -17,6 +17,7 @@ let
   ffmpeg = pkgs.ffmpeg.override { withVidStab = true; };
 in
 {
+
   nixpkgs.overlays = [
     (import (builtins.fetchGit {
       url = "https://github.com/nix-community/emacs-overlay.git";
@@ -25,7 +26,7 @@ in
   ];
 
   home = rec {
-    stateVersion = "23.05";
+    stateVersion = "24.05";
 
     username = "takeru";
     homeDirectory = "/home/${username}";
