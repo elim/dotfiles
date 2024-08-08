@@ -119,6 +119,7 @@ in
     ffmpeg
     ghq
     github-cli
+    zenity
     handbrake
     kubelogin
     nixpkgs-fmt
