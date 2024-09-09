@@ -7,35 +7,33 @@
 let
   require = path: pkgs.callPackage (import path);
 
-  unstable = import <nixos-unstable> {
-    config.allowUnfree = true;
-  };
+  unstable = import <nixos-unstable> { config.allowUnfree = true; };
   my = import ./myself.nix;
 in
 {
-  imports =
-    [
-      ./hardware-configuration.nix
+  imports = [
+    ./hardware-configuration.nix
 
-      ./fonts.nix
-      ./fprint.nix
-      ./networking.nix
-      ./samba.nix
-      ./security.nix
-    ];
+    ./fonts.nix
+    ./fprint.nix
+    ./networking.nix
+    ./samba.nix
+    ./security.nix
+  ];
 
   nix = {
     settings = {
-      experimental-features = [ "nix-command" "flakes" ];
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
     };
   };
 
   nixpkgs.config = {
     allowUnfree = true;
     packageOverrides = pkgs: {
-      unstable = import <nixos-unstable> {
-        config = config.nixpkgs.config;
-      };
+      unstable = import <nixos-unstable> { config = config.nixpkgs.config; };
     };
   };
 
@@ -184,26 +182,28 @@ in
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    # develop
-    gcc
-    git
-    gnumake
-    vim
+  environment.systemPackages =
+    with pkgs;
+    [
+      # develop
+      gcc
+      git
+      gnumake
+      vim
 
-    # gnome
-    gnome.gnome-terminal
+      # gnome
+      gnome.gnome-terminal
 
-    # gnupg
-    gnome.gnome-keyring
-    gnupg
-    pinentry
+      # gnupg
+      gnome.gnome-keyring
+      gnupg
+      pinentry
 
-    # libvert
-    spice-gtk
-    virt-manager
-  ] ++ (with unstable; [
-  ]);
+      # libvert
+      spice-gtk
+      virt-manager
+    ]
+    ++ (with unstable; [ ]);
 
   virtualisation = {
     docker.enable = true;
@@ -215,9 +215,7 @@ in
         # https://www.reddit.com/r/NixOS/comments/ulzr88/comment/i7ypv20/?context=3
         ovmf = {
           enable = true;
-          packages = [
-            pkgs.OVMFFull.fd
-          ];
+          packages = [ pkgs.OVMFFull.fd ];
         };
         swtpm.enable = true;
       };
