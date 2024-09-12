@@ -2,7 +2,12 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  pkgs-unstable,
+  ...
+}:
 
 let
   require = path: pkgs.callPackage (import path);
@@ -32,9 +37,7 @@ in
 
   nixpkgs.config = {
     allowUnfree = true;
-    packageOverrides = pkgs: {
-      unstable = import <nixos-unstable> { config = config.nixpkgs.config; };
-    };
+    cudaSupport = true;
   };
 
   nixpkgs.overlays = [ ];
@@ -175,6 +178,12 @@ in
     #jack.enable = true;
   };
 
+  services.ollama = {
+    enable = true;
+    package = pkgs-unstable.ollama;
+    acceleration = "cuda";
+  };
+
   services.thermald.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
@@ -213,7 +222,7 @@ in
       spice-gtk
       virt-manager
     ]
-    ++ (with unstable; [ ]);
+    ++ (with pkgs-unstable; [ bat ]);
 
   virtualisation = {
     docker.enable = true;
