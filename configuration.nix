@@ -5,14 +5,12 @@
 {
   config,
   pkgs,
-  pkgs-unstable,
   ...
 }:
 
 let
   require = path: pkgs.callPackage (import path);
 
-  unstable = import <nixos-unstable> { config.allowUnfree = true; };
   my = import ./myself.nix;
 in
 {
@@ -145,7 +143,8 @@ in
   i18n = {
     defaultLocale = "en_US.UTF-8";
     inputMethod = {
-      enabled = "fcitx5";
+      enable = true;
+      type = "fcitx5";
       fcitx5.addons = with pkgs; [
         fcitx5-gtk
         fcitx5-skk
@@ -180,7 +179,6 @@ in
 
   services.ollama = {
     enable = true;
-    package = pkgs-unstable.ollama;
     acceleration = "cuda";
   };
 
@@ -201,28 +199,25 @@ in
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages =
-    with pkgs;
-    [
-      # develop
-      gcc
-      git
-      gnumake
-      vim
+  environment.systemPackages = with pkgs; [
+    # develop
+    gcc
+    git
+    gnumake
+    vim
 
-      # gnome
-      gnome.gnome-terminal
+    # gnome
+    gnome-terminal
 
-      # gnupg
-      gnome.gnome-keyring
-      gnupg
-      pinentry
+    # gnupg
+    gnome-keyring
+    gnupg
+    pinentry
 
-      # libvert
-      spice-gtk
-      virt-manager
-    ]
-    ++ (with pkgs-unstable; [ bat ]);
+    # libvert
+    spice-gtk
+    virt-manager
+  ];
 
   virtualisation = {
     docker.enable = true;
@@ -304,7 +299,7 @@ in
   services.openssh.enable = true;
 
   services.dbus.packages = [
-    pkgs.gnome3.gnome-keyring
+    pkgs.gnome-keyring
     pkgs.gcr
   ];
 
@@ -328,5 +323,5 @@ in
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "24.05"; # Did you read the comment?
+  system.stateVersion = "24.11"; # Did you read the comment?
 }
