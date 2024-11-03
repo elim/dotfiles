@@ -3,61 +3,13 @@
 let
   unstable = import <nixpkgs-unstable> { };
 
-  aspell = pkgs.aspellWithDicts
-    (dicts: with dicts; [ en en-computers en-science ]);
-
+  aspell = import ./modules/packages/aspell { inherit pkgs; };
   azure-cli = import ./modules/packages/azure-cli { inherit pkgs; };
-
-  # Based on "Integrating Tree-Sitter with Emacs29 in nix-darwin"
-  # https://nohzafk.github.io/posts/2023-12-18-nix-emacs-treesit-grammars/
-  buildEmacs = (pkgs.emacsPackagesFor pkgs.emacs29).emacsWithPackages;
-  treesitGrammars =
-    (pkgs.emacsPackagesFor pkgs.emacs29).treesit-grammars.with-all-grammars;
-  emacs = buildEmacs (epkgs: with epkgs; [ vterm treesitGrammars ]);
-
-  ruby = pkgs.ruby_3_3.overrideAttrs (oldAttrs: rec {
-    version = "3.3.4";
-    src = pkgs.fetchurl {
-      url = "https://cache.ruby-lang.org/pub/ruby/3.3/ruby-${version}.tar.gz";
-      hash = "sha256-/mow+X1U4Cl2jy3fSSNpnEFs28Om6W2z4tVxbH25ajQ=";
-    };
-  });
-
-  whichpr = (
-    pkgs.buildGoModule rec {
-      pname = "whichpr";
-      version = "v1.0.0";
-
-      src = pkgs.fetchFromGitHub {
-        owner = "elim";
-        repo = "whichpr";
-        rev = "ca06bf59ec2a83113c17ce9a0c8c2940808e5efe";
-        hash = "sha256-9lygIUitfP8itNEUyXhCaULPLExgmohEYnDSnoJugDQ=";
-      };
-
-      vendorHash = "sha256-zx2jVFP0MWCpymhktSTBKEAkOzuQzi12959RNQ7WknA=";
-
-      buildInputs = [ pkgs.git ];
-
-      preBuild = ''
-        export HOME=$(mktemp -d)
-        export PATH=${pkgs.git}/bin:$PATH
-        git config --global user.name "Test User"
-        git config --global user.email test.user@example.com
-      '';
-
-      buildPhase = ''
-        go build
-      '';
-
-      installPhase = ''
-        mkdir -p $out/bin
-        cp whichpr $out/bin
-      '';
-    });
+  emacs = import ./modules/packages/emacs { inherit pkgs; };
+  ruby = import ./modules/packages/ruby { inherit pkgs; };
+  whichpr = import ./modules/packages/whichpr { inherit pkgs; };
 in
 {
-
   nixpkgs.overlays = [
     (import (builtins.fetchGit {
       url = "https://github.com/nix-community/emacs-overlay.git";
@@ -107,11 +59,11 @@ in
     tmux
     trurl
     unzip
+    whichpr
     xkeysnail
     xorg.xhost
     xsel
     yq
-    whichpr
   ] ++ (with unstable; [
     avidemux
     brave
