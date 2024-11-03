@@ -1,8 +1,6 @@
 { config, pkgs, ... }:
 
 let
-  unstable = import <nixpkgs-unstable> { };
-
   aspell = import ./modules/packages/aspell { inherit pkgs; };
   azure-cli = import ./modules/packages/azure-cli { inherit pkgs; };
   emacs = import ./modules/packages/emacs { inherit pkgs; };
@@ -13,7 +11,7 @@ in
   nixpkgs.overlays = [ ];
 
   home = rec {
-    stateVersion = "24.05";
+    stateVersion = "24.11";
 
     username = "takeru";
     homeDirectory = "/home/${username}";
@@ -23,7 +21,9 @@ in
     albert
     aspell
     atomicparsley
+    avidemux
     azure-cli
+    brave
     colordiff
     dash
     delta
@@ -32,16 +32,22 @@ in
     exiftool
     fd
     fdupes
+    ffmpeg
     file
     firefox
+    ghq
     gimp
+    github-cli
     gnomeExtensions.appindicator
+    handbrake
     htop
     imagemagick
     k9s
     keychain
     kubectl
+    kubelogin
     libreoffice
+    nixpkgs-fmt
     nkf
     nodePackages.sql-formatter
     peco
@@ -50,30 +56,21 @@ in
     ruby
     shellcheck
     skktools
+    slack
     stern
+    thunderbird
     tmux
     trurl
+    unar
     unzip
     whichpr
     xkeysnail
     xorg.xhost
     xsel
     yq
-  ] ++ (with unstable; [
-    avidemux
-    brave
-    ffmpeg
-    ghq
-    github-cli
     zenity
-    handbrake
-    kubelogin
-    nixpkgs-fmt
-    slack
-    thunderbird
-    unar
     zoom-us
-  ]);
+  ];
 
   gtk = {
     enable = true;
@@ -139,7 +136,6 @@ in
 
   programs.mpv = {
     enable = true;
-    package = unstable.mpv;
     config = {
       save-position-on-quit = true;
     };
