@@ -6,6 +6,8 @@ let
   aspell = pkgs.aspellWithDicts
     (dicts: with dicts; [ en en-computers en-science ]);
 
+  azure-cli = import ./modules/packages/azure-cli { inherit pkgs; };
+
   # Based on "Integrating Tree-Sitter with Emacs29 in nix-darwin"
   # https://nohzafk.github.io/posts/2023-12-18-nix-emacs-treesit-grammars/
   buildEmacs = (pkgs.emacsPackagesFor pkgs.emacs29).emacsWithPackages;
@@ -77,6 +79,7 @@ in
     albert
     aspell
     atomicparsley
+    azure-cli
     colordiff
     dash
     delta
@@ -114,7 +117,6 @@ in
     whichpr
   ] ++ (with unstable; [
     avidemux
-    azure-cli
     brave
     ffmpeg
     ghq
