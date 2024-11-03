@@ -15,8 +15,6 @@ let
     (pkgs.emacsPackagesFor pkgs.emacs29).treesit-grammars.with-all-grammars;
   emacs = buildEmacs (epkgs: with epkgs; [ vterm treesitGrammars ]);
 
-  ffmpeg = pkgs.ffmpeg.override { withVidStab = true; };
-
   ruby = pkgs.ruby_3_3.overrideAttrs (oldAttrs: rec {
     version = "3.3.4";
     src = pkgs.fetchurl {
