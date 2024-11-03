@@ -12,4 +12,4 @@ let
     ];
   };
 in
-pkgsWithOverLay.azure-cli
+pkgsWithOverLay.azure-cli.override { withImmutableConfig = false; }
