@@ -1,6 +1,7 @@
 { config, pkgs, ... }:
 
 let
+  albert = import ./modules/packages/albert { inherit pkgs; };
   aspell = import ./modules/packages/aspell { inherit pkgs; };
   azure-cli = import ./modules/packages/azure-cli { inherit pkgs; };
   emacs = import ./modules/packages/emacs { inherit pkgs; };
