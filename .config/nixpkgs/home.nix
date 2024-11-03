@@ -10,12 +10,7 @@ let
   whichpr = import ./modules/packages/whichpr { inherit pkgs; };
 in
 {
-  nixpkgs.overlays = [
-    (import (builtins.fetchGit {
-      url = "https://github.com/nix-community/emacs-overlay.git";
-      ref = "master";
-    }))
-  ];
+  nixpkgs.overlays = [ ];
 
   home = rec {
     stateVersion = "24.05";
