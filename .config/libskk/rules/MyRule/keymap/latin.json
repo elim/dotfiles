@@ -1,11 +1,9 @@
 {
-    "include": [
-        "default"
-    ],
-    "define": {
-        "keymap": {
-            "C-j": "set-input-mode-hiragana",
-            "Hiragana": "set-input-mode-hiragana"
-        }
+  "include": ["default"],
+  "define": {
+    "keymap": {
+      "C-j": "set-input-mode-hiragana",
+      "Hiragana": "set-input-mode-hiragana"
     }
+  }
 }
