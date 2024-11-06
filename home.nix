@@ -1,16 +1,20 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  pinned-pkgs,
+  ...
+}:
 
 let
   albert = import ./modules/packages/albert { inherit pkgs; };
   aspell = import ./modules/packages/aspell { inherit pkgs; };
-  azure-cli = import ./modules/packages/azure-cli { inherit pkgs; };
+  azure-cli = pinned-pkgs.azure-cli.azure-cli;
   emacs = import ./modules/packages/emacs { inherit pkgs; };
+  handbrake = pinned-pkgs.ffmpeg.handbrake;
   ruby = import ./modules/packages/ruby { inherit pkgs; };
   whichpr = import ./modules/packages/whichpr { inherit pkgs; };
 in
 {
-  nixpkgs.overlays = [ ];
-
   home = rec {
     stateVersion = "24.11";
 

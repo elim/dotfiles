@@ -1,0 +1,97 @@
+{
+  "nodes": {
+    "azure-cli-nixpkgs": {
+      "locked": {
+        "lastModified": 1722928663,
+        "narHash": "sha256-so5hK2Xr2saodQ/edHNUvKYPqtGHiX20rByoQBvF8jo=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "92ceff55c9ebc5943853b83287f49fd73a909abd",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "92ceff55c9ebc5943853b83287f49fd73a909abd",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "ffmpeg-nixpkgs": {
+      "locked": {
+        "lastModified": 1730592291,
+        "narHash": "sha256-uZcMNLgK2uPxHpTDeIdmrv6+IvV3lqtUddrGNoMU4Hg=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "ea1799ea8c3bb5bcbdc016986288836a04fc6294",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "ea1799ea8c3bb5bcbdc016986288836a04fc6294",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "home-manager": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1730633670,
+        "narHash": "sha256-ZFJqIXpvVKvzOVFKWNRDyIyAo+GYdmEPaYi1bZB6uf0=",
+        "owner": "nix-community",
+        "repo": "home-manager",
+        "rev": "8f6ca7855d409aeebe2a582c6fd6b6a8d0bf5661",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "home-manager",
+        "type": "github"
+      }
+    },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1730531603,
+        "narHash": "sha256-Dqg6si5CqIzm87sp57j5nTaeBbWhHFaVyG7V6L8k3lY=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "7ffd9ae656aec493492b44d0ddfb28e79a1ea25d",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "root": {
+      "inputs": {
+        "azure-cli-nixpkgs": "azure-cli-nixpkgs",
+        "ffmpeg-nixpkgs": "ffmpeg-nixpkgs",
+        "home-manager": "home-manager",
+        "nixpkgs": "nixpkgs",
+        "systems": "systems"
+      }
+    },
+    "systems": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "id": "systems",
+        "type": "indirect"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}
