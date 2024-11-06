@@ -14,6 +14,11 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    treefmt-nix = {
+      url = "github:numtide/treefmt-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -23,11 +28,14 @@
       systems,
       azure-cli-nixpkgs,
       ffmpeg-nixpkgs,
+      treefmt-nix,
       home-manager,
       ...
     }:
     let
       system = "x86_64-linux";
+      eachSystem = f: nixpkgs.lib.genAttrs (import systems) (system: f nixpkgs.legacyPackages.${system});
+      treefmtEval = eachSystem (pkgs: treefmt-nix.lib.evalModule pkgs ./treefmt.nix);
 
       pkgs = import nixpkgs {
         system = system;
@@ -47,6 +55,12 @@
       };
     in
     {
+      formatter = eachSystem (pkgs: treefmtEval.${pkgs.system}.config.build.wrapper);
+
+      checks = eachSystem (pkgs: {
+        formatting = treefmtEval.${pkgs.system}.config.build.check self;
+      });
+
       homeConfigurations = {
         myHome = home-manager.lib.homeManagerConfiguration {
           inherit pkgs;

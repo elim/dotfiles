@@ -52,7 +52,6 @@ in
     kubectl
     kubelogin
     libreoffice
-    nixpkgs-fmt
     nkf
     nodePackages.sql-formatter
     peco
