@@ -22,6 +22,10 @@ in
     homeDirectory = "/home/${username}";
   };
 
+  imports = [
+    ./modules
+  ];
+
   home.packages = with pkgs; [
     albert
     aspell
@@ -38,7 +42,6 @@ in
     fd
     fdupes
     ffmpeg
-    file
     firefox
     ghq
     gimp
@@ -74,7 +77,7 @@ in
     yq
     zenity
     zoom-us
-  ];
+  ] ++ [ pkgs.file ];
 
   gtk = {
     enable = true;
