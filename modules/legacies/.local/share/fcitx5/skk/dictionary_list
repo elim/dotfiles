@@ -1,0 +1,13 @@
+encoding=UTF-8,file=$FCITX_CONFIG_DIR/skk/user.dict,mode=readwrite,type=file
+encoding=UTF-8,file=/home/takeru/.config/ddskk/jisyo,mode=readonly,type=file
+encoding=UTF-8,file=/home/takeru/.nix-profile/share/skk/SKK-JISYO.L.utf8,mode=readonly,type=file
+encoding=UTF-8,file=/home/takeru/.nix-profile/share/skk/SKK-JISYO.itaiji.utf8,mode=readonly,type=file
+encoding=UTF-8,file=/home/takeru/.nix-profile/share/skk/SKK-JISYO.jinmei.utf8,mode=readonly,type=file
+encoding=UTF-8,file=/home/takeru/.nix-profile/share/skk/SKK-JISYO.fullname.utf8,mode=readonly,type=file
+encoding=UTF-8,file=/home/takeru/.nix-profile/share/skk/SKK-JISYO.propernoun.utf8,mode=readonly,type=file
+encoding=UTF-8,file=/home/takeru/.nix-profile/share/skk/SKK-JISYO.geo.utf8,mode=readonly,type=file
+encoding=UTF-8,file=/home/takeru/.nix-profile/share/skk/SKK-JISYO.station.utf8,mode=readonly,type=file
+encoding=UTF-8,file=/home/takeru/.nix-profile/share/skk/SKK-JISYO.okinawa.utf8,mode=readonly,type=file
+encoding=UTF-8,file=/home/takeru/.nix-profile/share/skk/SKK-JISYO.china_taiwan.utf8,mode=readonly,type=file
+encoding=UTF-8,file=/home/takeru/.nix-profile/share/skk/SKK-JISYO.office.zipcode.utf8,mode=readonly,type=file
+encoding=UTF-8,file=/home/takeru/.nix-profile/share/skk/SKK-JISYO.zipcode.utf8,mode=readonly,type=file

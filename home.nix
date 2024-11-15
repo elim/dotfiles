@@ -26,58 +26,76 @@ in
     ./modules
   ];
 
-  home.packages = with pkgs; [
-    albert
-    aspell
-    atomicparsley
-    avidemux
-    azure-cli
-    brave
-    colordiff
-    dash
-    delta
-    docker-compose
-    emacs
-    exiftool
-    fd
-    fdupes
-    ffmpeg
-    firefox
-    ghq
-    gimp
-    github-cli
-    gnomeExtensions.appindicator
-    handbrake
-    htop
-    imagemagick
-    k9s
-    keychain
-    kubectl
-    kubelogin
-    libreoffice
-    nkf
-    nodePackages.sql-formatter
-    peco
-    pgformatter
-    ripgrep
-    ruby
-    shellcheck
-    skktools
-    slack
-    stern
-    thunderbird
-    tmux
-    trurl
-    unar
-    unzip
-    whichpr
-    xkeysnail
-    xorg.xhost
-    xsel
-    yq
-    zenity
-    zoom-us
-  ] ++ [ pkgs.file ];
+  home.packages =
+    with pkgs;
+    [
+      albert
+      aspell
+      atomicparsley
+      avidemux
+      azure-cli
+      brave
+      colordiff
+      dash
+      delta
+      docker-compose
+      emacs
+      exiftool
+      fd
+      fdupes
+      ffmpeg
+      firefox
+      ghq
+      gimp
+      github-cli
+      gnomeExtensions.appindicator
+      handbrake
+      htop
+      imagemagick
+      k9s
+      keychain
+      kubectl
+      kubelogin
+      libreoffice
+      nkf
+      nodePackages.sql-formatter
+      peco
+      pgformatter
+      ripgrep
+      ruby
+      shellcheck
+      skktools
+      slack
+      stern
+      thunderbird
+      tmux
+      trurl
+      unar
+      unzip
+      whichpr
+      xkeysnail
+      xorg.xhost
+      xsel
+      yq
+      zenity
+      zoom-us
+    ]
+    ++ [ pkgs.file ]
+    ++ (
+      with skkDictionaries;
+      map (pkg: pkg.override { useUtf8 = true; }) [
+        l
+        jinmei
+        fullname
+        geo
+        okinawa
+        china_taiwan
+        station
+        propernoun
+        itaiji
+        zipcode
+      ]
+    );
 
   gtk = {
     enable = true;
