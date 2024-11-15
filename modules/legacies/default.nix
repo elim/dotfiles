@@ -38,6 +38,7 @@ let
     ".config/zsh/snippets/tmux"
     ".local/bin/choosy.sh"
     ".local/share/applications/choosy.sh.desktop"
+    ".local/share/fcitx5/skk/dictionary_list"
     ".shell.d/alias"
     ".shell.d/environment"
     ".shell.d/lscolors"
