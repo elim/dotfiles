@@ -1,4 +1,1 @@
-*.zcompcache
-*.zcompdump
-*.zwc
-/.xinitrc
+/result
