@@ -16,10 +16,6 @@
     ./modules
   ];
 
-  services.dropbox = {
-    enable = true;
-  };
-
   programs.bat = {
     enable = true;
     config = {
