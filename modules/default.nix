@@ -1,5 +1,6 @@
 {
   imports = [
+    ./gnome
     ./legacies
     ./packages
   ];
