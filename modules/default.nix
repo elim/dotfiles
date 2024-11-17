@@ -3,6 +3,7 @@
     ./gnome
     ./legacies
     ./packages
+    ./programs
     ./services
   ];
 }
