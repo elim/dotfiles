@@ -13,5 +13,10 @@ in
     bashrcExtra = ''
       source ${bashrcLegacy}
     '';
+
+    initExtra = ''
+      # Enable incremental search through command history.
+      stty stop undef
+    '';
   };
 }
