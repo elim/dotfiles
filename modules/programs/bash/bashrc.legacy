@@ -1,7 +1,5 @@
 export XDG_CONFIG_HOME=~/.config
 
-bind '"\C-l": unix-filename-rubout'
-
 # ----------------------------------------------------------
 # Git prompt
 # http://qiita.com/varmil/items/9b0aeafa85975474e9b6

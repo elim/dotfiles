@@ -6,6 +6,7 @@
     ./direnv
     ./home-manager
     ./mpv
+    ./readline
     ./starship
   ];
 }
