@@ -3,7 +3,6 @@ let
   symlink = config.lib.file.mkOutOfStoreSymlink;
 
   legacies = [
-    ".bashrc"
     ".config/fcitx/skk/rule"
     ".config/git/bin/diff-pager"
     ".config/git/config"
