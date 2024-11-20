@@ -1,7 +1,6 @@
-{ pkgs, ... }:
-
+{ config, pkgs, ... }:
 let
-  my = import ./myself.nix;
+  user = config.users.users.default;
 in
 {
   # https://nixos.wiki/wiki/Samba
@@ -36,7 +35,7 @@ in
         "guest ok" = "no";
         "create mask" = "0644";
         "directory mask" = "0755";
-        "force user" = "${my.username}";
+        "force user" = user.name;
         "force group" = "users";
       };
       Photos = {
@@ -46,7 +45,7 @@ in
         "guest ok" = "no";
         "create mask" = "0644";
         "directory mask" = "0755";
-        "force user" = "${my.username}";
+        "force user" = user.name;
         "force group" = "users";
       };
     };
