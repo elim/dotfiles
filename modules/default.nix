@@ -6,6 +6,7 @@
     ./networking
     ./security
     ./services
+    ./time
     ./users
   ];
 }
