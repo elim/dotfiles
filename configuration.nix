@@ -10,18 +10,10 @@
 
 let
   require = path: pkgs.callPackage (import path);
-
-  my = import ./myself.nix;
 in
 {
   imports = [
-    ./hardware-configuration.nix
-
-    ./fonts.nix
-    ./fprint.nix
-    ./networking.nix
-    ./samba.nix
-    ./security.nix
+    ./modules
   ];
 
   nix = {
@@ -184,19 +176,6 @@ in
 
   services.thermald.enable = true;
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users."${my.username}" = {
-    isNormalUser = true;
-    shell = pkgs.zsh;
-    extraGroups = [
-      "docker"
-      "input"
-      "libvirtd"
-      "networkmanager"
-      "wheel" # Enable ‘sudo’ for the user.
-    ];
-  };
-
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -275,7 +254,7 @@ in
     _1password-gui = {
       enable = true;
 
-      polkitPolicyOwners = [ "${my.username}" ];
+      polkitPolicyOwners = [ config.users.users.default.name ];
     };
   };
 
