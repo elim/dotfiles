@@ -1,6 +1,7 @@
 {
   imports = [
     ./boot
+    ./console
     ./fonts
     ./hardware
     ./networking
