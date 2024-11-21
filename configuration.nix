@@ -30,17 +30,6 @@ in
 
   nixpkgs.overlays = [ ];
 
-  # Set your time zone.
-  time.timeZone = "Asia/Tokyo";
-
-  # Select internationalisation properties.
-  # i18n.defaultLocale = "en_US.UTF-8";
-  console = {
-    font = "latarcyrheb-sun32";
-    #   keyMap = "us";
-    useXkbConfig = true;
-  };
-
   # Enable the X11 windowing system.
   services.xserver = {
     enable = true;
