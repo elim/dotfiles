@@ -30,7 +30,27 @@
       nixosConfigurations = {
         myNixOS = nixpkgs.lib.nixosSystem {
           inherit system;
-          modules = [ ./configuration.nix ];
+          modules = [
+            {
+              nix = {
+                settings = {
+                  experimental-features = [
+                    "nix-command"
+                    "flakes"
+                  ];
+                };
+              };
+
+              nixpkgs = {
+                config = {
+                  allowUnfree = true;
+                  cudaSupport = true;
+                };
+                overlays = [ ];
+              };
+            }
+            ./configuration.nix
+          ];
         };
       };
     };

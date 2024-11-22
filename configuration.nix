@@ -14,22 +14,6 @@ in
 {
   imports = [ ./modules ];
 
-  nix = {
-    settings = {
-      experimental-features = [
-        "nix-command"
-        "flakes"
-      ];
-    };
-  };
-
-  nixpkgs.config = {
-    allowUnfree = true;
-    cudaSupport = true;
-  };
-
-  nixpkgs.overlays = [ ];
-
   # Enable the X11 windowing system.
   services.xserver = {
     enable = true;
