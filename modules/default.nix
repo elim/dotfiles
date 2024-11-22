@@ -5,6 +5,7 @@
     ./fonts
     ./hardware
     ./networking
+    ./programs
     ./security
     ./services
     ./time
