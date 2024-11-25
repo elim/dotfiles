@@ -33,6 +33,9 @@
           modules = [
             {
               nix = {
+                channel = {
+                  enable = false;
+                };
                 settings = {
                   auto-optimise-store = true;
                   experimental-features = [
