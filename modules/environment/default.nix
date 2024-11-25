@@ -1,0 +1,6 @@
+{
+  imports = [
+    ./etc
+    ./system-packages
+  ];
+}
