@@ -24,7 +24,6 @@ let
     ".config/zsh/config/history"
     ".config/zsh/config/keybind"
     ".config/zsh/config/options"
-    ".config/zsh/config/prompt"
     ".config/zsh/functions/figma-url-cleaner"
     ".config/zsh/functions/github-markdown-link-reformatter"
     ".config/zsh/functions/set-copy-paste-command"
