@@ -8,5 +8,6 @@
     ./mpv
     ./readline
     ./starship
+    ./zsh
   ];
 }

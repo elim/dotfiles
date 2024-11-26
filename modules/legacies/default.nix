@@ -17,7 +17,6 @@ let
     ".config/libskk/rules/MyRule/rom-kana/default.json"
     ".config/nixpkgs/config.nix"
     ".config/xkeysnail/config.py"
-    ".config/zsh/.zshrc"
     ".config/zsh/anyframe-functions/widgets/anyframe-widget-tab-ghq-repository"
     ".config/zsh/config/alias"
     ".config/zsh/config/chpwd"
@@ -46,7 +45,6 @@ let
     ".tmux.d/linux.conf"
     ".tmux.d/macos.conf"
     ".vimrc"
-    ".zshenv"
   ];
 in
 {
