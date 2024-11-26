@@ -9,8 +9,8 @@
     };
 
     theme = {
-      name = "palenight";
-      package = pkgs.palenight-theme;
+      name = "Nordic";
+      package = pkgs.nordic;
     };
 
     cursorTheme = {
@@ -27,18 +27,5 @@
     };
   };
 
-  home.sessionVariables.GTK_THEME = "palenight";
-
-  dconf = {
-    settings = {
-      "org/gnome/desktop/interface" = {
-        gtk-theme = "${config.gtk.theme.name}";
-        cursor-size = 96;
-        cursor-theme = "${config.gtk.cursorTheme.name}";
-      };
-      "org/gnome/desktop/wm/preferences" = {
-        theme = "${config.gtk.theme.name}";
-      };
-    };
-  };
+  home.sessionVariables.GTK_THEME = config.gtk.theme.name;
 }
