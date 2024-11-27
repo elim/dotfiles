@@ -17,6 +17,15 @@ in
 
     dotDir = ".config/zsh";
 
+    shellGlobalAliases = {
+      G = "| grep";
+      H = "| head";
+      L = "| less";
+      S = "| sed";
+      T = "| tail";
+      W = "| wc";
+    };
+
     envExtra = ''
       source ${zshenvLegacy}
     '';

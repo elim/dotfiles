@@ -18,7 +18,6 @@ let
     ".config/nixpkgs/config.nix"
     ".config/xkeysnail/config.py"
     ".config/zsh/anyframe-functions/widgets/anyframe-widget-tab-ghq-repository"
-    ".config/zsh/config/alias"
     ".config/zsh/config/chpwd"
     ".config/zsh/config/completion"
     ".config/zsh/config/history"
