@@ -19,34 +19,9 @@ alias dpkg='COLUMNS=${COLUMNS:-80} dpkg'
 # Emacs
 #
 # HACK: Use the Cocoa Emacs if possible.
-{
-  # shellcheck disable=SC2139
-  alias emacs="XMODIFIERS='@im=none' $(command -v Emacs || command -v emacs)"
+# shellcheck disable=SC2139
+alias emacs="XMODIFIERS='@im=none' $(command -v Emacs || command -v emacs)"
 
-  if type emacsclient; then
-    export EDITOR="emacsclient -n"
-    export GIT_EDITOR=emacsclient
-
-    e() {
-      local arg restructured_args
-
-      for arg in "$@"; do
-        if [[ $arg == *":"* ]]; then
-          restructured_args="${restructured_args} +${arg##*:} ${arg%:*}"
-          continue
-        fi
-
-        restructured_args="${restructured_args} ${arg}"
-      done
-
-      # shellcheck disable=SC2046
-      # shellcheck disable=SC2116
-      emacsclient -n $(echo "${restructured_args}")
-    }
-  else
-    export EDITOR=vi
-  fi
-} &> /dev/null
 
 #
 # Git

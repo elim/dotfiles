@@ -5,6 +5,7 @@ let
   aspell = import ./aspell { inherit pkgs; };
   azure-cli = pinned-pkgs.azure-cli.azure-cli;
   emacs = import ./emacs { inherit pkgs; };
+  e = import ./e { inherit pkgs emacs; };
   handbrake = pinned-pkgs.ffmpeg.handbrake;
   ruby = import ./ruby { inherit pkgs; };
   whichpr = import ./whichpr { inherit pkgs; };
@@ -24,6 +25,7 @@ in
       dash
       delta
       docker-compose
+      e
       emacs
       exiftool
       fd
@@ -80,4 +82,9 @@ in
         zipcode
       ]
     );
+
+  home.sessionVariables = {
+    EDITOR = "${e}/bin/e";
+    GIT_EDITOR = "${emacs}/bin/emacsclient";
+  };
 }
