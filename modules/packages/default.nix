@@ -86,5 +86,10 @@ in
   home.sessionVariables = {
     EDITOR = "${e}/bin/e";
     GIT_EDITOR = "${emacs}/bin/emacsclient";
+
+    KUBECTL_EXTERNAL_DIFF = "${pkgs.delta}/bin/delta";
+
+    MANPAGER = "sh -c 'col -bx | ${pkgs.bat}/bin/bat -l man -p'";
+    MANROFFOPT = "-c";
   };
 }
