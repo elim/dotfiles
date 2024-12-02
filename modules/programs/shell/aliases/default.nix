@@ -79,7 +79,6 @@ let
     b = "bundle";
     be = "bundle exec";
     d = "docker";
-    dc = "docker compose";
     l = "less";
     v = "vagrant";
   };

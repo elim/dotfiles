@@ -47,7 +47,6 @@ zplugin ice wait'!'; zplugin snippet https://github.com/docker/compose/blob/v1/c
 compdef d=docker
 
 { # docker compose
-  unalias dc
   function dc() { docker compose "$@" }
   compdef dc=docker-compose
 }
