@@ -12,10 +12,14 @@ let
   };
 in
 {
+  imports = [ ../shell ];
+
   programs.zsh = {
     enable = true;
 
     dotDir = ".config/zsh";
+
+    shellAliases = config.shell.aliases;
 
     shellGlobalAliases = {
       G = "| grep";

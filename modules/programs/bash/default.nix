@@ -7,8 +7,12 @@ let
   };
 in
 {
+  imports = [ ../shell ];
+
   programs.bash = {
     enable = true;
+
+    shellAliases = config.shell.aliases;
 
     bashrcExtra = ''
       source ${bashrcLegacy}
