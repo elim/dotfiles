@@ -5,7 +5,6 @@
     ./fprint
     ./gnome
     ./libinput
-    ./ollama
     ./openssh
     ./pipewire
     ./printing
