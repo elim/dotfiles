@@ -4,8 +4,8 @@ let
   albert = import ./albert { inherit pkgs; };
   aspell = import ./aspell { inherit pkgs; };
   azure-cli = pinned-pkgs.azure-cli.azure-cli;
-  emacs = import ./emacs { inherit pkgs; };
   e = import ./e { inherit pkgs emacs; };
+  emacs = import ./emacs { inherit pkgs; };
   handbrake = pinned-pkgs.ffmpeg.handbrake;
   ruby = import ./ruby { inherit pkgs; };
   whichpr = import ./whichpr { inherit pkgs; };
