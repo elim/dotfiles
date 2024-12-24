@@ -18,15 +18,6 @@ export HISTCONTROL=ignoreboth:erasedups
 export HISTTIMEFORMAT='%Y-%m-%d %T%z '
 
 # ----------------------------------------------------------
-# Settings of the detach keys on Docker
-# ----------------------------------------------------------
-if [[ "${SSHHOME}" ]] &&
-     type python &> /dev/null &&
-     type docker &> /dev/null; then
-  $SSHHOME/.sshrc.d/docker_set_detach_keys.py
-fi
-
-# ----------------------------------------------------------
 # Go
 # ----------------------------------------------------------
 
@@ -36,13 +27,10 @@ export GOPATH=$HOME
 # Aliases
 # ----------------------------------------------------------
 __load_config() {
-  unset -f ${FUNCNAME[0]}
+  unset -f "${FUNCNAME[0]}"
 
-  local base
-
-  [[ -n "$SSHHOME" ]] && base=$SSHHOME/.sshrc.d || base=$HOME
-
-  for conf in ${base}/.shell.d/*; do
+  for conf in "${HOME}"/.shell.d/*; do
+    # shellcheck disable=SC1090
     source "${conf}"
   done
 }

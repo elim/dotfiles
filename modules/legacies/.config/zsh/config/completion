@@ -51,8 +51,6 @@ compdef d=docker
   compdef dc=docker-compose
 }
 
-compdef sshrc=ssh
-
 # Local Variables:
 # mode: sh
 # sh-shell: zsh
