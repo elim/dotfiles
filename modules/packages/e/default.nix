@@ -5,13 +5,12 @@
 
 let
   substitutions = {
-    bash = pkgs.bash;
     emacsclient = "${emacs}/bin/emacsclient";
   };
 
   substituteScript = pkgs.substituteAll {
     src = ./e.sh.in;
-    inherit (substitutions) bash emacsclient;
+    inherit (substitutions) emacsclient;
     isExecutable = true;
   };
 in
