@@ -56,6 +56,10 @@ define_keymap(
         K("M-Super-i"): K("C-Shift-i"),
         # Prevent accidentally sending a message on GitHub
         K("C-ENTER"): K("Shift-ENTER"),
+        # Move Tab to the Left/Up
+        K("Super-M-Shift-LEFT_BRACE"): K("Shift-C-PAGE_UP"),
+        # Move Tab to the Right/Down
+        K("Super-M-Shift-RIGHT_BRACE"): K("Shift-C-PAGE_DOWN"),
     },
     "Brave and Firefox",
 )
