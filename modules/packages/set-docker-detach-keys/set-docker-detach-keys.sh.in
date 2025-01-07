@@ -1,0 +1,17 @@
+config_json="$HOME/.docker/config.json"
+detach_keys="ctrl-q,ctrl-q"
+tmpfile=$(mktemp)
+
+if [[ -f "$config_json" ]]; then
+  @jq@ \
+    ".detachKeys = \"${detach_keys}\"" "${config_json}" > "${tmpfile}" &&
+      mv "${tmpfile}" "${config_json}"
+else
+  mkdir -p "$(dirname "${config_json}")"
+  echo "{ \"detachKeys\": \"$detach_keys\" }" > "$config_json"
+fi
+
+# Local Variables:
+# mode: sh
+# sh-shell: bash
+# End:

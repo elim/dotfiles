@@ -8,6 +8,7 @@ let
   emacs = import ./emacs { inherit pkgs; };
   handbrake = pinned-pkgs.ffmpeg.handbrake;
   ruby = import ./ruby { inherit pkgs; };
+  set-docker-detach-keys = import ./set-docker-detach-keys { inherit pkgs; };
   whichpr = import ./whichpr { inherit pkgs; };
 in
 {
@@ -50,6 +51,7 @@ in
       pgformatter
       ripgrep
       ruby
+      set-docker-detach-keys
       shellcheck
       skktools
       slack
@@ -82,6 +84,12 @@ in
         zipcode
       ]
     );
+
+  home.activation = {
+    setDockerDetachKeys = ''
+      ${set-docker-detach-keys}/bin/set-docker-detach-keys
+    '';
+  };
 
   home.sessionVariables = {
     EDITOR = "${e}/bin/e";
