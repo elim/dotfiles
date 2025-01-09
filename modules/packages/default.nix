@@ -7,7 +7,6 @@ let
   e = import ./e { inherit pkgs emacs; };
   emacs = import ./emacs { inherit pkgs; };
   handbrake = pinned-pkgs.ffmpeg.handbrake;
-  ruby = import ./ruby { inherit pkgs; };
   set-docker-detach-keys = import ./set-docker-detach-keys { inherit pkgs; };
   whichpr = import ./whichpr { inherit pkgs; };
 in
@@ -50,7 +49,7 @@ in
       peco
       pgformatter
       ripgrep
-      ruby
+      ruby_3_4
       set-docker-detach-keys
       shellcheck
       skktools
