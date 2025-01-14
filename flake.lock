@@ -1,21 +1,5 @@
 {
   "nodes": {
-    "azure-cli-nixpkgs": {
-      "locked": {
-        "lastModified": 1722928663,
-        "narHash": "sha256-so5hK2Xr2saodQ/edHNUvKYPqtGHiX20rByoQBvF8jo=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "92ceff55c9ebc5943853b83287f49fd73a909abd",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "ref": "92ceff55c9ebc5943853b83287f49fd73a909abd",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
     "ffmpeg-nixpkgs": {
       "locked": {
         "lastModified": 1730592291,
@@ -70,7 +54,6 @@
     },
     "root": {
       "inputs": {
-        "azure-cli-nixpkgs": "azure-cli-nixpkgs",
         "ffmpeg-nixpkgs": "ffmpeg-nixpkgs",
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",

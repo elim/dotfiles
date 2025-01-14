@@ -2,10 +2,6 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs?ref=nixos-unstable";
 
-    azure-cli-nixpkgs = {
-      url = "github:NixOS/nixpkgs?ref=92ceff55c9ebc5943853b83287f49fd73a909abd";
-    };
-
     ffmpeg-nixpkgs = {
       url = "github:NixOS/nixpkgs?ref=ea1799ea8c3bb5bcbdc016986288836a04fc6294";
     };
@@ -26,7 +22,6 @@
       self,
       nixpkgs,
       systems,
-      azure-cli-nixpkgs,
       ffmpeg-nixpkgs,
       treefmt-nix,
       home-manager,
@@ -43,11 +38,6 @@
       };
 
       pinned-pkgs = {
-        azure-cli = import azure-cli-nixpkgs {
-          inherit system;
-          config.allowUnfree = true;
-        };
-
         ffmpeg = import ffmpeg-nixpkgs {
           inherit system;
           config.allowUnfree = true;
