@@ -3,7 +3,7 @@
 let
   albert = import ./albert { inherit pkgs; };
   aspell = import ./aspell { inherit pkgs; };
-  azure-cli = pinned-pkgs.azure-cli.azure-cli;
+  azure-cli = pinned-pkgs.azure-cli.azure-cli.override { withImmutableConfig = false; };
   e = import ./e { inherit pkgs emacs; };
   emacs = import ./emacs { inherit pkgs; };
   handbrake = pinned-pkgs.ffmpeg.handbrake;
