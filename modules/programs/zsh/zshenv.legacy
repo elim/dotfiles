@@ -39,15 +39,6 @@ if (( $+commands[brew] )); then
   compinit
 fi
 
-#
-# anyenv
-#
-if (( $+commands[anyenv] )); then
-  eval "$(anyenv init -)"
-  for d in $(command ls ~/.anyenv/envs); do
-    path=(${HOME}/.anyenv/envs/${d}/shims $path)
-  done
-fi
 
 # Local Variables:
 # mode: sh
