@@ -24,7 +24,7 @@ in
       colordiff
       dash
       delta
-      docker-compose
+      docker-client
       e
       emacs
       exiftool
