@@ -41,15 +41,7 @@ zstyle ':completion:*:*files' ignored-patterns '*?.o' '*?~' '*\#'
 
 compdef hub=git
 
-zplugin ice wait'!'; zplugin snippet https://github.com/docker/cli/blob/master/contrib/completion/zsh/_docker
-zplugin ice wait'!'; zplugin snippet https://github.com/docker/compose/blob/v1/contrib/completion/zsh/_docker-compose
-
-compdef d=docker
-
-{ # docker compose
-  function dc() { docker compose "$@" }
-  compdef dc=docker-compose
-}
+source <(docker completion zsh)
 
 # Local Variables:
 # mode: sh
