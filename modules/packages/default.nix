@@ -14,7 +14,6 @@ in
   home.packages =
     with pkgs;
     [
-      file
       albert
       aspell
       atomicparsley
@@ -31,6 +30,7 @@ in
       fd
       fdupes
       ffmpeg
+      file
       firefox
       ghq
       gimp
