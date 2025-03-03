@@ -21,6 +21,9 @@
 
     envExtra = builtins.readFile ./zshenv.legacy;
 
-    initExtra = builtins.readFile ./zshrc.legacy;
+    initExtra =
+      builtins.readFile ./zshrc.legacy
+      + builtins.readFile ./snippets/tmux
+      + builtins.readFile ./snippets/keychain;
   };
 }
