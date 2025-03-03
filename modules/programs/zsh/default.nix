@@ -19,6 +19,10 @@
       W = "| wc";
     };
 
+    syntaxHighlighting = {
+      enable = true;
+    };
+
     envExtra = builtins.readFile ./zshenv.legacy;
 
     initExtra =
