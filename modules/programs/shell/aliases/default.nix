@@ -21,7 +21,8 @@ let
   };
 
   # Get command variant based on the system
-  getCommandVariant = cmdName:
+  getCommandVariant =
+    cmdName:
     if pkgs.stdenv.isLinux then
       commandVariants.${cmdName}.linux
     else if pkgs.stdenv.isDarwin then
@@ -31,20 +32,17 @@ let
 
   # Create an enhanced alias based on package presence or command variants
   makeEnhancedAlias =
-    { cmd,                    # Base command
-      pkg,                    # Optional enhancement package
-      enhanced,               # Enhanced command when package is present
-      hasVariants ? false     # Whether command has Linux or Darwin variants
+    {
+      cmd, # Base command
+      pkg, # Optional enhancement package
+      enhanced, # Enhanced command when package is present
+      hasVariants ? false, # Whether command has Linux or Darwin variants
     }:
     let
       hasPackage = pkg != null && (lib.any (p: p == pkg) config.home.packages);
-      finalCmd = if hasVariants
-        then getCommandVariant cmd
-        else enhanced;
+      finalCmd = if hasVariants then getCommandVariant cmd else enhanced;
     in
-    if (hasPackage && enhanced != cmd) || hasVariants
-    then { ${cmd} = finalCmd; }
-    else { };
+    if (hasPackage && enhanced != cmd) || hasVariants then { ${cmd} = finalCmd; } else { };
 
   baseAliases = {
     # ls
