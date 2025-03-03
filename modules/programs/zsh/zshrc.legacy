@@ -28,8 +28,6 @@
         zdharma-continuum/z-a-bin-gem-node
 
   ### End of Zinit's installer chunk
-
-  zinit ice wait'!'; zinit light mollifier/anyframe
 }
 
 
@@ -150,10 +148,6 @@ fi
 # anyframe
 # http://qiita.com/mollifier/items/81b18c012d7841ab33c3
 #
-fpath=(${ZDOTDIR}(N-/) ${fpath})
-
-autoload -Uz anyframe-init
-
 bindkey '^xb'  anyframe-widget-cdr
 bindkey '^x^b' anyframe-widget-checkout-git-branch
 

@@ -36,6 +36,15 @@
 
     plugins = [
       {
+        name = "anyframe";
+        src = pkgs.fetchFromGitHub {
+          owner = "mollifier";
+          repo = "anyframe";
+          rev = "598675303044df8e9d04722f3adff4f63a238922";
+          hash = "sha256-WaBaxxQzwpIlsfTgWGt8GSQin6nbm45mRvtW0VqociE=";
+        };
+      }
+      {
         name = "cd-gitroot";
         src = pkgs.fetchFromGitHub {
           owner = "mollifier";
