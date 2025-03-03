@@ -30,7 +30,6 @@
   ### End of Zinit's installer chunk
 
   zinit ice wait'!'; zinit light mollifier/anyframe
-  zinit ice wait'!'; zinit light mollifier/cd-gitroot
 }
 
 
