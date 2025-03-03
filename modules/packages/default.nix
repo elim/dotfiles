@@ -1,4 +1,4 @@
-{ pkgs, pinned-pkgs, ... }:
+{ pkgs, pkgs-stable, pinned-pkgs, ... }:
 
 let
   albert = import ./albert { inherit pkgs; };
@@ -17,7 +17,6 @@ in
       albert
       aspell
       atomicparsley
-      avidemux
       azure-cli
       brave
       colordiff
@@ -82,7 +81,10 @@ in
         itaiji
         zipcode
       ]
-    );
+    )
+    ++ (with pkgs-stable; [
+      avidemux
+    ]);
 
   home.activation = {
     setDockerDetachKeys = ''
