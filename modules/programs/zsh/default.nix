@@ -1,16 +1,5 @@
 { config, pkgs, ... }:
 
-let
-  zshenvLegacy = pkgs.writeTextFile {
-    name = "zshenv-legacy";
-    text = builtins.readFile ./zshenv.legacy;
-  };
-
-  zshrcLegacy = pkgs.writeTextFile {
-    name = "zshrc-legacy";
-    text = builtins.readFile ./zshrc.legacy;
-  };
-in
 {
   imports = [ ../shell ];
 
@@ -30,12 +19,8 @@ in
       W = "| wc";
     };
 
-    envExtra = ''
-      source ${zshenvLegacy}
-    '';
+    envExtra = builtins.readFile ./zshenv.legacy;
 
-    initExtra = ''
-      source ${zshrcLegacy}
-    '';
+    initExtra = builtins.readFile ./zshrc.legacy;
   };
 }
