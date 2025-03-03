@@ -1,6 +1,7 @@
 {
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs?ref=nixos-unstable";
+    nixpkgs-stable.url = "github:NixOS/nixpkgs?ref=nixos-24.11";
 
     ffmpeg-nixpkgs = {
       url = "github:NixOS/nixpkgs?ref=ea1799ea8c3bb5bcbdc016986288836a04fc6294";
@@ -21,7 +22,9 @@
     {
       self,
       nixpkgs,
+      nixpkgs-stable,
       systems,
+
       ffmpeg-nixpkgs,
       treefmt-nix,
       home-manager,
@@ -34,6 +37,11 @@
 
       pkgs = import nixpkgs {
         system = system;
+        config.allowUnfree = true;
+      };
+
+      pkgs-stable = import nixpkgs-stable {
+        inherit system;
         config.allowUnfree = true;
       };
 
@@ -58,6 +66,7 @@
             ./home.nix
           ];
           extraSpecialArgs = {
+            inherit pkgs-stable;
             inherit pinned-pkgs;
           };
         };
