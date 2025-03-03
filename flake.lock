@@ -1,21 +1,5 @@
 {
   "nodes": {
-    "ffmpeg-nixpkgs": {
-      "locked": {
-        "lastModified": 1730592291,
-        "narHash": "sha256-uZcMNLgK2uPxHpTDeIdmrv6+IvV3lqtUddrGNoMU4Hg=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "ea1799ea8c3bb5bcbdc016986288836a04fc6294",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "ref": "ea1799ea8c3bb5bcbdc016986288836a04fc6294",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -70,7 +54,6 @@
     },
     "root": {
       "inputs": {
-        "ffmpeg-nixpkgs": "ffmpeg-nixpkgs",
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
         "nixpkgs-stable": "nixpkgs-stable",

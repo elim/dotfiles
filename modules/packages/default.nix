@@ -1,4 +1,4 @@
-{ pkgs, pkgs-stable, pinned-pkgs, ... }:
+{ pkgs, pkgs-stable, ... }:
 
 let
   albert = import ./albert { inherit pkgs; };
@@ -6,7 +6,6 @@ let
   azure-cli = pkgs.azure-cli.withExtensions [ azure-cli.extensions.ssh ];
   e = import ./e { inherit pkgs emacs; };
   emacs = import ./emacs { inherit pkgs; };
-  handbrake = pinned-pkgs.ffmpeg.handbrake;
   set-docker-detach-keys = import ./set-docker-detach-keys { inherit pkgs; };
   whichpr = import ./whichpr { inherit pkgs; };
 in
