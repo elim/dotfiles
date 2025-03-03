@@ -1,7 +1,6 @@
 { pkgs, pkgs-stable, ... }:
 
 let
-  albert = import ./albert { inherit pkgs; };
   aspell = import ./aspell { inherit pkgs; };
   azure-cli = pkgs.azure-cli.withExtensions [ azure-cli.extensions.ssh ];
   e = import ./e { inherit pkgs emacs; };
