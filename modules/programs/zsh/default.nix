@@ -3,6 +3,10 @@
 {
   imports = [ ../shell ];
 
+  home.packages = with pkgs; [
+    zsh-completions
+  ];
+
   programs.zsh = {
     enable = true;
 
