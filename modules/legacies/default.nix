@@ -30,8 +30,6 @@ let
     ".config/zsh/functions/tab.js"
     ".config/zsh/functions/title"
     ".config/zsh/functions/zman"
-    ".config/zsh/snippets/keychain"
-    ".config/zsh/snippets/tmux"
     ".local/bin/choosy.sh"
     ".local/share/applications/choosy.sh.desktop"
     ".local/share/fcitx5/skk/dictionary_list"
