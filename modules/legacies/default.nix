@@ -4,7 +4,6 @@ let
 
   legacies = [
     ".config/fcitx/skk/rule"
-    ".config/git/bin/diff-pager"
     ".config/git/config"
     ".config/git/ignore"
     ".config/libskk/rules/MyRule/keymap/default.json"
