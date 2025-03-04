@@ -4,8 +4,6 @@ let
 
   legacies = [
     ".config/fcitx/skk/rule"
-    ".config/git/config"
-    ".config/git/ignore"
     ".config/libskk/rules/MyRule/keymap/default.json"
     ".config/libskk/rules/MyRule/keymap/hankaku-katakana.json"
     ".config/libskk/rules/MyRule/keymap/hiragana.json"
