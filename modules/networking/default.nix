@@ -21,6 +21,7 @@
       139 # NetBIOS Session Service
       445 # Microsoft-DS SMB file sharing
       5357 # Web Services for Devices
+      1080 # May be used temporarily for internal networking
     ];
     allowedUDPPorts = [
       137 # NETBIOS Name Service
