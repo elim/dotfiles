@@ -13,6 +13,7 @@ in
     ignores = [
       "*~"
       ".DS_Store"
+      "compose.override.yml"
       "docker-compose.override.yml"
     ];
 
