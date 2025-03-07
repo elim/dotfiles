@@ -1,16 +1,28 @@
-{ config, pkgs, ... }:
-
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+
+let
+  symlink = config.lib.file.mkOutOfStoreSymlink;
+  dotDir = ".config/zsh";
+  zdotdir = "$HOME/" + lib.escapeShellArg dotDir;
+in
+{
+
   imports = [ ../shell ];
 
   home.packages = with pkgs; [
     zsh-completions
+    zsh-powerlevel10k
   ];
 
   programs.zsh = {
     enable = true;
 
-    dotDir = ".config/zsh";
+    dotDir = dotDir;
 
     shellAliases = config.shell.aliases;
 
@@ -29,10 +41,13 @@
 
     envExtra = builtins.readFile ./zshenv.legacy;
 
-    initExtra =
-      builtins.readFile ./zshrc.legacy
-      + builtins.readFile ./snippets/tmux
-      + builtins.readFile ./snippets/keychain;
+    initExtra = builtins.concatStringsSep "\n" [
+      (builtins.readFile ./zshrc.legacy)
+      (builtins.readFile ./snippets/tmux)
+      (builtins.readFile ./snippets/keychain)
+      "source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme"
+      "source ${zdotdir}/.p10k.zsh"
+    ];
 
     plugins = [
       {
@@ -54,5 +69,11 @@
         };
       }
     ];
+  };
+
+  home.file = {
+    "${dotDir}/.p10k.zsh" = {
+      source = symlink "${config.home.homeDirectory}/dotfiles/modules/programs/zsh/.p10k.zsh";
+    };
   };
 }

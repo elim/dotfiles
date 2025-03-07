@@ -1,7 +1,7 @@
 {
   programs.starship = {
     enable = true;
-    enableZshIntegration = true;
+    enableZshIntegration = false;
 
     settings = {
       git_commit = {
