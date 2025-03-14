@@ -1,6 +1,7 @@
 {
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs?ref=nixos-unstable";
+
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -8,7 +9,7 @@
   };
 
   outputs =
-    {
+    inputs@{
       self,
       nixpkgs,
       systems,
@@ -60,6 +61,10 @@
             }
             ./configuration.nix
           ];
+
+          specialArgs = {
+            inherit inputs;
+          };
         };
       };
     };
