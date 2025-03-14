@@ -4,14 +4,10 @@
 
     videoDrivers = [ "nvidia" ];
 
-    displayManager.lightdm = {
-      enable = true;
-    };
-    desktopManager.gnome = {
+    displayManager.gdm = {
       enable = true;
     };
 
-    # Configure keymap in X11
-    xkb.options = "ctrl:nocaps,altwin:swap_lalt_lwin";
+    desktopManager.gnome.enable = true;
   };
 }
