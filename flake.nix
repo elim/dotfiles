@@ -8,6 +8,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    xremap-flake  = {
+      url = "github:xremap/nix-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+      inputs.treefmt-nix.follows = "treefmt-nix";
+    };
+
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -15,16 +22,18 @@
   };
 
   outputs =
-    {
+    inputs@{
       self,
       nixpkgs,
       nixpkgs-stable,
       systems,
 
+      xremap-flake,
       treefmt-nix,
       home-manager,
       ...
     }:
+
     let
       system = "x86_64-linux";
       eachSystem = f: nixpkgs.lib.genAttrs (import systems) (system: f nixpkgs.legacyPackages.${system});
@@ -51,6 +60,7 @@
         myHome = home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
           modules = [
+            xremap-flake.homeManagerModules.default
             ./home.nix
           ];
           extraSpecialArgs = {
