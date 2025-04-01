@@ -3,6 +3,12 @@
   gtk = {
     enable = true;
 
+    font = {
+      name = "HackGen Console NF";
+      package = pkgs.hackgen-nf-font;
+      size = 14;
+    };
+
     iconTheme = {
       name = "Papirus-Dark";
       package = pkgs.papirus-icon-theme;
