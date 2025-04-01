@@ -32,7 +32,6 @@ in
       ghq
       gimp
       github-cli
-      gnomeExtensions.appindicator
       handbrake
       htop
       imagemagick
@@ -58,13 +57,17 @@ in
       unar
       unzip
       whichpr
-      xkeysnail
       xorg.xhost
       xsel
       yq
       zenity
       zoom-us
     ]
+    ++ (with gnomeExtensions; [
+      appindicator
+      kimpanel
+      xremap
+    ])
     ++ (
       with skkDictionaries;
       map (pkg: pkg.override { useUtf8 = true; }) [

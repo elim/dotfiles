@@ -13,7 +13,6 @@ let
     ".config/libskk/rules/MyRule/metadata.json"
     ".config/libskk/rules/MyRule/rom-kana/default.json"
     ".config/nixpkgs/config.nix"
-    ".config/xkeysnail/config.py"
     ".config/zsh/config/chpwd"
     ".config/zsh/config/completion"
     ".config/zsh/config/history"
