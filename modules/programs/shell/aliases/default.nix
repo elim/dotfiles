@@ -8,7 +8,7 @@ let
   # Commands with Linux or Darwin variants
   commandVariants = {
     emacs = {
-      linux = "XMODIFIERS='@im=none' emacs";
+      linux = "GTK_IM_MODULE=gtk-im-context-simple XMODIFIERS='@im=none' emacs";
       darwin = "Emacs";
       default = "emacs";
     };
