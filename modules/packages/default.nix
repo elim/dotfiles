@@ -15,6 +15,7 @@ in
       albert
       aspell
       atomicparsley
+      avidemux
       azure-cli
       brave
       colordiff
@@ -83,9 +84,7 @@ in
         zipcode
       ]
     )
-    ++ (with pkgs-stable; [
-      avidemux
-    ]);
+    ++ (with pkgs-stable; [ ]);
 
   home.activation = {
     setDockerDetachKeys = ''
