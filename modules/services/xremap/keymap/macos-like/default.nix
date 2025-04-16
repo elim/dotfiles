@@ -12,9 +12,9 @@ let
 
   remap = {
     # History back
-    Alt-LeftBrace = "Win-Left";
+    Alt-LeftBrace = "Alt-Left";
     # History forward
-    Alt-RightBrace = "Win-Right";
+    Alt-RightBrace = "Alt-Right";
     # Jump to the previous open tab
     Alt-Shift-LeftBrace = "Ctrl-PageUp";
     # Jump to the next open tab
