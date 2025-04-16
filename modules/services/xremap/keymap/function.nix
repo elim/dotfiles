@@ -5,6 +5,8 @@ rec {
 
   altToCtrlRemapper = mkRemapper "Alt" "Ctrl";
   altToMetaRemapper = mkRemapper "Alt" "Win";
+  altToAltPreserver = mkRemapper "Alt" "Alt";
 
   mkKeyMap = remapper: keys: builtins.foldl' (acc: x: acc // x) { } (map remapper keys);
+
 }

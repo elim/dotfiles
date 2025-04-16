@@ -1,8 +1,23 @@
 let
-  inherit (import ../function.nix) altToMetaRemapper mkKeyMap;
+  inherit (import ../function.nix) altToAltPreserver altToCtrlRemapper mkKeyMap;
   inherit (import ../keys.nix) numberKeys;
 
-  altToMetaMap = mkKeyMap altToMetaRemapper numberKeys;
+  tabSelectMap = mkKeyMap altToAltPreserver numberKeys;
+  readlineMap = mkKeyMap altToAltPreserver [
+    "c"
+    "d"
+    "l"
+    "u"
+  ];
+
+  viewMap = {
+    # Zoom In
+    Alt-Equal = "Ctrl-Shift-Equal";
+    # Zoom Out
+    Alt-Minus = "Ctrl-Minus";
+    # Normal Size
+    Alt-0 = "Ctrl-0";
+  };
 
   application = {
     only = [
@@ -10,7 +25,7 @@ let
     ];
   };
 
-  remap = altToMetaMap;
+  remap = tabSelectMap // viewMap // readlineMap;
 in
 [
   {
