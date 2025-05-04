@@ -1,4 +1,6 @@
 let
+  inherit (import ../../mark.nix) unsetMark;
+
   inherit (import ../function.nix) altToCtrlRemapper mkKeyMap;
   inherit (import ../keys.nix) alphabetKeys numberKeys symbolKeys;
 
@@ -10,7 +12,7 @@ let
     ];
   };
 
-  remap = {
+  remap = altToCtrlMap // {
     # History back
     Alt-LeftBrace = "Alt-Left";
     # History forward
@@ -23,7 +25,11 @@ let
     Alt-Win-Shift-LeftBrace = "Ctrl-Shift-PageUp";
     # Move Tab to the Right/Down
     Alt-Win-Shift-RightBrace = "Ctrl-Shift-PageDown";
-  } // altToCtrlMap;
+    # Copy
+    Alt-c = [ "Ctrl-C" ] ++ unsetMark;
+    # Cut
+    Alt-x = [ "Ctrl-x" ] ++ unsetMark;
+  };
 in
 [
   {
