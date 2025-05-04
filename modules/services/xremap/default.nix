@@ -2,6 +2,8 @@
 let
   modmap = import ./modmap;
   keymap = import ./keymap { inherit pkgs; };
+
+  inherit (import ./mark.nix) default_mode;
 in
 {
   services.xremap = {
@@ -10,7 +12,7 @@ in
     debug = true;
 
     config = {
-      default_mode = "mark_unset";
+      inherit default_mode;
       inherit modmap;
       inherit keymap;
     };
