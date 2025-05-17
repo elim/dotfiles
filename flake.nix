@@ -29,7 +29,7 @@
       });
 
       nixosConfigurations = {
-        myNixOS = nixpkgs.lib.nixosSystem {
+        obsidian = nixpkgs.lib.nixosSystem {
           inherit system;
           modules = [
             {
