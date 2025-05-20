@@ -1,7 +1,7 @@
 { pkgs, ... }:
 
 let
-  cica = pkgs.callPackage ../../packages/cica { };
+  cica = pkgs.callPackage ../../../pkgs/cica { };
 in
 {
   # https://nixos.wiki/wiki/Fonts
