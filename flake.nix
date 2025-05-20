@@ -59,7 +59,7 @@
                 overlays = [ ];
               };
             }
-            ./configuration.nix
+            ./hosts/obsidian
           ];
 
           specialArgs = {
