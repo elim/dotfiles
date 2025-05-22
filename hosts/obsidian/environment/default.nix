@@ -1,6 +1,6 @@
 {
   imports = [
-    ./etc
-    ./system-packages
+    ./etc.nix
+    ./system-packages.nix
   ];
 }

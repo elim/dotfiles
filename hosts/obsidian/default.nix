@@ -7,19 +7,19 @@ in
   imports = [
     ./hardware-configuration.nix
 
-    ./boot
-    ./console
+    ./boot.nix
+    ./console.nix
     ./environment
-    ./fonts
+    ./fonts.nix
     ./hardware
-    ./i18n
-    ./networking
+    ./i18n.nix
+    ./networking.nix
     ./programs
-    ./security
+    ./security.nix
     ./services
-    ./system
-    ./time
-    ./users
+    ./system.nix
+    ./time.nix
+    ./users.nix
     ./virtualisation
   ];
 }

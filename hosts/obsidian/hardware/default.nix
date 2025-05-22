@@ -1,6 +1,7 @@
 {
   hardware.uinput.enable = true;
+
   imports = [
-    ./nvidia
+    ./nvidia.nix
   ];
 }
