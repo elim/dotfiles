@@ -1,7 +1,7 @@
 {
   imports = [
-    ./docker
-    ./libvirtd
+    ./docker.nix
+    ./libvirtd.nix
   ];
 
   virtualisation = {
