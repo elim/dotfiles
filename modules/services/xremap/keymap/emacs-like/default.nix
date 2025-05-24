@@ -28,6 +28,34 @@ in
     };
   }
   {
+    name = "Emacs-like: Hack for Beginning/End of file (on mark unset)";
+    inherit application;
+    mode = "mark_unset";
+    remap = {
+      # Beginning/End of file
+      M-Shift-comma = {
+        with_mark = "C-Home";
+      };
+      M-Shift-dot = {
+        with_mark = "C-End";
+      };
+    };
+  }
+  {
+    name = "Emacs-like: Hack for eginning/End of file (on mark set)";
+    inherit application;
+    mode = "mark_set";
+    remap = {
+      # Beginning/End of file
+      M-Shift-comma = {
+        with_mark = "C-Shift-Home";
+      };
+      M-Shift-dot = {
+        with_mark = "C-Shift-End";
+      };
+    };
+  }
+  {
     # https://github.com/xremap/xremap/blob/v0.16.6/example/emacs.yml
     name = "Emacs-like: basic";
     inherit application;
@@ -68,14 +96,6 @@ in
       };
       C-v = {
         with_mark = "pagedown";
-      };
-
-      # Beginning/End of file
-      M-Shift-comma = {
-        with_mark = "C-home";
-      };
-      M-Shift-dot = {
-        with_mark = "C-end";
       };
 
       # Newline
