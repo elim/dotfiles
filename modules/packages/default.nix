@@ -7,6 +7,7 @@ let
   emacs = import ./emacs { inherit pkgs; };
   set-docker-detach-keys = import ./set-docker-detach-keys { inherit pkgs; };
   whichpr = import ./whichpr { inherit pkgs; };
+  zsh-history-utils = pkgs.callPackage ./zsh-history-utils { };
 in
 {
   home.packages =
@@ -63,6 +64,7 @@ in
       yq
       zenity
       zoom-us
+      zsh-history-utils
     ]
     ++ (with gnomeExtensions; [
       appindicator
