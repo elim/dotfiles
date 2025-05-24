@@ -8,6 +8,7 @@ in
     remap = {
       C-h = "Backspace";
       C-i = "Tab";
+      C-LeftBrace = "ESC";
       C-q = {
         escape_next_key = true;
       };
