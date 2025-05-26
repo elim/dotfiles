@@ -1,6 +1,0 @@
-{
-  imports = [
-    ./dropbox
-    ./xremap
-  ];
-}

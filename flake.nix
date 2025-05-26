@@ -57,11 +57,11 @@
       });
 
       homeConfigurations = {
-        myHome = home-manager.lib.homeManagerConfiguration {
+        "takeru@obsidian" = home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
           modules = [
             xremap-flake.homeManagerModules.default
-            ./home.nix
+            ./home/takeru/obisidian.nix
           ];
           extraSpecialArgs = {
             inherit pkgs-stable;
