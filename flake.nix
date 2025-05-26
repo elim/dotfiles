@@ -56,6 +56,46 @@
         formatting = treefmtEval.${pkgs.system}.config.build.check self;
       });
 
+      nixosConfigurations = {
+        obsidian = nixpkgs.lib.nixosSystem {
+          inherit system;
+          modules = [
+            {
+              nix = {
+                channel = {
+                  enable = false;
+                };
+                settings = {
+                  auto-optimise-store = true;
+                  experimental-features = [
+                    "nix-command"
+                    "flakes"
+                  ];
+                };
+                gc = {
+                  automatic = true;
+                  dates = "weekly";
+                  options = "--delete-older-than 30d";
+                };
+              };
+
+              nixpkgs = {
+                config = {
+                  allowUnfree = true;
+                  cudaSupport = true;
+                };
+                overlays = [ ];
+              };
+            }
+            ./hosts/obsidian
+          ];
+
+          specialArgs = {
+            inherit inputs;
+          };
+        };
+      };
+
       homeConfigurations = {
         "takeru@obsidian" = home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
