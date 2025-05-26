@@ -17,3 +17,4 @@ trim_trailing_whitespace = false
 
 [COMMIT_EDITMSG]
 trim_trailing_whitespace = false
+root = true
