@@ -12,7 +12,7 @@
           fcitx5-skk-qt
           libsForQt5.fcitx5-qt
         ];
-        waylandFrontend =true;
+        waylandFrontend = true;
       };
     };
   };
