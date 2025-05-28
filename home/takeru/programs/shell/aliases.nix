@@ -118,4 +118,7 @@ let
     })
   ];
 in
-lib.mkMerge [baseAliases enhancedAliases]
+lib.mkMerge [
+  baseAliases
+  enhancedAliases
+]
