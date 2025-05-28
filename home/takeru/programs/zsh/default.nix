@@ -43,7 +43,6 @@ in
     initExtra = builtins.concatStringsSep "\n" [
       (builtins.readFile ./zshrc.legacy)
       (builtins.readFile ./snippets/tmux)
-      (builtins.readFile ./snippets/keychain)
       "source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme"
       "source ${zdotdir}/.p10k.zsh"
     ];
