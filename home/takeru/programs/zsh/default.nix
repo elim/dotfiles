@@ -40,7 +40,7 @@ in
 
     envExtra = builtins.readFile ./zshenv.legacy;
 
-    initExtra = builtins.concatStringsSep "\n" [
+    initContent = builtins.concatStringsSep "\n" [
       (builtins.readFile ./zshrc.legacy)
       (builtins.readFile ./snippets/tmux)
       "source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme"
