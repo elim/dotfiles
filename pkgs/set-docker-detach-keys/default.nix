@@ -3,15 +3,11 @@
 }:
 
 let
-  substitutions = {
-    jq = "${pkgs.jq}/bin/jq";
-  };
-
-  substituteScript = pkgs.substituteAll {
-    src = ./set-docker-detach-keys.sh.in;
-    inherit (substitutions) jq;
-    isExecutable = true;
-  };
+  text = builtins.readFile (
+    pkgs.replaceVars ./set-docker-detach-keys.sh.in {
+      jq = "${pkgs.jq}/bin/jq";
+    }
+  );
 in
 pkgs.writeShellApplication {
   name = "set-docker-detach-keys";
@@ -21,5 +17,5 @@ pkgs.writeShellApplication {
     jq
   ];
 
-  text = builtins.readFile substituteScript;
+  inherit text;
 }

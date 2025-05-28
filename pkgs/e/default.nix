@@ -4,15 +4,11 @@
 }:
 
 let
-  substitutions = {
-    emacsclient = "${emacs}/bin/emacsclient";
-  };
-
-  substituteScript = pkgs.substituteAll {
-    src = ./e.sh.in;
-    inherit (substitutions) emacsclient;
-    isExecutable = true;
-  };
+  text = builtins.readFile (
+    pkgs.replaceVars ./e.sh.in {
+      emacsclient = "${emacs}/bin/emacsclient";
+    }
+  );
 in
 pkgs.writeShellApplication {
   name = "e";
@@ -22,5 +18,5 @@ pkgs.writeShellApplication {
     emacs
   ];
 
-  text = builtins.readFile substituteScript;
+  inherit text;
 }
