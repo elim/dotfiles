@@ -13,6 +13,7 @@
   };
 
   imports = [
+    ./features/cli
     ./fonts.nix
     ./gnome
     ./legacies

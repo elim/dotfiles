@@ -52,7 +52,6 @@ in
       htop
       imagemagick
       k9s
-      keychain
       kubectl
       kubelogin
       libreoffice
