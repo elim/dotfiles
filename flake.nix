@@ -102,7 +102,7 @@
           inherit pkgs;
           modules = [
             xremap-flake.homeManagerModules.default
-            ./home/takeru/obisidian.nix
+            ./home/takeru/obsidian.nix
           ];
           extraSpecialArgs = {
             inherit pkgs-stable;
