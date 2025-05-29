@@ -1,12 +1,11 @@
 {
   pkgs ? import <nixpkgs> { },
-  emacs,
 }:
 
 let
   text = builtins.readFile (
     pkgs.replaceVars ./e.sh.in {
-      emacsclient = "${emacs}/bin/emacsclient";
+      emacsclient = "${pkgs.emacs}/bin/emacsclient";
     }
   );
 in

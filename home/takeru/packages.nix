@@ -10,15 +10,7 @@ let
   );
 
   azure-cli = pkgs.azure-cli.withExtensions [ azure-cli.extensions.ssh ];
-  emacs =
-    let
-      emacsPackageSet = pkgs.emacsPackagesFor pkgs.emacs30-pgtk;
-      buildEmacs = emacsPackageSet.emacsWithPackages;
-      treesitGrammars = emacsPackageSet.treesit-grammars.with-all-grammars;
-    in
-    buildEmacs (_: [ treesitGrammars ]);
-
-  e = pkgs.callPackage ../../pkgs/e { inherit pkgs emacs; };
+  e = pkgs.callPackage ../../pkgs/e { inherit pkgs; };
   set-docker-detach-keys = pkgs.callPackage ../../pkgs/set-docker-detach-keys { inherit pkgs; };
   whichpr = pkgs.callPackage ../../pkgs/whichpr.nix { inherit pkgs; };
   zsh-history-utils = pkgs.callPackage ../../pkgs/zsh-history-utils.nix { };
@@ -109,7 +101,7 @@ in
 
   home.sessionVariables = {
     EDITOR = "${e}/bin/e";
-    GIT_EDITOR = "${emacs}/bin/emacsclient";
+    GIT_EDITOR = "${pkgs.emacs}/bin/emacsclient";
 
     KUBECTL_EXTERNAL_DIFF = "${pkgs.delta}/bin/delta";
 
