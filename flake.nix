@@ -42,6 +42,7 @@
       pkgs = import nixpkgs {
         system = system;
         config.allowUnfree = true;
+        overlays = [ (import ./overlays/emacs.nix) ];
       };
 
       pkgs-stable = import nixpkgs-stable {
