@@ -38,7 +38,6 @@ in
       file
       firefox
       ghq
-      gimp
       github-cli
       handbrake
       htop

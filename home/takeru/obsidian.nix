@@ -14,6 +14,7 @@
 
   imports = [
     ./features/cli
+    ./features/desktop
     ./fonts.nix
     ./gnome
     ./legacies
