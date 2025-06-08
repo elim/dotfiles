@@ -26,8 +26,6 @@
       self,
       nixpkgs,
       nixpkgs-stable,
-      systems,
-
       xremap-flake,
       treefmt-nix,
       home-manager,
@@ -36,7 +34,8 @@
 
     let
       system = "x86_64-linux";
-      eachSystem = f: nixpkgs.lib.genAttrs (import systems) (system: f nixpkgs.legacyPackages.${system});
+      supportedSystems = nixpkgs.lib.systems.flakeExposed;
+      eachSystem = f: nixpkgs.lib.genAttrs supportedSystems (system: f nixpkgs.legacyPackages.${system});
       treefmtEval = eachSystem (pkgs: treefmt-nix.lib.evalModule pkgs ./treefmt.nix);
 
       pkgs = import nixpkgs {
