@@ -5,6 +5,8 @@ let
 in
 {
   imports = [
+    ../common/global
+
     ./hardware-configuration.nix
 
     ./boot.nix
