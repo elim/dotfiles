@@ -8,8 +8,8 @@
         "0A2D3E0E"
       ];
       extraFlags = [
-        "--quiet"
         "--ssh-allow-forwarded"
+        "--ssh-spawn-gpg"
       ];
     };
   };
