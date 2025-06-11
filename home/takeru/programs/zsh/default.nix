@@ -11,6 +11,16 @@ let
   symlink = config.lib.file.mkOutOfStoreSymlink;
   dotDir = ".config/zsh";
   zdotdir = "$HOME/" + lib.escapeShellArg dotDir;
+
+  chpwd_ls =
+    let
+      lsCommand = shellAliases.ls;
+    in
+    builtins.readFile (
+      pkgs.replaceVars ./chpwd.zsh.in {
+        ls = lsCommand;
+      }
+    );
 in
 {
   home.packages = with pkgs; [
@@ -45,6 +55,7 @@ in
       (builtins.readFile ./snippets/tmux)
       "source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme"
       "source ${zdotdir}/.p10k.zsh"
+      chpwd_ls
     ];
 
     plugins = [

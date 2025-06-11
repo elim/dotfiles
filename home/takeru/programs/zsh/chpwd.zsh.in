@@ -1,0 +1,4 @@
+# -*- mode: sh; sh-shell: zsh; -*-
+
+function _chpwd.ls() { @ls@ }
+add-zsh-hook chpwd _chpwd.ls
