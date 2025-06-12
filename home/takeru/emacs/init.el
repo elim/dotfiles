@@ -347,9 +347,6 @@
     (add-to-list 'desktop-globals-to-save 'read-expression-history))
   (leaf eslint-fix
     :ensure t)
-  (leaf files
-    :if (executable-find "gls")
-    :custom ((insert-directory-program . "gls")))
   (leaf find-func
     :config
     ;; C-x F => Find Function
