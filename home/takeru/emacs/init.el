@@ -105,7 +105,7 @@
   :added "2022-12-24"
   :emacs>= 26.3
   :ensure t
-  :global-minor-mode t)
+  :hook (prog-mode-hook .  topsy-mode))
 
 (leaf vertico-posframe
   :doc "Using posframe to show Vertico"
