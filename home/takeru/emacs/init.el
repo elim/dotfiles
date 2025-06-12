@@ -42,6 +42,11 @@
   :added "2022-12-22"
   :custom ((native-comp-async-report-warnings-errors . 'silent)))
 
+(leaf elisp-slime-nav
+  :hook ((emacs-lisp-mode-hook
+          lisp-interaction-mode-hook
+          ielm-mode-hook) .  elisp-slime-nav-mode))
+
 (leaf git-modes
   :doc "Major modes for editing Git configuration files"
   :req "emacs-25.1" "compat-29.1.3.4"
