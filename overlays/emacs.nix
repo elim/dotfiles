@@ -9,6 +9,7 @@ prev
     alwaysEnsure = true;
     alwaysTangle = true;
     extraEmacsPackages = epkgs: [
+      epkgs.elisp-slime-nav
       epkgs.treesit-grammars.with-all-grammars
     ];
   };
