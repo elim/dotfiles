@@ -6,35 +6,18 @@
 (set-variable 'init-file-debug t)
 (set-variable 'load-prefer-newer t)
 
-;;; leaf.el
-;;
 (eval-and-compile
-  (customize-set-variable
-   'package-archives '(("gnu"   . "https://elpa.gnu.org/packages/")
-                       ("melpa" . "https://melpa.org/packages/")
-                       ("org"   . "https://orgmode.org/elpa/")))
-  (package-initialize)
-  (unless (package-installed-p 'leaf)
-    (package-refresh-contents)
-    (package-install 'leaf))
-
+  (require 'leaf)
   (leaf leaf-keywords
-    :ensure t
-    :config
-    ;; optional packages if you want to use :hydra, :el-get,,,
-    (leaf hydra :ensure t)
-    (leaf blackout :ensure t)
-
-    ;; initialize leaf-keywords.el
-    (leaf-keywords-init)))
+    :require t hydra blackout
+    :config  (leaf-keywords-init)))
 
 (leaf browse-at-remote
   :doc "Open github/gitlab/bitbucket/stash/gist/phab/sourcehut page from Emacs"
   :req "f-0.17.2" "s-1.9.0" "cl-lib-0.5"
   :tag "pagure" "sourcehut" "phabricator" "stash" "gist" "bitbucket" "gitlab" "github"
   :url "https://github.com/rmuslimov/browse-at-remote"
-  :added "2022-12-22"
-  :ensure t)
+  :added "2022-12-22")
 
 (leaf comp
   :doc "compilation of qLisp code into native code"
@@ -54,7 +37,6 @@
   :url "https://github.com/magit/git-modes"
   :added "2023-04-14"
   :emacs>= 25.1
-  :ensure t
   :after compat)
 
 (leaf nix-mode
@@ -64,7 +46,6 @@
   :url "https://github.com/NixOS/nix-mode"
   :added "2023-03-28"
   :emacs>= 25.1
-  :ensure t
   :after magit-section)
 
 (leaf so-long
@@ -104,7 +85,6 @@
   :url "https://github.com/alphapapa/topsy.el"
   :added "2022-12-24"
   :emacs>= 26.3
-  :ensure t
   :hook (prog-mode-hook .  topsy-mode))
 
 (leaf vertico-posframe
@@ -114,7 +94,6 @@
   :url "https://github.com/tumashu/vertico-posframe"
   :added "2022-03-02"
   :emacs>= 26.0
-  :ensure t
   :after posframe vertico
   :global-minor-mode t)
 
@@ -133,8 +112,7 @@
             (user-full-name . "Takeru Naito"))
   :config
   (defalias 'yes-or-no-p 'y-or-n-p)
-  (leaf async
-    :ensure t)
+  (leaf async)
   (leaf cus-edit
     :doc "Just prevent appending to this file (not load at startup)."
     :custom `((custom-file . ,(locate-user-emacs-file ".custom.el"))))
@@ -157,13 +135,11 @@
     :url https://github.com/uwabami/emacs
     :config
     (leaf affe
-      :ensure t
       :after orderless
       :custom
       ((affe-highlight-function . 'orderless-highlight-matches)
        (affe-regexp-function  . 'orderless-pattern-compiler)))
     (leaf consult
-      :ensure t
       :preface
       ;; C-uを付けるとカーソル位置の文字列を使うmy-consult-lineコマンドを定義する
       (defun tomoya:consult-line (&optional at-point)
@@ -189,14 +165,11 @@
              ("C-S-s"   . consult-imenu)           ; orig. imenu
              ))
     (leaf embark-consult
-      :ensure t
       :require t
       :after consult)
     (leaf marginalia
-      :ensure t
       :global-minor-mode t)
     (leaf orderless
-      :ensure t
       :custom (completion-styles . '(orderless)))
     (leaf savehist
       :global-minor-mode t)
@@ -217,7 +190,6 @@
               (filter-buffer-substring (point)
                                        (save-excursion (end-of-line) (point))
                                        #'delete)))))
-      :ensure t
       :bind (:vertico-map
              (("C-l" . uwabami:filename-upto-parent)
               ("C-r" . vertico-previous)
@@ -312,7 +284,6 @@
 (leaf *utilities
   :config
   (leaf add-node-modules-path
-    :ensure t
     :hook ((js-mode-hook . add-node-modules-path)
            (www-mode-hook . add-node-modules-path)))
   (leaf auth-source
@@ -322,7 +293,6 @@
   (leaf bs
     :bind ("C-x C-b" . bs-show))
   (leaf clipmon
-    :ensure t
     :hook (after-init-hook . clipmon-mode-start)
     :config
     (when (fboundp 'gui-get-selection)
@@ -345,8 +315,7 @@
     (add-to-list 'desktop-globals-to-save 'kill-ring)
     (add-to-list 'desktop-globals-to-save 'log-edit-comment-ring)
     (add-to-list 'desktop-globals-to-save 'read-expression-history))
-  (leaf eslint-fix
-    :ensure t)
+  (leaf eslint-fix)
   (leaf find-func
     :config
     ;; C-x F => Find Function
@@ -376,7 +345,6 @@
            ("H-k" . describe-key)
            ("H-v" . describe-variable)))
   (leaf open-junk-file
-    :ensure t
     :bind (("C-x C-z" . open-junk-file))
     :custom ((open-junk-file-format . "~/.junk/%Y/%m/%d-%H%M%S.")
              (open-junk-file-find-file-function . 'find-file)))
@@ -398,7 +366,6 @@
         (call-interactively 'sort-lines)))
     (defalias 'sort-lines-nocase #'elim:sort-lines-nocase))
   (leaf sqlformat
-    :ensure t
     :custom (sqlformat-command . 'pgformatter)))
 
 (leaf *interfaces
@@ -421,13 +388,11 @@
   (set-default 'indent-tabs-mode nil)
   (set-default 'cursor-in-non-selected-windows nil)
   (leaf buffer-move
-    :ensure t
     :bind (("M-g h" . buf-move-left)
            ("M-g j" . buf-move-down)
            ("M-g k" . buf-move-up)
            ("M-g l" . buf-move-right)))
   (leaf company
-    :ensure t
     :bind (("C-M-i" . company-complete)
            (:company-active-map
             ("C-n" . company-select-next)
@@ -444,10 +409,8 @@
     :blackout company-mode
     :hook (after-init-hook . global-company-mode))
   (leaf company-quickhelp
-    :ensure t
     :global-minor-mode company-quickhelp-mode)
   (leaf doom-modeline
-    :ensure t
     :leaf-defer nil
     :custom
     ((doom-modeline-buffer-file-name-style . 'truncate-with-project)
@@ -475,13 +438,11 @@
            ("S-<down-mouse-1>" . nil)
            ("S-<drag-mouse-1>" . nil)))
   (leaf nyan-mode
-    :ensure t
     :leaf-defer nil
     :global-minor-mode t
     :custom ((nyan-animate-nyancat . t)
              (nyan-wavy-trail . t)))
   (leaf popwin
-    :ensure t
     :defvar popwin:special-display-config
     :require t
     :custom ((popwin:popup-window-position . 'bottom)
@@ -489,7 +450,7 @@
     :config
     (push '("*Google Translate*") popwin:special-display-config)
     :global-minor-mode t)
-  (leaf rotate :ensure t)
+  (leaf rotate)
   (leaf scroll-bar
     :if (fboundp 'scroll-bar-mode)
     :config
@@ -501,13 +462,11 @@
              (select-enable-clipboard . t)
              (selection-coding-system . 'utf-8)))
   (leaf wgrep
-    :ensure t
     :custom ((wgrep-auto-save-buffer . t)))
   (leaf *theme
     :config
     ;; (load-theme 'tango-dark t))
     (leaf doom-themes
-      :ensure t
       :custom ((doom-themes-enable-italic . t)
                (doom-themes-enable-bold . nil))
       :config
@@ -526,7 +485,6 @@
              (uniquify-ignore-buffers-re . "*[^*]+*")
              (uniquify-min-dir-content   . 1)))
   (leaf which-key
-    :ensure t
     :hook (after-init-hook . which-key-mode))
   (leaf windmove
     :custom ((windmove-wrap-around . t))
@@ -538,7 +496,6 @@
 (leaf *minor-modes
   :config
   (leaf anzu
-    :ensure t
     :bind (([remap query-replace]        . anzu-query-replace)
            ([remap query-replace-regexp] . anzu-query-replace-regexp))
     :custom ((anzu-mode-lighter . "")
@@ -546,7 +503,6 @@
              (anzu-search-threshold . 1000))
     :global-minor-mode global-anzu-mode)
   (leaf atomic-chrome
-    :ensure t
     :preface
     (defun elim:atomic-chrome-edit-done-hook-func ()
       (kill-new (buffer-string)))
@@ -600,7 +556,6 @@
      (diff-removed       . '((nil (:foreground "white" :background "dark red"))))
      (diff-refine-change . '((nil (:foreground nil     :background nil :weight 'bold :inverse-video t))))))
   (leaf editorconfig
-    :ensure t
     :init
     (defun elim:coordinate-editorconfig-with-web-mode (_props)
       "When using web mode, leaves the code format to prettifiers."
@@ -620,18 +575,15 @@
   (leaf *flycheck
     :config
     (leaf flycheck
-      :ensure t
       :hook (after-init-hook . global-flycheck-mode)
       :init (add-to-list 'exec-path (expand-file-name "bin" user-emacs-directory)))
     (leaf flycheck-posframe
-      :ensure t
       :after flycheck
       :hook (flycheck-mode-hook . flycheck-posframe-mode)))
   (leaf flyspell
     :custom ((ispell-dictionary . "american")
              (flyspell-use-meta-tab . nil)))
   (leaf google-translate
-    :ensure t
     :defun google-translate-translate
     :bind (("C-c t" . google-translate-enja-or-jaen))
     :custom (google-translate-backend-method . 'curl)
@@ -705,7 +657,6 @@ Google(with automatic language detection)."
         (add-to-list 'c-font-lock-keywords-3 '("\\[\\|\\]" . elim:bracket-face)))
       :hook ((c-mode-common-hook . elim:c-mode-common-hook-func-paren))))
   (leaf persistent-scratch
-    :ensure t
     :leaf-defer nil
     :custom `(persistent-scratch-save-file . ,(locate-user-emacs-file ".scratch.el"))
     :config
@@ -713,13 +664,11 @@ Google(with automatic language detection)."
       (emacs-lock-mode 'kill))
     (persistent-scratch-setup-default))
   (leaf projectile
-    :ensure t
     :bind (("M-t" . projectile-command-map))
     :global-minor-mode t
     :custom (projectile-enable-caching . t)
     :blackout projectile-mode)
   (leaf rainbow-mode
-    :ensure t
     :blackout t
     :hook ((css-mode-hook
             emacs-lisp-mode-hook
@@ -741,7 +690,6 @@ Google(with automatic language detection)."
         ((xdg-based-skk-user-directory
           (expand-file-name "ddskk" (getenv "XDG_CONFIG_HOME"))))
     (leaf skk
-      :ensure ddskk
       :bind* (("C-x C-j" . skk-mode)
               ("C-x t" . nil)
               ("C-x j" . nil))
@@ -775,11 +723,9 @@ Google(with automatic language detection)."
     (leaf ddskk-posframe
       :doc "Show Henkan tooltip for ddskk via posframe"
       :after skk
-      :ensure t
       :custom ((ddskk-posframe-mode . t))
       :blackout ddskk-posframe-mode))
   (leaf undo-tree
-    :ensure t
     :bind ((:undo-tree-visualizer-mode-map
             ("C-g" . undo-tree-visualizer-quit)))
     :advice
@@ -818,25 +764,22 @@ Google(with automatic language detection)."
     :hook ((c-mode-common-hook . elim:c-mode-common-hook-func)))
   (leaf css-mode
     :custom ((css-indent-offset . 2)))
-  (leaf dockerfile-mode :ensure t)
+  (leaf dockerfile-mode)
   (leaf elisp-mode
     :hook (emacs-lisp-mode-hook . elim:emacs-lisp-mode-hook-func)
     :config
     (defun elim:emacs-lisp-mode-hook-func ()
       (set-variable 'indent-tabs-mode nil)
       (hs-minor-mode +1)))
-  (leaf elm-mode :ensure t)
+  (leaf elm-mode)
   (leaf feature-mode
-    :ensure t
     :after org org-table)
   (leaf go-mode
-    :ensure t
     :preface
     (defun elim:go-mode-hook-func ()
       (set (make-local-variable 'tab-width) 4))
     :hook (go-mode-hook . elim:go-mode-hook-func))
   (leaf js2-mode
-    :ensure t
     :mode ("\\.js\\'" "\\.es6\\'")
     :preface
     (defun elim:js2-mode-hook-func ()
@@ -857,9 +800,8 @@ Google(with automatic language detection)."
     :hook (js2-mode-hook . elim:js2-mode-hook-func))
   (leaf js
     :custom ((js-indent-level . 2)))
-  (leaf json-mode :ensure t)
+  (leaf json-mode)
   (leaf magit
-    :ensure t
     :bind (("C-x v s" . magit-status)
            ("C-x v f" . magit-diff-buffer-file))
     :custom (magit-diff-refine-hunk . 'all)
@@ -872,7 +814,6 @@ Google(with automatic language detection)."
             'elim:auto-delete-trailing-whitespace-enable-p) nil))
     :blackout auto-revert-mode)
   (leaf markdown-mode
-    :ensure t
     :mode (("\\.md\\'" "\\ISSUE_EDITMSG\\'") . gfm-mode)
     :bind (:markdown-mode-map
            ("<S-tab>" . markdown-shifttab)
@@ -888,7 +829,6 @@ Google(with automatic language detection)."
      (markdown-hr-strings                   . '("* * *\n\n"))
      (markdown-marginalize-headers          . nil)))
   (leaf mmm-mode
-    :ensure t
     :config
     (leaf *hack-indentation
       ;; https://github.com/AdamNiederer/vue-mode/issues/74#issuecomment-539711083
@@ -900,7 +840,6 @@ Google(with automatic language detection)."
        (mmm-typescript-mode-enter-hook . elim:disable-syntax-ppss-table))))
   (leaf org :require org org-table)
   (leaf php-mode
-    :ensure t
     :defun php-enable-psr2-coding-style
     :bind (:php-mode-map
            ("C-c C-[" . beginning-of-defun)
@@ -915,34 +854,31 @@ Google(with automatic language detection)."
     :hook (php-mode-hook . elim:php-mode-hook-func))
   (leaf *ruby
     :config
-    (leaf rubocop :ensure t)
-    (leaf ruby-end :ensure t)
+    (leaf rubocop)
+    (leaf ruby-end)
     (leaf ruby-mode
-      :ensure t
       :bind (:ruby-mode-map
              ("C-m" . reindent-then-newline-and-indent))
       :custom ((ruby-deep-indent-paren-style . nil)
                (ruby-flymake-use-rubocop-if-available . nil)
                (ruby-insert-encoding-magic-comment . nil)))
-    (leaf rspec-mode :ensure t))
+    (leaf rspec-mode))
   (leaf salt-mode
-    :ensure t
     :mode ("\\.sls\\'" "\\master\\'" "\\roster\\'" "\\Saltfile\\'"))
   (leaf sh-script
     :mode ("\\.env\\'" "\\.env.sample\\'")
     :custom ((sh-basic-offset . 2)
              (sh-indentation . 2)))
-  (leaf slim-mode :ensure t)
+  (leaf slim-mode)
   (leaf text-mode
     :preface
     (defun elim:text-mode-hook-func ()
       (set-variable 'indent-tabs-mode nil))
     :hook (text-mode-hook . elim:text-mode-hook-func))
-  (leaf terraform-mode :ensure t)
+  (leaf terraform-mode)
   (leaf *typescript
     :config
     (leaf typescript-mode
-      :ensure t
       :defun company-mode-on
       :preface
       (defun elim:typescript-mode-hook-func ()
@@ -953,7 +889,6 @@ Google(with automatic language detection)."
       :hook (typescript-mode-hook . elim:typescript-mode-hook-func)))
   (leaf web-mode
     :after flycheck
-    :ensure t
     :doc "https://github.com/ananthakumaran/tide/tree/6faea517957f56467cac5be689277d6365f3aa1a#tsx"
     :defun flycheck-add-mode
     :preface
@@ -982,7 +917,7 @@ Google(with automatic language detection)."
              (web-mode-indent-style . 1))
     :hook (web-mode-hook . elim:web-mode-hook-func)
     :config (flycheck-add-mode 'javascript-eslint 'web-mode))
-  (leaf yaml-mode :ensure t))
+  (leaf yaml-mode))
 
 (provide 'init)
 
