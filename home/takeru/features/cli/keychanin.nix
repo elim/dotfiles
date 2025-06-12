@@ -9,7 +9,6 @@
       ];
       extraFlags = [
         "--ssh-allow-forwarded"
-        "--ssh-spawn-gpg"
       ];
     };
   };
