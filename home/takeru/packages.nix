@@ -10,7 +10,6 @@ let
   );
 
   azure-cli = pkgs.azure-cli.withExtensions [ azure-cli.extensions.ssh ];
-  e = pkgs.callPackage ../../pkgs/e { inherit pkgs; };
   set-docker-detach-keys = pkgs.callPackage ../../pkgs/set-docker-detach-keys { inherit pkgs; };
   whichpr = pkgs.callPackage ../../pkgs/whichpr.nix { inherit pkgs; };
   zsh-history-utils = pkgs.callPackage ../../pkgs/zsh-history-utils.nix { };
@@ -29,7 +28,6 @@ in
       dash
       delta
       docker-client
-      e
       exiftool
       fd
       fdupes
@@ -98,9 +96,6 @@ in
   };
 
   home.sessionVariables = {
-    EDITOR = "${e}/bin/e";
-    GIT_EDITOR = "${pkgs.emacs}/bin/emacsclient";
-
     KUBECTL_EXTERNAL_DIFF = "${pkgs.delta}/bin/delta";
 
     MANPAGER = "sh -c 'col -bx | ${pkgs.bat}/bin/bat -l man -p'";

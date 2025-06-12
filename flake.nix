@@ -50,7 +50,6 @@
         config.allowUnfree = true;
         overlays = [
           emacs-overlay.overlay
-          (import ./overlays/emacs.nix { inherit self; })
         ];
       };
 
