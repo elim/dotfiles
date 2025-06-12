@@ -31,7 +31,7 @@ in
   programs.zsh = {
     enable = true;
 
-    dotDir = dotDir;
+    inherit dotDir;
 
     inherit shellAliases;
 
