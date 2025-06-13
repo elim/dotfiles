@@ -38,13 +38,9 @@ let
 
       # Programming language major modes
       epkgs.dockerfile-mode
-      epkgs.elm-mode
       epkgs.go-mode
-      epkgs.js2-mode
       epkgs.json-mode
       epkgs.nix-mode
-      epkgs.php-mode
-      epkgs.salt-mode
       epkgs.slim-mode
       epkgs.terraform-mode
       epkgs.typescript-mode
@@ -54,7 +50,6 @@ let
       # Markup and documentation modes
       epkgs.markdown-mode
       epkgs.feature-mode
-      epkgs.mmm-mode
 
       # Version control modes
       epkgs.git-modes
@@ -63,8 +58,6 @@ let
       epkgs.flycheck
       epkgs.flycheck-posframe
       epkgs.editorconfig
-      epkgs.eslint-fix
-      epkgs.sqlformat
 
       # Development tools and project management
       epkgs.magit
@@ -91,7 +84,6 @@ let
 
       # System integration
       epkgs.add-node-modules-path
-      epkgs.async
 
       # Translation
       epkgs.google-translate

@@ -112,7 +112,6 @@
             (user-full-name . "Takeru Naito"))
   :config
   (defalias 'yes-or-no-p 'y-or-n-p)
-  (leaf async)
   (leaf cus-edit
     :doc "Just prevent appending to this file (not load at startup)."
     :custom `((custom-file . ,(locate-user-emacs-file ".custom.el"))))
@@ -316,7 +315,6 @@
     (add-to-list 'desktop-globals-to-save 'kill-ring)
     (add-to-list 'desktop-globals-to-save 'log-edit-comment-ring)
     (add-to-list 'desktop-globals-to-save 'read-expression-history))
-  (leaf eslint-fix)
   (leaf find-func
     :config
     ;; C-x F => Find Function
@@ -365,9 +363,7 @@
       (defvar sort-fold-case)
       (let ((sort-fold-case t))
         (call-interactively 'sort-lines)))
-    (defalias 'sort-lines-nocase #'elim:sort-lines-nocase))
-  (leaf sqlformat
-    :custom (sqlformat-command . 'pgformatter)))
+    (defalias 'sort-lines-nocase #'elim:sort-lines-nocase)))
 
 (leaf *interfaces
   :custom ((frame-title-format . `(" %b " (buffer-file-name "( %f )")))
@@ -804,7 +800,6 @@ Google(with automatic language detection)."
     (defun elim:emacs-lisp-mode-hook-func ()
       (set-variable 'indent-tabs-mode nil)
       (hs-minor-mode +1)))
-  (leaf elm-mode)
   (leaf feature-mode
     :after org org-table)
   (leaf go-mode
@@ -812,25 +807,6 @@ Google(with automatic language detection)."
     (defun elim:go-mode-hook-func ()
       (set (make-local-variable 'tab-width) 4))
     :hook (go-mode-hook . elim:go-mode-hook-func))
-  (leaf js2-mode
-    :mode ("\\.js\\'" "\\.es6\\'")
-    :preface
-    (defun elim:js2-mode-hook-func ()
-      (set-face-underline 'js2-warning nil)
-      (set-variable 'indent-tabs-mode nil)
-      (set-variable 'show-trailing-whitespace t)
-      (hs-minor-mode +1))
-    :custom ((js2-basic-offset . 2)
-             (js2-include-browser-externs . t)
-             (js2-include-node-externs . t)
-             (js2-mode-deactivate-region . t)
-             (js2-mode-mode-lighter . "")
-             (js2-mode-search-threshold . 1000)
-             (js2-global-externs
-              . '("define" "describe" "xdescribe" "expect" "it" "xit"
-                  "require" "$" "_" "angular" "Backbone" "JSON" "setTimeout" "jasmine"
-                  "beforeEach" "afterEach" "spyOn")))
-    :hook (js2-mode-hook . elim:js2-mode-hook-func))
   (leaf js
     :custom ((js-indent-level . 2)))
   (leaf json-mode)
@@ -861,30 +837,7 @@ Google(with automatic language detection)."
      (markdown-header-scaling               . nil)
      (markdown-hr-strings                   . '("* * *\n\n"))
      (markdown-marginalize-headers          . nil)))
-  (leaf mmm-mode
-    :config
-    (leaf *hack-indentation
-      ;; https://github.com/AdamNiederer/vue-mode/issues/74#issuecomment-539711083
-      :preface
-      (defun elim:disable-syntax-ppss-table ()
-        (set-variable 'syntax-ppss-table nil))
-      :hook
-      ((mmm-js-mode-enter-hook         . elim:disable-syntax-ppss-table)
-       (mmm-typescript-mode-enter-hook . elim:disable-syntax-ppss-table))))
   (leaf org :require org org-table)
-  (leaf php-mode
-    :defun php-enable-psr2-coding-style
-    :bind (:php-mode-map
-           ("C-c C-[" . beginning-of-defun)
-           ("C-c C-]" . end-of-defun))
-    :custom ((php-mode-coding-style . 'psr2))
-    :preface
-    (defun elim:php-mode-hook-func ()
-      (setq-local shell-file-name "/bin/sh")
-      (setq-local flycheck-phpcs-standard "PSR2")
-      (php-enable-psr2-coding-style)
-      (hs-minor-mode +1))
-    :hook (php-mode-hook . elim:php-mode-hook-func))
   (leaf *ruby
     :config
     (leaf rubocop)
@@ -896,8 +849,6 @@ Google(with automatic language detection)."
                (ruby-flymake-use-rubocop-if-available . nil)
                (ruby-insert-encoding-magic-comment . nil)))
     (leaf rspec-mode))
-  (leaf salt-mode
-    :mode ("\\.sls\\'" "\\master\\'" "\\roster\\'" "\\Saltfile\\'"))
   (leaf sh-script
     :mode ("\\.env\\'" "\\.env.sample\\'")
     :custom ((sh-basic-offset . 2)
