@@ -7,44 +7,43 @@ let
     alwaysEnsure = true;
     alwaysTangle = true;
     extraEmacsPackages = epkgs: [
-      # leaf
+      # Core framework packages
       epkgs.leaf
       epkgs.leaf-keywords
       epkgs.hydra
       epkgs.blackout
 
-      # environment
-      epkgs.add-node-modules-path
-      epkgs.affe
-      epkgs.async
+      # Completion and navigation framework
+      epkgs.vertico
+      epkgs.vertico-posframe
       epkgs.consult
       epkgs.embark-consult
       epkgs.marginalia
       epkgs.orderless
-      epkgs.vertico
-      epkgs.vertico-posframe
+      epkgs.affe
+      epkgs.company
+      epkgs.company-quickhelp
 
+      # UI and appearance
       epkgs.doom-modeline
       epkgs.doom-themes
       epkgs.popwin
       epkgs.rotate
+      epkgs.nyan-mode
+      epkgs.rainbow-mode
 
-      # input method
+      # Input method
       epkgs.ddskk
       epkgs.ddskk-posframe
 
-      # major modes
+      # Programming language major modes
       epkgs.dockerfile-mode
       epkgs.elm-mode
-      epkgs.feature-mode
-      epkgs.git-modes
       epkgs.go-mode
       epkgs.js2-mode
       epkgs.json-mode
-      epkgs.markdown-mode
-      epkgs.mmm-mode
-      epkgs.php-mode
       epkgs.nix-mode
+      epkgs.php-mode
       epkgs.salt-mode
       epkgs.slim-mode
       epkgs.terraform-mode
@@ -52,41 +51,52 @@ let
       epkgs.web-mode
       epkgs.yaml-mode
 
-      # minor modes
-      epkgs.anzu
-      epkgs.atomic-chrome
-      epkgs.editorconfig
-      epkgs.topsy
+      # Markup and documentation modes
+      epkgs.markdown-mode
+      epkgs.feature-mode
+      epkgs.mmm-mode
+
+      # Version control modes
+      epkgs.git-modes
+
+      # Code quality and linting
       epkgs.flycheck
       epkgs.flycheck-posframe
-      epkgs.google-translate
-      epkgs.nyan-mode
+      epkgs.editorconfig
+      epkgs.eslint-fix
+      epkgs.sqlformat
 
-      # development
+      # Development tools and project management
       epkgs.magit
       epkgs.projectile
+      epkgs.browse-at-remote
 
-      # ruby
+      # Ruby-specific packages
       epkgs.ruby-end
       epkgs.rubocop
       epkgs.rspec-mode
 
-      # utils
+      # Editor enhancements and utilities
+      epkgs.anzu
+      epkgs.atomic-chrome
       epkgs.buffer-move
-      epkgs.company
-      epkgs.company-quickhelp
-      epkgs.browse-at-remote
       epkgs.clipmon
       epkgs.elisp-slime-nav
-      epkgs.eslint-fix
       epkgs.open-junk-file
-      epkgs.sqlformat
+      epkgs.persistent-scratch
+      epkgs.topsy
+      epkgs.undo-tree
       epkgs.wgrep
       epkgs.which-key
-      epkgs.persistent-scratch
-      epkgs.undo-tree
-      epkgs.rainbow-mode
 
+      # System integration
+      epkgs.add-node-modules-path
+      epkgs.async
+
+      # Translation
+      epkgs.google-translate
+
+      # Tree-sitter grammar support
       epkgs.treesit-grammars.with-all-grammars
     ];
   };
