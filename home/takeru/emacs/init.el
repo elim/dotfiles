@@ -686,36 +686,51 @@ Google(with automatic language detection)."
      'server-kill-buffer-query-function))
   (leaf *skk
     :config
-    (let
-        ((xdg-based-skk-user-directory
-          (expand-file-name "ddskk" (getenv "XDG_CONFIG_HOME"))))
+    (let*
+        ((home (getenv "HOME"))
+         (xdg-config-home (getenv "XDG_CONFIG_HOME"))
+         (skk-nix-directory (expand-file-name ".nix-profile/share/skk/" home))
+         (skk-user-directory (expand-file-name "ddskk" xdg-config-home))
+
+         ;; List of dictionary files to use
+         (skk-dictionary-files
+          '("SKK-JISYO.L.utf8"
+            "SKK-JISYO.itaiji.utf8"
+            "SKK-JISYO.jinmei.utf8"
+            "SKK-JISYO.fullname.utf8"
+            "SKK-JISYO.propernoun.utf8"
+            "SKK-JISYO.geo.utf8"
+            "SKK-JISYO.station.utf8"
+            "SKK-JISYO.okinawa.utf8"
+            "SKK-JISYO.china_taiwan.utf8"
+            "SKK-JISYO.office.zipcode.utf8"
+            "SKK-JISYO.zipcode.utf8"))
+
+         ;; Generate dictionary file list
+         (skk-extra-jisyo-file-list
+          (mapcar (lambda (filename)
+                    (cons (expand-file-name filename skk-nix-directory) 'utf-8))
+                  skk-dictionary-files)))
+
       (leaf skk
         :bind* (("C-x C-j" . skk-mode)
                 ("C-x t" . nil)
                 ("C-x j" . nil))
         :custom ((default-input-method . "japanese-skk")
-                 (skk-user-directory . xdg-based-skk-user-directory)
+                 (skk-user-directory . skk-user-directory)
                  (skk-jisyo-code . 'utf-8)
                  (skk-count-private-jisyo-candidates-exactly . t)
                  (skk-share-private-jisyo . t)
-                 (skk-server-host . "localhost")
-                 (skk-server-portnum . 1178)
                  (skk-japanese-message-and-error . t)
                  (skk-kutouten-type . 'jp)
                  (skk-show-annotation . t)
                  (skk-henkan-strict-okuri-precedence . t)
                  (skk-check-okurigana-on-touroku . 'auto)
                  (skk-isearch-start-mode . 'latin)
-                 (skk-search-sagyo-henkaku . t))
+                 (skk-search-sagyo-henkaku . t)
+                 (skk-extra-jisyo-file-list . skk-extra-jisyo-file-list))
+
         :config
-        (condition-case nil
-            (skk-server-version)
-          (error
-           (let
-               ((dic-file "/usr/share/skk/SKK-JISYO.L"))
-             (and (file-exists-p dic-file)
-                  (set-variable 'skk-jisyo-code nil)
-                  (set-variable 'skk-large-jisyo dic-file)))))
         (let
             ((skk-auto-save-jisyo-interval 6))
           (run-with-idle-timer skk-auto-save-jisyo-interval t
