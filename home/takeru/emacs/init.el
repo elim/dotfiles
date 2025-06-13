@@ -140,6 +140,7 @@
       ((affe-highlight-function . 'orderless-highlight-matches)
        (affe-regexp-function  . 'orderless-pattern-compiler)))
     (leaf consult
+      :defun consult-line
       :preface
       ;; C-uを付けるとカーソル位置の文字列を使うmy-consult-lineコマンドを定義する
       (defun tomoya:consult-line (&optional at-point)
@@ -412,6 +413,7 @@
     :global-minor-mode company-quickhelp-mode)
   (leaf doom-modeline
     :leaf-defer nil
+    :defun doom-modeline-mode
     :custom
     ((doom-modeline-buffer-file-name-style . 'truncate-with-project)
      (doom-modeline-major-mode-icon . nil)
@@ -657,6 +659,7 @@ Google(with automatic language detection)."
         (add-to-list 'c-font-lock-keywords-3 '("\\[\\|\\]" . elim:bracket-face)))
       :hook ((c-mode-common-hook . elim:c-mode-common-hook-func-paren))))
   (leaf persistent-scratch
+    :defun persistent-scratch-setup-default
     :custom `(persistent-scratch-save-file . ,(locate-user-emacs-file ".scratch.el"))
     :config
     (with-current-buffer "*scratch*"
@@ -713,6 +716,7 @@ Google(with automatic language detection)."
 
       ;; Main SKK configuration
       (leaf skk
+        :defun skk-save-jisyo
         :bind* (("C-x C-j" . skk-mode)
                 ("C-x t" . nil)
                 ("C-x j" . nil))
@@ -754,6 +758,7 @@ Google(with automatic language detection)."
       :custom ((ddskk-posframe-mode . t))
       :blackout ddskk-posframe-mode))
   (leaf undo-tree
+    :defun global-undo-tree-mode
     :bind ((:undo-tree-visualizer-mode-map
             ("C-g" . undo-tree-visualizer-quit)))
     :advice
@@ -907,7 +912,7 @@ Google(with automatic language detection)."
   (leaf *typescript
     :config
     (leaf typescript-mode
-      :defun company-mode-on
+      :defun company-mode-on flycheck-mode
       :preface
       (defun elim:typescript-mode-hook-func ()
         (flycheck-mode t)
