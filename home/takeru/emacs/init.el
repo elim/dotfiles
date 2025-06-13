@@ -891,10 +891,6 @@ Google(with automatic language detection)."
     :after flycheck
     :doc "https://github.com/ananthakumaran/tide/tree/6faea517957f56467cac5be689277d6365f3aa1a#tsx"
     :defun flycheck-add-mode
-    :preface
-    (defun elim:web-mode-hook-func ()
-      (when (string-equal "tsx" (file-name-extension buffer-file-name))
-        (tide-setup)))
     :mode ("\\.ctp\\'"
            "\\.html.erb\\'"
            "\\.js.erb\\'"
