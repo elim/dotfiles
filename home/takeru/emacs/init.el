@@ -657,7 +657,6 @@ Google(with automatic language detection)."
         (add-to-list 'c-font-lock-keywords-3 '("\\[\\|\\]" . elim:bracket-face)))
       :hook ((c-mode-common-hook . elim:c-mode-common-hook-func-paren))))
   (leaf persistent-scratch
-    :leaf-defer nil
     :custom `(persistent-scratch-save-file . ,(locate-user-emacs-file ".scratch.el"))
     :config
     (with-current-buffer "*scratch*"
