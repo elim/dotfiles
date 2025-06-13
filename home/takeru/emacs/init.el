@@ -530,18 +530,18 @@
              ("r" . dired-toggle-read-only))
       :custom ((dired-recursive-copies . 'always)
                (dired-recursive-deletes . 'always))
+      :defun dired-mark dired-unmark
       :preface
       ;; Mark with space (like the FD)
       (defun elim:dired-toggle-mark (arg)
         "Toggle the current (or next ARG) files."
-        ;; S.Namba Sat Aug 10 12:20:36 1996
+        ;; Based on S.Namba Sat Aug 10 12:20:36 1996
+        ;; Modernized for current Emacs
         (interactive "P")
-        (let ((dired-marker-char
-               (if (save-excursion (beginning-of-line)
-                                   (looking-at " "))
-                   dired-marker-char ?\040)))
-          (dired-mark arg)
-          (dired-next-line 0))))
+        (let ((current-mark (char-after (line-beginning-position))))
+          (if (eq current-mark ?\s)  ; If unmarked (space)
+              (dired-mark arg)       ; Mark it
+            (dired-unmark arg)))))   ; If marked, unmark it
     (leaf dired-x
       :custom ((dired-bind-jump . nil)
                (dired-guess-shell-alist-user
