@@ -3,6 +3,12 @@
     nixpkgs.url = "github:NixOS/nixpkgs?ref=nixos-unstable";
     nixpkgs-stable.url = "github:NixOS/nixpkgs?ref=nixos-25.05";
 
+    emacs-overlay = {
+      url = "github:nix-community/emacs-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs-stable.follows = "nixpkgs-stable";
+    };
+
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -26,6 +32,7 @@
       self,
       nixpkgs,
       nixpkgs-stable,
+      emacs-overlay,
       xremap-flake,
       treefmt-nix,
       home-manager,
@@ -39,9 +46,12 @@
       treefmtEval = eachSystem (pkgs: treefmt-nix.lib.evalModule pkgs ./treefmt.nix);
 
       pkgs = import nixpkgs {
-        system = system;
+        inherit system;
         config.allowUnfree = true;
-        overlays = [ (import ./overlays/emacs.nix) ];
+        overlays = [
+          emacs-overlay.overlay
+          (import ./overlays/emacs.nix { inherit self; })
+        ];
       };
 
       pkgs-stable = import nixpkgs-stable {

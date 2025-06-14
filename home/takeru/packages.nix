@@ -30,7 +30,6 @@ in
       delta
       docker-client
       e
-      emacs
       exiftool
       fd
       fdupes
