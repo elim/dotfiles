@@ -30,6 +30,11 @@
           lisp-interaction-mode-hook
           ielm-mode-hook) .  elisp-slime-nav-mode))
 
+(leaf files
+  :doc "Functions for operating on files."
+  :tag "builtin"
+  :custom (delete-by-moving-to-trash . t))
+
 (leaf git-modes
   :doc "Major modes for editing Git configuration files"
   :req "emacs-25.1" "compat-29.1.3.4"
