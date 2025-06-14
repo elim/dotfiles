@@ -16,6 +16,7 @@
     ./features/cli
     ./features/desktop
     ./fonts.nix
+    ./emacs
     ./gnome
     ./legacies
     ./packages.nix
