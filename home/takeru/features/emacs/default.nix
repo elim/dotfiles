@@ -84,6 +84,7 @@ let
 
       # System integration
       epkgs.add-node-modules-path
+      epkgs.direnv
 
       # Translation
       epkgs.google-translate
