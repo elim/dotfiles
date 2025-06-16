@@ -55,6 +55,9 @@ in
   gref = "g ref";
   gst = "g st";
 
+  # rm
+  rm = "gomi";
+
   # other shorthand
   b = "bundle";
   be = "bundle exec";
