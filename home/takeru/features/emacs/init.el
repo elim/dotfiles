@@ -25,6 +25,8 @@
   :added "2022-12-22"
   :custom ((native-comp-async-report-warnings-errors . 'silent)))
 
+(leaf direnv :global-minor-mode t)
+
 (leaf elisp-slime-nav
   :hook ((emacs-lisp-mode-hook
           lisp-interaction-mode-hook
