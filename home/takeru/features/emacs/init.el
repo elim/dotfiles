@@ -12,6 +12,9 @@
     :require t hydra blackout
     :config  (leaf-keywords-init)))
 
+(leaf add-node-modules-path
+  :hook (js-mode-hook . add-node-modules-path))
+
 (leaf browse-at-remote
   :doc "Open github/gitlab/bitbucket/stash/gist/phab/sourcehut page from Emacs"
   :req "f-0.17.2" "s-1.9.0" "cl-lib-0.5"
@@ -45,6 +48,8 @@
   :added "2023-04-14"
   :emacs>= 25.1
   :after compat)
+
+(leaf html-ts-mode :mode "\\.html?\\'")
 
 (leaf nix-mode
   :doc "Major mode for editing .nix files"
@@ -93,6 +98,8 @@
   :added "2022-12-24"
   :emacs>= 26.3
   :hook (prog-mode-hook .  topsy-mode))
+
+(leaf tsx-ts-mode :mode "\\.tsx\\'")
 
 (leaf vertico-posframe
   :doc "Using posframe to show Vertico"
@@ -290,9 +297,6 @@
 
 (leaf *utilities
   :config
-  (leaf add-node-modules-path
-    :hook ((js-mode-hook . add-node-modules-path)
-           (www-mode-hook . add-node-modules-path)))
   (leaf auth-source
     :custom `(auth-sources . '(,(locate-user-emacs-file ".authinfo.plist"))))
   (leaf browse-url
@@ -561,14 +565,6 @@
      (diff-removed       . '((nil (:foreground "white" :background "dark red"))))
      (diff-refine-change . '((nil (:foreground nil     :background nil :weight 'bold :inverse-video t))))))
   (leaf editorconfig
-    :init
-    (defun elim:coordinate-editorconfig-with-web-mode (_props)
-      "When using web mode, leaves the code format to prettifiers."
-      (when (derived-mode-p 'web-mode)
-        (set-variable 'web-mode-script-padding 0)
-        (set-variable 'web-mode-style-padding  0)))
-    :hook (editorconfig-after-apply-functions
-           . elim:coordinate-editorconfig-with-web-mode)
     :global-minor-mode editorconfig-mode
     :blackout editorconfig-mode)
   (leaf eldoc
@@ -878,32 +874,6 @@ Google(with automatic language detection)."
         (eldoc-mode t)
         (company-mode-on))
       :hook (typescript-mode-hook . elim:typescript-mode-hook-func)))
-  (leaf web-mode
-    :after flycheck
-    :doc "https://github.com/ananthakumaran/tide/tree/6faea517957f56467cac5be689277d6365f3aa1a#tsx"
-    :defun flycheck-add-mode
-    :mode ("\\.ctp\\'"
-           "\\.html.erb\\'"
-           "\\.js.erb\\'"
-           "\\.p?html?\\'"
-           "\\.tsx\\'"
-           "\\.vue\\'")
-    :custom (;; general
-             (web-mode-enable-auto-indentation . nil)
-             (web-mode-enable-engine-detection . t)
-             ;; offsets
-             (web-mode-code-indent-offset . 2)
-             (web-mode-css-indent-offset . 2)
-             (web-mode-markup-indent-offset . 2)
-             ;; paddings
-             (web-mode-block-padding . 2)
-             (web-mode-script-padding . 0)
-             (web-mode-style-padding . 0)
-             ;; styles
-             (web-mode-comment-style . 1)
-             (web-mode-indent-style . 1))
-    :hook (web-mode-hook . elim:web-mode-hook-func)
-    :config (flycheck-add-mode 'javascript-eslint 'web-mode))
   (leaf yaml-mode))
 
 (provide 'init)
