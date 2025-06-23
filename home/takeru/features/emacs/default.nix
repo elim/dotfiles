@@ -44,7 +44,6 @@ let
       epkgs.slim-mode
       epkgs.terraform-mode
       epkgs.typescript-mode
-      epkgs.web-mode
       epkgs.yaml-mode
 
       # Markup and documentation modes
