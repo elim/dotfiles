@@ -60,6 +60,10 @@
   :emacs>= 25.1
   :after magit-section)
 
+(leaf rainbow-delimiters
+  :doc "Highlight delimiters such as parentheses, brackets or braces according to their depth."
+  :hook (prog-mode-hook . rainbow-delimiters-mode))
+
 (leaf so-long
   :doc "Say farewell to performance problems with minified code."
   :tag "builtin"
@@ -627,36 +631,6 @@ Google(with automatic language detection)."
             ("C-c l"     . hs-hide-level))))
   (leaf hl-line
     :global-minor-mode global-hl-line-mode)
-  (leaf paren
-    :url http://0xcc.net/unimag/10/
-    :global-minor-mode show-paren-mode
-    :config
-    (defvar elim:paren-face   'paren-face)
-    (defvar elim:brace-face   'brace-face)
-    (defvar elim:bracket-face 'bracket-face)
-    (make-face 'paren-face)
-    (make-face 'brace-face)
-    (make-face 'bracket-face)
-    (set-face-foreground 'paren-face "#88aaff")
-    (set-face-foreground 'brace-face "#ffaa88")
-    (set-face-foreground 'bracket-face "#aaaa00")
-    (leaf lisp-mode
-      :config
-      (add-to-list 'lisp-el-font-lock-keywords-2 '("(\\|)" . elim:paren-face)))
-    (leaf scheme-mode
-      :defvar scheme-font-lock-keywords-2
-      :config
-      (defun elim:scheme-mode-hook-func ()
-        (add-to-list 'scheme-font-lock-keywords-2 '("(\\|)" . elim:paren-face)))
-      :hook (scheme-mode-hook . elim:scheme-mode-hook-func))
-    (leaf cc-mode
-      :defvar c-font-lock-keywords-3
-      :config
-      (defun elim:c-mode-common-hook-func-paren ()
-        (add-to-list 'c-font-lock-keywords-3 '("(\\|)"     . elim:paren-face))
-        (add-to-list 'c-font-lock-keywords-3 '("{\\|}"     . elim:brace-face))
-        (add-to-list 'c-font-lock-keywords-3 '("\\[\\|\\]" . elim:bracket-face)))
-      :hook ((c-mode-common-hook . elim:c-mode-common-hook-func-paren))))
   (leaf persistent-scratch
     :defun persistent-scratch-setup-default
     :custom `(persistent-scratch-save-file . ,(locate-user-emacs-file ".scratch.el"))
@@ -669,13 +643,6 @@ Google(with automatic language detection)."
     :global-minor-mode t
     :custom (projectile-enable-caching . t)
     :blackout projectile-mode)
-  (leaf rainbow-mode
-    :blackout t
-    :hook ((css-mode-hook
-            emacs-lisp-mode-hook
-            scss-mode-hook
-            php-mode-hook
-            html-mode-hook) . rainbow-mode))
   (leaf server
     :require t
     :defun server-running-p
