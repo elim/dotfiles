@@ -30,7 +30,7 @@ let
       epkgs.popwin
       epkgs.rotate
       epkgs.nyan-mode
-      epkgs.rainbow-mode
+      epkgs.rainbow-delimiters
 
       # Input method
       epkgs.ddskk
