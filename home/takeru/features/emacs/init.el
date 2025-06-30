@@ -614,6 +614,7 @@ Google(with automatic language detection)."
                        (setq s (point))
                        (forward-sentence)
                        (buffer-substring s (point)))))))
+      (setq string (replace-regexp-in-string "\n" " " string))
       (let* ((asciip (string-match
                       (format "\\`[%s]+\\'" google-translate-english-chars)
                       string)))
