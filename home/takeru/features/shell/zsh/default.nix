@@ -2,11 +2,11 @@
   config,
   lib,
   pkgs,
+  dotfiles,
   ...
 }:
 
 let
-  symlink = config.lib.file.mkOutOfStoreSymlink;
   shellAliases = import ../aliases.nix { inherit pkgs; };
   dotDir = config.xdg.configHome + "/zsh";
 
@@ -88,8 +88,17 @@ in
   };
 
   home.file = {
+    # --- Powerlevel10k Configuration ---
+    # How to update this configuration:
+    # 1. Run the following command in your terminal to generate a new
+    #    configuration interactively:
+    #    $ POWERLEVEL9K_CONFIG_FILE=/tmp/p10k.zsh p10k configure
+    #
+    # 2. Copy the content of the generated /tmp/p10k.zsh and paste it
+    #    into the source file declared above, then commit the change.
+    #    Path: ./home/${config.home.username}/programs/zsh/.p10k.zsh
     "${dotDir}/.p10k.zsh" = {
-      source = symlink "${config.home.homeDirectory}/dotfiles/home/${config.home.username}/features/shell/zsh/.p10k.zsh";
+      source = "${dotfiles}/home/${config.home.username}/features/shell/zsh/.p10k.zsh";
     };
   };
 }

@@ -1,7 +1,10 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  dotfiles,
+  ...
+}:
 let
-  symlink = config.lib.file.mkOutOfStoreSymlink;
-
   legacies = [
     ".config/fcitx/skk/rule"
     ".config/libskk/rules/MyRule/keymap/default.json"
