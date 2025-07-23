@@ -600,33 +600,40 @@
     :config
     (defvar google-translate-english-chars "[:ascii:]"
       "If the target string consists of that pattern, it is assumed to be English.")
-    (defun google-translate-enja-or-jaen (&optional string)
-      "Translates the region, sentence or STRING by
-Google(with automatic language detection)."
-      (interactive)
-      (setq string
-            (cond ((stringp string) string)
-                  (current-prefix-arg
-                   (read-string "Google Translate: "))
-                  ((use-region-p)
-                   (buffer-substring (region-beginning) (region-end)))
-                  (t
-                   (save-excursion
-                     (let (s)
-                       (forward-char 1)
-                       (backward-sentence)
-                       (setq s (point))
-                       (forward-sentence)
-                       (buffer-substring s (point)))))))
-      (setq string (replace-regexp-in-string "\n" " " string))
-      (let* ((asciip (string-match
-                      (format "\\`[%s]+\\'" google-translate-english-chars)
-                      string)))
-        (run-at-time 0.1 nil 'deactivate-mark)
-        (google-translate-translate
-         (if asciip "en" "ja")
-         (if asciip "ja" "en")
-         string))))
+    (defun google-translate-enja-or-jaen (&optional initial-text)
+      "Translate the region, sentence, or a given text between English and Japanese.
+
+Replaces newlines with spaces to treat the text as a single sentence.
+When called with a prefix argument (C-u), prompt for input in the minibuffer."
+      (interactive
+       ;; Define the interactive behavior in a list form for clarity.
+       (list (cond ((use-region-p)
+                    ;; If a region is active, use its content as the argument.
+                    (buffer-substring-no-properties (region-beginning) (region-end)))
+                   (current-prefix-arg
+                    ;; If a prefix arg is supplied (C-u), prompt for the string to translate.
+                    (read-string "Google Translate (en/ja): ")))))
+
+      ;; Use let* to bind variables sequentially, making the data flow clear.
+      (let* (
+             ;; 1. Determine the target text to translate.
+             (target-text
+              (or initial-text ; Use the text from the interactive call if available.
+                  ;; Otherwise, get the sentence at the current point.
+                  (save-excursion
+                    (thing-at-point 'sentence))))
+
+             ;; 2. Pre-process the text (replace newlines with spaces).
+             (processed-text (replace-regexp-in-string "\n" " " target-text))
+
+             ;; 3. Detect the source language.
+             (english-p (string-match-p "\\`[[:ascii:]]+\\'" processed-text))
+             (source-lang (if english-p "en" "ja"))
+             (target-lang (if english-p "ja" "en")))
+
+        ;; 4. Execute the translation.
+        (deactivate-mark) ; Deactivate the mark before displaying the translation.
+        (google-translate-translate source-lang target-lang processed-text))))
   (leaf help
     :config (temp-buffer-resize-mode t))
   (leaf hideshow
