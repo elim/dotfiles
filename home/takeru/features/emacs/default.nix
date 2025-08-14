@@ -77,7 +77,8 @@ let
       epkgs.open-junk-file
       epkgs.persistent-scratch
       epkgs.topsy
-      epkgs.undo-tree
+      epkgs.vundo
+      epkgs.undo-fu-session
       epkgs.wgrep
       epkgs.which-key
 

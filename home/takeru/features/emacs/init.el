@@ -119,6 +119,12 @@
   :after posframe vertico
   :global-minor-mode t)
 
+(leaf vundo
+  :bind (("C-x u" . vundo)))
+
+(leaf undo-fu-session
+  :global-minor-mode undo-fu-session-global-mode)
+
 (leaf window
   :doc "GNU Emacs window commands aside from those written in C"
   :tag "builtin" "internal"
@@ -734,32 +740,7 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
       :doc "Show Henkan tooltip for ddskk via posframe"
       :after skk
       :custom ((ddskk-posframe-mode . t))
-      :blackout ddskk-posframe-mode))
-  (leaf undo-tree
-    :defun global-undo-tree-mode
-    :bind ((:undo-tree-visualizer-mode-map
-            ("C-g" . undo-tree-visualizer-quit)))
-    :advice
-    (:before undo-tree-visualize       elim:advice:undo-tree-visualize:before)
-    (:after  undo-tree-visualizer-quit elim:advice:undo-tree-visualizer-quit:after)
-    :leaf-defer nil
-    :custom ((undo-tree-enable-undo-in-region . nil)
-             (undo-tree-history-directory-alist
-              . `(("." . ,(expand-file-name "undo" user-emacs-directory))))
-             (undo-tree-visualizer-diff . t)
-             (undo-tree-visualizer-timestamp . t))
-
-    :blackout undo-tree-mode
-    :config
-    (defvar elim:before:auto-save-visited-mode nil
-      "Store the value of auto-save-visited-mode.")
-    (defun elim:advice:undo-tree-visualize:before ()
-      (set-variable (quote elim:before:auto-save-visited-mode)
-                    auto-save-visited-mode)
-      (auto-save-visited-mode -1))
-    (defun elim:advice:undo-tree-visualizer-quit:after ()
-      (auto-save-visited-mode elim:before:auto-save-visited-mode))
-    (global-undo-tree-mode)))
+      :blackout ddskk-posframe-mode)))
 
 (leaf *major-modes
   :config
