@@ -16,7 +16,7 @@
   :doc `npm bin` is removed in npm v9
   :url https://github.com/codesuki/add-node-modules-path/issues/23
   :custom (add-node-modules-path-command . '("echo \"$(npm root)/.bin\""))
-  :hook (js-mode-hook . add-node-modules-path))
+  :hook ((js-mode-hook typescript-ts-mode) . add-node-modules-path))
 
 (leaf browse-at-remote
   :doc "Open github/gitlab/bitbucket/stash/gist/phab/sourcehut page from Emacs"
