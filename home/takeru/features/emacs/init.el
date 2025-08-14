@@ -15,8 +15,7 @@
 (leaf add-node-modules-path
   :doc `npm bin` is removed in npm v9
   :url https://github.com/codesuki/add-node-modules-path/issues/23
-  :custom ((add-node-modules-path-command . '("echo \"$(npm root)/.bin\""))
-           (add-node-modules-path-debug . t))
+  :custom (add-node-modules-path-command . '("echo \"$(npm root)/.bin\""))
   :hook (js-mode-hook . add-node-modules-path))
 
 (leaf browse-at-remote
