@@ -6,11 +6,41 @@
 (set-variable 'init-file-debug t)
 (set-variable 'load-prefer-newer t)
 
+;; NOTE: I'm restructuring this file to match the new package groups
+;; in my Nix setup. These headings are the first step. The plan is to
+;; move everything under them, assuming I don't get a better idea tomorrow!
+
+;;; Core framework packages
+
 (eval-and-compile
   (require 'leaf)
   (leaf leaf-keywords
     :require t hydra blackout
     :config  (leaf-keywords-init)))
+
+;;; Completion and navigation framework
+
+;;; Code completion and intelligence
+
+;;; Version control
+
+;;; Programming languages
+
+;;; Ruby support
+
+;;; Markup and documentation
+
+;;; User interface and themes
+
+;;; Input method
+
+;;; Editor enhancements
+
+;;; System integration
+
+;;; Translation and utilities
+
+;;; Legacy configurations
 
 (leaf add-node-modules-path
   :doc `npm bin` is removed in npm v9
