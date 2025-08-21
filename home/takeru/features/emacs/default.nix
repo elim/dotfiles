@@ -14,29 +14,29 @@ let
       epkgs.blackout
 
       # Completion and navigation framework
-      epkgs.vertico
-      epkgs.vertico-posframe
+      epkgs.affe
       epkgs.consult
       epkgs.embark-consult
       epkgs.marginalia
       epkgs.orderless
-      epkgs.affe
+      epkgs.projectile
+      epkgs.vertico
+      epkgs.vertico-posframe
+
+      # Code completion and intelligence
       epkgs.company
       epkgs.company-quickhelp
+      epkgs.editorconfig
+      epkgs.flycheck
+      epkgs.flycheck-posframe
+      epkgs.treesit-grammars.with-all-grammars
 
-      # UI and appearance
-      epkgs.doom-modeline
-      epkgs.doom-themes
-      epkgs.popwin
-      epkgs.rotate
-      epkgs.nyan-mode
-      epkgs.rainbow-delimiters
+      # Version control
+      epkgs.browse-at-remote
+      epkgs.git-modes
+      epkgs.magit
 
-      # Input method
-      epkgs.ddskk
-      epkgs.ddskk-posframe
-
-      # Programming language major modes
+      # Programming languages
       epkgs.dockerfile-mode
       epkgs.go-mode
       epkgs.json-mode
@@ -46,51 +46,47 @@ let
       epkgs.typescript-mode
       epkgs.yaml-mode
 
-      # Markup and documentation modes
-      epkgs.markdown-mode
-      epkgs.feature-mode
-
-      # Version control modes
-      epkgs.git-modes
-
-      # Code quality and linting
-      epkgs.flycheck
-      epkgs.flycheck-posframe
-      epkgs.editorconfig
-
-      # Development tools and project management
-      epkgs.magit
-      epkgs.projectile
-      epkgs.browse-at-remote
-
-      # Ruby-specific packages
-      epkgs.ruby-end
-      epkgs.rubocop
+      # Ruby support
       epkgs.rspec-mode
+      epkgs.rubocop
+      epkgs.ruby-end
 
-      # Editor enhancements and utilities
+      # Markup and documentation
+      epkgs.feature-mode
+      epkgs.markdown-mode
+
+      # User interface and themes
+      epkgs.doom-modeline
+      epkgs.doom-themes
+      epkgs.nyan-mode
+      epkgs.popwin
+      epkgs.rainbow-delimiters
+      epkgs.rotate
+
+      # Input method
+      epkgs.ddskk
+      epkgs.ddskk-posframe
+
+      # Editor enhancements
       epkgs.anzu
-      epkgs.atomic-chrome
       epkgs.buffer-move
-      epkgs.clipmon
-      epkgs.elisp-slime-nav
       epkgs.open-junk-file
       epkgs.persistent-scratch
       epkgs.topsy
-      epkgs.vundo
       epkgs.undo-fu-session
+      epkgs.vundo
       epkgs.wgrep
       epkgs.which-key
 
       # System integration
       epkgs.add-node-modules-path
+      epkgs.atomic-chrome
+      epkgs.clipmon
       epkgs.direnv
+      epkgs.elisp-slime-nav
 
-      # Translation
+      # Translation and utilities
       epkgs.google-translate
-
-      # Tree-sitter grammar support
-      epkgs.treesit-grammars.with-all-grammars
     ];
   };
 
