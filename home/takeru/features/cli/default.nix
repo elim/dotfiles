@@ -1,5 +1,51 @@
+{ pkgs, ... }:
+
 {
-  imports = [
-    ./keychanin.nix
+  imports =[
+    ./aspell.nix
+    ./atomicparsley.nix
+    ./azure-cli.nix
+    ./bat.nix
+    ./colordiff.nix
+    ./dash.nix
+    ./delta.nix
+    ./docker-client.nix
+    ./exiftool.nix
+    ./fd.nix
+    ./fdupes.nix
+    ./ffmpeg.nix
+    ./file.nix
+    ./ghq.nix
+    ./git
+    ./github-cli.nix
+    ./gomi.nix
+    ./htop.nix
+    ./imagemagick.nix
+    ./jq.nix
+    ./k9s.nix
+    ./keychain.nix
+    ./kubectl.nix
+    ./kubelogin.nix
+    ./mpv.nix
+    ./nkf.nix
+    ./peco.nix
+    ./pgformatter.nix
+    ./ripgrep.nix
+    ./ruby.nix
+    ./set-docker-detach-keys.nix
+    ./shellcheck.nix
+    ./skktools.nix
+    ./slack.nix
+    ./nodePackages.sql-formatter.nix
+    ./stern.nix
+    ./tmux.nix
+    ./trurl.nix
+    ./unar.nix
+    ./unzip.nix
+    ./whichpr.nix
+    ./xsel.nix
+    ./xorg.xhost.nix
+    ./yq.nix
+    ./zsh-history-utils.nix
   ];
 }
