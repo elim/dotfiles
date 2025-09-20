@@ -17,7 +17,6 @@
     ./features/desktop
     ./fonts.nix
     ./emacs
-    ./gnome
     ./legacies
     ./packages.nix
     ./programs

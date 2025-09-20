@@ -1,5 +1,13 @@
 { config, pkgs, ... }:
 {
+  dconf = {
+    settings = {
+      "org/gnome/desktop/input-sources" = {
+        xkb-options = [ ];
+      };
+    };
+  };
+
   gtk = {
     enable = true;
 
@@ -34,4 +42,10 @@
   };
 
   home.sessionVariables.GTK_THEME = config.gtk.theme.name;
+
+  home.packages = with pkgs.gnomeExtensions; [
+    appindicator
+    kimpanel
+    xremap
+  ];
 }

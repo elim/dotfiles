@@ -5,11 +5,6 @@
     with pkgs;
     [
     ]
-    ++ (with gnomeExtensions; [
-      appindicator
-      kimpanel
-      xremap
-    ])
     ++ (
       with skkDictionaries;
       map (pkg: pkg.override { useUtf8 = true; }) [
