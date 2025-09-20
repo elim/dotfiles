@@ -4,17 +4,6 @@
   home.packages =
     with pkgs;
     [
-      albert
-      avidemux
-      brave
-      firefox
-      handbrake
-      libreoffice
-      slack
-      thunderbird
-      xorg.xhost
-      zenity
-      zoom-us
     ]
     ++ (with gnomeExtensions; [
       appindicator
