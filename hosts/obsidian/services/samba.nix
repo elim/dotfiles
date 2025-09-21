@@ -4,7 +4,10 @@ let
 in
 {
   # https://nixos.wiki/wiki/Samba
-  services.samba-wsdd.enable = true; # make shares visible for windows 10 clients
+  services.samba-wsdd = {
+    enable = true;
+    discovery = true;
+  };
 
   services.samba = {
     enable = true;
@@ -22,6 +25,8 @@ in
         # hosts deny = 0.0.0.0/0
         "guest account" = "nobody";
         "map to guest" = "bad user";
+        "vfs objects" = "fruit streams_xattr";
+
       };
       homes = {
         browseable = "no";
@@ -47,6 +52,19 @@ in
         "directory mask" = "0755";
         "force user" = user.name;
         "force group" = "users";
+      };
+      TimeMachine = {
+        path = "/srv/TimeMachine/";
+        browseable = "no";
+        "read only" = "no";
+        "guest ok" = "no";
+        "create mask" = "0644";
+        "directory mask" = "0755";
+        "force user" = user.name;
+        "force group" = "users";
+        "fruit:aapl" = "yes";
+        "fruit:time machine" = "yes";
+        "vfs objects" = "catia fruit streams_xattr";
       };
     };
   };
