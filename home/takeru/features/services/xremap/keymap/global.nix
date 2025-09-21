@@ -12,7 +12,7 @@ in
       C-q = {
         escape_next_key = true;
       };
-      Win-Space = {
+      Alt-Space = {
         launch = [
           albert
           "toggle"
