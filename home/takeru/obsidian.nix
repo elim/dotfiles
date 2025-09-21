@@ -15,11 +15,13 @@
   imports = [
     ./features/cli
     ./features/desktop
+    ./features/development/typescript.nix
+    ./features/shell
+    ./security/keybase.nix
     ./fonts.nix
     ./emacs
     ./legacies
     ./packages.nix
-    ./programs
     ./services
   ];
 }
