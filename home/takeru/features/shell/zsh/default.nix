@@ -6,11 +6,9 @@
 }:
 
 let
-  shellAliases = import ../shell/aliases.nix { inherit config lib pkgs; };
-
   symlink = config.lib.file.mkOutOfStoreSymlink;
-  dotDir = ".config/zsh";
-  zdotdir = "$HOME/" + lib.escapeShellArg dotDir;
+  shellAliases = import ../aliases.nix { inherit pkgs; };
+  dotDir = config.xdg.configHome + "/zsh";
 
   chpwd_ls =
     let
@@ -54,7 +52,7 @@ in
       (builtins.readFile ./zshrc.legacy)
       (builtins.readFile ./snippets/tmux)
       "source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme"
-      "source ${zdotdir}/.p10k.zsh"
+      "source ${dotDir}/.p10k.zsh"
       chpwd_ls
     ];
 
@@ -82,7 +80,7 @@ in
 
   home.file = {
     "${dotDir}/.p10k.zsh" = {
-      source = symlink "${config.home.homeDirectory}/dotfiles/home/${config.home.username}/programs/zsh/.p10k.zsh";
+      source = symlink "${config.home.homeDirectory}/dotfiles/home/${config.home.username}/features/shell/zsh/.p10k.zsh";
     };
   };
 }

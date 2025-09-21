@@ -6,7 +6,7 @@
 }:
 
 let
-  shellAliases = import ../shell/aliases.nix { inherit config lib pkgs; };
+  shellAliases = import ../aliases.nix { inherit config lib pkgs; };
 
   bashrcLegacy = pkgs.writeTextFile {
     name = "bashrc-legacy";
