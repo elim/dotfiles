@@ -42,6 +42,7 @@
     ./unzip.nix
     ./whichpr.nix
     ./yq.nix
+    ./yt-dlp.nix
     ./zsh-history-utils.nix
   ];
 }

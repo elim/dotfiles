@@ -47,7 +47,10 @@
         cudaSupport = true;
       };
 
-      overlays = [ emacs-overlay.overlay ];
+      overlays = [
+        emacs-overlay.overlay
+        (import ./overlays/yt-dlp.nix)
+      ];
 
       makePkgs =
         system:
