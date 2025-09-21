@@ -75,6 +75,15 @@ in
           hash = "sha256-pLdF8wbkA9mPI5cg8VPYAW7i3cWNJX3+lfAZ5cZPUgE=";
         };
       }
+      {
+        name = "clipboard";
+        src = pkgs.fetchFromGitHub {
+          owner = "zpm-zsh";
+          repo = "clipboard";
+          rev = "c3a4a054cefe313d853dc9c32debb1b18aa7513c";
+          hash = "sha256-XtS5HQ2HFYBoBZikuI82XT4MDcXsaPJioI7zNyBoIhs=";
+        };
+      }
     ];
   };
 

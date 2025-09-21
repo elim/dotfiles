@@ -43,7 +43,7 @@
     ./unar.nix
     ./unzip.nix
     ./whichpr.nix
-    ./xsel.nix
+    ./wl-clipboard.nix
     ./xorg.xhost.nix
     ./yq.nix
     ./zsh-history-utils.nix
