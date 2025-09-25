@@ -1,7 +1,10 @@
+{ pkgs, ... }:
+
 {
 
   networking.hostName = "obsidian"; # Define your hostname.
   networking.networkmanager.enable = true;
+  networking.networkmanager.plugins = [ pkgs.networkmanager-openvpn ];
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # The global useDHCP flag is deprecated, therefore explicitly set to false here.
