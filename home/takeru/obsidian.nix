@@ -22,6 +22,6 @@
     ./emacs
     ./legacies
     ./packages.nix
-    ./services
+    ./features/services
   ];
 }
