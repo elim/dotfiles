@@ -20,7 +20,7 @@
     ./security/keybase.nix
     ./fonts.nix
     ./emacs
-    ./legacies
+    ./features/legacies
     ./packages.nix
     ./features/services
   ];

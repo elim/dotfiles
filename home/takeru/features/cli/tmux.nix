@@ -6,8 +6,8 @@
 }:
 
 let
-  legacyTmuxDir = "${dotfiles}/home/${config.home.username}/legacies/.tmux.d";
-  legacyTmuxConf = "${dotfiles}/home/${config.home.username}/legacies/.tmux.conf";
+  legacyTmuxDir = "${dotfiles}/home/${config.home.username}/features/legacies/.tmux.d";
+  legacyTmuxConf = "${dotfiles}/home/${config.home.username}/features/legacies/.tmux.conf";
 in
 {
   programs.tmux = {
