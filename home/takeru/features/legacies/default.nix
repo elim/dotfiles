@@ -39,7 +39,7 @@ in
     map (path: {
       name = path;
       value = {
-        source = symlink "${config.home.homeDirectory}/dotfiles/home/${config.home.username}/legacies/${path}";
+        source = "${dotfiles}/home/${config.home.username}/features/legacies/${path}";
       };
     }) legacies
   );
