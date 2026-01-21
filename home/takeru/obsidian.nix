@@ -18,7 +18,7 @@
     ./features/development/typescript.nix
     ./features/shell
     ./security/keybase.nix
-    ./fonts.nix
+    ./features/fonts.nix
     ./emacs
     ./features/legacies
     ./packages.nix
