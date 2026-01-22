@@ -100,7 +100,7 @@ let
       inherit emacs;
     };
 
-  e = pkgs.callPackage ../../../pkgs/e { pkgs = (pkgs.extend overlay); };
+  e = pkgs.callPackage ../../../../pkgs/e { pkgs = (pkgs.extend overlay); };
 in
 
 {
