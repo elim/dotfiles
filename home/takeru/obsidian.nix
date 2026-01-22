@@ -20,7 +20,7 @@
     ./features/home-manager.nix
     ./security/keybase.nix
     ./features/fonts.nix
-    ./emacs
+    ./features/emacs
     ./features/legacies
     ./packages.nix
     ./features/services
