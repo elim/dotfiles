@@ -26,7 +26,6 @@
     ./keychain.nix
     ./kubectl.nix
     ./kubelogin.nix
-    ./mpv.nix
     ./nkf.nix
     ./peco.nix
     ./pgformatter.nix
