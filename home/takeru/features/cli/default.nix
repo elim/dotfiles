@@ -9,7 +9,6 @@
     ./colordiff.nix
     ./dash.nix
     ./delta.nix
-    ./docker-client.nix
     ./exiftool.nix
     ./fd.nix
     ./fdupes.nix
@@ -42,8 +41,6 @@
     ./unar.nix
     ./unzip.nix
     ./whichpr.nix
-    ./wl-clipboard.nix
-    ./xorg.xhost.nix
     ./yq.nix
     ./zsh-history-utils.nix
   ];

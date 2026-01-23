@@ -14,6 +14,7 @@
 
   imports = [
     ./features/cli
+    ./features/cli/linux.nix
     ./features/desktop
     ./features/development/typescript.nix
     ./features/shell
@@ -24,5 +25,6 @@
     ./features/legacies
     ./packages.nix
     ./features/services
+    ./features/services/linux.nix
   ];
 }
