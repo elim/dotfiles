@@ -28,7 +28,9 @@ if
     contains "$1" "${FIGMA_MP_MOBILE}"          ||
     contains "$1" "${GOOGLE_ANALYTICS}"         ||
     contains "$1" "${NEWRELIC}"                 ||
+    contains "$1" "amazonaws.com"               ||
     contains "$1" "backlog"                     ||
+    contains "$1" "accounts.google.com/o/oauth2/" ||
     contains "$1" "biz.moneyforward.com"        ||
     contains "$1" "codetakt"                    ||
     contains "$1" "email-quarantine.google.com" ||
@@ -41,6 +43,7 @@ if
     contains "$1" "miro.com"                    ||
     contains "$1" "ms-teams-mp-redesign"        ||
     contains "$1" "newrelic"                    ||
+    contains "$1" "notion.so"                   ||
     contains "$1" "offers.jp"                   ||
     contains "$1" "percy.io"                    ||
     contains "$1" "realtime-lms"                ||
@@ -48,6 +51,7 @@ if
     contains "$1" "talentio"                    ||
     contains "$1" "teams.microsoft.com"         ||
     contains "$1" "zoom"
+
 then
   profile=codeTakt
 fi
