@@ -9,8 +9,8 @@
     ./gimp.nix
     ./gnome.nix
     ./handbrake.nix
-    ./handbrake.nix
     ./libreoffice.nix
+    ./mpv.nix
     ./slack.nix
     ./thunderbird.nix
     ./zenity.nix
