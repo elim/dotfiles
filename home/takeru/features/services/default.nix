@@ -1,6 +1,5 @@
 {
   imports = [
-    ./dropbox.nix
-    ./xremap
+    # Common services for all platforms
   ];
 }

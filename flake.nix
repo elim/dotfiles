@@ -133,6 +133,17 @@
             dotfiles = self;
           };
         };
+
+        "takeru.naito@emerald" = home-manager.lib.homeManagerConfiguration {
+          pkgs = makePkgs "aarch64-darwin";
+          modules = [
+            ./home/takeru.naito/emerald.nix
+          ];
+          extraSpecialArgs = {
+            pkgs-stable = makeStablePkgs "aarch64-darwin";
+            dotfiles = self;
+          };
+        };
       };
     };
 }
