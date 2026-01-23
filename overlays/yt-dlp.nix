@@ -1,11 +1,11 @@
 final: prev: {
   yt-dlp = prev.yt-dlp.overrideAttrs (_: {
-    version = "unstable-b2c01d0";
+    version = "unstable-6d92f87d";
     src = prev.fetchFromGitHub {
       owner = "yt-dlp";
       repo = "yt-dlp";
-      rev = "b2c01d0498653e0239c7226c5a7fcb614dd4dbc8";
-      hash = "sha256-hN65CCfc45zbiQdT1WyXrJ0jAUZ8weMpW/NgLZbzW/M=";
+      rev = "6d92f87ddc40a31959097622ff01d4a7ca833a13";
+      hash = "sha256-EJUPoBbLkB6mrouR657Arwo8+l9yVUGNor9e06Zev2U=";
     };
   });
 }
