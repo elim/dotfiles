@@ -31,9 +31,6 @@ let
     ".shell.d/environment"
     ".shell.d/lscolors"
     ".shell.d/ulimit"
-    ".tmux.conf"
-    ".tmux.d/linux.conf"
-    ".tmux.d/macos.conf"
     ".vimrc"
   ];
 in
