@@ -1,7 +1,7 @@
 { pkgs, ... }:
 
 {
-  imports =[
+  imports = [
     ./aspell.nix
     ./atomicparsley.nix
     ./azure-cli.nix

@@ -15,5 +15,5 @@
     ./thunderbird.nix
     ./zenity.nix
     ./zoom-us.nix
- ];
+  ];
 }

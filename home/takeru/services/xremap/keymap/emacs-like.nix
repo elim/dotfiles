@@ -109,53 +109,63 @@ in
       # Copy
       C-w = [
         "C-x"
-      ] ++ unsetMark;
+      ]
+      ++ unsetMark;
       # M-w = [
       #   "C-c"
       # ] ++ unsetMark;
       C-y = [
         "C-v"
-      ] ++ unsetMark;
+      ]
+      ++ unsetMark;
 
       # Delete
       C-d = [
         "delete"
-      ] ++ unsetMark;
+      ]
+      ++ unsetMark;
       M-d = [
         "C-delete"
-      ] ++ unsetMark;
+      ]
+      ++ unsetMark;
 
       # Kill line
       C-k = [
         "Shift-end"
         "C-x"
-      ] ++ unsetMark;
+      ]
+      ++ unsetMark;
 
       # delete backward char
       C-h = [
         "Backspace"
-      ] ++ unsetMark;
+      ]
+      ++ unsetMark;
 
       # unix-line-discard
       C-u = [
         "Shift-home"
         "C-x"
-      ] ++ unsetMark;
+      ]
+      ++ unsetMark;
 
       # Kill word backward
       Alt-backspace = [
         "C-backspace"
-      ] ++ unsetMark;
+      ]
+      ++ unsetMark;
 
       # set mark next word continuously.
       C-M-space = [
         "C-Shift-right"
-      ] ++ setMark;
+      ]
+      ++ setMark;
 
       # Undo
       C-slash = [
         "C-z"
-      ] ++ unsetMark;
+      ]
+      ++ unsetMark;
       C-Shift-ro = "C-z";
 
       # Search
@@ -171,7 +181,8 @@ in
           h = [
             "C-home"
             "C-a"
-          ] ++ setMark;
+          ]
+          ++ setMark;
           # C-x C-f (open)
           C-f = "C-o";
           # C-x C-s (save)
@@ -183,7 +194,8 @@ in
           # C-x u (undo)
           u = [
             "C-z"
-          ] ++ unsetMark;
+          ]
+          ++ unsetMark;
         };
       };
     };
