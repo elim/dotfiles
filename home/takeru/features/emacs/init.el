@@ -22,9 +22,36 @@
 
 ;;; Code completion and intelligence
 
+(leaf eglot
+  :doc "Built-in LSP client for modern development workflow"
+  :custom ((eglot-autoshutdown . t)
+           (eglot-extend-to-xref . t)))
+
 ;;; Version control
 
 ;;; Programming languages
+
+;; TypeScript and JavaScript development environment
+(leaf *typescript-javascript
+  :doc "Modern TypeScript/JavaScript development with tree-sitter and LSP"
+  :config
+
+  ;; Tree-sitter based modes
+  (leaf typescript-ts-mode
+    :mode (("\\.ts\\'" . typescript-ts-mode)
+           ("\\.tsx\\'" . tsx-ts-mode)
+           ("\\.js\\'" . js-ts-mode)
+           ("\\.jsx\\'" . jsx-ts-mode))
+    :custom ((typescript-ts-mode-indent-offset . 2)
+             (js-ts-mode-indent-offset . 2))
+    :hook ((typescript-ts-mode-hook tsx-ts-mode-hook js-ts-mode-hook) . eglot-ensure))
+
+  ;; Node.js project integration
+  (leaf add-node-modules-path
+    :doc "npm bin is removed in npm v9"
+    :url "https://github.com/codesuki/add-node-modules-path/issues/23"
+    :custom (add-node-modules-path-command . '("echo \"$(npm root)/.bin\""))
+    :hook ((typescript-ts-mode-hook js-ts-mode-hook) . add-node-modules-path)))
 
 ;;; Ruby support
 
@@ -41,12 +68,6 @@
 ;;; Translation and utilities
 
 ;;; Legacy configurations
-
-(leaf add-node-modules-path
-  :doc `npm bin` is removed in npm v9
-  :url https://github.com/codesuki/add-node-modules-path/issues/23
-  :custom (add-node-modules-path-command . '("echo \"$(npm root)/.bin\""))
-  :hook ((js-mode-hook typescript-ts-mode) . add-node-modules-path))
 
 (leaf browse-at-remote
   :doc "Open github/gitlab/bitbucket/stash/gist/phab/sourcehut page from Emacs"
@@ -852,17 +873,6 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
       (set-variable 'indent-tabs-mode nil))
     :hook (text-mode-hook . elim:text-mode-hook-func))
   (leaf terraform-mode)
-  (leaf *typescript
-    :config
-    (leaf typescript-mode
-      :defun company-mode-on flycheck-mode
-      :preface
-      (defun elim:typescript-mode-hook-func ()
-        (flycheck-mode t)
-        (set-variable 'flycheck-check-syntax-automatically '(save mode-enabled))
-        (eldoc-mode t)
-        (company-mode-on))
-      :hook (typescript-mode-hook . elim:typescript-mode-hook-func)))
   (leaf yaml-mode))
 
 (provide 'init)
