@@ -1,6 +1,5 @@
 export LESS='--hilite-search --HILITE-UNREAD --ignore-case --LONG-PROMPT --no-init --RAW-CONTROL-CHARS --shift=4 --tabs=4 --quit-if-one-screen'
 export PAGER=less
-export TZ=JST-9
 #
 # Homebrew
 #
