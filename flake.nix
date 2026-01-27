@@ -44,7 +44,6 @@
 
       config = {
         allowUnfree = true;
-        cudaSupport = true;
       };
 
       overlays = [
