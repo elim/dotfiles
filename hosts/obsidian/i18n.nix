@@ -9,7 +9,7 @@
         addons = with pkgs; [
           fcitx5-gtk
           fcitx5-skk
-          fcitx5-skk-qt
+          qt6Packages.fcitx5-skk-qt
           libsForQt5.fcitx5-qt
         ];
         waylandFrontend = true;

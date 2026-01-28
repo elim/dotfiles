@@ -12,6 +12,6 @@
     # gnupg
     gnome-keyring
     gnupg
-    pinentry
+    pinentry-gnome3
   ];
 }

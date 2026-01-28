@@ -4,6 +4,7 @@
     ./dbus.nix
     ./fprint.nix
     ./gnome.nix
+    ./graphics.nix
     ./libinput.nix
     ./openssh.nix
     ./pipewire.nix
@@ -11,6 +12,5 @@
     ./samba.nix
     ./thermald.nix
     ./udev.nix
-    ./xserver.nix
   ];
 }
