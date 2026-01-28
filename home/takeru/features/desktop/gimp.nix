@@ -1,5 +1,5 @@
-{ pkgs, ... }:
+{ pkgs-stable, ... }:
 
 {
-  home.packages = [ pkgs.gimp3 ];
+  home.packages = [ pkgs-stable.gimp ];
 }

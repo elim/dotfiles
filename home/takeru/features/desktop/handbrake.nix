@@ -1,5 +1,5 @@
-{ pkgs, ... }:
+{ pkgs-stable, ... }:
 
 {
-  home.packages = [ pkgs.handbrake ];
+  home.packages = [ pkgs-stable.handbrake ];
 }
