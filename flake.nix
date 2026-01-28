@@ -1,7 +1,7 @@
 {
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs?ref=nixos-unstable";
-    nixpkgs-stable.url = "github:NixOS/nixpkgs?ref=nixos-25.05";
+    nixpkgs-stable.url = "github:NixOS/nixpkgs?ref=nixos-25.11";
 
     emacs-overlay = {
       url = "github:nix-community/emacs-overlay";
@@ -17,8 +17,6 @@
     xremap-flake = {
       url = "github:xremap/nix-flake";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.home-manager.follows = "home-manager";
-      inputs.treefmt-nix.follows = "treefmt-nix";
     };
 
     treefmt-nix = {

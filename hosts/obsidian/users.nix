@@ -12,6 +12,7 @@
       "input"
       "libvirtd"
       "networkmanager"
+      "uinput"
       "wheel"
     ];
   };

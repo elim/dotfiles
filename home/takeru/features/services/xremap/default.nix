@@ -7,6 +7,7 @@ let
 in
 {
   services.xremap = {
+    enable = true;
     withGnome = true;
 
     debug = true;
