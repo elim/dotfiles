@@ -1,5 +1,5 @@
-{ pkgs, ... }:
+{ pkgs-stable, ... }:
 
 {
-  home.packages = [ pkgs.imagemagick ];
+  home.packages = [ pkgs-stable.imagemagick ];
 }

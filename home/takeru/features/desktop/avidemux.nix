@@ -1,5 +1,5 @@
-{ pkgs, ... }:
+{ pkgs-stable, ... }:
 
 {
-  home.packages = [ pkgs.avidemux ];
+  home.packages = [ pkgs-stable.avidemux ];
 }

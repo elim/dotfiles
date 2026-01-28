@@ -1,5 +1,5 @@
-{ pkgs, ... }:
+{ pkgs-stable, ... }:
 
 {
-  home.packages = [ pkgs.ffmpeg ];
+  home.packages = [ pkgs-stable.ffmpeg ];
 }
