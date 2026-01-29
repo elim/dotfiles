@@ -110,6 +110,8 @@
         }
       );
 
+      devShells = eachSystem ({ system, pkgs, ... }: import ./devShells { inherit pkgs; });
+
       nixosConfigurations = {
         obsidian = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";

@@ -36,6 +36,7 @@
     ./shellcheck.nix
     ./skktools.nix
     ./slack.nix
+    ./slackdump.nix
     ./nodePackages.sql-formatter.nix
     ./stern.nix
     ./tmux.nix
