@@ -21,6 +21,7 @@
     ./gomi.nix
     ./htop.nix
     ./imagemagick.nix
+    ./jobcan-slack.nix
     ./jq.nix
     ./k9s.nix
     ./keychain.nix

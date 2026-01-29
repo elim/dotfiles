@@ -55,6 +55,10 @@ in
   # rm
   rm = "gomi";
 
+  # jobcan
+  jt = "jobcan-slack --jt";
+  jw = "jobcan-slack --jw";
+
   # other shorthand
   b = "bundle";
   be = "bundle exec";
