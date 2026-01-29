@@ -20,6 +20,7 @@
     ./features/shell
     ./features/home-manager.nix
     ./features/security/keybase.nix
+    ./features/security/sops.nix
     ./features/fonts.nix
     ./features/emacs
     ./features/legacies

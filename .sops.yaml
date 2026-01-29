@@ -1,0 +1,8 @@
+keys:
+  - &takeru_gpg 7B152038A70467A43B266AEE0967B4FC0A2D3E0E
+
+creation_rules:
+  - path_regex: secrets/[^/]+\.yaml$
+    key_groups:
+      - pgp:
+          - *takeru_gpg

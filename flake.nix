@@ -23,6 +23,11 @@
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -34,6 +39,7 @@
       xremap-flake,
       treefmt-nix,
       home-manager,
+      sops-nix,
       ...
     }:
 
@@ -115,6 +121,7 @@
                 inherit overlays;
               };
             }
+            sops-nix.nixosModules.sops
             ./hosts/obsidian
           ];
           specialArgs = { inherit inputs; };
@@ -126,6 +133,7 @@
           pkgs = makePkgs "x86_64-linux";
           modules = [
             xremap-flake.homeManagerModules.default
+            sops-nix.homeManagerModules.sops
             ./home/takeru/obsidian.nix
           ];
           extraSpecialArgs = {
@@ -137,6 +145,7 @@
         "takeru.naito@emerald" = home-manager.lib.homeManagerConfiguration {
           pkgs = makePkgs "aarch64-darwin";
           modules = [
+            sops-nix.homeManagerModules.sops
             ./home/takeru.naito/emerald.nix
           ];
           extraSpecialArgs = {

@@ -15,6 +15,7 @@
     ./features/cli
     ./features/emacs
     ./features/security/gpg.nix
+    ./features/security/sops.nix
     ./features/services
     ./features/shell
     ./features/legacies
