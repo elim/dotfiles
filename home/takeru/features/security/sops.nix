@@ -1,5 +1,13 @@
-{ config, dotfiles, pkgs, ... }:
+{
+  config,
+  dotfiles,
+  pkgs,
+  ...
+}:
 
+let
+  jobcan = import ./jobcan.nix { inherit dotfiles; };
+in
 {
   # Install sops command for editing encrypted files
   home.packages = [ pkgs.sops ];
@@ -11,10 +19,7 @@
     # Use GPG for encryption/decryption
     gnupg.home = "${config.home.homeDirectory}/.gnupg";
 
-    # Test secret configuration
-    secrets.test_key = {
-      # Reads test_key from secrets/default.yaml
-      # The decrypted file path can be referenced via config.sops.secrets.test_key.path
-    };
+    # Secret configuration
+    secrets = jobcan;
   };
 }
