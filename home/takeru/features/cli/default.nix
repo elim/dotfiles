@@ -17,6 +17,7 @@
     ./fdupes.nix
     ./ffmpeg.nix
     ./file.nix
+    ./prettify-clipboard-markdown.nix
     ./ghq.nix
     ./git
     ./github-cli.nix
