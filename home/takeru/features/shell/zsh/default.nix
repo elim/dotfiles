@@ -20,6 +20,12 @@ let
       }
     );
 
+  claudeWrapper = builtins.readFile (
+    pkgs.replaceVars ./snippets/claude-wrapper.zsh.in {
+      emacsclient = "${pkgs.emacs}/bin/emacsclient";
+    }
+  );
+
   darwinNixSetup =
     if pkgs.stdenv.isDarwin then
       ''
@@ -66,6 +72,7 @@ in
       "source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme"
       "source ${dotDir}/.p10k.zsh"
       chpwd_ls
+      claudeWrapper
     ];
 
     plugins = [
