@@ -6,6 +6,7 @@
     ./atomicparsley.nix
     ./azure-cli.nix
     ./bat.nix
+    ./claude-code.nix
     ./clip.nix
     ./colordiff.nix
     ./dash.nix

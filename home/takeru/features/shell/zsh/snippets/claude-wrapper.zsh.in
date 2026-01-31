@@ -1,0 +1,7 @@
+# -*- mode: sh; sh-shell: zsh; -*-
+
+# Wrap claude command to use synchronous emacsclient as EDITOR
+# This allows C-g in Claude Code to open Emacs with full keybindings
+claude() {
+  EDITOR="@emacsclient@" command claude "$@"
+}
