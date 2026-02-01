@@ -28,6 +28,11 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    git-hooks = {
+      url = "github:cachix/git-hooks.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -40,6 +45,7 @@
       treefmt-nix,
       home-manager,
       sops-nix,
+      git-hooks,
       ...
     }:
 
@@ -98,6 +104,19 @@
         };
       };
       treefmtEval = eachSystem ({ system, pkgs, ... }: treefmt-nix.lib.evalModule pkgs ./treefmt.nix);
+
+      preCommitChecks = eachSystem (
+        { system, pkgs, ... }:
+        git-hooks.lib.${system}.run {
+          src = ./.;
+          hooks = {
+            treefmt = {
+              enable = true;
+              package = treefmtEval.${system}.config.build.wrapper;
+            };
+          };
+        }
+      );
     in
     {
       formatter = eachSystem ({ system, pkgs, ... }: treefmtEval.${system}.config.build.wrapper);
@@ -106,10 +125,20 @@
         { system, pkgs, ... }:
         {
           formatting = treefmtEval.${system}.config.build.check self;
+          pre-commit-check = preCommitChecks.${system};
         }
       );
 
-      devShells = eachSystem ({ system, pkgs, ... }: import ./devShells { inherit pkgs; });
+      devShells = eachSystem (
+        { system, pkgs, ... }:
+        {
+          default = pkgs.mkShell {
+            name = "dotfiles-dev-shell";
+            shellHook = preCommitChecks.${system}.shellHook;
+          };
+          slackdump-auth = import ./devShells/slackdump-auth.nix { inherit pkgs; };
+        }
+      );
 
       nixosConfigurations = {
         obsidian = nixpkgs.lib.nixosSystem {
