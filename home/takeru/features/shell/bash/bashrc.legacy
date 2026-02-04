@@ -23,15 +23,3 @@ export HISTTIMEFORMAT='%Y-%m-%d %T%z '
 
 export GOPATH=$HOME
 
-# ----------------------------------------------------------
-# Aliases
-# ----------------------------------------------------------
-__load_config() {
-  unset -f "${FUNCNAME[0]}"
-
-  for conf in "${HOME}"/.shell.d/*; do
-    # shellcheck disable=SC1090
-    source "${conf}"
-  done
-}
-__load_config
