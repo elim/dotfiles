@@ -10,7 +10,7 @@
     ./dash.nix
     ./delta.nix
     ./exiftool.nix
-    ./eza.nix
+    ./eza
     ./fd.nix
     ./fdupes.nix
     ./ffmpeg.nix
