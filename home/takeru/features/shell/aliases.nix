@@ -10,18 +10,15 @@ let
       linux = "GTK_IM_MODULE=gtk-im-context-simple XMODIFIERS='@im=none' emacs";
       darwin = "Emacs";
     };
-
-    ls = {
-      linux = "ls -F --color=auto";
-      darwin = "ls -wGF";
-    };
   };
 in
 {
   # ls
-  ls = variants.ls."${system}";
-  la = "ls -AFH";
-  ll = "la -l";
+  ls = "eza --classify --group-directories-first --icons";
+  la = "eza --classify --group-directories-first --icons --almost-all";
+  ll = "eza --classify --group-directories-first --icons --almost-all --long --git --header --time-style=relative";
+  lt = "eza --tree --level=2 --icons";
+  llt = "eza --tree --level=2 --long --git --icons";
 
   cat = "bat";
   less = "bat";
