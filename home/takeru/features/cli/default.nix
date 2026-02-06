@@ -44,6 +44,7 @@
     ./stern.nix
     ./tmux.nix
     ./trurl.nix
+    ./typescript-language-server.nix
     ./unar.nix
     ./unzip.nix
     ./whichpr.nix
