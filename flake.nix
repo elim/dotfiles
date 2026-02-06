@@ -33,6 +33,11 @@
       url = "github:cachix/git-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    mcp-servers-nix = {
+      url = "github:natsukium/mcp-servers-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -46,6 +51,7 @@
       home-manager,
       sops-nix,
       git-hooks,
+      mcp-servers-nix,
       ...
     }:
 
@@ -169,6 +175,7 @@
           extraSpecialArgs = {
             pkgs-stable = makeStablePkgs "x86_64-linux";
             dotfiles = self;
+            inherit mcp-servers-nix;
           };
         };
 
@@ -181,6 +188,7 @@
           extraSpecialArgs = {
             pkgs-stable = makeStablePkgs "aarch64-darwin";
             dotfiles = self;
+            inherit mcp-servers-nix;
           };
         };
       };

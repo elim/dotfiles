@@ -7,6 +7,7 @@
 
 let
   claude = import ./claude.nix { inherit dotfiles; };
+  esa = import ./esa.nix { inherit dotfiles; };
   jobcan = import ./jobcan.nix { inherit dotfiles; };
 in
 {
@@ -21,6 +22,6 @@ in
     gnupg.home = "${config.home.homeDirectory}/.gnupg";
 
     # Secret configuration
-    secrets = claude // jobcan;
+    secrets = claude // esa // jobcan;
   };
 }

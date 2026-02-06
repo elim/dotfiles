@@ -16,6 +16,7 @@
     ./features/cli
     ./features/cli/linux.nix
     ./features/desktop
+    ./features/development/mcp.nix
     ./features/development/typescript.nix
     ./features/shell
     ./features/home-manager.nix
