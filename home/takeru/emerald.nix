@@ -13,6 +13,7 @@
 
   imports = [
     ./features/cli
+    ./features/development/mcp.nix
     ./features/emacs
     ./features/security/gpg.nix
     ./features/security/sops.nix
