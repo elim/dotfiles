@@ -1,11 +1,11 @@
 function buildCommand(argv) {
-  // The sh requires the full path of tmux
   const tmux = argv.shift();
   const cdTo = argv.shift();
   const tabName = argv.shift();
   const sessionName = argv.shift();
   const extraScript = argv.shift() || "";
 
+  // Build tmux command
   let tmuxCommand = [
     `exec ${tmux}`,
     `new-session -ADs ${sessionName} ${extraScript}`,
@@ -18,7 +18,12 @@ function buildCommand(argv) {
 function createSession() {
   const iTerm = Application("iTerm");
   const window = iTerm.currentWindow();
-  const tab = window.createTab({ withProfile: "Default", command: "sh" });
+  // Use /usr/bin/env to set ZSH_NIX_MINIMAL environment variable
+  // This loads only Nix environment without heavy initialization (keychain, etc.)
+  const tab = window.createTab({
+    withProfile: "Default",
+    command: "/usr/bin/env ZSH_NIX_MINIMAL=1 zsh",
+  });
 
   return tab.currentSession;
 }

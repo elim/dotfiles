@@ -1,5 +1,23 @@
 # based on http://nyan2.tdiary.net/20020923.html#p12
 
+# Minimal mode for terminal tab launcher
+# When ZSH_NIX_MINIMAL=1, only load Nix environment and skip heavy initialization
+if [[ -n "$ZSH_NIX_MINIMAL" ]]; then
+  export XDG_CONFIG_HOME=~/.config
+
+  # Load Nix daemon setup for macOS
+  if [[ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]]; then
+    . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
+  fi
+
+  # Load home-manager session variables if available
+  if [[ -f "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh" ]]; then
+    . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
+  fi
+
+  return
+fi
+
 setopt no_global_rcs
 
 [[ "${ZPROF}" ]] && zmodload zsh/zprof && zprof
