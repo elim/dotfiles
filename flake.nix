@@ -1,12 +1,19 @@
 {
   inputs = {
+    # Base nixpkgs (referenced by other inputs)
     nixpkgs.url = "github:NixOS/nixpkgs?ref=nixos-unstable";
     nixpkgs-stable.url = "github:NixOS/nixpkgs?ref=nixos-25.11";
 
+    # All other inputs in alphabetical order
     emacs-overlay = {
       url = "github:nix-community/emacs-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.nixpkgs-stable.follows = "nixpkgs-stable";
+    };
+
+    git-hooks = {
+      url = "github:cachix/git-hooks.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     home-manager = {
@@ -14,13 +21,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    xremap-flake = {
-      url = "github:xremap/nix-flake";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    treefmt-nix = {
-      url = "github:numtide/treefmt-nix";
+    mcp-servers-nix = {
+      url = "github:natsukium/mcp-servers-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -29,13 +31,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    git-hooks = {
-      url = "github:cachix/git-hooks.nix";
+    treefmt-nix = {
+      url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    mcp-servers-nix = {
-      url = "github:natsukium/mcp-servers-nix";
+    xremap-flake = {
+      url = "github:xremap/nix-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -45,13 +47,14 @@
       self,
       nixpkgs,
       nixpkgs-stable,
+
       emacs-overlay,
-      xremap-flake,
-      treefmt-nix,
-      home-manager,
-      sops-nix,
       git-hooks,
+      home-manager,
       mcp-servers-nix,
+      sops-nix,
+      treefmt-nix,
+      xremap-flake,
       ...
     }:
 
