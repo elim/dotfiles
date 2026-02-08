@@ -128,8 +128,7 @@
       );
     in
     {
-      formatter = eachSystem ({ system, pkgs, ... }: treefmtEval.${system}.config.build.wrapper);
-
+      # Development tools
       checks = eachSystem (
         { system, pkgs, ... }:
         {
@@ -149,24 +148,9 @@
         }
       );
 
-      nixosConfigurations = {
-        obsidian = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [
-            commonNixSettings
-            {
-              nixpkgs = {
-                inherit config;
-                inherit overlays;
-              };
-            }
-            sops-nix.nixosModules.sops
-            ./hosts/obsidian
-          ];
-          specialArgs = { inherit inputs; };
-        };
-      };
+      formatter = eachSystem ({ system, pkgs, ... }: treefmtEval.${system}.config.build.wrapper);
 
+      # System configurations
       homeConfigurations = {
         "takeru@obsidian" = home-manager.lib.homeManagerConfiguration {
           pkgs = makePkgs "x86_64-linux";
@@ -193,6 +177,24 @@
             dotfiles = self;
             inherit mcp-servers-nix;
           };
+        };
+      };
+
+      nixosConfigurations = {
+        obsidian = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            commonNixSettings
+            {
+              nixpkgs = {
+                inherit config;
+                inherit overlays;
+              };
+            }
+            sops-nix.nixosModules.sops
+            ./hosts/obsidian
+          ];
+          specialArgs = { inherit inputs; };
         };
       };
     };
