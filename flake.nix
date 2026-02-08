@@ -21,6 +21,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    llm-agents = {
+      url = "github:numtide/llm-agents.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     mcp-servers-nix = {
       url = "github:natsukium/mcp-servers-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -51,6 +56,7 @@
       emacs-overlay,
       git-hooks,
       home-manager,
+      llm-agents,
       mcp-servers-nix,
       sops-nix,
       treefmt-nix,
@@ -162,7 +168,7 @@
           extraSpecialArgs = {
             pkgs-stable = makeStablePkgs "x86_64-linux";
             dotfiles = self;
-            inherit mcp-servers-nix;
+            inherit llm-agents mcp-servers-nix;
           };
         };
 
@@ -175,7 +181,7 @@
           extraSpecialArgs = {
             pkgs-stable = makeStablePkgs "aarch64-darwin";
             dotfiles = self;
-            inherit mcp-servers-nix;
+            inherit llm-agents mcp-servers-nix;
           };
         };
       };
