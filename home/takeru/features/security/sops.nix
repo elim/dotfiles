@@ -9,6 +9,7 @@ let
   claude = import ./claude.nix { inherit dotfiles; };
   esa = import ./esa.nix { inherit dotfiles; };
   jobcan = import ./jobcan.nix { inherit dotfiles; };
+  openai = import ./openai.nix { inherit dotfiles; };
 in
 {
   # Install sops command for editing encrypted files
@@ -22,6 +23,6 @@ in
     gnupg.home = "${config.home.homeDirectory}/.gnupg";
 
     # Secret configuration
-    secrets = claude // esa // jobcan;
+    secrets = claude // esa // jobcan // openai;
   };
 }
