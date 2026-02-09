@@ -18,6 +18,7 @@
     ./fdupes.nix
     ./ffmpeg.nix
     ./file.nix
+    ./gemini-cli.nix
     ./prettify-clipboard-markdown.nix
     ./ghq.nix
     ./git
