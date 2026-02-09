@@ -7,6 +7,7 @@
     ./azure-cli.nix
     ./bat.nix
     ./claude-code.nix
+    ./codex.nix
     ./clip.nix
     ./colordiff.nix
     ./dash.nix
