@@ -5,9 +5,10 @@ local wezterm = require("wezterm")
 local mux = wezterm.mux
 
 -- Load modules
-local statusbar = require("modules.statusbar")
-local colors = require("modules.colors")
 local appearance = require("modules.appearance")
+local colors = require("modules.colors")
+local statusbar = require("modules.statusbar")
+local tabs = require("modules.tabs")
 
 -- Fullscreen window on startup
 wezterm.on("gui-startup", function(cmd)
@@ -15,8 +16,9 @@ wezterm.on("gui-startup", function(cmd)
   window:gui_window():toggle_fullscreen()
 end)
 
--- Setup status bar
+-- Setup event handlers
 statusbar.setup()
+tabs.setup()
 
 local config = {
   -- Use XWayland for better compatibility with GNOME/Mutter
