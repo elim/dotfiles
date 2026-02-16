@@ -13,6 +13,7 @@
     ./mpv.nix
     ./slack.nix
     ./thunderbird.nix
+    ./wezterm
     ./zenity.nix
     ./zoom-us.nix
   ];

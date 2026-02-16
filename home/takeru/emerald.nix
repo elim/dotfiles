@@ -22,6 +22,7 @@
     ./features/legacies
 
     ./features/desktop/mpv.nix
+    ./features/desktop/wezterm
     ./features/fonts.nix
     ./features/home-manager.nix
     ./packages.nix
