@@ -10,19 +10,49 @@ wezterm.on("gui-startup", function(cmd)
   window:gui_window():toggle_fullscreen()
 end)
 
+-- Status bar with workspace, hostname, and datetime
+-- Inspired by: https://alexplescan.com/posts/2024/08/10/wezterm/
+wezterm.on("update-status", function(window)
+  local SOLID_LEFT_ARROW = utf8.char(0xe0b2)
+  local date = wezterm.strftime("%Y-%m-%d %H:%M")
+
+  window:set_right_status(wezterm.format({
+    -- Workspace (leftmost segment)
+    { Foreground = { Color = "#808080" } },
+    { Background = { Color = "#2E3440" } },
+    { Text = " " .. window:active_workspace() .. " " },
+    { Foreground = { Color = "#3B4252" } },
+    { Text = SOLID_LEFT_ARROW },
+    -- Date/Time (middle segment)
+    { Foreground = { Color = "#D8DEE9" } },
+    { Background = { Color = "#3B4252" } },
+    { Text = " " .. date .. " " },
+    { Foreground = { Color = "#434C5E" } },
+    { Text = SOLID_LEFT_ARROW },
+    -- Hostname (rightmost segment)
+    { Foreground = { Color = "#ECEFF4" } },
+    { Background = { Color = "#434C5E" } },
+    { Text = " " .. wezterm.hostname() .. " " },
+  }))
+end)
+
 -- Platform detection
 local is_darwin = wezterm.target_triple:find("darwin") ~= nil
 
 local config = {
-  -- Enable native Wayland for better IME support
-  -- Note: GNOME/Mutter has window decoration issues (wez/wezterm#6296)
-  -- but fullscreen mode works fine and provides proper IME input
-  enable_wayland = true,
+  -- Use XWayland for better compatibility with GNOME/Mutter
+  -- Native Wayland has rendering issues with status bar and window decorations
+  -- (https://github.com/wez/wezterm/issues/6296)
+  enable_wayland = false,
 
   -- Font configuration
   font = wezterm.font("HackGen Console NF"),
   font_size = 14.0,
   line_height = 1.2,
+
+  -- Tab bar configuration
+  use_fancy_tab_bar = false,
+  show_new_tab_button_in_tab_bar = false,
 
   -- Terminal behavior
   enable_kitty_keyboard = true,
