@@ -10,7 +10,10 @@ wezterm.on("gui-startup", function(cmd)
   window:gui_window():toggle_fullscreen()
 end)
 
-return {
+-- Platform detection
+local is_darwin = wezterm.target_triple:find("darwin") ~= nil
+
+local config = {
   -- Enable native Wayland for better IME support
   -- Note: GNOME/Mutter has window decoration issues (wez/wezterm#6296)
   -- but fullscreen mode works fine and provides proper IME input
@@ -59,3 +62,16 @@ return {
     },
   },
 }
+
+-- Platform-specific appearance settings
+if is_darwin then
+  -- macOS: transparency with blur for better readability
+  config.window_background_opacity = 0.85
+  config.macos_window_background_blur = 20
+  config.native_macos_fullscreen_mode = false
+else
+  -- Linux/Wayland: subtle transparency without blur
+  config.window_background_opacity = 0.95
+end
+
+return config
