@@ -6,7 +6,6 @@ local mux = wezterm.mux
 
 -- Load modules
 local appearance = require("modules.appearance")
-local colors = require("modules.colors")
 local statusbar = require("modules.statusbar")
 local tabs = require("modules.tabs")
 
@@ -31,6 +30,9 @@ local config = {
   font_size = 12.0,
   line_height = 1.2,
 
+  -- Color scheme
+  color_scheme = "nord",
+
   -- Window padding (bottom set to 0 for tmux status bar)
   -- window_padding = {
   --   left = 2,
@@ -52,7 +54,6 @@ local config = {
 }
 
 -- Apply modular configurations
-colors.apply_to_config(config)
 appearance.apply_to_config(config)
 
 return config
