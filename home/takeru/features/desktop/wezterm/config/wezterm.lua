@@ -1,0 +1,56 @@
+-- Note: Home Manager's wezterm module automatically prepends this require statement.
+-- We include it here explicitly for better LSP and editor integration, despite the
+-- redundancy. The duplication is harmless as the latter declaration takes precedence.
+local wezterm = require("wezterm")
+local mux = wezterm.mux
+
+-- Load modules
+local statusbar = require("modules.statusbar")
+local colors = require("modules.colors")
+local appearance = require("modules.appearance")
+
+-- Fullscreen window on startup
+wezterm.on("gui-startup", function(cmd)
+  local tab, pane, window = mux.spawn_window(cmd or {})
+  window:gui_window():toggle_fullscreen()
+end)
+
+-- Setup status bar
+statusbar.setup()
+
+local config = {
+  -- Use XWayland for better compatibility with GNOME/Mutter
+  -- Native Wayland has rendering issues with status bar and window decorations
+  -- (https://github.com/wez/wezterm/issues/6296)
+  enable_wayland = false,
+
+  -- Font configuration
+  font = wezterm.font("HackGen Console NF"),
+  font_size = 12.0,
+  line_height = 1.2,
+
+  -- Window padding (bottom set to 0 for tmux status bar)
+  -- window_padding = {
+  --   left = 2,
+  --   right = 2,
+  --   top = 2,
+  --   bottom = 0,
+  -- },
+
+  -- Tab bar configuration
+  use_fancy_tab_bar = false,
+  show_new_tab_button_in_tab_bar = false,
+
+  -- Terminal behavior
+  enable_kitty_keyboard = true,
+  scrollback_lines = 10000,
+  enable_scroll_bar = true,
+  audible_bell = "Disabled",
+  use_ime = true,
+}
+
+-- Apply modular configurations
+colors.apply_to_config(config)
+appearance.apply_to_config(config)
+
+return config

@@ -1,8 +1,10 @@
 { ... }:
 
 {
-  programs.wezterm = {
-    enable = true;
-    extraConfig = builtins.readFile ./config.lua;
+  programs.wezterm.enable = true;
+
+  xdg.configFile."wezterm" = {
+    source = ./config;
+    recursive = true;
   };
 }
