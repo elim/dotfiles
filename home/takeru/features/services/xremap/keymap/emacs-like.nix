@@ -5,6 +5,7 @@ let
     not = [
       "/[Ee]macs/"
       "org.gnome.Terminal"
+      "org.wezfurlong.wezterm"
     ];
   };
 in
