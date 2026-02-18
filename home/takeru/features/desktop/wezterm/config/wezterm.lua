@@ -51,6 +51,10 @@ local config = {
   enable_scroll_bar = true,
   audible_bell = "Disabled",
   use_ime = true,
+
+  -- Preserve WezTerm environment variables in spawned processes
+  -- This ensures that `wezterm cli` commands work from within tmux sessions
+  set_environment_variables = {},
 }
 
 -- Apply modular configurations
