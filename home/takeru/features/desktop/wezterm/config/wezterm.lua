@@ -44,6 +44,7 @@ local config = {
   -- Tab bar configuration
   use_fancy_tab_bar = false,
   show_new_tab_button_in_tab_bar = false,
+  tab_max_width = 50,
 
   -- Terminal behavior
   enable_kitty_keyboard = true,
