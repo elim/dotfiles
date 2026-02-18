@@ -31,12 +31,28 @@ function module.setup()
     end
 
     local title = tab.active_pane.title
-    -- Limit title length to prevent overflow
-    if #title > 30 then
-      title = title:sub(1, 27) .. "..."
+
+    -- Calculate available width for title
+    -- Format: " N: TITLE " + separator
+    local tab_index_str = tostring(tab.tab_index + 1)
+    local reserved = #tab_index_str + 4 + 1 -- " N: " (4 chars) + separator (1 char)
+
+    -- Guarantee minimum title width to accommodate repository names
+    -- like "content_information_service" (27 chars)
+    local min_title_width = 35
+    local available = math.max(min_title_width, max_width - reserved)
+
+    -- Limit title length to fit within available width
+    -- Reserve 3 chars for "..." if truncation is needed
+    if #title > available then
+      if available > 3 then
+        title = title:sub(1, available - 3) .. "..."
+      else
+        title = title:sub(1, available)
+      end
     end
 
-    local tab_title = " " .. (tab.tab_index + 1) .. ": " .. title .. " "
+    local tab_title = " " .. tab_index_str .. ": " .. title .. " "
 
     -- Get the next tab's background color for the separator
     local next_tab_bg = COLORS.tab_bar_bg
