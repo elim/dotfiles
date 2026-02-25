@@ -1,0 +1,54 @@
+# Minimal tmux launcher for GUI terminals on macOS.
+# Loads Nix environment so tmux is available even from clean shells.
+
+session=""
+title=""
+cmd=""
+
+while [ "$#" -gt 0 ]; do
+  case "$1" in
+    --session)
+      session="$2"
+      shift 2
+      ;;
+    --title)
+      title="$2"
+      shift 2
+      ;;
+    --cmd)
+      cmd="$2"
+      shift 2
+      ;;
+    --)
+      shift
+      break
+      ;;
+    -*)
+      echo "tmux-launch-with-nix-env: unknown option: $1" >&2
+      exit 2
+      ;;
+    *)
+      break
+      ;;
+  esac
+done
+
+if [ -z "$session" ]; then
+  echo "tmux-launch-with-nix-env: --session is required" >&2
+  exit 2
+fi
+
+set -a
+if [ -e /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]; then
+  . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+fi
+if [ -f "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh" ]; then
+  . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
+fi
+set +a
+
+if [ -n "$cmd" ]; then
+  exec tmux new-session -ADs "$session" "$cmd" \; set-option set-titles-string "$title"
+else
+  exec tmux new-session -ADs "$session" \; set-option set-titles-string "$title"
+fi
