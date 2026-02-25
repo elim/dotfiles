@@ -42,10 +42,10 @@ fi
 
 wezterm cli spawn \
   --cwd "${cdto}" \
-  -- /usr/bin/env ZSH_NIX_MINIMAL=1 zsh -c "
-    exec tmux new-session \\
-      -ADs ${session_name} ${new_session_script} \\; \\
-      set-option set-titles-string '${tab_name}'"
+  -- tmux-launch-with-nix-env \
+    --session "${session_name}" \
+    --title "${tab_name}" \
+    ${new_session_script:+--cmd "${new_session_script}"}
 
 # Local Variables:
 # mode: sh

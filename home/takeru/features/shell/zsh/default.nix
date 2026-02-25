@@ -26,6 +26,10 @@ let
     }
   );
 
+  tmuxLaunchWithNixEnv = pkgs.writeShellScriptBin "tmux-launch-with-nix-env" (
+    builtins.readFile ./snippets/tmux-launch-with-nix-env.sh.in
+  );
+
   darwinNixSetup =
     if pkgs.stdenv.isDarwin then
       ''
@@ -41,6 +45,7 @@ in
   home.packages = with pkgs; [
     zsh-completions
     zsh-powerlevel10k
+    tmuxLaunchWithNixEnv
   ];
 
   programs.zsh = {
