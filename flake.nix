@@ -101,23 +101,6 @@
           }
         );
 
-      commonNixSettings = {
-        nix = {
-          channel.enable = false;
-          settings = {
-            auto-optimise-store = true;
-            experimental-features = [
-              "nix-command"
-              "flakes"
-            ];
-          };
-          gc = {
-            automatic = true;
-            dates = "weekly";
-            options = "--delete-older-than 30d";
-          };
-        };
-      };
       treefmtEval = eachSystem ({ system, pkgs, ... }: treefmt-nix.lib.evalModule pkgs ./treefmt.nix);
 
       preCommitChecks = eachSystem (
@@ -190,7 +173,6 @@
         obsidian = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
-            commonNixSettings
             {
               nixpkgs = {
                 inherit config;

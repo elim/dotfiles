@@ -12,6 +12,7 @@
   };
 
   imports = [
+    ../common/nix-gc.nix
     ./features/cli
     ./features/development/mcp.nix
     ./features/emacs
