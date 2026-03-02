@@ -13,6 +13,7 @@
   };
 
   imports = [
+    ../common/nix-gc.nix
     ./features/cli
     ./features/cli/linux.nix
     ./features/desktop

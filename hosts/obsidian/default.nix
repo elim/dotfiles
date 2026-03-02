@@ -5,7 +5,9 @@ let
 in
 {
   imports = [
-    ../common/global
+    ../../modules/common/nix-gc.nix
+    ../../modules/common/nix-settings.nix
+    ../../modules/nixos/nix-system.nix
 
     ./hardware-configuration.nix
 

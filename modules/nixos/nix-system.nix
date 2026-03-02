@@ -1,0 +1,7 @@
+{
+  nix = {
+    channel = {
+      enable = false;
+    };
+  };
+}
