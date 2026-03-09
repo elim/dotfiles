@@ -31,6 +31,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nix-darwin = {
+      url = "github:nix-darwin/nix-darwin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -58,6 +63,7 @@
       home-manager,
       llm-agents,
       mcp-servers-nix,
+      nix-darwin,
       sops-nix,
       treefmt-nix,
       xremap-flake,
@@ -181,6 +187,16 @@
             }
             sops-nix.nixosModules.sops
             ./hosts/obsidian
+          ];
+          specialArgs = { inherit inputs; };
+        };
+      };
+
+      darwinConfigurations = {
+        emerald = nix-darwin.lib.darwinSystem {
+          system = "aarch64-darwin";
+          modules = [
+            ./hosts/emerald
           ];
           specialArgs = { inherit inputs; };
         };
