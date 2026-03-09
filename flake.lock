@@ -199,6 +199,26 @@
         "type": "github"
       }
     },
+    "nix-darwin": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1771520882,
+        "narHash": "sha256-9SeTZ4Pwr730YfT7V8Azb8GFbwk1ZwiQDAwft3qAD+o=",
+        "owner": "nix-darwin",
+        "repo": "nix-darwin",
+        "rev": "6a7fdcd5839ec8b135821179eea3b58092171bcf",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-darwin",
+        "repo": "nix-darwin",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1769461804,
@@ -253,6 +273,7 @@
         "home-manager": "home-manager",
         "llm-agents": "llm-agents",
         "mcp-servers-nix": "mcp-servers-nix",
+        "nix-darwin": "nix-darwin",
         "nixpkgs": "nixpkgs",
         "nixpkgs-stable": "nixpkgs-stable",
         "sops-nix": "sops-nix",
