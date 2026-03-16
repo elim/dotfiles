@@ -12,6 +12,7 @@
     ./libreoffice.nix
     ./mpv.nix
     ./slack.nix
+    ./todoist-electron.nix
     ./thunderbird.nix
     ./wezterm
     ./zenity.nix
