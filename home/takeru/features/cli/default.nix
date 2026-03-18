@@ -21,6 +21,7 @@
     ./gemini-cli.nix
     ./prettify-clipboard-markdown.nix
     ./ghq.nix
+    ./git-wt.nix
     ./git
     ./github-cli.nix
     ./gomi.nix
