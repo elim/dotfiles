@@ -20,11 +20,7 @@ let
       }
     );
 
-  claudeWrapper = builtins.readFile (
-    pkgs.replaceVars ./snippets/claude-wrapper.zsh.in {
-      emacsclient = "${pkgs.emacs}/bin/emacsclient";
-    }
-  );
+  claudeWrapper = builtins.readFile ./snippets/claude-wrapper.zsh.in;
 
   tmuxLaunchWithNixEnv = pkgs.writeShellScriptBin "tmux-launch-with-nix-env" (
     builtins.readFile ./snippets/tmux-launch-with-nix-env.sh.in

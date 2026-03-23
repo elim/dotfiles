@@ -14,5 +14,5 @@ claude() {
     trap 'tmux unbind -n C-b 2>/dev/null' EXIT INT TERM
   fi
 
-  EDITOR="@emacsclient@" command claude "$@"
+  command claude "$@"
 }
