@@ -113,8 +113,8 @@ in
     ];
 
     sessionVariables = {
-      EDITOR = "${e}/bin/e";
-      GIT_EDITOR = "${emacs}/bin/emacsclient";
+      EDITOR = "${emacs}/bin/emacsclient";
+      VISUAL = "${emacs}/bin/emacsclient";
     };
   };
 }
