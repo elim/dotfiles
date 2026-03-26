@@ -70,6 +70,41 @@
 
 ;;; System integration
 
+(defun elim:save-buffer-to-kill-ring ()
+  "Save the current buffer's entire content to the kill ring."
+  (kill-new (buffer-string)))
+
+(leaf atomic-chrome
+  :custom ((atomic-chrome-default-major-mode . 'markdown-mode)
+           (atomic-chrome-url-major-mode-alist
+            . '(("github\\.com" . gfm-mode)
+                ("esa\\.io"     . gfm-mode)
+                ("redmine"      . textile-mode))))
+  :hook ((after-init-hook
+          . atomic-chrome-start-server)
+         (atomic-chrome-edit-done-hook
+          . elim:save-buffer-to-kill-ring)))
+
+(leaf server
+  :require t
+  :defun server-running-p
+  :preface
+  (defun elim:server-setup-edit-keys ()
+    "Install convenient local bindings for server edit buffers."
+    (when server-buffer-clients
+      (let ((map (make-sparse-keymap)))
+        (define-key map (kbd "C-c C-c") #'server-edit)
+        (define-key map (kbd "C-c C-k") #'server-edit-abort)
+        (push (cons t map) minor-mode-overriding-map-alist))))
+  :custom (server-window . 'pop-to-buffer)
+  :hook ((server-done-hook  . elim:save-buffer-to-kill-ring)
+         (server-visit-hook . elim:server-setup-edit-keys))
+  :config
+  (unless (server-running-p) (server-start))
+  (remove-hook
+   'kill-buffer-query-functions
+   'server-kill-buffer-query-function))
+
 ;;; Translation and utilities
 
 ;;; Legacy configurations
@@ -580,19 +615,6 @@
              (anzu-deactivate-region . t)
              (anzu-search-threshold . 1000))
     :global-minor-mode global-anzu-mode)
-  (leaf atomic-chrome
-    :preface
-    (defun elim:atomic-chrome-edit-done-hook-func ()
-      (kill-new (buffer-string)))
-    :custom ((atomic-chrome-default-major-mode . 'markdown-mode)
-             (atomic-chrome-url-major-mode-alist
-              . '(("github\\.com" . gfm-mode)
-                  ("esa\\.io"     . gfm-mode)
-                  ("redmine"      . textile-mode))))
-    :hook ((after-init-hook
-            . atomic-chrome-start-server)
-           (atomic-chrome-edit-done-hook
-            . elim:atomic-chrome-edit-done-hook-func)))
   (leaf autorevert
     :global-minor-mode global-auto-revert-mode)
   (leaf auto-save-visited-mode
@@ -716,15 +738,6 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
     :global-minor-mode t
     :custom (projectile-enable-caching . t)
     :blackout projectile-mode)
-  (leaf server
-    :require t
-    :defun server-running-p
-    :custom (server-window . 'pop-to-buffer)
-    :config
-    (unless (server-running-p) (server-start))
-    (remove-hook
-     'kill-buffer-query-functions
-     'server-kill-buffer-query-function))
   (leaf *skk
     :config
     (let*
