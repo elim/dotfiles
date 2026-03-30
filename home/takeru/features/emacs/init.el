@@ -31,6 +31,11 @@
 
 ;;; Programming languages
 
+;; Lua development environment
+(leaf lua-ts-mode
+  :mode (("\\.lua\\'" . lua-ts-mode))
+  :custom ((lua-ts-mode-indent-offset . 2)))
+
 ;; TypeScript and JavaScript development environment
 (leaf *typescript-javascript
   :doc "Modern TypeScript/JavaScript development with tree-sitter and LSP"
