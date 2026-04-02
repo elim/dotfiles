@@ -19,8 +19,8 @@ in
     # Default sops file
     defaultSopsFile = "${dotfiles}/secrets/default.yaml";
 
-    # Use GPG for encryption/decryption
-    gnupg.home = "${config.home.homeDirectory}/.gnupg";
+    # Use age for decryption so secrets are available without GPG/pinentry timing.
+    age.keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
 
     # Secret configuration
     secrets = claude // esa // jobcan // openai;
