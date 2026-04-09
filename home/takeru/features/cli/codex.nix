@@ -2,6 +2,7 @@
   config,
   lib,
   llm-agents,
+  mcp-servers-nix,
   pkgs,
   ...
 }:
@@ -10,6 +11,14 @@ let
   gh = lib.getExe pkgs.github-cli;
   gpgconf = lib.getExe' pkgs.gnupg "gpgconf";
   codex = lib.getExe llm-agents.packages.${pkgs.system}.codex;
+  esa-mcp = import ../development/esa-mcp-server-package.nix {
+    inherit
+      config
+      lib
+      pkgs
+      mcp-servers-nix
+      ;
+  };
 
   # Resolve GitHub credentials before entering Codex's isolated runtime.
   codex-wrapper = pkgs.writeShellScriptBin "codex" ''
@@ -58,7 +67,9 @@ let
       export GITHUB_TOKEN="$github_token"
     fi
 
-    exec ${codex} "$@"
+    exec ${codex} \
+      -c 'mcp_servers.esa.command="${lib.getExe esa-mcp}"' \
+      "$@"
   '';
 in
 {
@@ -66,7 +77,6 @@ in
   programs.codex = {
     enable = true;
     package = codex-wrapper;
-    # settings = { }; # Add config.toml settings here if needed
     # custom-instructions = ""; # Add custom guidance for agents here if needed
   };
 }
