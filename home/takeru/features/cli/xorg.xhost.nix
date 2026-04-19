@@ -1,5 +1,5 @@
 { pkgs, ... }:
 
 {
-  home.packages = [ pkgs.xorg.xhost ];
+  home.packages = [ pkgs.xhost ];
 }
