@@ -8,8 +8,6 @@ rustPlatform.buildRustPackage rec {
   pname = "zsh-history-utils";
   name = pname;
 
-  useFetchCargoVendor = true;
-
   src = fetchFromGitHub {
     owner = "watiko";
     repo = "zsh-history-utils";
