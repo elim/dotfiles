@@ -20,7 +20,7 @@ let
       }
     );
 
-  claudeWrapper = builtins.readFile ./snippets/claude-wrapper.zsh;
+  agentWrappers = builtins.readFile ./snippets/agent-wrappers.zsh;
 
   tmuxLaunchWithNixEnv = pkgs.writeShellScriptBin "tmux-launch-with-nix-env" (
     builtins.readFile ./snippets/tmux-launch-with-nix-env.sh.in
@@ -73,7 +73,7 @@ in
       "source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme"
       "source ${dotDir}/.p10k.zsh"
       chpwd_ls
-      claudeWrapper
+      agentWrappers
     ];
 
     plugins = [

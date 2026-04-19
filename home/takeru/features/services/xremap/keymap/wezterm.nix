@@ -6,6 +6,7 @@ let
   readlineMap = mkKeyMap altToAltPreserver [
     "c"
     "d"
+    "g"
     "l"
     "u"
   ];
