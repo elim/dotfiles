@@ -22,6 +22,8 @@ let
 
   # Resolve GitHub credentials before entering Codex's isolated runtime.
   codex-wrapper = pkgs.writeShellScriptBin "codex" ''
+    use_no_alt_screen=1
+
     resolve_ssh_auth_sock() {
       if [ -n "''${SSH_AUTH_SOCK:-}" ] && [ -S "''${SSH_AUTH_SOCK}" ]; then
         printf '%s\n' "$SSH_AUTH_SOCK"
@@ -65,6 +67,17 @@ let
     if github_token="$(resolve_github_token)"; then
       export GH_TOKEN="$github_token"
       export GITHUB_TOKEN="$github_token"
+    fi
+
+    for arg in "$@"; do
+      if [ "$arg" = "--no-alt-screen" ]; then
+        use_no_alt_screen=0
+        break
+      fi
+    done
+
+    if [ "$use_no_alt_screen" -eq 1 ]; then
+      set -- --no-alt-screen "$@"
     fi
 
     exec ${codex} \
