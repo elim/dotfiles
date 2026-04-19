@@ -8,9 +8,11 @@
 }:
 
 let
+  system = pkgs.stdenv.hostPlatform.system;
+
   gh = lib.getExe pkgs.github-cli;
   gpgconf = lib.getExe' pkgs.gnupg "gpgconf";
-  codex = lib.getExe llm-agents.packages.${pkgs.system}.codex;
+  codex = lib.getExe llm-agents.packages.${system}.codex;
   esa-mcp = import ../development/esa-mcp-server-package.nix {
     inherit
       config

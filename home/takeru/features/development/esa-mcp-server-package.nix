@@ -7,7 +7,9 @@
 }:
 
 let
-  esa-mcp-server = mcp-servers-nix.packages.${pkgs.system}.esa-mcp-server;
+  system = pkgs.stdenv.hostPlatform.system;
+
+  esa-mcp-server = mcp-servers-nix.packages.${system}.esa-mcp-server;
 in
 pkgs.writeShellScriptBin "esa-mcp" ''
   export ESA_ACCESS_TOKEN="$(cat ${config.sops.secrets."esa/access_token".path})"
