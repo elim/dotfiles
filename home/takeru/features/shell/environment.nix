@@ -1,5 +1,17 @@
-{ ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
+let
+  reloadHmSessionVars = builtins.readFile (
+    pkgs.replaceVars ./reload-hm-session-vars.sh.in {
+      hmSessionVarsPath = "${config.home.sessionVariablesPackage}/etc/profile.d/hm-session-vars.sh";
+    }
+  );
+in
 {
   home.sessionVariables = {
     TZ = "Asia/Tokyo";
@@ -16,4 +28,7 @@
       Times of major page faults              : %F
       Times of minor page faults              : %R'';
   };
+
+  programs.bash.bashrcExtra = lib.mkBefore reloadHmSessionVars;
+  programs.zsh.envExtra = lib.mkBefore reloadHmSessionVars;
 }
