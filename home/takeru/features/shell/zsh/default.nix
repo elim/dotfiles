@@ -35,17 +35,6 @@ let
       }
     )
   );
-
-  darwinNixSetup =
-    if pkgs.stdenv.isDarwin then
-      ''
-        # macOS用のNixデーモン設定を読み込む
-        if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
-          . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
-        fi
-      ''
-    else
-      "";
 in
 {
   home.packages = with pkgs; [
@@ -77,7 +66,6 @@ in
     envExtra = builtins.readFile ./zshenv.legacy;
 
     initContent = builtins.concatStringsSep "\n" [
-      darwinNixSetup
       (builtins.readFile ./zshrc.legacy)
       (builtins.readFile ./snippets/tmux)
       "source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme"
