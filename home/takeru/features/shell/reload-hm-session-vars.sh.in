@@ -1,0 +1,4 @@
+if [ -f "@hmSessionVarsPath@" ]; then
+  unset __HM_SESS_VARS_SOURCED
+  . "@hmSessionVarsPath@"
+fi

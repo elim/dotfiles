@@ -20,10 +20,20 @@ let
       }
     );
 
+  reloadHmSessionVars = builtins.readFile (
+    pkgs.replaceVars ../reload-hm-session-vars.sh.in {
+      hmSessionVarsPath = "${config.home.sessionVariablesPackage}/etc/profile.d/hm-session-vars.sh";
+    }
+  );
+
   agentWrappers = builtins.readFile ./snippets/agent-wrappers.zsh;
 
   tmuxLaunchWithNixEnv = pkgs.writeShellScriptBin "tmux-launch-with-nix-env" (
-    builtins.readFile ./snippets/tmux-launch-with-nix-env.sh.in
+    builtins.readFile (
+      pkgs.replaceVars ./snippets/tmux-launch-with-nix-env.sh.in {
+        inherit reloadHmSessionVars;
+      }
+    )
   );
 
   darwinNixSetup =
