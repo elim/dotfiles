@@ -29,6 +29,22 @@
 
 ;;; Version control
 
+(leaf browse-at-remote
+  :doc "Open github/gitlab/bitbucket/stash/gist/phab/sourcehut page from Emacs"
+  :req "f-0.17.2" "s-1.9.0" "cl-lib-0.5"
+  :tag "pagure" "sourcehut" "phabricator" "stash" "gist" "bitbucket" "gitlab" "github"
+  :url "https://github.com/rmuslimov/browse-at-remote"
+  :added "2022-12-22")
+
+(leaf git-modes
+  :doc "Major modes for editing Git configuration files"
+  :req "emacs-25.1" "compat-29.1.3.4"
+  :tag "git" "vc" "convenience" "emacs>=25.1"
+  :url "https://github.com/magit/git-modes"
+  :added "2023-04-14"
+  :emacs>= 25.1
+  :after compat)
+
 ;;; Programming languages
 
 ;; Lua development environment
@@ -316,13 +332,6 @@
 ;;; Legacy configurations
 
 ;; Future home: developer tools and project integration
-(leaf browse-at-remote
-  :doc "Open github/gitlab/bitbucket/stash/gist/phab/sourcehut page from Emacs"
-  :req "f-0.17.2" "s-1.9.0" "cl-lib-0.5"
-  :tag "pagure" "sourcehut" "phabricator" "stash" "gist" "bitbucket" "gitlab" "github"
-  :url "https://github.com/rmuslimov/browse-at-remote"
-  :added "2022-12-22")
-
 (leaf comp
   :doc "compilation of qLisp code into native code"
   :tag "builtin" "lisp"
@@ -330,24 +339,6 @@
   :custom ((native-comp-async-report-warnings-errors . 'silent)))
 
 (leaf direnv :global-minor-mode t)
-
-(leaf git-modes
-  :doc "Major modes for editing Git configuration files"
-  :req "emacs-25.1" "compat-29.1.3.4"
-  :tag "git" "vc" "convenience" "emacs>=25.1"
-  :url "https://github.com/magit/git-modes"
-  :added "2023-04-14"
-  :emacs>= 25.1
-  :after compat)
-
-(leaf nix-mode
-  :doc "Major mode for editing .nix files"
-  :req "emacs-25.1" "magit-section-0" "transient-0.3"
-  :tag "unix" "tools" "languages" "nix" "emacs>=25.1"
-  :url "https://github.com/NixOS/nix-mode"
-  :added "2023-03-28"
-  :emacs>= 25.1
-  :after magit-section)
 
 ;; Future home: editing basics and interaction helpers
 (leaf files
@@ -416,10 +407,6 @@
   :hook ((emacs-lisp-mode-hook
           lisp-interaction-mode-hook
           ielm-mode-hook) .  elisp-slime-nav-mode))
-
-(leaf html-ts-mode :mode "\\.html?\\'")
-
-(leaf tsx-ts-mode :mode "\\.tsx\\'")
 
 (leaf *environments
   :custom `((enable-recursive-minibuffers . t)
@@ -847,6 +834,7 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
     (defun elim:go-mode-hook-func ()
       (set (make-local-variable 'tab-width) 4))
     :hook (go-mode-hook . elim:go-mode-hook-func))
+  (leaf html-ts-mode :mode "\\.html?\\'")
   (leaf js
     :custom ((js-indent-level . 2)))
   (leaf json-mode)
@@ -877,6 +865,14 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
      (markdown-header-scaling               . nil)
      (markdown-hr-strings                   . '("* * *\n\n"))
      (markdown-marginalize-headers          . nil)))
+  (leaf nix-mode
+    :doc "Major mode for editing .nix files"
+    :req "emacs-25.1" "magit-section-0" "transient-0.3"
+    :tag "unix" "tools" "languages" "nix" "emacs>=25.1"
+    :url "https://github.com/NixOS/nix-mode"
+    :added "2023-03-28"
+    :emacs>= 25.1
+    :after magit-section)
   (leaf org :require org org-table)
   (leaf *ruby
     :config
@@ -900,6 +896,7 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
       (set-variable 'indent-tabs-mode nil))
     :hook (text-mode-hook . elim:text-mode-hook-func))
   (leaf terraform-mode)
+  (leaf tsx-ts-mode :mode "\\.tsx\\'")
   (leaf yaml-mode))
 
 (provide 'init)
