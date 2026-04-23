@@ -403,11 +403,6 @@
   (put 'scroll-left 'disabled nil))
 
 ;; Future home: language-specific support
-(leaf elisp-slime-nav
-  :hook ((emacs-lisp-mode-hook
-          lisp-interaction-mode-hook
-          ielm-mode-hook) .  elisp-slime-nav-mode))
-
 (leaf *environments
   :custom `((enable-recursive-minibuffers . t)
             (gc-cons-threshold . ,(* 128 1024 1024))
@@ -827,6 +822,10 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
     (defun elim:emacs-lisp-mode-hook-func ()
       (set-variable 'indent-tabs-mode nil)
       (hs-minor-mode +1)))
+  (leaf elisp-slime-nav
+    :hook ((emacs-lisp-mode-hook
+            lisp-interaction-mode-hook
+            ielm-mode-hook) .  elisp-slime-nav-mode))
   (leaf feature-mode
     :after org org-table)
   (leaf go-mode
