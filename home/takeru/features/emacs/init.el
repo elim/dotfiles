@@ -64,6 +64,79 @@
 
 ;;; User interface and themes
 
+(leaf frame
+  :if window-system
+  :preface
+  (defun elim:frame-startup-state ()
+    ;; Avoid macOS fullscreen spaces: maximizing keeps the notch clear
+    ;; without opting into native fullscreen animations.
+    (set-frame-parameter
+     nil 'fullscreen
+     (if (eq system-type 'darwin) 'maximized 'fullboth)))
+  :config
+  (add-to-list 'default-frame-alist '(font . "HackGen Console NF-14"))
+  (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+  (add-to-list 'default-frame-alist '(ns-appearance . dark))
+  :custom ((line-spacing . 4))
+  :hook (window-setup-hook . elim:frame-startup-state))
+
+(leaf *fonts
+  :defun elim:set-text-height
+  :preface
+  (defun elim:set-text-height (height)
+    "Set to the HEIGHT and the family to the default face and some faces."
+    (let* ((asciifont "HackGen NF") ; ASCII fonts
+           (jpfont "HackGen NF")    ; Japanese fonts
+           (fontspec (font-spec :family asciifont :weight 'normal))
+           (jp-fontspec (font-spec :family jpfont :weight 'normal)))
+      (set-face-attribute 'default     nil :family asciifont :height height)
+      (set-face-attribute 'fixed-pitch nil :family asciifont :height height)
+      (set-fontset-font nil 'japanese-jisx0213.2004-1 jp-fontspec)
+      (set-fontset-font nil 'japanese-jisx0213-2      jp-fontspec)
+      (set-fontset-font nil 'katakana-jisx0201        jp-fontspec)
+      (set-fontset-font nil '(#x0080  .  #x024F)         fontspec)
+      (set-fontset-font nil '(#x0370  .  #x03FF)         fontspec)
+      (set-fontset-font nil '(#x1f809 . #x1f80a)         fontspec)
+      (set-fontset-font nil 'unicode                     fontspec)))
+  (defun elim:change-interactive-text-height ()
+    (interactive)
+    (let
+        ((height (face-attribute 'default :height))
+         (step 1) (char nil))
+      (catch 'end:flag
+        (while t
+          (message "change text height. p:up n:down height:%s" height)
+          (setq char (read-char))
+          (cond
+           ((= char ?p)
+            (setq height (+ height step)))
+           ((= char ?n)
+            (setq height (- height step)))
+           ((and (/= char ?p) (/= char ?n))
+            (message "quit text height:%s" height)
+            (throw 'end:flag t)))
+          (elim:set-text-height height)))))
+  :config
+  (cond
+   ((eq window-system 'ns)
+    (set-variable 'ns-antialias-text t)
+    (elim:set-text-height 180))
+   ((or (eq window-system 'x)
+        (eq window-system 'pgtk))
+    (elim:set-text-height 129))))
+
+(leaf ns
+  :if (featurep 'ns)
+  :custom
+  ((ns-antialias-text        . t)
+   (ns-pop-up-frames         . nil)
+   (ns-use-native-fullscreen . nil)
+
+   (ns-alternate-modifier       . 'meta)
+   (ns-command-modifier         . 'meta)
+   (ns-right-alternate-modifier . 'hyper)
+   (ns-right-command-modifier   . 'super)))
+
 ;;; Input method
 
 ;;; Editor enhancements
@@ -233,20 +306,6 @@
   (leaf cus-edit
     :doc "Just prevent appending to this file (not load at startup)."
     :custom `((custom-file . ,(locate-user-emacs-file ".custom.el"))))
-  (leaf frame
-    :if window-system
-    :preface
-    (defun elim:frame-startup-state ()
-      ;; Avoid macOS fullscreen spaces: maximizing keeps the notch clear
-      ;; without opting into native fullscreen animations.
-      (set-frame-parameter
-       nil 'fullscreen
-       (if (eq system-type 'darwin) 'maximized 'fullboth)))
-    :config
-    (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
-    (add-to-list 'default-frame-alist '(ns-appearance . dark))
-    :custom ((line-spacing . 4))
-    :hook (window-setup-hook . elim:frame-startup-state))
   (leaf *completion
     :url https://blog.tomoya.dev/posts/a-new-wave-has-arrived-at-emacs
     :url https://emacs-jp.slack.com/archives/C1B5WTJLQ/p1623851956426000
@@ -315,66 +374,6 @@
               ("C-s" . vertico-next)))
       :custom (vertico-count . 20)
       :global-minor-mode t))
-  (leaf *fonts
-    :defun elim:set-text-height
-    :preface
-    (leaf frame
-      :if window-system
-      :preface
-      (add-to-list 'default-frame-alist '(font . "HackGen Console NF-14")))
-
-    (defun elim:set-text-height (height)
-      "Set to the HEIGHT and the family to the default face and some faces."
-      (let* ((asciifont "HackGen NF") ; ASCII fonts
-             (jpfont "HackGen NF")    ; Japanese fonts
-             (fontspec (font-spec :family asciifont :weight 'normal))
-             (jp-fontspec (font-spec :family jpfont :weight 'normal)))
-        (set-face-attribute 'default     nil :family asciifont :height height)
-        (set-face-attribute 'fixed-pitch nil :family asciifont :height height)
-        (set-fontset-font nil 'japanese-jisx0213.2004-1 jp-fontspec)
-        (set-fontset-font nil 'japanese-jisx0213-2      jp-fontspec)
-        (set-fontset-font nil 'katakana-jisx0201        jp-fontspec)
-        (set-fontset-font nil '(#x0080  .  #x024F)         fontspec)
-        (set-fontset-font nil '(#x0370  .  #x03FF)         fontspec)
-        (set-fontset-font nil '(#x1f809 . #x1f80a)         fontspec)
-        (set-fontset-font nil 'unicode                     fontspec)))
-    (defun elim:change-interactive-text-height ()
-      (interactive)
-      (let
-          ((height (face-attribute 'default :height))
-           (step 1) (char nil))
-        (catch 'end:flag
-          (while t
-            (message "change text height. p:up n:down height:%s" height)
-            (setq char (read-char))
-            (cond
-             ((= char ?p)
-              (setq height (+ height step)))
-             ((= char ?n)
-              (setq height (- height step)))
-             ((and (/= char ?p) (/= char ?n))
-              (message "quit text height:%s" height)
-              (throw 'end:flag t)))
-            (elim:set-text-height height)))))
-    :config
-    (cond
-     ((eq window-system 'ns)
-      (set-variable 'ns-antialias-text t)
-      (elim:set-text-height 180))
-     ((or (eq window-system 'x)
-          (eq window-system 'pgtk))
-      (elim:set-text-height 129))))
-  (leaf ns
-    :if (featurep 'ns)
-    :custom
-    ((ns-antialias-text        . t)
-     (ns-pop-up-frames         . nil)
-     (ns-use-native-fullscreen . nil)
-
-     (ns-alternate-modifier       . 'meta)
-     (ns-command-modifier         . 'meta)
-     (ns-right-alternate-modifier . 'hyper)
-     (ns-right-command-modifier   . 'super)))
   (leaf simple
     :defun elim:editorconfig-mode-enabled-p
     :preface
