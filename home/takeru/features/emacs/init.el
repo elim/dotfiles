@@ -315,6 +315,7 @@
 
 ;;; Legacy configurations
 
+;; Future home: developer tools and project integration
 (leaf browse-at-remote
   :doc "Open github/gitlab/bitbucket/stash/gist/phab/sourcehut page from Emacs"
   :req "f-0.17.2" "s-1.9.0" "cl-lib-0.5"
@@ -330,16 +331,6 @@
 
 (leaf direnv :global-minor-mode t)
 
-(leaf elisp-slime-nav
-  :hook ((emacs-lisp-mode-hook
-          lisp-interaction-mode-hook
-          ielm-mode-hook) .  elisp-slime-nav-mode))
-
-(leaf files
-  :doc "Functions for operating on files."
-  :tag "builtin"
-  :custom (delete-by-moving-to-trash . t))
-
 (leaf git-modes
   :doc "Major modes for editing Git configuration files"
   :req "emacs-25.1" "compat-29.1.3.4"
@@ -349,8 +340,6 @@
   :emacs>= 25.1
   :after compat)
 
-(leaf html-ts-mode :mode "\\.html?\\'")
-
 (leaf nix-mode
   :doc "Major mode for editing .nix files"
   :req "emacs-25.1" "magit-section-0" "transient-0.3"
@@ -359,6 +348,12 @@
   :added "2023-03-28"
   :emacs>= 25.1
   :after magit-section)
+
+;; Future home: editing basics and interaction helpers
+(leaf files
+  :doc "Functions for operating on files."
+  :tag "builtin"
+  :custom (delete-by-moving-to-trash . t))
 
 (leaf rainbow-delimiters
   :doc "Highlight delimiters such as parentheses, brackets or braces according to their depth."
@@ -403,13 +398,11 @@
   :emacs>= 26.3
   :hook (prog-mode-hook .  topsy-mode))
 
-(leaf tsx-ts-mode :mode "\\.tsx\\'")
+(leaf undo-fu-session
+  :global-minor-mode undo-fu-session-global-mode)
 
 (leaf vundo
   :bind (("C-x u" . vundo)))
-
-(leaf undo-fu-session
-  :global-minor-mode undo-fu-session-global-mode)
 
 (leaf window
   :doc "GNU Emacs window commands aside from those written in C"
@@ -417,6 +410,16 @@
   :added "2023-04-18"
   :config
   (put 'scroll-left 'disabled nil))
+
+;; Future home: language-specific support
+(leaf elisp-slime-nav
+  :hook ((emacs-lisp-mode-hook
+          lisp-interaction-mode-hook
+          ielm-mode-hook) .  elisp-slime-nav-mode))
+
+(leaf html-ts-mode :mode "\\.html?\\'")
+
+(leaf tsx-ts-mode :mode "\\.tsx\\'")
 
 (leaf *environments
   :custom `((enable-recursive-minibuffers . t)
