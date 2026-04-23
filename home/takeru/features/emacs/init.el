@@ -324,16 +324,6 @@
 
 (leaf tsx-ts-mode :mode "\\.tsx\\'")
 
-(leaf vertico-posframe
-  :doc "Using posframe to show Vertico"
-  :req "emacs-26.0" "posframe-1.1.4" "vertico-0.13.0"
-  :tag "vertico" "matching" "convenience" "abbrev" "emacs>=26.0"
-  :url "https://github.com/tumashu/vertico-posframe"
-  :added "2022-03-02"
-  :emacs>= 26.0
-  :after posframe vertico
-  :global-minor-mode t)
-
 (leaf vundo
   :bind (("C-x u" . vundo)))
 
@@ -425,6 +415,15 @@
               ("C-r" . vertico-previous)
               ("C-s" . vertico-next)))
       :custom (vertico-count . 20)
+      :global-minor-mode t)
+    (leaf vertico-posframe
+      :doc "Using posframe to show Vertico"
+      :req "emacs-26.0" "posframe-1.1.4" "vertico-0.13.0"
+      :tag "vertico" "matching" "convenience" "abbrev" "emacs>=26.0"
+      :url "https://github.com/tumashu/vertico-posframe"
+      :added "2022-03-02"
+      :emacs>= 26.0
+      :after posframe vertico
       :global-minor-mode t))
   (leaf simple
     :defun elim:editorconfig-mode-enabled-p
