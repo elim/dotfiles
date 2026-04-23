@@ -209,6 +209,9 @@
 
 ;;; Editor enhancements
 
+(leaf *editing-basics
+  :custom ((delete-by-moving-to-trash . t)))
+
 ;;; System integration
 
 (defun elim:save-buffer-to-kill-ring ()
@@ -339,12 +342,6 @@
   :tag "builtin" "lisp"
   :added "2022-12-22"
   :custom ((native-comp-async-report-warnings-errors . 'silent)))
-
-;; Future home: editing basics and interaction helpers
-(leaf files
-  :doc "Functions for operating on files."
-  :tag "builtin"
-  :custom (delete-by-moving-to-trash . t))
 
 (leaf window
   :doc "GNU Emacs window commands aside from those written in C"
