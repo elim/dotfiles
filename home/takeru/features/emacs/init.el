@@ -122,6 +122,9 @@
   :emacs>= 25.1
   :after compat)
 
+(leaf vc
+  :custom (vc-follow-symlinks . t))
+
 ;;; Programming languages
 
 ;; Lua development environment
@@ -445,9 +448,7 @@
     :global-minor-mode line-number-mode transient-mark-mode
     :hook (before-save-hook . elim:auto-delete-trailing-whitespace))
   (leaf timer-list
-    :config (put 'list-timers 'disabled nil))
-  (leaf vc
-    :custom (vc-follow-symlinks . t)))
+    :config (put 'list-timers 'disabled nil)))
 
 (leaf *interfaces
   :custom ((frame-title-format . `(" %b " (buffer-file-name "( %f )")))
