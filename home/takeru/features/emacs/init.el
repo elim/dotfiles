@@ -290,7 +290,8 @@
 ;;; Editor enhancements
 
 (leaf *editing-basics
-  :custom ((delete-by-moving-to-trash . t))
+  :custom ((delete-by-moving-to-trash . t)
+           (kill-ring-max . 8192))
   :config
   (put 'list-timers 'disabled nil)
   (put 'scroll-left 'disabled nil))
@@ -443,7 +444,6 @@
            ("C-m"      . newline-and-indent)
            ("C-x |"    . split-window-right)
            ("C-x -"    . split-window-below))
-    :custom ((kill-ring-max . 8192))
     :config
     (keyboard-translate ?\C-h ?\C-?)
     :global-minor-mode line-number-mode transient-mark-mode
