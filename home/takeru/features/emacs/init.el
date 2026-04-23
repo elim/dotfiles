@@ -137,6 +137,58 @@
    (ns-right-alternate-modifier . 'hyper)
    (ns-right-command-modifier   . 'super)))
 
+(leaf doom-modeline
+  :leaf-defer nil
+  :defun doom-modeline-mode
+  :custom
+  ((doom-modeline-buffer-file-name-style . 'truncate-with-project)
+   (doom-modeline-major-mode-icon . nil)
+   (doom-modeline-minor-modes . nil)
+   (inhibit-compacting-font-caches . t))
+  :custom-face
+  ((mode-line  . '((t (:height 160))))
+   (mode-line-inactive . '((t (:height 160)))))
+  :config (doom-modeline-mode))
+
+(leaf hl-line
+  :global-minor-mode global-hl-line-mode)
+
+(leaf menu-bar
+  :if (eq system-type 'darwin)
+  :global-minor-mode t)
+
+(leaf nyan-mode
+  :leaf-defer nil
+  :global-minor-mode t
+  :custom ((nyan-animate-nyancat . t)
+           (nyan-wavy-trail . t)))
+
+(leaf scroll-bar
+  :if (fboundp 'scroll-bar-mode)
+  :config
+  (set-scroll-bar-mode 'right)
+  (scroll-bar-mode -1)
+  :global-minor-mode column-number-mode)
+
+(leaf *theme
+  :config
+  ;; (load-theme 'tango-dark t))
+  (leaf doom-themes
+    :custom ((doom-themes-enable-italic . t)
+             (doom-themes-enable-bold . nil))
+    :config
+    ;; (load-theme 'doom-city-lights t)
+    ;; (load-theme 'doom-dracula t)
+    ;; (load-theme 'doom-nord t)
+    (load-theme 'doom-one t)
+    ;; (doom-themes-neotree-config)
+    ;; (doom-themes-org-config)
+    (set-face-attribute 'show-paren-match nil :weight 'normal)))
+
+(leaf time
+  :custom ((display-time-24hr-format . t))
+  :config (display-time))
+
 ;;; Input method
 
 ;;; Editor enhancements
@@ -522,18 +574,6 @@
     :hook (after-init-hook . global-company-mode))
   (leaf company-quickhelp
     :global-minor-mode company-quickhelp-mode)
-  (leaf doom-modeline
-    :leaf-defer nil
-    :defun doom-modeline-mode
-    :custom
-    ((doom-modeline-buffer-file-name-style . 'truncate-with-project)
-     (doom-modeline-major-mode-icon . nil)
-     (doom-modeline-minor-modes . nil)
-     (inhibit-compacting-font-caches . t))
-    :custom-face
-    ((mode-line  . '((t (:height 160))))
-     (mode-line-inactive . '((t (:height 160)))))
-    :config (doom-modeline-mode))
   (leaf executable
     :config
     (defun elim:executable-make-buffer-file-executable-if-script-p ()
@@ -542,19 +582,11 @@
     :hook (after-save-hook . elim:executable-make-buffer-file-executable-if-script-p))
   (leaf font-core
     :config (global-font-lock-mode t))
-  (leaf menu-bar
-    :if (eq system-type 'darwin)
-    :global-minor-mode t)
   (leaf mouse
     :bind (("C-<down-mouse-1>" . nil)
            ("C-<drag-mouse-1>" . nil)
            ("S-<down-mouse-1>" . nil)
            ("S-<drag-mouse-1>" . nil)))
-  (leaf nyan-mode
-    :leaf-defer nil
-    :global-minor-mode t
-    :custom ((nyan-animate-nyancat . t)
-             (nyan-wavy-trail . t)))
   (leaf popwin
     :defvar popwin:special-display-config
     :require t
@@ -564,35 +596,12 @@
     (push '("*Google Translate*") popwin:special-display-config)
     :global-minor-mode t)
   (leaf rotate)
-  (leaf scroll-bar
-    :if (fboundp 'scroll-bar-mode)
-    :config
-    (set-scroll-bar-mode 'right)
-    (scroll-bar-mode -1)
-    :global-minor-mode column-number-mode)
   (leaf select
     :custom ((select-enable-primary . nil)
              (select-enable-clipboard . t)
              (selection-coding-system . 'utf-8)))
   (leaf wgrep
     :custom ((wgrep-auto-save-buffer . t)))
-  (leaf *theme
-    :config
-    ;; (load-theme 'tango-dark t))
-    (leaf doom-themes
-      :custom ((doom-themes-enable-italic . t)
-               (doom-themes-enable-bold . nil))
-      :config
-      ;; (load-theme 'doom-city-lights t)
-      ;; (load-theme 'doom-dracula t)
-      ;; (load-theme 'doom-nord t)
-      (load-theme 'doom-one t)
-      ;; (doom-themes-neotree-config)
-      ;; (doom-themes-org-config)
-      (set-face-attribute 'show-paren-match nil :weight 'normal)))
-  (leaf time
-    :custom ((display-time-24hr-format . t))
-    :config (display-time))
   (leaf uniquify
     :custom ((uniquify-buffer-name-style . 'post-forward-angle-brackets)
              (uniquify-ignore-buffers-re . "*[^*]+*")
@@ -724,8 +733,6 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
             ("C-c C-M-c" . hs-toggle-hiding)
             ("C-c h"     . hs-toggle-hiding)
             ("C-c l"     . hs-hide-level))))
-  (leaf hl-line
-    :global-minor-mode global-hl-line-mode)
   (leaf persistent-scratch
     :defun persistent-scratch-setup-default
     :custom `(persistent-scratch-save-file . ,(locate-user-emacs-file ".scratch.el"))
