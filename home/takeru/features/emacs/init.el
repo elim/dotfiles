@@ -62,7 +62,7 @@
 
 ;;; Markup and documentation
 
-;;; User interface and themes
+;;; Platform / Frame / Appearance
 
 (leaf frame
   :if window-system
