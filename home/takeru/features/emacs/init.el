@@ -4,7 +4,6 @@
 
 (set-variable 'debug-on-error t)
 (set-variable 'init-file-debug t)
-(set-variable 'load-prefer-newer t)
 
 ;; NOTE: I'm restructuring this file to match the new package groups
 ;; in my Nix setup. These headings are the first step. The plan is to
@@ -337,13 +336,6 @@
     (defalias 'sort-lines-nocase #'elim:sort-lines-nocase)))
 
 ;;; Legacy configurations
-
-;; Future home: developer tools and project integration
-(leaf comp
-  :doc "compilation of qLisp code into native code"
-  :tag "builtin" "lisp"
-  :added "2022-12-22"
-  :custom ((native-comp-async-report-warnings-errors . 'silent)))
 
 (leaf *environments
   :custom `((enable-recursive-minibuffers . t)
