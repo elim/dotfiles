@@ -346,16 +346,6 @@
   :tag "builtin"
   :custom (delete-by-moving-to-trash . t))
 
-(leaf rainbow-delimiters
-  :doc "Highlight delimiters such as parentheses, brackets or braces according to their depth."
-  :hook (prog-mode-hook . rainbow-delimiters-mode))
-
-(leaf so-long
-  :doc "Say farewell to performance problems with minified code."
-  :tag "builtin"
-  :added "2024-08-24"
-  :custom ((global-so-long-mode . t)))
-
 (leaf tab-bar
   :doc "frame-local tabs with named persistent window configurations"
   :tag "builtin"
@@ -379,19 +369,6 @@
   ((tab-bar-tab .          '((nil (:foreground "#112" :background "#ccc"))))
    (tab-bar-tab-inactive . '((nil (:foreground "#ccc" :background "#112")))))
   :global-minor-mode t)
-
-(leaf topsy
-  :doc "Simple sticky header"
-  :req "emacs-26.3"
-  :tag "convenience" "emacs>=26.3"
-  :url "https://github.com/alphapapa/topsy.el"
-  :added "2022-12-24"
-  :emacs>= 26.3
-  :hook (prog-mode-hook .  topsy-mode))
-
-(leaf undo-fu-session
-  :global-minor-mode undo-fu-session-global-mode)
-
 (leaf vundo
   :bind (("C-x u" . vundo)))
 
@@ -402,7 +379,6 @@
   :config
   (put 'scroll-left 'disabled nil))
 
-;; Future home: language-specific support
 (leaf *environments
   :custom `((enable-recursive-minibuffers . t)
             (gc-cons-threshold . ,(* 128 1024 1024))
@@ -729,6 +705,14 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
     :global-minor-mode t
     :custom (projectile-enable-caching . t)
     :blackout projectile-mode)
+  (leaf rainbow-delimiters
+    :doc "Highlight delimiters such as parentheses, brackets or braces according to their depth."
+    :hook (prog-mode-hook . rainbow-delimiters-mode))
+  (leaf so-long
+    :doc "Say farewell to performance problems with minified code."
+    :tag "builtin"
+    :added "2024-08-24"
+    :custom ((global-so-long-mode . t)))
   (leaf *skk
     :config
     (let*
@@ -799,7 +783,17 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
       :doc "Show Henkan tooltip for ddskk via posframe"
       :after skk
       :custom ((ddskk-posframe-mode . t))
-      :blackout ddskk-posframe-mode)))
+      :blackout ddskk-posframe-mode))
+  (leaf topsy
+    :doc "Simple sticky header"
+    :req "emacs-26.3"
+    :tag "convenience" "emacs>=26.3"
+    :url "https://github.com/alphapapa/topsy.el"
+    :added "2022-12-24"
+    :emacs>= 26.3
+    :hook (prog-mode-hook .  topsy-mode))
+  (leaf undo-fu-session
+    :global-minor-mode undo-fu-session-global-mode))
 
 (leaf *major-modes
   :config
