@@ -210,7 +210,9 @@
 ;;; Editor enhancements
 
 (leaf *editing-basics
-  :custom ((delete-by-moving-to-trash . t)))
+  :custom ((delete-by-moving-to-trash . t))
+  :config
+  (put 'scroll-left 'disabled nil))
 
 ;;; System integration
 
@@ -342,13 +344,6 @@
   :tag "builtin" "lisp"
   :added "2022-12-22"
   :custom ((native-comp-async-report-warnings-errors . 'silent)))
-
-(leaf window
-  :doc "GNU Emacs window commands aside from those written in C"
-  :tag "builtin" "internal"
-  :added "2023-04-18"
-  :config
-  (put 'scroll-left 'disabled nil))
 
 (leaf *environments
   :custom `((enable-recursive-minibuffers . t)
