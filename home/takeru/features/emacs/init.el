@@ -226,6 +226,8 @@
          (atomic-chrome-edit-done-hook
           . elim:save-buffer-to-kill-ring)))
 
+(leaf direnv :global-minor-mode t)
+
 (leaf server
   :require t
   :defun server-running-p
@@ -337,8 +339,6 @@
   :tag "builtin" "lisp"
   :added "2022-12-22"
   :custom ((native-comp-async-report-warnings-errors . 'silent)))
-
-(leaf direnv :global-minor-mode t)
 
 ;; Future home: editing basics and interaction helpers
 (leaf files
