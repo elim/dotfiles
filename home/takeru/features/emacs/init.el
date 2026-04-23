@@ -230,7 +230,7 @@
    'kill-buffer-query-functions
    'server-kill-buffer-query-function))
 
-;;; Translation and utilities
+;;; Persistence and utilities
 
 (leaf *utilities
   :config
