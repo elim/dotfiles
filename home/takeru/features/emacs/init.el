@@ -236,16 +236,17 @@
   (leaf frame
     :if window-system
     :preface
-    (defun elim:frame-fullscreen ()
-      ;; FIXME: Sometimes may become native full screen on macOS even
-      ;;        the ns-use-native-fullscreen is nil (especially on
-      ;;        startup).
-      (set-frame-parameter nil 'fullscreen 'fullboth))
+    (defun elim:frame-startup-state ()
+      ;; Avoid macOS fullscreen spaces: maximizing keeps the notch clear
+      ;; without opting into native fullscreen animations.
+      (set-frame-parameter
+       nil 'fullscreen
+       (if (eq system-type 'darwin) 'maximized 'fullboth)))
     :config
     (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
     (add-to-list 'default-frame-alist '(ns-appearance . dark))
     :custom ((line-spacing . 4))
-    :hook (window-setup-hook . elim:frame-fullscreen))
+    :hook (window-setup-hook . elim:frame-startup-state))
   (leaf *completion
     :url https://blog.tomoya.dev/posts/a-new-wave-has-arrived-at-emacs
     :url https://emacs-jp.slack.com/archives/C1B5WTJLQ/p1623851956426000
