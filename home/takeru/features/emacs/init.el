@@ -232,6 +232,87 @@
 
 ;;; Translation and utilities
 
+(leaf *utilities
+  :config
+  (leaf auth-source
+    :custom `(auth-sources . '(,(locate-user-emacs-file ".authinfo.plist"))))
+  (leaf browse-url
+    :bind ("C-x m" . browse-url-at-point))
+  (leaf bs
+    :bind ("C-x C-b" . bs-show))
+  (leaf clipmon
+    :hook (after-init-hook . clipmon-mode-start)
+    :config
+    (when (fboundp 'gui-get-selection)
+      (defun clipmon--get-selection ()
+        "Get the clipboard contents. With a hack for Mozilla products, to set
+         UTF8_STRING explicitly."
+        (ignore-errors (gui-get-selection 'CLIPBOARD 'UTF8_STRING)))))
+  (leaf dabbrev
+    :custom ((dabbrev-abbrev-skip-leading-regexp . "\\$")))
+  (leaf desktop
+    :defvar desktop-globals-to-save
+    :custom `((desktop-base-file-name      . ,(locate-user-emacs-file ".desktop.el"))
+              (desktop-base-lock-name      . ,(locate-user-emacs-file ".desktop.lock"))
+              (desktop-load-locked-desktop . 'check-pid)
+              (desktop-restore-eager       . 0)
+              (desktop-restore-frames      . nil)
+              (desktop-save-mode           . +1))
+    :config
+    (add-to-list 'desktop-globals-to-save 'extended-command-history)
+    (add-to-list 'desktop-globals-to-save 'kill-ring)
+    (add-to-list 'desktop-globals-to-save 'log-edit-comment-ring)
+    (add-to-list 'desktop-globals-to-save 'read-expression-history))
+  (leaf find-func
+    :config
+    ;; C-x F => Find Function
+    ;; C-x V => Find Variable
+    ;; C-x K => Find Function on Key
+    (find-function-setup-keys))
+  (leaf dictionary
+    :if (eq system-type 'darwin)
+    :defun elim:dictionary-search
+    :preface
+    (defun elim:dictionary-search (word)
+      (browse-url
+       (concat "dict:///" (url-hexify-string word))))
+    (defun elim:dictionary-word ()
+      (interactive)
+      (elim:dictionary-search
+       (substring-no-properties (thing-at-point 'word))))
+    (defun elim:dictionary-region (beg end)
+      (interactive "r")
+      (elim:dictionary-search
+       (buffer-substring-no-properties beg end)))
+    :bind (("C-x e" . elim:dictionary-word)
+           ("C-x y" . elim:dictionary-region)))
+  (leaf help-fns
+    :bind (("H-b" . describe-binding)
+           ("H-f" . describe-function)
+           ("H-k" . describe-key)
+           ("H-v" . describe-variable)))
+  (leaf open-junk-file
+    :bind (("C-x C-z" . open-junk-file))
+    :custom ((open-junk-file-format . "~/.junk/%Y/%m/%d-%H%M%S.")
+             (open-junk-file-find-file-function . 'find-file)))
+  (leaf recentf
+    :defvar recentf-auto-save-timer
+    :custom `((recentf-auto-save-timer
+               . ,(run-with-idle-timer 30 t #'recentf-save-list))
+              (recentf-max-saved-items . 512)
+              (recentf-save-file . ,(locate-user-emacs-file ".recentf.el")))
+    :global-minor-mode t)
+  (leaf sort
+    :defun elim:sort-lines-nocase
+    :config
+    (defun elim:sort-lines-nocase ()
+      "Ignore case when the sort the lines."
+      (interactive)
+      (defvar sort-fold-case)
+      (let ((sort-fold-case t))
+        (call-interactively 'sort-lines)))
+    (defalias 'sort-lines-nocase #'elim:sort-lines-nocase)))
+
 ;;; Legacy configurations
 
 (leaf browse-at-remote
@@ -449,87 +530,6 @@
     :config (put 'list-timers 'disabled nil))
   (leaf vc
     :custom (vc-follow-symlinks . t)))
-
-(leaf *utilities
-  :config
-  (leaf auth-source
-    :custom `(auth-sources . '(,(locate-user-emacs-file ".authinfo.plist"))))
-  (leaf browse-url
-    :bind ("C-x m" . browse-url-at-point))
-  (leaf bs
-    :bind ("C-x C-b" . bs-show))
-  (leaf clipmon
-    :hook (after-init-hook . clipmon-mode-start)
-    :config
-    (when (fboundp 'gui-get-selection)
-      (defun clipmon--get-selection ()
-        "Get the clipboard contents. With a hack for Mozilla products, to set
-         UTF8_STRING explicitly."
-        (ignore-errors (gui-get-selection 'CLIPBOARD 'UTF8_STRING)))))
-  (leaf dabbrev
-    :custom ((dabbrev-abbrev-skip-leading-regexp . "\\$")))
-  (leaf desktop
-    :defvar desktop-globals-to-save
-    :custom `((desktop-base-file-name      . ,(locate-user-emacs-file ".desktop.el"))
-              (desktop-base-lock-name      . ,(locate-user-emacs-file ".desktop.lock"))
-              (desktop-load-locked-desktop . 'check-pid)
-              (desktop-restore-eager       . 0)
-              (desktop-restore-frames      . nil)
-              (desktop-save-mode           . +1))
-    :config
-    (add-to-list 'desktop-globals-to-save 'extended-command-history)
-    (add-to-list 'desktop-globals-to-save 'kill-ring)
-    (add-to-list 'desktop-globals-to-save 'log-edit-comment-ring)
-    (add-to-list 'desktop-globals-to-save 'read-expression-history))
-  (leaf find-func
-    :config
-    ;; C-x F => Find Function
-    ;; C-x V => Find Variable
-    ;; C-x K => Find Function on Key
-    (find-function-setup-keys))
-  (leaf dictionary
-    :if (eq system-type 'darwin)
-    :defun elim:dictionary-search
-    :preface
-    (defun elim:dictionary-search (word)
-      (browse-url
-       (concat "dict:///" (url-hexify-string word))))
-    (defun elim:dictionary-word ()
-      (interactive)
-      (elim:dictionary-search
-       (substring-no-properties (thing-at-point 'word))))
-    (defun elim:dictionary-region (beg end)
-      (interactive "r")
-      (elim:dictionary-search
-       (buffer-substring-no-properties beg end)))
-    :bind (("C-x e" . elim:dictionary-word)
-           ("C-x y" . elim:dictionary-region)))
-  (leaf help-fns
-    :bind (("H-b" . describe-binding)
-           ("H-f" . describe-function)
-           ("H-k" . describe-key)
-           ("H-v" . describe-variable)))
-  (leaf open-junk-file
-    :bind (("C-x C-z" . open-junk-file))
-    :custom ((open-junk-file-format . "~/.junk/%Y/%m/%d-%H%M%S.")
-             (open-junk-file-find-file-function . 'find-file)))
-  (leaf recentf
-    :defvar recentf-auto-save-timer
-    :custom `((recentf-auto-save-timer
-               . ,(run-with-idle-timer 30 t #'recentf-save-list))
-              (recentf-max-saved-items . 512)
-              (recentf-save-file . ,(locate-user-emacs-file ".recentf.el")))
-    :global-minor-mode t)
-  (leaf sort
-    :defun elim:sort-lines-nocase
-    :config
-    (defun elim:sort-lines-nocase ()
-      "Ignore case when the sort the lines."
-      (interactive)
-      (defvar sort-fold-case)
-      (let ((sort-fold-case t))
-        (call-interactively 'sort-lines)))
-    (defalias 'sort-lines-nocase #'elim:sort-lines-nocase)))
 
 (leaf *interfaces
   :custom ((frame-title-format . `(" %b " (buffer-file-name "( %f )")))
