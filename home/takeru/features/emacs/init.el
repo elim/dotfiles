@@ -292,6 +292,7 @@
 (leaf *editing-basics
   :custom ((delete-by-moving-to-trash . t))
   :config
+  (put 'list-timers 'disabled nil)
   (put 'scroll-left 'disabled nil))
 
 ;;; System integration
@@ -446,9 +447,7 @@
     :config
     (keyboard-translate ?\C-h ?\C-?)
     :global-minor-mode line-number-mode transient-mark-mode
-    :hook (before-save-hook . elim:auto-delete-trailing-whitespace))
-  (leaf timer-list
-    :config (put 'list-timers 'disabled nil)))
+    :hook (before-save-hook . elim:auto-delete-trailing-whitespace)))
 
 (leaf *interfaces
   :custom ((frame-title-format . `(" %b " (buffer-file-name "( %f )")))
