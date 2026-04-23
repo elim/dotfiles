@@ -369,8 +369,6 @@
   ((tab-bar-tab .          '((nil (:foreground "#112" :background "#ccc"))))
    (tab-bar-tab-inactive . '((nil (:foreground "#ccc" :background "#112")))))
   :global-minor-mode t)
-(leaf vundo
-  :bind (("C-x u" . vundo)))
 
 (leaf window
   :doc "GNU Emacs window commands aside from those written in C"
@@ -793,7 +791,9 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
     :emacs>= 26.3
     :hook (prog-mode-hook .  topsy-mode))
   (leaf undo-fu-session
-    :global-minor-mode undo-fu-session-global-mode))
+    :global-minor-mode undo-fu-session-global-mode)
+  (leaf vundo
+    :bind (("C-x u" . vundo))))
 
 (leaf *major-modes
   :config
