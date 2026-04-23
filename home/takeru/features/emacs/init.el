@@ -335,8 +335,6 @@
         (call-interactively 'sort-lines)))
     (defalias 'sort-lines-nocase #'elim:sort-lines-nocase)))
 
-;;; Legacy configurations
-
 (leaf *environments
   :custom `((enable-recursive-minibuffers . t)
             (gc-cons-threshold . ,(* 128 1024 1024))
