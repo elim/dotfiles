@@ -19,6 +19,84 @@
 
 ;;; Navigation / Completion
 
+(leaf *completion
+  :url https://blog.tomoya.dev/posts/a-new-wave-has-arrived-at-emacs
+  :url https://emacs-jp.slack.com/archives/C1B5WTJLQ/p1623851956426000
+  :url https://github.com/uwabami/emacs
+  :config
+  (leaf affe
+    :after orderless
+    :custom
+    ((affe-highlight-function . 'orderless-highlight-matches)
+     (affe-regexp-function  . 'orderless-pattern-compiler)))
+  (leaf consult
+    :defun consult-line
+    :preface
+    ;; C-uを付けるとカーソル位置の文字列を使うmy-consult-lineコマンドを定義する
+    (defun tomoya:consult-line (&optional at-point)
+      "Consult-line uses things-at-point if set C-u prefix."
+      (interactive "P")
+      (if at-point
+          (consult-line (thing-at-point 'symbol))
+        (consult-line)))
+    :bind (([remap switch-to-buffer]              . consult-buffer)              ; C-x b
+           ([remap switch-to-buffer-other-window] . consult-buffer-other-window) ; C-x 4 b
+           ([remap display-buffer-other-frame]    . consult-buffer-other-frame)  ; C-x 5 b
+           ([remap repeat-complex-command]        . consult-complex-command)     ; C-x C-:
+           ([remap pop-global-mark]               . consult-global-mark)         ; C-x C-SPC
+           ([remap goto-line]                     . consult-goto-line)           ; M-g g
+           ([remap yank-pop]                      . consult-yank-pop)            ; M-y
+
+           ("C-;" . consult-buffer)
+           ("C-x C-;" . consult-buffer)
+
+           ("C-x C-o" . consult-file-externally) ; orig. delete-blank-lines
+           ("C-x C-p" . consult-find)            ; orig. mark-page
+           ("M-s M-s" . tomoya:consult-line)
+           ("C-S-s"   . consult-imenu)           ; orig. imenu
+           ))
+  (leaf embark-consult
+    :require t
+    :after consult)
+  (leaf marginalia
+    :global-minor-mode t)
+  (leaf orderless
+    :custom (completion-styles . '(orderless)))
+  (leaf savehist
+    :global-minor-mode t)
+  (leaf vertico
+    :url https://github.com/uwabami/emacs
+    :preface
+    (defun uwabami:filename-upto-parent ()
+      "Move to parent directory like \"cd ..\" in find-file."
+      (interactive)
+      (let ((sep (eval-when-compile (regexp-opt '("/" "\\")))))
+        (save-excursion
+          (left-char 1)
+          (when (looking-at-p sep)
+            (delete-char 1)))
+        (save-match-data
+          (when (search-backward-regexp sep nil t)
+            (right-char 1)
+            (filter-buffer-substring (point)
+                                     (save-excursion (end-of-line) (point))
+                                     #'delete)))))
+    :bind (:vertico-map
+           (("C-l" . uwabami:filename-upto-parent)
+            ("C-r" . vertico-previous)
+            ("C-s" . vertico-next)))
+    :custom (vertico-count . 20)
+    :global-minor-mode t)
+  (leaf vertico-posframe
+    :doc "Using posframe to show Vertico"
+    :req "emacs-26.0" "posframe-1.1.4" "vertico-0.13.0"
+    :tag "vertico" "matching" "convenience" "abbrev" "emacs>=26.0"
+    :url "https://github.com/tumashu/vertico-posframe"
+    :added "2022-03-02"
+    :emacs>= 26.0
+    :after posframe vertico
+    :global-minor-mode t))
+
 ;;; Code completion and intelligence
 
 (leaf eglot
@@ -346,83 +424,6 @@
   (leaf cus-edit
     :doc "Just prevent appending to this file (not load at startup)."
     :custom `((custom-file . ,(locate-user-emacs-file ".custom.el"))))
-  (leaf *completion
-    :url https://blog.tomoya.dev/posts/a-new-wave-has-arrived-at-emacs
-    :url https://emacs-jp.slack.com/archives/C1B5WTJLQ/p1623851956426000
-    :url https://github.com/uwabami/emacs
-    :config
-    (leaf affe
-      :after orderless
-      :custom
-      ((affe-highlight-function . 'orderless-highlight-matches)
-       (affe-regexp-function  . 'orderless-pattern-compiler)))
-    (leaf consult
-      :defun consult-line
-      :preface
-      ;; C-uを付けるとカーソル位置の文字列を使うmy-consult-lineコマンドを定義する
-      (defun tomoya:consult-line (&optional at-point)
-        "Consult-line uses things-at-point if set C-u prefix."
-        (interactive "P")
-        (if at-point
-            (consult-line (thing-at-point 'symbol))
-          (consult-line)))
-      :bind (([remap switch-to-buffer]              . consult-buffer)              ; C-x b
-             ([remap switch-to-buffer-other-window] . consult-buffer-other-window) ; C-x 4 b
-             ([remap display-buffer-other-frame]    . consult-buffer-other-frame)  ; C-x 5 b
-             ([remap repeat-complex-command]        . consult-complex-command)     ; C-x C-:
-             ([remap pop-global-mark]               . consult-global-mark)         ; C-x C-SPC
-             ([remap goto-line]                     . consult-goto-line)           ; M-g g
-             ([remap yank-pop]                      . consult-yank-pop)            ; M-y
-
-             ("C-;" . consult-buffer)
-             ("C-x C-;" . consult-buffer)
-
-             ("C-x C-o" . consult-file-externally) ; orig. delete-blank-lines
-             ("C-x C-p" . consult-find)            ; orig. mark-page
-             ("M-s M-s" . tomoya:consult-line)
-             ("C-S-s"   . consult-imenu)           ; orig. imenu
-             ))
-    (leaf embark-consult
-      :require t
-      :after consult)
-    (leaf marginalia
-      :global-minor-mode t)
-    (leaf orderless
-      :custom (completion-styles . '(orderless)))
-    (leaf savehist
-      :global-minor-mode t)
-    (leaf vertico
-      :url https://github.com/uwabami/emacs
-      :preface
-      (defun uwabami:filename-upto-parent ()
-        "Move to parent directory like \"cd ..\" in find-file."
-        (interactive)
-        (let ((sep (eval-when-compile (regexp-opt '("/" "\\")))))
-          (save-excursion
-            (left-char 1)
-            (when (looking-at-p sep)
-              (delete-char 1)))
-          (save-match-data
-            (when (search-backward-regexp sep nil t)
-              (right-char 1)
-              (filter-buffer-substring (point)
-                                       (save-excursion (end-of-line) (point))
-                                       #'delete)))))
-      :bind (:vertico-map
-             (("C-l" . uwabami:filename-upto-parent)
-              ("C-r" . vertico-previous)
-              ("C-s" . vertico-next)))
-      :custom (vertico-count . 20)
-      :global-minor-mode t)
-    (leaf vertico-posframe
-      :doc "Using posframe to show Vertico"
-      :req "emacs-26.0" "posframe-1.1.4" "vertico-0.13.0"
-      :tag "vertico" "matching" "convenience" "abbrev" "emacs>=26.0"
-      :url "https://github.com/tumashu/vertico-posframe"
-      :added "2022-03-02"
-      :emacs>= 26.0
-      :after posframe vertico
-      :global-minor-mode t))
   (leaf simple
     :defun elim:editorconfig-mode-enabled-p
     :preface
