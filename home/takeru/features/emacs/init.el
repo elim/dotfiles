@@ -18,7 +18,7 @@
     :require t hydra blackout
     :config  (leaf-keywords-init)))
 
-;;; Completion and navigation framework
+;;; Navigation / Completion
 
 ;;; Code completion and intelligence
 
