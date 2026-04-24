@@ -294,8 +294,10 @@
            (kill-ring-max . 8192))
   :config
   (keyboard-translate ?\C-h ?\C-?)
+  (line-number-mode)
   (put 'list-timers 'disabled nil)
-  (put 'scroll-left 'disabled nil))
+  (put 'scroll-left 'disabled nil)
+  (transient-mark-mode))
 
 ;;; System integration
 
@@ -446,7 +448,6 @@
            ("C-x |"    . split-window-right)
            ("C-x -"    . split-window-below))
     :config
-    :global-minor-mode line-number-mode transient-mark-mode
     :hook (before-save-hook . elim:auto-delete-trailing-whitespace)))
 
 (leaf *interfaces
