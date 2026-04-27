@@ -746,75 +746,83 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
 
 (leaf *editor-modes
   :config
-  (leaf anzu
-    :bind (([remap query-replace]        . anzu-query-replace)
-           ([remap query-replace-regexp] . anzu-query-replace-regexp))
-    :custom ((anzu-mode-lighter . "")
-             (anzu-deactivate-region . t)
-             (anzu-search-threshold . 1000))
-    :global-minor-mode global-anzu-mode)
-  (leaf autorevert
-    :global-minor-mode global-auto-revert-mode)
-  (leaf auto-save-visited-mode
-    :bind ("C-x as" . auto-save-visited-mode)
-    :leaf-defer nil
-    :custom ((auto-save-visited-interval . 0.5))
-    :global-minor-mode t)
-  (leaf diff-mode
-    :custom-face
-    ((diff-added         . '((nil (:foreground "white" :background "dark green"))))
-     (diff-removed       . '((nil (:foreground "white" :background "dark red"))))
-     (diff-refine-change . '((nil (:foreground nil     :background nil :weight 'bold :inverse-video t))))))
-  (leaf editorconfig
-    :global-minor-mode editorconfig-mode
-    :blackout editorconfig-mode)
-  (leaf eldoc
-    :custom ((eldoc-idle-delay . 0.2)
-             (eldoc-minor-mode-string . ""))
-    :hook ((emacs-lisp-mode
-            lisp-interaction-mode
-            ielm-mode-hook) . turn-on-eldoc-mode))
-  (leaf *flycheck
+  (leaf *diagnostics-and-docs
     :config
-    (leaf flycheck
-      :hook (after-init-hook . global-flycheck-mode)
-      :init (add-to-list 'exec-path (expand-file-name "bin" user-emacs-directory)))
-    (leaf flycheck-posframe
-      :after flycheck
-      :hook (flycheck-mode-hook . flycheck-posframe-mode)))
-  (leaf flyspell
-    :custom ((ispell-dictionary . "american")
-             (flyspell-use-meta-tab . nil)))
-  (leaf hideshow
-    :bind ((:hs-minor-mode-map
-            ("C-c C-M-c" . hs-toggle-hiding)
-            ("C-c h"     . hs-toggle-hiding)
-            ("C-c l"     . hs-hide-level))))
-  (leaf projectile
-    :bind (("M-t" . projectile-command-map))
-    :global-minor-mode t
-    :custom (projectile-enable-caching . t)
-    :blackout projectile-mode)
-  (leaf rainbow-delimiters
-    :doc "Highlight delimiters such as parentheses, brackets or braces according to their depth."
-    :hook (prog-mode-hook . rainbow-delimiters-mode))
-  (leaf so-long
-    :doc "Say farewell to performance problems with minified code."
-    :tag "builtin"
-    :added "2024-08-24"
-    :custom ((global-so-long-mode . t)))
-  (leaf topsy
-    :doc "Simple sticky header"
-    :req "emacs-26.3"
-    :tag "convenience" "emacs>=26.3"
-    :url "https://github.com/alphapapa/topsy.el"
-    :added "2022-12-24"
-    :emacs>= 26.3
-    :hook (prog-mode-hook .  topsy-mode))
-  (leaf undo-fu-session
-    :global-minor-mode undo-fu-session-global-mode)
-  (leaf vundo
-    :bind (("C-x u" . vundo))))
+    (leaf eldoc
+      :custom ((eldoc-idle-delay . 0.2)
+               (eldoc-minor-mode-string . ""))
+      :hook ((emacs-lisp-mode
+              lisp-interaction-mode
+              ielm-mode-hook) . turn-on-eldoc-mode))
+    (leaf *flycheck
+      :config
+      (leaf flycheck
+        :hook (after-init-hook . global-flycheck-mode)
+        :init (add-to-list 'exec-path (expand-file-name "bin" user-emacs-directory)))
+      (leaf flycheck-posframe
+        :after flycheck
+        :hook (flycheck-mode-hook . flycheck-posframe-mode)))
+    (leaf flyspell
+      :custom ((ispell-dictionary . "american")
+               (flyspell-use-meta-tab . nil))))
+  (leaf *editing-assist
+    :config
+    (leaf anzu
+      :bind (([remap query-replace]        . anzu-query-replace)
+             ([remap query-replace-regexp] . anzu-query-replace-regexp))
+      :custom ((anzu-mode-lighter . "")
+               (anzu-deactivate-region . t)
+               (anzu-search-threshold . 1000))
+      :global-minor-mode global-anzu-mode)
+    (leaf autorevert
+      :global-minor-mode global-auto-revert-mode)
+    (leaf auto-save-visited-mode
+      :bind ("C-x as" . auto-save-visited-mode)
+      :leaf-defer nil
+      :custom ((auto-save-visited-interval . 0.5))
+      :global-minor-mode t)
+    (leaf editorconfig
+      :global-minor-mode editorconfig-mode
+      :blackout editorconfig-mode)
+    (leaf hideshow
+      :bind ((:hs-minor-mode-map
+              ("C-c C-M-c" . hs-toggle-hiding)
+              ("C-c h"     . hs-toggle-hiding)
+              ("C-c l"     . hs-hide-level))))
+    (leaf so-long
+      :doc "Say farewell to performance problems with minified code."
+      :tag "builtin"
+      :added "2024-08-24"
+      :custom ((global-so-long-mode . t)))
+    (leaf undo-fu-session
+      :global-minor-mode undo-fu-session-global-mode)
+    (leaf vundo
+      :bind (("C-x u" . vundo))))
+  (leaf *project-tools
+    :config
+    (leaf projectile
+      :bind (("M-t" . projectile-command-map))
+      :global-minor-mode t
+      :custom (projectile-enable-caching . t)
+      :blackout projectile-mode))
+  (leaf *visual-assist
+    :config
+    (leaf diff-mode
+      :custom-face
+      ((diff-added         . '((nil (:foreground "white" :background "dark green"))))
+       (diff-removed       . '((nil (:foreground "white" :background "dark red"))))
+       (diff-refine-change . '((nil (:foreground nil     :background nil :weight 'bold :inverse-video t))))))
+    (leaf rainbow-delimiters
+      :doc "Highlight delimiters such as parentheses, brackets or braces according to their depth."
+      :hook (prog-mode-hook . rainbow-delimiters-mode))
+    (leaf topsy
+      :doc "Simple sticky header"
+      :req "emacs-26.3"
+      :tag "convenience" "emacs>=26.3"
+      :url "https://github.com/alphapapa/topsy.el"
+      :added "2022-12-24"
+      :emacs>= 26.3
+      :hook (prog-mode-hook .  topsy-mode))))
 
 ;;; Languages and authoring
 
