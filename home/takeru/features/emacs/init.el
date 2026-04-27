@@ -520,56 +520,61 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
 
 ;;; Persistence and editor tools
 
-(leaf *persistence
-  :config
-  (leaf desktop
-    :defvar desktop-globals-to-save
-    :custom `((desktop-base-file-name      . ,(locate-user-emacs-file ".desktop.el"))
-              (desktop-base-lock-name      . ,(locate-user-emacs-file ".desktop.lock"))
-              (desktop-load-locked-desktop . 'check-pid)
-              (desktop-restore-eager       . 0)
-              (desktop-restore-frames      . nil)
-              (desktop-save-mode           . +1))
-    :config
-    (add-to-list 'desktop-globals-to-save 'extended-command-history)
-    (add-to-list 'desktop-globals-to-save 'kill-ring)
-    (add-to-list 'desktop-globals-to-save 'log-edit-comment-ring)
-    (add-to-list 'desktop-globals-to-save 'read-expression-history))
-  (leaf recentf
-    :defvar recentf-auto-save-timer
-    :custom `((recentf-auto-save-timer
-               . ,(run-with-idle-timer 30 t #'recentf-save-list))
-              (recentf-max-saved-items . 512)
-              (recentf-save-file . ,(locate-user-emacs-file ".recentf.el")))
-    :global-minor-mode t)
-  (leaf persistent-scratch
-    :defun persistent-scratch-setup-default
-    :custom `(persistent-scratch-save-file . ,(locate-user-emacs-file ".scratch.el"))
-    :config
-    (with-current-buffer "*scratch*"
-      (emacs-lock-mode 'kill))
-    (persistent-scratch-setup-default)))
+;; Persistence
 
-(leaf *editor-tools
+(leaf desktop
+  :defvar desktop-globals-to-save
+  :custom `((desktop-base-file-name      . ,(locate-user-emacs-file ".desktop.el"))
+            (desktop-base-lock-name      . ,(locate-user-emacs-file ".desktop.lock"))
+            (desktop-load-locked-desktop . 'check-pid)
+            (desktop-restore-eager       . 0)
+            (desktop-restore-frames      . nil)
+            (desktop-save-mode           . +1))
   :config
-  (leaf dabbrev
-    :custom ((dabbrev-abbrev-skip-leading-regexp . "\\$")))
-  (leaf open-junk-file
-    :bind (("C-x C-z" . open-junk-file))
-    :custom ((open-junk-file-format . "~/.junk/%Y/%m/%d-%H%M%S.")
-             (open-junk-file-find-file-function . 'find-file)))
-  (leaf sort
-    :defun elim:sort-lines-nocase
-    :config
-    (defun elim:sort-lines-nocase ()
-      "Ignore case when the sort the lines."
-      (interactive)
-      (defvar sort-fold-case)
-      (let ((sort-fold-case t))
-        (call-interactively 'sort-lines)))
-    (defalias 'sort-lines-nocase #'elim:sort-lines-nocase))
-  (leaf wgrep
-    :custom ((wgrep-auto-save-buffer . t))))
+  (add-to-list 'desktop-globals-to-save 'extended-command-history)
+  (add-to-list 'desktop-globals-to-save 'kill-ring)
+  (add-to-list 'desktop-globals-to-save 'log-edit-comment-ring)
+  (add-to-list 'desktop-globals-to-save 'read-expression-history))
+
+(leaf recentf
+  :defvar recentf-auto-save-timer
+  :custom `((recentf-auto-save-timer
+             . ,(run-with-idle-timer 30 t #'recentf-save-list))
+            (recentf-max-saved-items . 512)
+            (recentf-save-file . ,(locate-user-emacs-file ".recentf.el")))
+  :global-minor-mode t)
+
+(leaf persistent-scratch
+  :defun persistent-scratch-setup-default
+  :custom `(persistent-scratch-save-file . ,(locate-user-emacs-file ".scratch.el"))
+  :config
+  (with-current-buffer "*scratch*"
+    (emacs-lock-mode 'kill))
+  (persistent-scratch-setup-default))
+
+;; Editor tools
+
+(leaf dabbrev
+  :custom ((dabbrev-abbrev-skip-leading-regexp . "\\$")))
+
+(leaf open-junk-file
+  :bind (("C-x C-z" . open-junk-file))
+  :custom ((open-junk-file-format . "~/.junk/%Y/%m/%d-%H%M%S.")
+           (open-junk-file-find-file-function . 'find-file)))
+
+(leaf sort
+  :defun elim:sort-lines-nocase
+  :config
+  (defun elim:sort-lines-nocase ()
+    "Ignore case when the sort the lines."
+    (interactive)
+    (defvar sort-fold-case)
+    (let ((sort-fold-case t))
+      (call-interactively 'sort-lines)))
+  (defalias 'sort-lines-nocase #'elim:sort-lines-nocase))
+
+(leaf wgrep
+  :custom ((wgrep-auto-save-buffer . t)))
 
 ;;; Identity
 
