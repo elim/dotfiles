@@ -377,6 +377,15 @@
   :bind (("C-x e" . elim:dictionary-word)
          ("C-x y" . elim:dictionary-region)))
 
+(leaf clipmon
+  :hook (after-init-hook . clipmon-mode-start)
+  :config
+  (when (fboundp 'gui-get-selection)
+    (defun clipmon--get-selection ()
+      "Get the clipboard contents. With a hack for Mozilla products, to set
+         UTF8_STRING explicitly."
+      (ignore-errors (gui-get-selection 'CLIPBOARD 'UTF8_STRING)))))
+
 (leaf direnv :global-minor-mode t)
 
 (leaf server
@@ -407,14 +416,6 @@
     :custom `(auth-sources . '(,(locate-user-emacs-file ".authinfo.plist"))))
   (leaf bs
     :bind ("C-x C-b" . bs-show))
-  (leaf clipmon
-    :hook (after-init-hook . clipmon-mode-start)
-    :config
-    (when (fboundp 'gui-get-selection)
-      (defun clipmon--get-selection ()
-        "Get the clipboard contents. With a hack for Mozilla products, to set
-         UTF8_STRING explicitly."
-        (ignore-errors (gui-get-selection 'CLIPBOARD 'UTF8_STRING)))))
   (leaf dabbrev
     :custom ((dabbrev-abbrev-skip-leading-regexp . "\\$")))
   (leaf find-func
