@@ -13,7 +13,10 @@ in
   programs.tmux = {
     enable = true;
     package = pkgs.tmux;
-    extraConfig = builtins.readFile legacyTmuxConf;
+    extraConfig = builtins.concatStringsSep "\n" [
+      (builtins.readFile legacyTmuxConf)
+      (builtins.readFile ./agent-guard.conf)
+    ];
   };
 
   home.file = {
