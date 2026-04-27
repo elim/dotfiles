@@ -439,14 +439,10 @@
     (defalias 'sort-lines-nocase #'elim:sort-lines-nocase)))
 
 (leaf *environments
-  :custom `((gc-cons-threshold . ,(* 128 1024 1024))
-            (user-mail-address . "takeru.naito@gmail.com")
+  :custom `((user-mail-address . "takeru.naito@gmail.com")
             (user-full-name . "Takeru Naito"))
   :config
-  (defalias 'yes-or-no-p 'y-or-n-p)
-  (leaf cus-edit
-    :doc "Just prevent appending to this file (not load at startup)."
-    :custom `((custom-file . ,(locate-user-emacs-file ".custom.el")))))
+  (defalias 'yes-or-no-p 'y-or-n-p))
 
 (leaf *interfaces
   :custom ((frame-title-format . `(" %b " (buffer-file-name "( %f )")))
