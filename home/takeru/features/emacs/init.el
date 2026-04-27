@@ -441,9 +441,7 @@
 
 (leaf *environments
   :custom `((user-mail-address . "takeru.naito@gmail.com")
-            (user-full-name . "Takeru Naito"))
-  :config
-  (defalias 'yes-or-no-p 'y-or-n-p))
+            (user-full-name . "Takeru Naito")))
 
 (leaf *interfaces
   :custom ((frame-title-format . `(" %b " (buffer-file-name "( %f )")))
@@ -457,6 +455,7 @@
            (use-dialog-box . nil)
            (visible-bell . t))
   :config
+  (defalias 'yes-or-no-p 'y-or-n-p)
   (put 'dired-find-alternate-file 'disabled nil)
   (put 'narrow-to-region 'disabled nil)
   (put 'set-goal-column 'disabled nil)
