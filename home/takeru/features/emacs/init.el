@@ -151,13 +151,12 @@
   :bind (("C-x v s" . magit-status)
          ("C-x v f" . magit-diff-buffer-file))
   :custom (magit-diff-refine-hunk . 'all)
-  :hook (git-commit-setup-hook . elim:git-commit-setup-hook-func)
-  :init (add-to-list 'process-coding-system-alist '("git" utf-8 . utf-8))
-  :config
+  :preface
   (defun elim:git-commit-setup-hook-func ()
     (flyspell-mode +1)
-    (set (make-local-variable
-          'elim:auto-delete-trailing-whitespace-enable-p) nil))
+    (setq-local elim:auto-delete-trailing-whitespace-enable-p nil))
+  :hook (git-commit-setup-hook . elim:git-commit-setup-hook-func)
+  :init (add-to-list 'process-coding-system-alist '("git" utf-8 . utf-8))
   :blackout auto-revert-mode)
 
 ;;; Platform / Frame / Appearance
@@ -825,18 +824,18 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
   :preface
   (defun elim:c-mode-common-hook-func ()
     (c-set-style "bsd")
-    (set-variable 'indent-tabs-mode nil)
-    (set-variable 'c-basic-offset 2)
+    (setq-local indent-tabs-mode nil)
+    (setq-local c-basic-offset 2)
     (c-toggle-auto-hungry-state -1)
     (subword-mode 1))
   :hook ((c-mode-common-hook . elim:c-mode-common-hook-func)))
 
 (leaf elisp-mode
-  :hook (emacs-lisp-mode-hook . elim:emacs-lisp-mode-hook-func)
-  :config
+  :preface
   (defun elim:emacs-lisp-mode-hook-func ()
-    (set-variable 'indent-tabs-mode nil)
-    (hs-minor-mode +1)))
+    (setq-local indent-tabs-mode nil)
+    (hs-minor-mode +1))
+  :hook (emacs-lisp-mode-hook . elim:emacs-lisp-mode-hook-func))
 
 (leaf elisp-slime-nav
   :hook ((emacs-lisp-mode-hook
@@ -846,7 +845,7 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
 (leaf go-mode
   :preface
   (defun elim:go-mode-hook-func ()
-    (set (make-local-variable 'tab-width) 4))
+    (setq-local tab-width 4))
   :hook (go-mode-hook . elim:go-mode-hook-func))
 
 (leaf lua-ts-mode
@@ -944,7 +943,7 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
 (leaf text-mode
   :preface
   (defun elim:text-mode-hook-func ()
-    (set-variable 'indent-tabs-mode nil))
+    (setq-local indent-tabs-mode nil))
   :hook (text-mode-hook . elim:text-mode-hook-func))
 
 (provide 'init)
