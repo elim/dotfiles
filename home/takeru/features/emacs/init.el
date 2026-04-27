@@ -272,6 +272,9 @@
 (leaf hl-line
   :global-minor-mode global-hl-line-mode)
 
+(leaf font-core
+  :config (global-font-lock-mode t))
+
 (leaf menu-bar
   :if (eq system-type 'darwin)
   :global-minor-mode t)
@@ -486,8 +489,6 @@
       (unless (string-match tramp-file-name-regexp (buffer-file-name))
         (executable-make-buffer-file-executable-if-script-p)))
     :hook (after-save-hook . elim:executable-make-buffer-file-executable-if-script-p))
-  (leaf font-core
-    :config (global-font-lock-mode t))
   (leaf mouse
     :bind (("C-<down-mouse-1>" . nil)
            ("C-<drag-mouse-1>" . nil)
