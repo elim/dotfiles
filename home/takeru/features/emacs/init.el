@@ -613,88 +613,94 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
 ;;; Display and interaction
 
 (leaf *display-and-interaction
-  :custom ((frame-title-format . `(" %b " (buffer-file-name "( %f )")))
-           (inhibit-startup-screen . t)
-           (mouse-drag-copy-region . t)
-           (ring-bell-function . 'ignore)
-           (scroll-conservatively . 1)
-           (select-active-regions . nil)
-           (show-trailing-whitespace . nil)
-           (truncate-lines . nil)
-           (use-dialog-box . nil)
-           (visible-bell . t))
   :config
-  (defalias 'yes-or-no-p 'y-or-n-p)
-  (put 'dired-find-alternate-file 'disabled nil)
-  (put 'narrow-to-region 'disabled nil)
-  (put 'set-goal-column 'disabled nil)
-  (set-default 'cursor-in-non-selected-windows nil)
-  (leaf bs
-    :bind ("C-x C-b" . bs-show))
-  (leaf find-func
+  (leaf *discovery
     :config
-    ;; C-x F => Find Function
-    ;; C-x V => Find Variable
-    ;; C-x K => Find Function on Key
-    (find-function-setup-keys))
-  (leaf help-fns
-    :bind (("H-b" . describe-binding)
-           ("H-f" . describe-function)
-           ("H-k" . describe-key)
-           ("H-v" . describe-variable)))
-  (leaf help
-    :config (temp-buffer-resize-mode t))
-  (leaf *dired
+    (leaf bs
+      :bind ("C-x C-b" . bs-show))
+    (leaf find-func
+      :config
+      ;; C-x F => Find Function
+      ;; C-x V => Find Variable
+      ;; C-x K => Find Function on Key
+      (find-function-setup-keys))
+    (leaf help-fns
+      :bind (("H-b" . describe-binding)
+             ("H-f" . describe-function)
+             ("H-k" . describe-key)
+             ("H-v" . describe-variable)))
+    (leaf help
+      :config (temp-buffer-resize-mode t))
+    (leaf which-key
+      :hook (after-init-hook . which-key-mode)))
+  (leaf *display-defaults
+    :custom ((frame-title-format . `(" %b " (buffer-file-name "( %f )")))
+             (inhibit-startup-screen . t)
+             (mouse-drag-copy-region . t)
+             (ring-bell-function . 'ignore)
+             (scroll-conservatively . 1)
+             (select-active-regions . nil)
+             (show-trailing-whitespace . nil)
+             (truncate-lines . nil)
+             (use-dialog-box . nil)
+             (visible-bell . t))
     :config
-    (leaf dired
-      :bind (:dired-mode-map
-             ("SPC" . elim:dired-toggle-mark)
-             ("r" . dired-toggle-read-only))
-      :custom ((dired-recursive-copies . 'always)
-               (dired-recursive-deletes . 'always))
-      :defun dired-mark dired-unmark
-      :preface
-      ;; Mark with space (like the FD)
-      (defun elim:dired-toggle-mark (arg)
-        "Toggle the current (or next ARG) files."
-        ;; Based on S.Namba Sat Aug 10 12:20:36 1996
-        ;; Modernized for current Emacs
-        (interactive "P")
-        (let ((current-mark (char-after (line-beginning-position))))
-          (if (eq current-mark ?\s)  ; If unmarked (space)
-              (dired-mark arg)       ; Mark it
-            (dired-unmark arg)))))   ; If marked, unmark it
-    (leaf dired-x
-      :custom ((dired-bind-jump . nil)
-               (dired-guess-shell-alist-user
-                . '(("\\.tar\\.gz\\'"  "tar tzvf")
-                    ("\\.taz\\'" "tar ztvf")
-                    ("\\.tar\\.bz2\\'" "tar tjvf")
-                    ("\\.zip\\'" "unzip -l")
-                    ("\\.\\(g\\|\\) z\\'" "zcat"))))))
-  (leaf mouse
-    :bind (("C-<down-mouse-1>" . nil)
-           ("C-<drag-mouse-1>" . nil)
-           ("S-<down-mouse-1>" . nil)
-           ("S-<drag-mouse-1>" . nil)))
-  (leaf popwin
-    :defvar popwin:special-display-config
-    :require t
-    :custom ((popwin:popup-window-position . 'bottom)
-             (popwin:popup-window-height . 20))
+    (defalias 'yes-or-no-p 'y-or-n-p)
+    (put 'narrow-to-region 'disabled nil)
+    (put 'set-goal-column 'disabled nil)
+    (set-default 'cursor-in-non-selected-windows nil)
+    (leaf mouse
+      :bind (("C-<down-mouse-1>" . nil)
+             ("C-<drag-mouse-1>" . nil)
+             ("S-<down-mouse-1>" . nil)
+             ("S-<drag-mouse-1>" . nil)))
+    (leaf popwin
+      :defvar popwin:special-display-config
+      :require t
+      :custom ((popwin:popup-window-position . 'bottom)
+               (popwin:popup-window-height . 20))
+      :config
+      (push '("*Google Translate*") popwin:special-display-config)
+      :global-minor-mode t)
+    (leaf select
+      :custom ((select-enable-primary . nil)
+               (select-enable-clipboard . t)
+               (selection-coding-system . 'utf-8)))
+    (leaf uniquify
+      :custom ((uniquify-buffer-name-style . 'post-forward-angle-brackets)
+               (uniquify-ignore-buffers-re . "*[^*]+*")
+               (uniquify-min-dir-content   . 1))))
+  (leaf *file-browsing
     :config
-    (push '("*Google Translate*") popwin:special-display-config)
-    :global-minor-mode t)
-  (leaf select
-    :custom ((select-enable-primary . nil)
-             (select-enable-clipboard . t)
-             (selection-coding-system . 'utf-8)))
-  (leaf uniquify
-    :custom ((uniquify-buffer-name-style . 'post-forward-angle-brackets)
-             (uniquify-ignore-buffers-re . "*[^*]+*")
-             (uniquify-min-dir-content   . 1)))
-  (leaf which-key
-    :hook (after-init-hook . which-key-mode))
+    (put 'dired-find-alternate-file 'disabled nil)
+    (leaf *dired
+      :config
+      (leaf dired
+        :bind (:dired-mode-map
+               ("SPC" . elim:dired-toggle-mark)
+               ("r" . dired-toggle-read-only))
+        :custom ((dired-recursive-copies . 'always)
+                 (dired-recursive-deletes . 'always))
+        :defun dired-mark dired-unmark
+        :preface
+        ;; Mark with space (like the FD)
+        (defun elim:dired-toggle-mark (arg)
+          "Toggle the current (or next ARG) files."
+          ;; Based on S.Namba Sat Aug 10 12:20:36 1996
+          ;; Modernized for current Emacs
+          (interactive "P")
+          (let ((current-mark (char-after (line-beginning-position))))
+            (if (eq current-mark ?\s)  ; If unmarked (space)
+                (dired-mark arg)       ; Mark it
+              (dired-unmark arg)))))   ; If marked, unmark it
+      (leaf dired-x
+        :custom ((dired-bind-jump . nil)
+                 (dired-guess-shell-alist-user
+                  . '(("\\.tar\\.gz\\'"  "tar tzvf")
+                      ("\\.taz\\'" "tar ztvf")
+                      ("\\.tar\\.bz2\\'" "tar tjvf")
+                      ("\\.zip\\'" "unzip -l")
+                      ("\\.\\(g\\|\\) z\\'" "zcat")))))))
   (leaf *window-navigation
     :config
     (leaf buffer-move
