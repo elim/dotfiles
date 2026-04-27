@@ -415,8 +415,6 @@
   :config
   (leaf auth-source
     :custom `(auth-sources . '(,(locate-user-emacs-file ".authinfo.plist"))))
-  (leaf bs
-    :bind ("C-x C-b" . bs-show))
   (leaf dabbrev
     :custom ((dabbrev-abbrev-skip-leading-regexp . "\\$")))
   (leaf find-func
@@ -488,6 +486,8 @@
   (put 'narrow-to-region 'disabled nil)
   (put 'set-goal-column 'disabled nil)
   (set-default 'cursor-in-non-selected-windows nil)
+  (leaf bs
+    :bind ("C-x C-b" . bs-show))
   (leaf executable
     :config
     (defun elim:executable-make-buffer-file-executable-if-script-p ()
