@@ -335,6 +335,12 @@
   (put 'list-timers 'disabled nil)
   (put 'scroll-left 'disabled nil)
   (set-default 'indent-tabs-mode nil)
+  (leaf executable
+    :config
+    (defun elim:executable-make-buffer-file-executable-if-script-p ()
+      (unless (string-match tramp-file-name-regexp (buffer-file-name))
+        (executable-make-buffer-file-executable-if-script-p)))
+    :hook (after-save-hook . elim:executable-make-buffer-file-executable-if-script-p))
   :hook (before-save-hook . elim:auto-delete-trailing-whitespace))
 
 (leaf simple
@@ -478,12 +484,6 @@
   (set-default 'cursor-in-non-selected-windows nil)
   (leaf bs
     :bind ("C-x C-b" . bs-show))
-  (leaf executable
-    :config
-    (defun elim:executable-make-buffer-file-executable-if-script-p ()
-      (unless (string-match tramp-file-name-regexp (buffer-file-name))
-        (executable-make-buffer-file-executable-if-script-p)))
-    :hook (after-save-hook . elim:executable-make-buffer-file-executable-if-script-p))
   (leaf find-func
     :config
     ;; C-x F => Find Function
