@@ -443,7 +443,7 @@
               (recentf-save-file . ,(locate-user-emacs-file ".recentf.el")))
     :global-minor-mode t))
 
-(leaf *utilities
+(leaf *editor-tools
   :config
   (leaf dabbrev
     :custom ((dabbrev-abbrev-skip-leading-regexp . "\\$")))
