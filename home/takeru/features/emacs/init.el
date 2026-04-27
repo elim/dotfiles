@@ -441,7 +441,6 @@
 
 (leaf *environments
   :custom `((gc-cons-threshold . ,(* 128 1024 1024))
-            (use-dialog-box . nil)
             (user-mail-address . "takeru.naito@gmail.com")
             (user-full-name . "Takeru Naito"))
   :config
@@ -459,6 +458,7 @@
            (select-active-regions . nil)
            (show-trailing-whitespace . nil)
            (truncate-lines . nil)
+           (use-dialog-box . nil)
            (visible-bell . t))
   :config
   (put 'dired-find-alternate-file 'disabled nil)
