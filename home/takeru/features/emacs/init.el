@@ -613,10 +613,10 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
            (select-active-regions . nil)
            (show-trailing-whitespace . nil)
            (truncate-lines . nil)
+           (use-short-answers . t)
            (use-dialog-box . nil)
            (visible-bell . t))
   :config
-  (defalias 'yes-or-no-p 'y-or-n-p)
   (put 'narrow-to-region 'disabled nil)
   (put 'set-goal-column 'disabled nil)
   (set-default 'cursor-in-non-selected-windows nil)
