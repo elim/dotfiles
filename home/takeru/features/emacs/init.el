@@ -489,6 +489,49 @@
    'kill-buffer-query-functions
    'server-kill-buffer-query-function))
 
+(leaf google-translate
+  :defun google-translate-translate
+  :bind (("C-c t" . google-translate-enja-or-jaen))
+  :custom (google-translate-backend-method . 'curl)
+  :url http://emacs.rubikitch.com/google-translate/
+  :config
+  (defvar google-translate-english-chars "[:ascii:]"
+    "If the target string consists of that pattern, it is assumed to be English.")
+  (defun google-translate-enja-or-jaen (&optional initial-text)
+    "Translate the region, sentence, or a given text between English and Japanese.
+
+Replaces newlines with spaces to treat the text as a single sentence.
+When called with a prefix argument (C-u), prompt for input in the minibuffer."
+    (interactive
+     ;; Define the interactive behavior in a list form for clarity.
+     (list (cond ((use-region-p)
+                  ;; If a region is active, use its content as the argument.
+                  (buffer-substring-no-properties (region-beginning) (region-end)))
+                 (current-prefix-arg
+                  ;; If a prefix arg is supplied (C-u), prompt for the string to translate.
+                  (read-string "Google Translate (en/ja): ")))))
+
+    ;; Use let* to bind variables sequentially, making the data flow clear.
+    (let* (
+           ;; 1. Determine the target text to translate.
+           (target-text
+            (or initial-text ; Use the text from the interactive call if available.
+                ;; Otherwise, get the sentence at the current point.
+                (save-excursion
+                  (thing-at-point 'sentence))))
+
+           ;; 2. Pre-process the text (replace newlines with spaces).
+           (processed-text (replace-regexp-in-string "\n" " " target-text))
+
+           ;; 3. Detect the source language.
+           (english-p (string-match-p "\\`[[:ascii:]]+\\'" processed-text))
+           (source-lang (if english-p "en" "ja"))
+           (target-lang (if english-p "ja" "en")))
+
+      ;; 4. Execute the translation.
+      (deactivate-mark) ; Deactivate the mark before displaying the translation.
+      (google-translate-translate source-lang target-lang processed-text))))
+
 ;;; Persistence and editor tools
 
 (leaf *persistence
@@ -709,48 +752,6 @@
   (leaf flyspell
     :custom ((ispell-dictionary . "american")
              (flyspell-use-meta-tab . nil)))
-  (leaf google-translate
-    :defun google-translate-translate
-    :bind (("C-c t" . google-translate-enja-or-jaen))
-    :custom (google-translate-backend-method . 'curl)
-    :url http://emacs.rubikitch.com/google-translate/
-    :config
-    (defvar google-translate-english-chars "[:ascii:]"
-      "If the target string consists of that pattern, it is assumed to be English.")
-    (defun google-translate-enja-or-jaen (&optional initial-text)
-      "Translate the region, sentence, or a given text between English and Japanese.
-
-Replaces newlines with spaces to treat the text as a single sentence.
-When called with a prefix argument (C-u), prompt for input in the minibuffer."
-      (interactive
-       ;; Define the interactive behavior in a list form for clarity.
-       (list (cond ((use-region-p)
-                    ;; If a region is active, use its content as the argument.
-                    (buffer-substring-no-properties (region-beginning) (region-end)))
-                   (current-prefix-arg
-                    ;; If a prefix arg is supplied (C-u), prompt for the string to translate.
-                    (read-string "Google Translate (en/ja): ")))))
-
-      ;; Use let* to bind variables sequentially, making the data flow clear.
-      (let* (
-             ;; 1. Determine the target text to translate.
-             (target-text
-              (or initial-text ; Use the text from the interactive call if available.
-                  ;; Otherwise, get the sentence at the current point.
-                  (save-excursion
-                    (thing-at-point 'sentence))))
-
-             ;; 2. Pre-process the text (replace newlines with spaces).
-             (processed-text (replace-regexp-in-string "\n" " " target-text))
-
-             ;; 3. Detect the source language.
-             (english-p (string-match-p "\\`[[:ascii:]]+\\'" processed-text))
-             (source-lang (if english-p "en" "ja"))
-             (target-lang (if english-p "ja" "en")))
-
-        ;; 4. Execute the translation.
-        (deactivate-mark) ; Deactivate the mark before displaying the translation.
-        (google-translate-translate source-lang target-lang processed-text))))
   (leaf help
     :config (temp-buffer-resize-mode t))
   (leaf hideshow
