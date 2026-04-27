@@ -161,39 +161,6 @@
           'elim:auto-delete-trailing-whitespace-enable-p) nil))
   :blackout auto-revert-mode)
 
-;;; Programming languages
-
-;; Lua development environment
-(leaf lua-ts-mode
-  :mode (("\\.lua\\'" . lua-ts-mode))
-  :custom ((lua-ts-mode-indent-offset . 2)))
-
-;; TypeScript and JavaScript development environment
-(leaf *typescript-javascript
-  :doc "Modern TypeScript/JavaScript development with tree-sitter and LSP"
-  :config
-
-  ;; Tree-sitter based modes
-  (leaf typescript-ts-mode
-    :mode (("\\.ts\\'" . typescript-ts-mode)
-           ("\\.tsx\\'" . tsx-ts-mode)
-           ("\\.js\\'" . js-ts-mode)
-           ("\\.jsx\\'" . jsx-ts-mode))
-    :custom ((typescript-ts-mode-indent-offset . 2)
-             (js-ts-mode-indent-offset . 2))
-    :hook ((typescript-ts-mode-hook tsx-ts-mode-hook js-ts-mode-hook) . eglot-ensure))
-
-  ;; Node.js project integration
-  (leaf add-node-modules-path
-    :doc "npm bin is removed in npm v9"
-    :url "https://github.com/codesuki/add-node-modules-path/issues/23"
-    :custom (add-node-modules-path-command . '("echo \"$(npm root)/.bin\""))
-    :hook ((typescript-ts-mode-hook js-ts-mode-hook) . add-node-modules-path)))
-
-;;; Ruby support
-
-;;; Markup and documentation
-
 ;;; Platform / Frame / Appearance
 
 (leaf frame
@@ -858,6 +825,9 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
       (defun elim:go-mode-hook-func ()
         (set (make-local-variable 'tab-width) 4))
       :hook (go-mode-hook . elim:go-mode-hook-func))
+    (leaf lua-ts-mode
+      :mode (("\\.lua\\'" . lua-ts-mode))
+      :custom ((lua-ts-mode-indent-offset . 2)))
     (leaf js
       :custom ((js-indent-level . 2)))
     (leaf json-mode)
@@ -885,6 +855,22 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
       :custom ((sh-basic-offset . 2)
                (sh-indentation . 2)))
     (leaf terraform-mode)
+    (leaf *typescript-javascript
+      :doc "Modern TypeScript/JavaScript development with tree-sitter and LSP"
+      :config
+      (leaf typescript-ts-mode
+        :mode (("\\.ts\\'" . typescript-ts-mode)
+               ("\\.tsx\\'" . tsx-ts-mode)
+               ("\\.js\\'" . js-ts-mode)
+               ("\\.jsx\\'" . jsx-ts-mode))
+        :custom ((typescript-ts-mode-indent-offset . 2)
+                 (js-ts-mode-indent-offset . 2))
+        :hook ((typescript-ts-mode-hook tsx-ts-mode-hook js-ts-mode-hook) . eglot-ensure))
+      (leaf add-node-modules-path
+        :doc "npm bin is removed in npm v9"
+        :url "https://github.com/codesuki/add-node-modules-path/issues/23"
+        :custom (add-node-modules-path-command . '("echo \"$(npm root)/.bin\""))
+        :hook ((typescript-ts-mode-hook js-ts-mode-hook) . add-node-modules-path)))
     (leaf tsx-ts-mode :mode "\\.tsx\\'")
     (leaf yaml-mode))
   (leaf *writing-and-markup
