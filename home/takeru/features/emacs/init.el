@@ -460,7 +460,9 @@
       (defvar sort-fold-case)
       (let ((sort-fold-case t))
         (call-interactively 'sort-lines)))
-    (defalias 'sort-lines-nocase #'elim:sort-lines-nocase)))
+    (defalias 'sort-lines-nocase #'elim:sort-lines-nocase))
+  (leaf wgrep
+    :custom ((wgrep-auto-save-buffer . t))))
 
 (leaf *identity
   :custom `((user-mail-address . "takeru.naito@gmail.com")
@@ -517,8 +519,6 @@
     :custom ((uniquify-buffer-name-style . 'post-forward-angle-brackets)
              (uniquify-ignore-buffers-re . "*[^*]+*")
              (uniquify-min-dir-content   . 1)))
-  (leaf wgrep
-    :custom ((wgrep-auto-save-buffer . t)))
   (leaf which-key
     :hook (after-init-hook . which-key-mode))
   (leaf *window-navigation
