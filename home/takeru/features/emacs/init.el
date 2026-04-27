@@ -302,11 +302,13 @@
          ("C-h"      . delete-char)
          ("C-m"      . newline-and-indent))
   :custom ((delete-by-moving-to-trash . t)
-           (kill-ring-max . 8192))
+           (kill-ring-max . 8192)
+           (require-final-newline . t))
   :config
   (keyboard-translate ?\C-h ?\C-?)
   (put 'list-timers 'disabled nil)
   (put 'scroll-left 'disabled nil)
+  (set-default 'indent-tabs-mode nil)
   :hook (before-save-hook . elim:auto-delete-trailing-whitespace))
 
 (leaf simple
@@ -452,7 +454,6 @@
            (mouse-drag-copy-region . t)
            (read-buffer-completion-ignore-case . t)
            (read-file-name-completion-ignore-case .  t)
-           (require-final-newline . t)
            (ring-bell-function . 'ignore)
            (scroll-conservatively . 1)
            (select-active-regions . nil)
@@ -463,7 +464,6 @@
   (put 'dired-find-alternate-file 'disabled nil)
   (put 'narrow-to-region 'disabled nil)
   (put 'set-goal-column 'disabled nil)
-  (set-default 'indent-tabs-mode nil)
   (set-default 'cursor-in-non-selected-windows nil)
   (leaf buffer-move
     :bind (("M-g h" . buf-move-left)
