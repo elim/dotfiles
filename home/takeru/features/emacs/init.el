@@ -393,11 +393,10 @@
          (delete-trailing-whitespace)))
   :config
   (leaf executable
-    :config
-    (defun elim:executable-make-buffer-file-executable-if-script-p ()
-      (unless (string-match tramp-file-name-regexp (buffer-file-name))
-        (executable-make-buffer-file-executable-if-script-p)))
-    :hook (after-save-hook . elim:executable-make-buffer-file-executable-if-script-p))
+    :hook ((after-save-hook
+            . (lambda ()
+                (unless (string-match tramp-file-name-regexp (buffer-file-name))
+                  (executable-make-buffer-file-executable-if-script-p))))))
   :hook (before-save-hook . elim:auto-delete-trailing-whitespace))
 
 ;;; System integration
@@ -456,17 +455,16 @@
   :require t
   :defun server-edit server-edit-abort server-running-p
   :defvar server-buffer-clients
-  :preface
-  (defun elim:server-setup-edit-keys ()
-    "Install convenient local bindings for server edit buffers."
-    (when server-buffer-clients
-      (let ((map (make-sparse-keymap)))
-        (define-key map (kbd "C-c C-c") #'server-edit)
-        (define-key map (kbd "C-c C-k") #'server-edit-abort)
-        (push (cons t map) minor-mode-overriding-map-alist))))
   :custom (server-window . 'pop-to-buffer)
   :hook ((server-done-hook  . elim:save-buffer-to-kill-ring)
-         (server-visit-hook . elim:server-setup-edit-keys))
+         (server-visit-hook
+          . (lambda ()
+              "Install convenient local bindings for server edit buffers."
+              (when server-buffer-clients
+                (let ((map (make-sparse-keymap)))
+                  (define-key map (kbd "C-c C-c") #'server-edit)
+                  (define-key map (kbd "C-c C-k") #'server-edit-abort)
+                  (push (cons t map) minor-mode-overriding-map-alist))))))
   :config
   (unless (server-running-p) (server-start))
   (remove-hook
