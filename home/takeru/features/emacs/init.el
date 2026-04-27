@@ -439,17 +439,6 @@
     :custom `(auth-sources . '(,(locate-user-emacs-file ".authinfo.plist"))))
   (leaf dabbrev
     :custom ((dabbrev-abbrev-skip-leading-regexp . "\\$")))
-  (leaf find-func
-    :config
-    ;; C-x F => Find Function
-    ;; C-x V => Find Variable
-    ;; C-x K => Find Function on Key
-    (find-function-setup-keys))
-  (leaf help-fns
-    :bind (("H-b" . describe-binding)
-           ("H-f" . describe-function)
-           ("H-k" . describe-key)
-           ("H-v" . describe-variable)))
   (leaf open-junk-file
     :bind (("C-x C-z" . open-junk-file))
     :custom ((open-junk-file-format . "~/.junk/%Y/%m/%d-%H%M%S.")
@@ -494,6 +483,17 @@
       (unless (string-match tramp-file-name-regexp (buffer-file-name))
         (executable-make-buffer-file-executable-if-script-p)))
     :hook (after-save-hook . elim:executable-make-buffer-file-executable-if-script-p))
+  (leaf find-func
+    :config
+    ;; C-x F => Find Function
+    ;; C-x V => Find Variable
+    ;; C-x K => Find Function on Key
+    (find-function-setup-keys))
+  (leaf help-fns
+    :bind (("H-b" . describe-binding)
+           ("H-f" . describe-function)
+           ("H-k" . describe-key)
+           ("H-v" . describe-variable)))
   (leaf mouse
     :bind (("C-<down-mouse-1>" . nil)
            ("C-<drag-mouse-1>" . nil)
