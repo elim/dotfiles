@@ -20,7 +20,8 @@
 ;;; Navigation / Completion
 
 (leaf *completion
-  :custom ((read-buffer-completion-ignore-case . t)
+  :custom ((enable-recursive-minibuffers . t)
+           (read-buffer-completion-ignore-case . t)
            (read-file-name-completion-ignore-case .  t))
   :url https://blog.tomoya.dev/posts/a-new-wave-has-arrived-at-emacs
   :url https://emacs-jp.slack.com/archives/C1B5WTJLQ/p1623851956426000
@@ -439,8 +440,7 @@
     (defalias 'sort-lines-nocase #'elim:sort-lines-nocase)))
 
 (leaf *environments
-  :custom `((enable-recursive-minibuffers . t)
-            (gc-cons-threshold . ,(* 128 1024 1024))
+  :custom `((gc-cons-threshold . ,(* 128 1024 1024))
             (use-dialog-box . nil)
             (user-mail-address . "takeru.naito@gmail.com")
             (user-full-name . "Takeru Naito"))
