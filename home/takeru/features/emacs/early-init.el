@@ -3,13 +3,13 @@
 
 ;;; Code:
 
-(set-variable 'ns-use-native-fullscreen nil)
-(set-variable 'x-super-keysym 'meta)
-(set-variable 'gc-cons-threshold (* 128 1024 1024))
-(set-variable 'load-prefer-newer t)
-(set-variable 'custom-file (locate-user-emacs-file ".custom.el"))
+(setq ns-use-native-fullscreen nil
+      x-super-keysym 'meta
+      gc-cons-threshold (* 128 1024 1024)
+      load-prefer-newer t
+      custom-file (locate-user-emacs-file ".custom.el"))
 ;; Keep native-comp warnings quiet during startup and async compilation.
-(set-variable 'native-comp-async-report-warnings-errors 'silent)
+(setq native-comp-async-report-warnings-errors 'silent)
 
 (push '(menu-bar-lines . 0) default-frame-alist)
 (push '(tool-bar-lines . 0) default-frame-alist)

@@ -2,8 +2,8 @@
 ;;; Commentary:
 ;;; Code:
 
-(set-variable 'debug-on-error t)
-(set-variable 'init-file-debug t)
+(setq debug-on-error t
+      init-file-debug t)
 
 ;; NOTE: This file is being reorganized around responsibilities first,
 ;; while still using `leaf` as the package-level building block.
@@ -216,7 +216,7 @@
   :config
   (cond
    ((eq window-system 'ns)
-    (set-variable 'ns-antialias-text t)
+    (setq ns-antialias-text t)
     (elim:set-text-height 180))
    ((or (eq window-system 'x)
         (eq window-system 'pgtk))
@@ -387,11 +387,9 @@
 (leaf *editing-save-hooks
   :preface
   (defvar elim:auto-delete-trailing-whitespace-enable-p t)
-  (defun elim:editorconfig-mode-enabled-p ()
-    (assoc 'editorconfig-mode minor-mode-alist))
   (defun elim:auto-delete-trailing-whitespace ()
     (and elim:auto-delete-trailing-whitespace-enable-p
-         (not (elim:editorconfig-mode-enabled-p))
+         (not (bound-and-true-p editorconfig-mode))
          (delete-trailing-whitespace)))
   :config
   (leaf executable
@@ -731,7 +729,7 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
            (eldoc-minor-mode-string . ""))
   :hook ((emacs-lisp-mode
           lisp-interaction-mode
-          ielm-mode-hook) . turn-on-eldoc-mode))
+          ielm-mode-hook) . eldoc-mode))
 
 ;; Flycheck
 
