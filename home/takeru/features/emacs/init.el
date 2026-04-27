@@ -480,11 +480,6 @@
   (put 'narrow-to-region 'disabled nil)
   (put 'set-goal-column 'disabled nil)
   (set-default 'cursor-in-non-selected-windows nil)
-  (leaf buffer-move
-    :bind (("M-g h" . buf-move-left)
-           ("M-g j" . buf-move-down)
-           ("M-g k" . buf-move-up)
-           ("M-g l" . buf-move-right)))
   (leaf executable
     :config
     (defun elim:executable-make-buffer-file-executable-if-script-p ()
@@ -506,37 +501,10 @@
     :config
     (push '("*Google Translate*") popwin:special-display-config)
     :global-minor-mode t)
-  (leaf rotate)
   (leaf select
     :custom ((select-enable-primary . nil)
              (select-enable-clipboard . t)
              (selection-coding-system . 'utf-8)))
-  (leaf *window-commands
-    :bind (("C-x |" . split-window-right)
-           ("C-x -" . split-window-below)))
-  (leaf tab-bar
-    :doc "frame-local tabs with named persistent window configurations"
-    :tag "builtin"
-    :added "2022-02-09"
-    :bind-keymap ("C-z" . tab-bar-map)
-    :bind `(("M-{" . tab-previous)
-            ("M-}" . tab-next)
-            (:tab-bar-map
-             ("k" . tab-close)
-             ("c" . tab-new)
-             ("C-k" . tab-close)
-             ("n" . tab-next)
-             ("p" . tab-previous)
-             ("C-SPC" . tab-recent)
-             ,@(mapcar (lambda (i)
-                         (cons (number-to-string i) 'tab-select))
-                       (number-sequence 0 9))))
-    :custom ((tab-bar-new-tab-choice . "*scratch*")
-             (tab-bar-tab-hints . t))
-    :custom-face
-    ((tab-bar-tab .          '((nil (:foreground "#112" :background "#ccc"))))
-     (tab-bar-tab-inactive . '((nil (:foreground "#ccc" :background "#112")))))
-    :global-minor-mode t)
   (leaf uniquify
     :custom ((uniquify-buffer-name-style . 'post-forward-angle-brackets)
              (uniquify-ignore-buffers-re . "*[^*]+*")
@@ -545,12 +513,46 @@
     :custom ((wgrep-auto-save-buffer . t)))
   (leaf which-key
     :hook (after-init-hook . which-key-mode))
-  (leaf windmove
-    :custom ((windmove-wrap-around . t))
-    :bind (("C-c C-b" . windmove-left)
-           ("C-c C-n" . windmove-down)
-           ("C-c C-p" . windmove-up)
-           ("C-c C-f" . windmove-right))))
+  (leaf *window-navigation
+    :config
+    (leaf buffer-move
+      :bind (("M-g h" . buf-move-left)
+             ("M-g j" . buf-move-down)
+             ("M-g k" . buf-move-up)
+             ("M-g l" . buf-move-right)))
+    (leaf rotate)
+    (leaf *window-commands
+      :bind (("C-x |" . split-window-right)
+             ("C-x -" . split-window-below)))
+    (leaf tab-bar
+      :doc "frame-local tabs with named persistent window configurations"
+      :tag "builtin"
+      :added "2022-02-09"
+      :bind-keymap ("C-z" . tab-bar-map)
+      :bind `(("M-{" . tab-previous)
+              ("M-}" . tab-next)
+              (:tab-bar-map
+               ("k" . tab-close)
+               ("c" . tab-new)
+               ("C-k" . tab-close)
+               ("n" . tab-next)
+               ("p" . tab-previous)
+               ("C-SPC" . tab-recent)
+               ,@(mapcar (lambda (i)
+                           (cons (number-to-string i) 'tab-select))
+                         (number-sequence 0 9))))
+      :custom ((tab-bar-new-tab-choice . "*scratch*")
+               (tab-bar-tab-hints . t))
+      :custom-face
+      ((tab-bar-tab .          '((nil (:foreground "#112" :background "#ccc"))))
+       (tab-bar-tab-inactive . '((nil (:foreground "#ccc" :background "#112")))))
+      :global-minor-mode t)
+    (leaf windmove
+      :custom ((windmove-wrap-around . t))
+      :bind (("C-c C-b" . windmove-left)
+             ("C-c C-n" . windmove-down)
+             ("C-c C-p" . windmove-up)
+             ("C-c C-f" . windmove-right)))))
 
 (leaf *minor-modes
   :config
