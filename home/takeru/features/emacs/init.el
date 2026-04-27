@@ -365,7 +365,7 @@
     :custom ((ddskk-posframe-mode . t))
     :blackout ddskk-posframe-mode))
 
-;;; Editor enhancements
+;;; Editing basics
 
 (leaf *editing-basics
   :config
