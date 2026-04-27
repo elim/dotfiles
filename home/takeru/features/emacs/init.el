@@ -464,7 +464,7 @@
   :custom `((user-mail-address . "takeru.naito@gmail.com")
             (user-full-name . "Takeru Naito")))
 
-(leaf *interfaces
+(leaf *display-and-interaction
   :custom ((frame-title-format . `(" %b " (buffer-file-name "( %f )")))
            (inhibit-startup-screen . t)
            (mouse-drag-copy-region . t)
