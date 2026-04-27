@@ -438,7 +438,7 @@
         (call-interactively 'sort-lines)))
     (defalias 'sort-lines-nocase #'elim:sort-lines-nocase)))
 
-(leaf *environments
+(leaf *identity
   :custom `((user-mail-address . "takeru.naito@gmail.com")
             (user-full-name . "Takeru Naito")))
 
