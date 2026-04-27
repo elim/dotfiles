@@ -313,6 +313,78 @@
 
 ;;; Input method
 
+(leaf *skk
+  :config
+  (let*
+      ((home (getenv "HOME"))
+       (xdg-config-home (getenv "XDG_CONFIG_HOME"))
+       (skk-nix-directory (expand-file-name ".nix-profile/share/skk/" home))
+       (skk-user-directory (expand-file-name "ddskk" xdg-config-home))
+
+       ;; List of dictionary files to use
+       (skk-dictionary-files
+        '("SKK-JISYO.L.utf8"
+          "SKK-JISYO.itaiji.utf8"
+          "SKK-JISYO.jinmei.utf8"
+          "SKK-JISYO.fullname.utf8"
+          "SKK-JISYO.propernoun.utf8"
+          "SKK-JISYO.geo.utf8"
+          "SKK-JISYO.station.utf8"
+          "SKK-JISYO.okinawa.utf8"
+          "SKK-JISYO.china_taiwan.utf8"
+          "SKK-JISYO.office.zipcode.utf8"
+          "SKK-JISYO.zipcode.utf8"))
+
+       ;; Generate dictionary file list
+       (skk-extra-jisyo-file-list
+        (mapcar (lambda (filename)
+                  (cons (expand-file-name filename skk-nix-directory) 'utf-8))
+                skk-dictionary-files)))
+
+    ;; Main SKK configuration
+    (leaf skk
+      :defun skk-save-jisyo
+      :bind* (("C-x C-j" . skk-mode)
+              ("C-x t" . nil)
+              ("C-x j" . nil))
+
+      :custom
+      ;; Basic settings
+      ((default-input-method . "japanese-skk")
+       (skk-user-directory . skk-user-directory)
+       (skk-jisyo-code . 'utf-8)
+
+       ;; Display and UI settings
+       (skk-japanese-message-and-error . t)
+       (skk-kutouten-type . 'jp)
+       (skk-show-annotation . t)
+
+       ;; Conversion and learning settings
+       (skk-count-private-jisyo-candidates-exactly . t)
+       (skk-share-private-jisyo . t)
+       (skk-henkan-strict-okuri-precedence . t)
+       (skk-check-okurigana-on-touroku . 'auto)
+       (skk-search-sagyo-henkaku . t)
+
+       ;; Search settings
+       (skk-isearch-start-mode . 'latin)
+
+       ;; Dictionary file settings (from Nix)
+       (skk-extra-jisyo-file-list . skk-extra-jisyo-file-list))
+
+      :config
+      ;; Auto-save dictionary settings (6-second interval)
+      (let ((auto-save-interval 6))
+        (run-with-idle-timer auto-save-interval t
+                             #'(lambda () (skk-save-jisyo +1))))))
+
+  ;; SKK posframe configuration (popup display for conversion candidates)
+  (leaf ddskk-posframe
+    :doc "Show Henkan tooltip for ddskk via posframe"
+    :after skk
+    :custom ((ddskk-posframe-mode . t))
+    :blackout ddskk-posframe-mode))
+
 ;;; Editor enhancements
 
 (leaf *editing-basics
@@ -699,77 +771,6 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
     :tag "builtin"
     :added "2024-08-24"
     :custom ((global-so-long-mode . t)))
-  (leaf *skk
-    :config
-    (let*
-        ((home (getenv "HOME"))
-         (xdg-config-home (getenv "XDG_CONFIG_HOME"))
-         (skk-nix-directory (expand-file-name ".nix-profile/share/skk/" home))
-         (skk-user-directory (expand-file-name "ddskk" xdg-config-home))
-
-         ;; List of dictionary files to use
-         (skk-dictionary-files
-          '("SKK-JISYO.L.utf8"
-            "SKK-JISYO.itaiji.utf8"
-            "SKK-JISYO.jinmei.utf8"
-            "SKK-JISYO.fullname.utf8"
-            "SKK-JISYO.propernoun.utf8"
-            "SKK-JISYO.geo.utf8"
-            "SKK-JISYO.station.utf8"
-            "SKK-JISYO.okinawa.utf8"
-            "SKK-JISYO.china_taiwan.utf8"
-            "SKK-JISYO.office.zipcode.utf8"
-            "SKK-JISYO.zipcode.utf8"))
-
-         ;; Generate dictionary file list
-         (skk-extra-jisyo-file-list
-          (mapcar (lambda (filename)
-                    (cons (expand-file-name filename skk-nix-directory) 'utf-8))
-                  skk-dictionary-files)))
-
-      ;; Main SKK configuration
-      (leaf skk
-        :defun skk-save-jisyo
-        :bind* (("C-x C-j" . skk-mode)
-                ("C-x t" . nil)
-                ("C-x j" . nil))
-
-        :custom
-        ;; Basic settings
-        ((default-input-method . "japanese-skk")
-         (skk-user-directory . skk-user-directory)
-         (skk-jisyo-code . 'utf-8)
-
-         ;; Display and UI settings
-         (skk-japanese-message-and-error . t)
-         (skk-kutouten-type . 'jp)
-         (skk-show-annotation . t)
-
-         ;; Conversion and learning settings
-         (skk-count-private-jisyo-candidates-exactly . t)
-         (skk-share-private-jisyo . t)
-         (skk-henkan-strict-okuri-precedence . t)
-         (skk-check-okurigana-on-touroku . 'auto)
-         (skk-search-sagyo-henkaku . t)
-
-         ;; Search settings
-         (skk-isearch-start-mode . 'latin)
-
-         ;; Dictionary file settings (from Nix)
-         (skk-extra-jisyo-file-list . skk-extra-jisyo-file-list))
-
-        :config
-        ;; Auto-save dictionary settings (6-second interval)
-        (let ((auto-save-interval 6))
-          (run-with-idle-timer auto-save-interval t
-                               #'(lambda () (skk-save-jisyo +1))))))
-
-    ;; SKK posframe configuration (popup display for conversion candidates)
-    (leaf ddskk-posframe
-      :doc "Show Henkan tooltip for ddskk via posframe"
-      :after skk
-      :custom ((ddskk-posframe-mode . t))
-      :blackout ddskk-posframe-mode))
   (leaf topsy
     :doc "Simple sticky header"
     :req "emacs-26.3"
