@@ -513,7 +513,14 @@
                . ,(run-with-idle-timer 30 t #'recentf-save-list))
               (recentf-max-saved-items . 512)
               (recentf-save-file . ,(locate-user-emacs-file ".recentf.el")))
-    :global-minor-mode t))
+    :global-minor-mode t)
+  (leaf persistent-scratch
+    :defun persistent-scratch-setup-default
+    :custom `(persistent-scratch-save-file . ,(locate-user-emacs-file ".scratch.el"))
+    :config
+    (with-current-buffer "*scratch*"
+      (emacs-lock-mode 'kill))
+    (persistent-scratch-setup-default)))
 
 (leaf *editor-tools
   :config
@@ -752,13 +759,6 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
             ("C-c C-M-c" . hs-toggle-hiding)
             ("C-c h"     . hs-toggle-hiding)
             ("C-c l"     . hs-hide-level))))
-  (leaf persistent-scratch
-    :defun persistent-scratch-setup-default
-    :custom `(persistent-scratch-save-file . ,(locate-user-emacs-file ".scratch.el"))
-    :config
-    (with-current-buffer "*scratch*"
-      (emacs-lock-mode 'kill))
-    (persistent-scratch-setup-default))
   (leaf projectile
     :bind (("M-t" . projectile-command-map))
     :global-minor-mode t
