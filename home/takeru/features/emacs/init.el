@@ -411,6 +411,29 @@
 
 ;;; Persistence and utilities
 
+(leaf *persistence
+  :config
+  (leaf desktop
+    :defvar desktop-globals-to-save
+    :custom `((desktop-base-file-name      . ,(locate-user-emacs-file ".desktop.el"))
+              (desktop-base-lock-name      . ,(locate-user-emacs-file ".desktop.lock"))
+              (desktop-load-locked-desktop . 'check-pid)
+              (desktop-restore-eager       . 0)
+              (desktop-restore-frames      . nil)
+              (desktop-save-mode           . +1))
+    :config
+    (add-to-list 'desktop-globals-to-save 'extended-command-history)
+    (add-to-list 'desktop-globals-to-save 'kill-ring)
+    (add-to-list 'desktop-globals-to-save 'log-edit-comment-ring)
+    (add-to-list 'desktop-globals-to-save 'read-expression-history))
+  (leaf recentf
+    :defvar recentf-auto-save-timer
+    :custom `((recentf-auto-save-timer
+               . ,(run-with-idle-timer 30 t #'recentf-save-list))
+              (recentf-max-saved-items . 512)
+              (recentf-save-file . ,(locate-user-emacs-file ".recentf.el")))
+    :global-minor-mode t))
+
 (leaf *utilities
   :config
   (leaf auth-source
@@ -441,29 +464,7 @@
       (defvar sort-fold-case)
       (let ((sort-fold-case t))
         (call-interactively 'sort-lines)))
-    (defalias 'sort-lines-nocase #'elim:sort-lines-nocase))
-  (leaf *persistence
-    :config
-    (leaf desktop
-      :defvar desktop-globals-to-save
-      :custom `((desktop-base-file-name      . ,(locate-user-emacs-file ".desktop.el"))
-                (desktop-base-lock-name      . ,(locate-user-emacs-file ".desktop.lock"))
-                (desktop-load-locked-desktop . 'check-pid)
-                (desktop-restore-eager       . 0)
-                (desktop-restore-frames      . nil)
-                (desktop-save-mode           . +1))
-      :config
-      (add-to-list 'desktop-globals-to-save 'extended-command-history)
-      (add-to-list 'desktop-globals-to-save 'kill-ring)
-      (add-to-list 'desktop-globals-to-save 'log-edit-comment-ring)
-      (add-to-list 'desktop-globals-to-save 'read-expression-history))
-    (leaf recentf
-      :defvar recentf-auto-save-timer
-      :custom `((recentf-auto-save-timer
-                 . ,(run-with-idle-timer 30 t #'recentf-save-list))
-                (recentf-max-saved-items . 512)
-                (recentf-save-file . ,(locate-user-emacs-file ".recentf.el")))
-      :global-minor-mode t)))
+    (defalias 'sort-lines-nocase #'elim:sort-lines-nocase)))
 
 (leaf *identity
   :custom `((user-mail-address . "takeru.naito@gmail.com")
