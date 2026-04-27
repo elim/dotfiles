@@ -20,6 +20,8 @@
 ;;; Navigation / Completion
 
 (leaf *completion
+  :custom ((read-buffer-completion-ignore-case . t)
+           (read-file-name-completion-ignore-case .  t))
   :url https://blog.tomoya.dev/posts/a-new-wave-has-arrived-at-emacs
   :url https://emacs-jp.slack.com/archives/C1B5WTJLQ/p1623851956426000
   :url https://github.com/uwabami/emacs
@@ -451,8 +453,6 @@
   :custom ((frame-title-format . `(" %b " (buffer-file-name "( %f )")))
            (inhibit-startup-screen . t)
            (mouse-drag-copy-region . t)
-           (read-buffer-completion-ignore-case . t)
-           (read-file-name-completion-ignore-case .  t)
            (ring-bell-function . 'ignore)
            (scroll-conservatively . 1)
            (select-active-regions . nil)
