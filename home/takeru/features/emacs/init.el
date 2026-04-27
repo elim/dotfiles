@@ -619,6 +619,8 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
            ("H-f" . describe-function)
            ("H-k" . describe-key)
            ("H-v" . describe-variable)))
+  (leaf help
+    :config (temp-buffer-resize-mode t))
   (leaf mouse
     :bind (("C-<down-mouse-1>" . nil)
            ("C-<drag-mouse-1>" . nil)
@@ -752,8 +754,6 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
   (leaf flyspell
     :custom ((ispell-dictionary . "american")
              (flyspell-use-meta-tab . nil)))
-  (leaf help
-    :config (temp-buffer-resize-mode t))
   (leaf hideshow
     :bind ((:hs-minor-mode-map
             ("C-c C-M-c" . hs-toggle-hiding)
