@@ -5,9 +5,8 @@
 (set-variable 'debug-on-error t)
 (set-variable 'init-file-debug t)
 
-;; NOTE: I'm restructuring this file to match the new package groups
-;; in my Nix setup. These headings are the first step. The plan is to
-;; move everything under them, assuming I don't get a better idea tomorrow!
+;; NOTE: This file is being reorganized around responsibilities first,
+;; while still using `leaf` as the package-level building block.
 
 ;;; Core framework packages
 
