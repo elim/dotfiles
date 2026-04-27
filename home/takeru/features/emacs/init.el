@@ -455,7 +455,8 @@
 
 (leaf server
   :require t
-  :defun server-running-p
+  :defun server-edit server-edit-abort server-running-p
+  :defvar server-buffer-clients
   :preface
   (defun elim:server-setup-edit-keys ()
     "Install convenient local bindings for server edit buffers."

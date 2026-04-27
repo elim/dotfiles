@@ -1,7 +1,10 @@
-;;; early-init.el --- undoc
+;;; early-init.el --- undoc -*- lexical-binding: t; -*-
 ;;; Commentary:
 
 ;;; Code:
+
+(defvar x-super-keysym)
+(defvar native-comp-async-report-warnings-errors)
 
 (setopt gc-cons-threshold (* 128 1024 1024)
         ns-use-native-fullscreen nil)
