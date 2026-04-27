@@ -444,11 +444,7 @@
   (defalias 'yes-or-no-p 'y-or-n-p)
   (leaf cus-edit
     :doc "Just prevent appending to this file (not load at startup)."
-    :custom `((custom-file . ,(locate-user-emacs-file ".custom.el"))))
-  (leaf simple
-    :bind (("C-x |"    . split-window-right)
-           ("C-x -"    . split-window-below))
-    :config))
+    :custom `((custom-file . ,(locate-user-emacs-file ".custom.el")))))
 
 (leaf *interfaces
   :custom ((frame-title-format . `(" %b " (buffer-file-name "( %f )")))
@@ -518,6 +514,9 @@
     :custom ((select-enable-primary . nil)
              (select-enable-clipboard . t)
              (selection-coding-system . 'utf-8)))
+  (leaf *window-commands
+    :bind (("C-x |" . split-window-right)
+           ("C-x -" . split-window-below)))
   (leaf tab-bar
     :doc "frame-local tabs with named persistent window configurations"
     :tag "builtin"
