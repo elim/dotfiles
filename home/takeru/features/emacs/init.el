@@ -807,7 +807,6 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
         (c-toggle-auto-hungry-state -1)
         (subword-mode 1))
       :hook ((c-mode-common-hook . elim:c-mode-common-hook-func)))
-    (leaf dockerfile-mode)
     (leaf elisp-mode
       :hook (emacs-lisp-mode-hook . elim:emacs-lisp-mode-hook-func)
       :config
@@ -828,15 +827,6 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
       :custom ((lua-ts-mode-indent-offset . 2)))
     (leaf js
       :custom ((js-indent-level . 2)))
-    (leaf json-mode)
-    (leaf nix-mode
-      :doc "Major mode for editing .nix files"
-      :req "emacs-25.1" "magit-section-0" "transient-0.3"
-      :tag "unix" "tools" "languages" "nix" "emacs>=25.1"
-      :url "https://github.com/NixOS/nix-mode"
-      :added "2023-03-28"
-      :emacs>= 25.1
-      :after magit-section)
     (leaf *ruby
       :config
       (leaf rubocop)
@@ -848,11 +838,6 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
                  (ruby-flymake-use-rubocop-if-available . nil)
                  (ruby-insert-encoding-magic-comment . nil)))
       (leaf rspec-mode))
-    (leaf sh-script
-      :mode ("\\.env\\'" "\\.env.sample\\'")
-      :custom ((sh-basic-offset . 2)
-               (sh-indentation . 2)))
-    (leaf terraform-mode)
     (leaf *typescript-javascript
       :doc "Modern TypeScript/JavaScript development with tree-sitter and LSP"
       :config
@@ -869,7 +854,24 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
         :url "https://github.com/codesuki/add-node-modules-path/issues/23"
         :custom (add-node-modules-path-command . '("echo \"$(npm root)/.bin\""))
         :hook ((typescript-ts-mode-hook js-ts-mode-hook) . add-node-modules-path)))
-    (leaf tsx-ts-mode :mode "\\.tsx\\'")
+    (leaf tsx-ts-mode :mode "\\.tsx\\'"))
+  (leaf *configuration-and-data
+    :config
+    (leaf dockerfile-mode)
+    (leaf json-mode)
+    (leaf nix-mode
+      :doc "Major mode for editing .nix files"
+      :req "emacs-25.1" "magit-section-0" "transient-0.3"
+      :tag "unix" "tools" "languages" "nix" "emacs>=25.1"
+      :url "https://github.com/NixOS/nix-mode"
+      :added "2023-03-28"
+      :emacs>= 25.1
+      :after magit-section)
+    (leaf sh-script
+      :mode ("\\.env\\'" "\\.env.sample\\'")
+      :custom ((sh-basic-offset . 2)
+               (sh-indentation . 2)))
+    (leaf terraform-mode)
     (leaf yaml-mode))
   (leaf *writing-and-markup
     :config
