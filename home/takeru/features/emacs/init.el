@@ -649,34 +649,33 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
 (leaf *file-browsing
   :config
   (put 'dired-find-alternate-file 'disabled nil)
-  (leaf *dired
-    :config
-    (leaf dired
-      :bind (:dired-mode-map
-             ("SPC" . elim:dired-toggle-mark)
-             ("r" . dired-toggle-read-only))
-      :custom ((dired-recursive-copies . 'always)
-               (dired-recursive-deletes . 'always))
-      :defun dired-mark dired-unmark
-      :preface
-      ;; Mark with space (like the FD)
-      (defun elim:dired-toggle-mark (arg)
-        "Toggle the current (or next ARG) files."
-        ;; Based on S.Namba Sat Aug 10 12:20:36 1996
-        ;; Modernized for current Emacs
-        (interactive "P")
-        (let ((current-mark (char-after (line-beginning-position))))
-          (if (eq current-mark ?\s)  ; If unmarked (space)
-              (dired-mark arg)       ; Mark it
-            (dired-unmark arg)))))   ; If marked, unmark it
-    (leaf dired-x
-      :custom ((dired-bind-jump . nil)
-               (dired-guess-shell-alist-user
-                . '(("\\.tar\\.gz\\'"  "tar tzvf")
-                    ("\\.taz\\'" "tar ztvf")
-                    ("\\.tar\\.bz2\\'" "tar tjvf")
-                    ("\\.zip\\'" "unzip -l")
-                    ("\\.\\(g\\|\\) z\\'" "zcat")))))))
+  ;; Dired
+  (leaf dired
+    :bind (:dired-mode-map
+           ("SPC" . elim:dired-toggle-mark)
+           ("r" . dired-toggle-read-only))
+    :custom ((dired-recursive-copies . 'always)
+             (dired-recursive-deletes . 'always))
+    :defun dired-mark dired-unmark
+    :preface
+    ;; Mark with space (like the FD)
+    (defun elim:dired-toggle-mark (arg)
+      "Toggle the current (or next ARG) files."
+      ;; Based on S.Namba Sat Aug 10 12:20:36 1996
+      ;; Modernized for current Emacs
+      (interactive "P")
+      (let ((current-mark (char-after (line-beginning-position))))
+        (if (eq current-mark ?\s)  ; If unmarked (space)
+            (dired-mark arg)       ; Mark it
+          (dired-unmark arg)))))   ; If marked, unmark it
+  (leaf dired-x
+    :custom ((dired-bind-jump . nil)
+             (dired-guess-shell-alist-user
+              . '(("\\.tar\\.gz\\'"  "tar tzvf")
+                  ("\\.taz\\'" "tar ztvf")
+                  ("\\.tar\\.bz2\\'" "tar tjvf")
+                  ("\\.zip\\'" "unzip -l")
+                  ("\\.\\(g\\|\\) z\\'" "zcat"))))))
 
 ;; Window navigation
 
@@ -734,14 +733,15 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
           lisp-interaction-mode
           ielm-mode-hook) . turn-on-eldoc-mode))
 
-(leaf *flycheck
-  :config
-  (leaf flycheck
-    :hook (after-init-hook . global-flycheck-mode)
-    :init (add-to-list 'exec-path (expand-file-name "bin" user-emacs-directory)))
-  (leaf flycheck-posframe
-    :after flycheck
-    :hook (flycheck-mode-hook . flycheck-posframe-mode)))
+;; Flycheck
+
+(leaf flycheck
+  :hook (after-init-hook . global-flycheck-mode)
+  :init (add-to-list 'exec-path (expand-file-name "bin" user-emacs-directory)))
+
+(leaf flycheck-posframe
+  :after flycheck
+  :hook (flycheck-mode-hook . flycheck-posframe-mode))
 
 (leaf flyspell
   :custom ((ispell-dictionary . "american")
