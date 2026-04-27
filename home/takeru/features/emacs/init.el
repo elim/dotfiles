@@ -366,41 +366,42 @@
 
 ;;; Editing basics
 
-(leaf *editing-basics
+(leaf *editing-defaults
+  :custom ((delete-by-moving-to-trash . t)
+           (kill-ring-max . 8192)
+           (require-final-newline . t))
   :config
-  (leaf *editing-defaults
-    :custom ((delete-by-moving-to-trash . t)
-             (kill-ring-max . 8192)
-             (require-final-newline . t))
+  (put 'list-timers 'disabled nil)
+  (put 'scroll-left 'disabled nil)
+  (set-default 'indent-tabs-mode nil))
+
+(leaf simple
+  :global-minor-mode line-number-mode transient-mark-mode)
+
+(leaf *editing-input
+  :bind (("<delete>" . delete-char)
+         ("C-h"      . delete-char)
+         ("C-m"      . newline-and-indent))
+  :config
+  (keyboard-translate ?\C-h ?\C-?))
+
+(leaf *editing-save-hooks
+  :preface
+  (defvar elim:auto-delete-trailing-whitespace-enable-p t)
+  (defun elim:editorconfig-mode-enabled-p ()
+    (assoc 'editorconfig-mode minor-mode-alist))
+  (defun elim:auto-delete-trailing-whitespace ()
+    (and elim:auto-delete-trailing-whitespace-enable-p
+         (not (elim:editorconfig-mode-enabled-p))
+         (delete-trailing-whitespace)))
+  :config
+  (leaf executable
     :config
-    (put 'list-timers 'disabled nil)
-    (put 'scroll-left 'disabled nil)
-    (set-default 'indent-tabs-mode nil))
-  (leaf simple
-    :global-minor-mode line-number-mode transient-mark-mode)
-  (leaf *editing-input
-    :bind (("<delete>" . delete-char)
-           ("C-h"      . delete-char)
-           ("C-m"      . newline-and-indent))
-    :config
-    (keyboard-translate ?\C-h ?\C-?))
-  (leaf *editing-save-hooks
-    :preface
-    (defvar elim:auto-delete-trailing-whitespace-enable-p t)
-    (defun elim:editorconfig-mode-enabled-p ()
-      (assoc 'editorconfig-mode minor-mode-alist))
-    (defun elim:auto-delete-trailing-whitespace ()
-      (and elim:auto-delete-trailing-whitespace-enable-p
-           (not (elim:editorconfig-mode-enabled-p))
-           (delete-trailing-whitespace)))
-    :config
-    (leaf executable
-      :config
-      (defun elim:executable-make-buffer-file-executable-if-script-p ()
-        (unless (string-match tramp-file-name-regexp (buffer-file-name))
-          (executable-make-buffer-file-executable-if-script-p)))
-      :hook (after-save-hook . elim:executable-make-buffer-file-executable-if-script-p))
-    :hook (before-save-hook . elim:auto-delete-trailing-whitespace)))
+    (defun elim:executable-make-buffer-file-executable-if-script-p ()
+      (unless (string-match tramp-file-name-regexp (buffer-file-name))
+        (executable-make-buffer-file-executable-if-script-p)))
+    :hook (after-save-hook . elim:executable-make-buffer-file-executable-if-script-p))
+  :hook (before-save-hook . elim:auto-delete-trailing-whitespace))
 
 ;;; System integration
 
@@ -578,217 +579,219 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
 
 ;;; Display and interaction
 
-(leaf *display-and-interaction
+(leaf *discovery
   :config
-  (leaf *discovery
+  (leaf bs
+    :bind ("C-x C-b" . bs-show))
+  (leaf find-func
     :config
-    (leaf bs
-      :bind ("C-x C-b" . bs-show))
-    (leaf find-func
-      :config
-      ;; C-x F => Find Function
-      ;; C-x V => Find Variable
-      ;; C-x K => Find Function on Key
-      (find-function-setup-keys))
-    (leaf help-fns
-      :bind (("H-b" . describe-binding)
-             ("H-f" . describe-function)
-             ("H-k" . describe-key)
-             ("H-v" . describe-variable)))
-    (leaf help
-      :config (temp-buffer-resize-mode t))
-    (leaf which-key
-      :hook (after-init-hook . which-key-mode)))
-  (leaf *display-defaults
-    :custom ((frame-title-format . `(" %b " (buffer-file-name "( %f )")))
-             (inhibit-startup-screen . t)
-             (mouse-drag-copy-region . t)
-             (ring-bell-function . 'ignore)
-             (scroll-conservatively . 1)
-             (select-active-regions . nil)
-             (show-trailing-whitespace . nil)
-             (truncate-lines . nil)
-             (use-dialog-box . nil)
-             (visible-bell . t))
+    ;; C-x F => Find Function
+    ;; C-x V => Find Variable
+    ;; C-x K => Find Function on Key
+    (find-function-setup-keys))
+  (leaf help-fns
+    :bind (("H-b" . describe-binding)
+           ("H-f" . describe-function)
+           ("H-k" . describe-key)
+           ("H-v" . describe-variable)))
+  (leaf help
+    :config (temp-buffer-resize-mode t))
+  (leaf which-key
+    :hook (after-init-hook . which-key-mode)))
+
+(leaf *display-defaults
+  :custom ((frame-title-format . `(" %b " (buffer-file-name "( %f )")))
+           (inhibit-startup-screen . t)
+           (mouse-drag-copy-region . t)
+           (ring-bell-function . 'ignore)
+           (scroll-conservatively . 1)
+           (select-active-regions . nil)
+           (show-trailing-whitespace . nil)
+           (truncate-lines . nil)
+           (use-dialog-box . nil)
+           (visible-bell . t))
+  :config
+  (defalias 'yes-or-no-p 'y-or-n-p)
+  (put 'narrow-to-region 'disabled nil)
+  (put 'set-goal-column 'disabled nil)
+  (set-default 'cursor-in-non-selected-windows nil)
+  (leaf mouse
+    :bind (("C-<down-mouse-1>" . nil)
+           ("C-<drag-mouse-1>" . nil)
+           ("S-<down-mouse-1>" . nil)
+           ("S-<drag-mouse-1>" . nil)))
+  (leaf popwin
+    :defvar popwin:special-display-config
+    :require t
+    :custom ((popwin:popup-window-position . 'bottom)
+             (popwin:popup-window-height . 20))
     :config
-    (defalias 'yes-or-no-p 'y-or-n-p)
-    (put 'narrow-to-region 'disabled nil)
-    (put 'set-goal-column 'disabled nil)
-    (set-default 'cursor-in-non-selected-windows nil)
-    (leaf mouse
-      :bind (("C-<down-mouse-1>" . nil)
-             ("C-<drag-mouse-1>" . nil)
-             ("S-<down-mouse-1>" . nil)
-             ("S-<drag-mouse-1>" . nil)))
-    (leaf popwin
-      :defvar popwin:special-display-config
-      :require t
-      :custom ((popwin:popup-window-position . 'bottom)
-               (popwin:popup-window-height . 20))
-      :config
-      (push '("*Google Translate*") popwin:special-display-config)
-      :global-minor-mode t)
-    (leaf select
-      :custom ((select-enable-primary . nil)
-               (select-enable-clipboard . t)
-               (selection-coding-system . 'utf-8)))
-    (leaf uniquify
-      :custom ((uniquify-buffer-name-style . 'post-forward-angle-brackets)
-               (uniquify-ignore-buffers-re . "*[^*]+*")
-               (uniquify-min-dir-content   . 1))))
-  (leaf *file-browsing
+    (push '("*Google Translate*") popwin:special-display-config)
+    :global-minor-mode t)
+  (leaf select
+    :custom ((select-enable-primary . nil)
+             (select-enable-clipboard . t)
+             (selection-coding-system . 'utf-8)))
+  (leaf uniquify
+    :custom ((uniquify-buffer-name-style . 'post-forward-angle-brackets)
+             (uniquify-ignore-buffers-re . "*[^*]+*")
+             (uniquify-min-dir-content   . 1))))
+
+(leaf *file-browsing
+  :config
+  (put 'dired-find-alternate-file 'disabled nil)
+  (leaf *dired
     :config
-    (put 'dired-find-alternate-file 'disabled nil)
-    (leaf *dired
-      :config
-      (leaf dired
-        :bind (:dired-mode-map
-               ("SPC" . elim:dired-toggle-mark)
-               ("r" . dired-toggle-read-only))
-        :custom ((dired-recursive-copies . 'always)
-                 (dired-recursive-deletes . 'always))
-        :defun dired-mark dired-unmark
-        :preface
-        ;; Mark with space (like the FD)
-        (defun elim:dired-toggle-mark (arg)
-          "Toggle the current (or next ARG) files."
-          ;; Based on S.Namba Sat Aug 10 12:20:36 1996
-          ;; Modernized for current Emacs
-          (interactive "P")
-          (let ((current-mark (char-after (line-beginning-position))))
-            (if (eq current-mark ?\s)  ; If unmarked (space)
-                (dired-mark arg)       ; Mark it
-              (dired-unmark arg)))))   ; If marked, unmark it
-      (leaf dired-x
-        :custom ((dired-bind-jump . nil)
-                 (dired-guess-shell-alist-user
-                  . '(("\\.tar\\.gz\\'"  "tar tzvf")
-                      ("\\.taz\\'" "tar ztvf")
-                      ("\\.tar\\.bz2\\'" "tar tjvf")
-                      ("\\.zip\\'" "unzip -l")
-                      ("\\.\\(g\\|\\) z\\'" "zcat")))))))
-  (leaf *window-navigation
-    :config
-    (leaf buffer-move
-      :bind (("M-g h" . buf-move-left)
-             ("M-g j" . buf-move-down)
-             ("M-g k" . buf-move-up)
-             ("M-g l" . buf-move-right)))
-    (leaf rotate)
-    (leaf *window-commands
-      :bind (("C-x |" . split-window-right)
-             ("C-x -" . split-window-below)))
-    (leaf tab-bar
-      :doc "frame-local tabs with named persistent window configurations"
-      :tag "builtin"
-      :added "2022-02-09"
-      :bind-keymap ("C-z" . tab-bar-map)
-      :bind `(("M-{" . tab-previous)
-              ("M-}" . tab-next)
-              (:tab-bar-map
-               ("k" . tab-close)
-               ("c" . tab-new)
-               ("C-k" . tab-close)
-               ("n" . tab-next)
-               ("p" . tab-previous)
-               ("C-SPC" . tab-recent)
-               ,@(mapcar (lambda (i)
-                           (cons (number-to-string i) 'tab-select))
-                         (number-sequence 0 9))))
-      :custom ((tab-bar-new-tab-choice . "*scratch*")
-               (tab-bar-tab-hints . t))
-      :custom-face
-      ((tab-bar-tab .          '((nil (:foreground "#112" :background "#ccc"))))
-       (tab-bar-tab-inactive . '((nil (:foreground "#ccc" :background "#112")))))
-      :global-minor-mode t)
-    (leaf windmove
-      :custom ((windmove-wrap-around . t))
-      :bind (("C-c C-b" . windmove-left)
-             ("C-c C-n" . windmove-down)
-             ("C-c C-p" . windmove-up)
-             ("C-c C-f" . windmove-right)))))
+    (leaf dired
+      :bind (:dired-mode-map
+             ("SPC" . elim:dired-toggle-mark)
+             ("r" . dired-toggle-read-only))
+      :custom ((dired-recursive-copies . 'always)
+               (dired-recursive-deletes . 'always))
+      :defun dired-mark dired-unmark
+      :preface
+      ;; Mark with space (like the FD)
+      (defun elim:dired-toggle-mark (arg)
+        "Toggle the current (or next ARG) files."
+        ;; Based on S.Namba Sat Aug 10 12:20:36 1996
+        ;; Modernized for current Emacs
+        (interactive "P")
+        (let ((current-mark (char-after (line-beginning-position))))
+          (if (eq current-mark ?\s)  ; If unmarked (space)
+              (dired-mark arg)       ; Mark it
+            (dired-unmark arg)))))   ; If marked, unmark it
+    (leaf dired-x
+      :custom ((dired-bind-jump . nil)
+               (dired-guess-shell-alist-user
+                . '(("\\.tar\\.gz\\'"  "tar tzvf")
+                    ("\\.taz\\'" "tar ztvf")
+                    ("\\.tar\\.bz2\\'" "tar tjvf")
+                    ("\\.zip\\'" "unzip -l")
+                    ("\\.\\(g\\|\\) z\\'" "zcat")))))))
+
+(leaf *window-navigation
+  :config
+  (leaf buffer-move
+    :bind (("M-g h" . buf-move-left)
+           ("M-g j" . buf-move-down)
+           ("M-g k" . buf-move-up)
+           ("M-g l" . buf-move-right)))
+  (leaf rotate)
+  (leaf *window-commands
+    :bind (("C-x |" . split-window-right)
+           ("C-x -" . split-window-below)))
+  (leaf tab-bar
+    :doc "frame-local tabs with named persistent window configurations"
+    :tag "builtin"
+    :added "2022-02-09"
+    :bind-keymap ("C-z" . tab-bar-map)
+    :bind `(("M-{" . tab-previous)
+            ("M-}" . tab-next)
+            (:tab-bar-map
+             ("k" . tab-close)
+             ("c" . tab-new)
+             ("C-k" . tab-close)
+             ("n" . tab-next)
+             ("p" . tab-previous)
+             ("C-SPC" . tab-recent)
+             ,@(mapcar (lambda (i)
+                         (cons (number-to-string i) 'tab-select))
+                       (number-sequence 0 9))))
+    :custom ((tab-bar-new-tab-choice . "*scratch*")
+             (tab-bar-tab-hints . t))
+    :custom-face
+    ((tab-bar-tab .          '((nil (:foreground "#112" :background "#ccc"))))
+     (tab-bar-tab-inactive . '((nil (:foreground "#ccc" :background "#112")))))
+    :global-minor-mode t)
+  (leaf windmove
+    :custom ((windmove-wrap-around . t))
+    :bind (("C-c C-b" . windmove-left)
+           ("C-c C-n" . windmove-down)
+           ("C-c C-p" . windmove-up)
+           ("C-c C-f" . windmove-right))))
 
 ;;; Editor support modes
 
-(leaf *editor-support-modes
+(leaf *diagnostics-and-docs
   :config
-  (leaf *diagnostics-and-docs
+  (leaf eldoc
+    :custom ((eldoc-idle-delay . 0.2)
+             (eldoc-minor-mode-string . ""))
+    :hook ((emacs-lisp-mode
+            lisp-interaction-mode
+            ielm-mode-hook) . turn-on-eldoc-mode))
+  (leaf *flycheck
     :config
-    (leaf eldoc
-      :custom ((eldoc-idle-delay . 0.2)
-               (eldoc-minor-mode-string . ""))
-      :hook ((emacs-lisp-mode
-              lisp-interaction-mode
-              ielm-mode-hook) . turn-on-eldoc-mode))
-    (leaf *flycheck
-      :config
-      (leaf flycheck
-        :hook (after-init-hook . global-flycheck-mode)
-        :init (add-to-list 'exec-path (expand-file-name "bin" user-emacs-directory)))
-      (leaf flycheck-posframe
-        :after flycheck
-        :hook (flycheck-mode-hook . flycheck-posframe-mode)))
-    (leaf flyspell
-      :custom ((ispell-dictionary . "american")
-               (flyspell-use-meta-tab . nil))))
-  (leaf *editing-assist
-    :config
-    (leaf anzu
-      :bind (([remap query-replace]        . anzu-query-replace)
-             ([remap query-replace-regexp] . anzu-query-replace-regexp))
-      :custom ((anzu-mode-lighter . "")
-               (anzu-deactivate-region . t)
-               (anzu-search-threshold . 1000))
-      :global-minor-mode global-anzu-mode)
-    (leaf autorevert
-      :global-minor-mode global-auto-revert-mode)
-    (leaf auto-save-visited-mode
-      :bind ("C-x as" . auto-save-visited-mode)
-      :leaf-defer nil
-      :custom ((auto-save-visited-interval . 0.5))
-      :global-minor-mode t)
-    (leaf editorconfig
-      :global-minor-mode editorconfig-mode
-      :blackout editorconfig-mode)
-    (leaf hideshow
-      :bind ((:hs-minor-mode-map
-              ("C-c C-M-c" . hs-toggle-hiding)
-              ("C-c h"     . hs-toggle-hiding)
-              ("C-c l"     . hs-hide-level))))
-    (leaf so-long
-      :doc "Say farewell to performance problems with minified code."
-      :tag "builtin"
-      :added "2024-08-24"
-      :custom ((global-so-long-mode . t)))
-    (leaf undo-fu-session
-      :global-minor-mode undo-fu-session-global-mode)
-    (leaf vundo
-      :bind (("C-x u" . vundo))))
-  (leaf *project-tools
-    :config
-    (leaf projectile
-      :bind (("M-t" . projectile-command-map))
-      :global-minor-mode t
-      :custom (projectile-enable-caching . t)
-      :blackout projectile-mode))
-  (leaf *visual-assist
-    :config
-    (leaf diff-mode
-      :custom-face
-      ((diff-added         . '((nil (:foreground "white" :background "dark green"))))
-       (diff-removed       . '((nil (:foreground "white" :background "dark red"))))
-       (diff-refine-change . '((nil (:foreground nil     :background nil :weight 'bold :inverse-video t))))))
-    (leaf rainbow-delimiters
-      :doc "Highlight delimiters such as parentheses, brackets or braces according to their depth."
-      :hook (prog-mode-hook . rainbow-delimiters-mode))
-    (leaf topsy
-      :doc "Simple sticky header"
-      :req "emacs-26.3"
-      :tag "convenience" "emacs>=26.3"
-      :url "https://github.com/alphapapa/topsy.el"
-      :added "2022-12-24"
-      :emacs>= 26.3
-      :hook (prog-mode-hook .  topsy-mode))))
+    (leaf flycheck
+      :hook (after-init-hook . global-flycheck-mode)
+      :init (add-to-list 'exec-path (expand-file-name "bin" user-emacs-directory)))
+    (leaf flycheck-posframe
+      :after flycheck
+      :hook (flycheck-mode-hook . flycheck-posframe-mode)))
+  (leaf flyspell
+    :custom ((ispell-dictionary . "american")
+             (flyspell-use-meta-tab . nil))))
+
+(leaf *editing-assist
+  :config
+  (leaf anzu
+    :bind (([remap query-replace]        . anzu-query-replace)
+           ([remap query-replace-regexp] . anzu-query-replace-regexp))
+    :custom ((anzu-mode-lighter . "")
+             (anzu-deactivate-region . t)
+             (anzu-search-threshold . 1000))
+    :global-minor-mode global-anzu-mode)
+  (leaf autorevert
+    :global-minor-mode global-auto-revert-mode)
+  (leaf auto-save-visited-mode
+    :bind ("C-x as" . auto-save-visited-mode)
+    :leaf-defer nil
+    :custom ((auto-save-visited-interval . 0.5))
+    :global-minor-mode t)
+  (leaf editorconfig
+    :global-minor-mode editorconfig-mode
+    :blackout editorconfig-mode)
+  (leaf hideshow
+    :bind ((:hs-minor-mode-map
+            ("C-c C-M-c" . hs-toggle-hiding)
+            ("C-c h"     . hs-toggle-hiding)
+            ("C-c l"     . hs-hide-level))))
+  (leaf so-long
+    :doc "Say farewell to performance problems with minified code."
+    :tag "builtin"
+    :added "2024-08-24"
+    :custom ((global-so-long-mode . t)))
+  (leaf undo-fu-session
+    :global-minor-mode undo-fu-session-global-mode)
+  (leaf vundo
+    :bind (("C-x u" . vundo))))
+
+(leaf *project-tools
+  :config
+  (leaf projectile
+    :bind (("M-t" . projectile-command-map))
+    :global-minor-mode t
+    :custom (projectile-enable-caching . t)
+    :blackout projectile-mode))
+
+(leaf *visual-assist
+  :config
+  (leaf diff-mode
+    :custom-face
+    ((diff-added         . '((nil (:foreground "white" :background "dark green"))))
+     (diff-removed       . '((nil (:foreground "white" :background "dark red"))))
+     (diff-refine-change . '((nil (:foreground nil     :background nil :weight 'bold :inverse-video t))))))
+  (leaf rainbow-delimiters
+    :doc "Highlight delimiters such as parentheses, brackets or braces according to their depth."
+    :hook (prog-mode-hook . rainbow-delimiters-mode))
+  (leaf topsy
+    :doc "Simple sticky header"
+    :req "emacs-26.3"
+    :tag "convenience" "emacs>=26.3"
+    :url "https://github.com/alphapapa/topsy.el"
+    :added "2022-12-24"
+    :emacs>= 26.3
+    :hook (prog-mode-hook .  topsy-mode)))
 
 ;;; Programming languages
 
