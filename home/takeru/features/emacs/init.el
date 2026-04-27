@@ -578,9 +578,8 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
 
 ;;; Identity
 
-(leaf *identity
-  :custom `((user-mail-address . "takeru.naito@gmail.com")
-            (user-full-name . "Takeru Naito")))
+(setopt user-mail-address "takeru.naito@gmail.com"
+        user-full-name "Takeru Naito")
 
 ;;; Display and interaction
 
@@ -646,36 +645,38 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
              (uniquify-ignore-buffers-re . "*[^*]+*")
              (uniquify-min-dir-content   . 1))))
 
-(leaf *file-browsing
+;; File browsing
+
+;; Dired
+(leaf dired
+  :bind (:dired-mode-map
+         ("SPC" . elim:dired-toggle-mark)
+         ("r" . dired-toggle-read-only))
+  :custom ((dired-recursive-copies . 'always)
+           (dired-recursive-deletes . 'always))
+  :defun dired-mark dired-unmark
+  :preface
+  ;; Mark with space (like the FD)
+  (defun elim:dired-toggle-mark (arg)
+    "Toggle the current (or next ARG) files."
+    ;; Based on S.Namba Sat Aug 10 12:20:36 1996
+    ;; Modernized for current Emacs
+    (interactive "P")
+    (let ((current-mark (char-after (line-beginning-position))))
+      (if (eq current-mark ?\s)  ; If unmarked (space)
+          (dired-mark arg)       ; Mark it
+        (dired-unmark arg))))
   :config
-  (put 'dired-find-alternate-file 'disabled nil)
-  ;; Dired
-  (leaf dired
-    :bind (:dired-mode-map
-           ("SPC" . elim:dired-toggle-mark)
-           ("r" . dired-toggle-read-only))
-    :custom ((dired-recursive-copies . 'always)
-             (dired-recursive-deletes . 'always))
-    :defun dired-mark dired-unmark
-    :preface
-    ;; Mark with space (like the FD)
-    (defun elim:dired-toggle-mark (arg)
-      "Toggle the current (or next ARG) files."
-      ;; Based on S.Namba Sat Aug 10 12:20:36 1996
-      ;; Modernized for current Emacs
-      (interactive "P")
-      (let ((current-mark (char-after (line-beginning-position))))
-        (if (eq current-mark ?\s)  ; If unmarked (space)
-            (dired-mark arg)       ; Mark it
-          (dired-unmark arg)))))   ; If marked, unmark it
-  (leaf dired-x
-    :custom ((dired-bind-jump . nil)
-             (dired-guess-shell-alist-user
-              . '(("\\.tar\\.gz\\'"  "tar tzvf")
-                  ("\\.taz\\'" "tar ztvf")
-                  ("\\.tar\\.bz2\\'" "tar tjvf")
-                  ("\\.zip\\'" "unzip -l")
-                  ("\\.\\(g\\|\\) z\\'" "zcat"))))))
+  (put 'dired-find-alternate-file 'disabled nil))
+
+(leaf dired-x
+  :custom ((dired-bind-jump . nil)
+           (dired-guess-shell-alist-user
+            . '(("\\.tar\\.gz\\'"  "tar tzvf")
+                ("\\.taz\\'" "tar ztvf")
+                ("\\.tar\\.bz2\\'" "tar tjvf")
+                ("\\.zip\\'" "unzip -l")
+                ("\\.\\(g\\|\\) z\\'" "zcat")))))
 
 ;; Window navigation
 
@@ -687,7 +688,7 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
 
 (leaf rotate)
 
-(leaf *window-commands
+(leaf window
   :bind (("C-x |" . split-window-right)
          ("C-x -" . split-window-below)))
 
