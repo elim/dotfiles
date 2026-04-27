@@ -807,8 +807,6 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
         (c-toggle-auto-hungry-state -1)
         (subword-mode 1))
       :hook ((c-mode-common-hook . elim:c-mode-common-hook-func)))
-    (leaf css-mode
-      :custom ((css-indent-offset . 2)))
     (leaf dockerfile-mode)
     (leaf elisp-mode
       :hook (emacs-lisp-mode-hook . elim:emacs-lisp-mode-hook-func)
@@ -875,6 +873,8 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
     (leaf yaml-mode))
   (leaf *writing-and-markup
     :config
+    (leaf css-mode
+      :custom ((css-indent-offset . 2)))
     (leaf feature-mode
       :after org org-table)
     (leaf html-ts-mode :mode "\\.html?\\'")
