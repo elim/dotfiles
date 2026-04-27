@@ -61,4 +61,16 @@ local config = {
 -- Apply modular configurations
 appearance.apply_to_config(config)
 
+-- On macOS, Cmd+g sends M-g (Alt+g) to tmux, which converts it to C-g for the agent.
+-- On NixOS, xremap's wezterm.nix already preserves Alt+g (= "Cmd+g" feel) through to tmux.
+if wezterm.target_triple:find("darwin") then
+  config.keys = {
+    {
+      key = "g",
+      mods = "CMD",
+      action = wezterm.action.SendKey { key = "g", mods = "ALT" },
+    },
+  }
+end
+
 return config
