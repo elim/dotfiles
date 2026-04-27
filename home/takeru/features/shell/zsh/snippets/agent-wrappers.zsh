@@ -11,7 +11,7 @@ agent_tmux_guard_bind() {
 
   local key
   local target_pane_id pane_condition
-  local -a blocked_keys=(C-c C-g C-l)
+  local -a blocked_keys=(C-g C-l)
 
   [[ -n "$TMUX" ]] || return 0
 
@@ -24,8 +24,19 @@ agent_tmux_guard_bind() {
   tmux bind -n C-b if-shell -F "$pane_condition" "send-keys Left" "send-keys C-b" 2>/dev/null
   tmux bind -n M-g if-shell -F "$pane_condition" "send-keys C-g" "send-keys M-g" 2>/dev/null
 
+  # C-c acts as a passthrough prefix (Emacs C-c style): shows a prompt and enters a
+  # one-shot key table. C-c C-c = cancel, C-c C-l = clear screen, C-c C-g = open editor.
+  # Outside the agent pane C-c is forwarded normally.
+  tmux bind -n C-c if-shell -F "$pane_condition" \
+    "{ display-message 'C-c — [c]cancel [l]clear [g]editor  Esc=back' ; switch-client -T agent-passthrough-cc }" \
+    "send-keys C-c" 2>/dev/null
+  tmux bind -T agent-passthrough-cc C-c "send-keys C-c" 2>/dev/null
+  tmux bind -T agent-passthrough-cc C-g "send-keys C-g" 2>/dev/null
+  tmux bind -T agent-passthrough-cc C-l "send-keys C-l" 2>/dev/null
+  tmux bind -T agent-passthrough-cc Escape "display-message ''" 2>/dev/null
+
   for key in $blocked_keys; do
-    tmux bind -n "$key" if-shell -F "$pane_condition" "display-message '$key disabled for agent session'" "send-keys $key" 2>/dev/null
+    tmux bind -n "$key" if-shell -F "$pane_condition" "display-message '$key blocked; use C-c $key to pass through'" "send-keys $key" 2>/dev/null
   done
 }
 
@@ -34,11 +45,16 @@ agent_tmux_guard_unbind() {
 
   local key
   local -a guarded_keys=(C-b C-c C-g C-l M-g)
+  local -a passthrough_keys=(C-c C-g C-l Escape)
 
   [[ -n "$TMUX" ]] || return 0
 
   for key in $guarded_keys; do
     tmux unbind -n "$key" 2>/dev/null
+  done
+
+  for key in $passthrough_keys; do
+    tmux unbind -T agent-passthrough-cc "$key" 2>/dev/null
   done
 }
 
