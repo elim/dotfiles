@@ -393,6 +393,9 @@
          UTF8_STRING explicitly."
       (ignore-errors (gui-get-selection 'CLIPBOARD 'UTF8_STRING)))))
 
+(leaf auth-source
+  :custom `(auth-sources . '(,(locate-user-emacs-file ".authinfo.plist"))))
+
 (leaf direnv :global-minor-mode t)
 
 (leaf server
@@ -442,8 +445,6 @@
 
 (leaf *utilities
   :config
-  (leaf auth-source
-    :custom `(auth-sources . '(,(locate-user-emacs-file ".authinfo.plist"))))
   (leaf dabbrev
     :custom ((dabbrev-abbrev-skip-leading-regexp . "\\$")))
   (leaf open-junk-file
