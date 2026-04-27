@@ -2,8 +2,9 @@
 ;;; Commentary:
 ;;; Code:
 
-(setq debug-on-error t
-      init-file-debug t)
+(setopt debug-on-error t)
+
+(setq init-file-debug t)
 
 ;; NOTE: This file is being reorganized around responsibilities first,
 ;; while still using `leaf` as the package-level building block.
@@ -216,7 +217,6 @@
   :config
   (cond
    ((eq window-system 'ns)
-    (setq ns-antialias-text t)
     (elim:set-text-height 180))
    ((or (eq window-system 'x)
         (eq window-system 'pgtk))

@@ -3,9 +3,10 @@
 
 ;;; Code:
 
-(setq ns-use-native-fullscreen nil
-      x-super-keysym 'meta
-      gc-cons-threshold (* 128 1024 1024)
+(setopt gc-cons-threshold (* 128 1024 1024)
+        ns-use-native-fullscreen nil)
+
+(setq x-super-keysym 'meta
       load-prefer-newer t
       custom-file (locate-user-emacs-file ".custom.el"))
 ;; Keep native-comp warnings quiet during startup and async compilation.
