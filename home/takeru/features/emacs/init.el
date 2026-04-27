@@ -298,6 +298,9 @@
     (and elim:auto-delete-trailing-whitespace-enable-p
          (not (elim:editorconfig-mode-enabled-p))
          (delete-trailing-whitespace)))
+  :bind (("<delete>" . delete-char)
+         ("C-h"      . delete-char)
+         ("C-m"      . newline-and-indent))
   :custom ((delete-by-moving-to-trash . t)
            (kill-ring-max . 8192))
   :config
@@ -443,10 +446,7 @@
     :doc "Just prevent appending to this file (not load at startup)."
     :custom `((custom-file . ,(locate-user-emacs-file ".custom.el"))))
   (leaf simple
-    :bind (("<delete>" . delete-char)
-           ("C-h"      . delete-char)
-           ("C-m"      . newline-and-indent)
-           ("C-x |"    . split-window-right)
+    :bind (("C-x |"    . split-window-right)
            ("C-x -"    . split-window-below))
     :config))
 
