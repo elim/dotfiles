@@ -236,6 +236,7 @@
 
 (leaf doom-modeline
   :leaf-defer nil
+  :require t
   :defun doom-modeline-mode
   :custom
   ((doom-modeline-buffer-file-name-style . 'truncate-with-project)
@@ -274,6 +275,7 @@
   :config
   ;; (load-theme 'tango-dark t))
   (leaf doom-themes
+    :require t
     :custom ((doom-themes-enable-italic . t)
              (doom-themes-enable-bold . nil))
     :config
@@ -542,6 +544,7 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
   :global-minor-mode t)
 
 (leaf persistent-scratch
+  :require t
   :defun persistent-scratch-setup-default
   :custom `(persistent-scratch-save-file . ,(locate-user-emacs-file ".scratch.el"))
   :config
