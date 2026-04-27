@@ -356,6 +356,27 @@
          (atomic-chrome-edit-done-hook
           . elim:save-buffer-to-kill-ring)))
 
+(leaf browse-url
+  :bind ("C-x m" . browse-url-at-point))
+
+(leaf dictionary
+  :if (eq system-type 'darwin)
+  :defun elim:dictionary-search
+  :preface
+  (defun elim:dictionary-search (word)
+    (browse-url
+     (concat "dict:///" (url-hexify-string word))))
+  (defun elim:dictionary-word ()
+    (interactive)
+    (elim:dictionary-search
+     (substring-no-properties (thing-at-point 'word))))
+  (defun elim:dictionary-region (beg end)
+    (interactive "r")
+    (elim:dictionary-search
+     (buffer-substring-no-properties beg end)))
+  :bind (("C-x e" . elim:dictionary-word)
+         ("C-x y" . elim:dictionary-region)))
+
 (leaf direnv :global-minor-mode t)
 
 (leaf server
@@ -384,8 +405,6 @@
   :config
   (leaf auth-source
     :custom `(auth-sources . '(,(locate-user-emacs-file ".authinfo.plist"))))
-  (leaf browse-url
-    :bind ("C-x m" . browse-url-at-point))
   (leaf bs
     :bind ("C-x C-b" . bs-show))
   (leaf clipmon
@@ -404,23 +423,6 @@
     ;; C-x V => Find Variable
     ;; C-x K => Find Function on Key
     (find-function-setup-keys))
-  (leaf dictionary
-    :if (eq system-type 'darwin)
-    :defun elim:dictionary-search
-    :preface
-    (defun elim:dictionary-search (word)
-      (browse-url
-       (concat "dict:///" (url-hexify-string word))))
-    (defun elim:dictionary-word ()
-      (interactive)
-      (elim:dictionary-search
-       (substring-no-properties (thing-at-point 'word))))
-    (defun elim:dictionary-region (beg end)
-      (interactive "r")
-      (elim:dictionary-search
-       (buffer-substring-no-properties beg end)))
-    :bind (("C-x e" . elim:dictionary-word)
-           ("C-x y" . elim:dictionary-region)))
   (leaf help-fns
     :bind (("H-b" . describe-binding)
            ("H-f" . describe-function)
