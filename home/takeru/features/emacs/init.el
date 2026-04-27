@@ -290,6 +290,14 @@
 ;;; Editor enhancements
 
 (leaf *editing-basics
+  :preface
+  (defvar elim:auto-delete-trailing-whitespace-enable-p t)
+  (defun elim:editorconfig-mode-enabled-p ()
+    (assoc 'editorconfig-mode minor-mode-alist))
+  (defun elim:auto-delete-trailing-whitespace ()
+    (and elim:auto-delete-trailing-whitespace-enable-p
+         (not (elim:editorconfig-mode-enabled-p))
+         (delete-trailing-whitespace)))
   :custom ((delete-by-moving-to-trash . t)
            (kill-ring-max . 8192))
   :config
@@ -297,7 +305,8 @@
   (line-number-mode)
   (put 'list-timers 'disabled nil)
   (put 'scroll-left 'disabled nil)
-  (transient-mark-mode))
+  (transient-mark-mode)
+  :hook (before-save-hook . elim:auto-delete-trailing-whitespace))
 
 ;;; System integration
 
@@ -433,22 +442,12 @@
     :doc "Just prevent appending to this file (not load at startup)."
     :custom `((custom-file . ,(locate-user-emacs-file ".custom.el"))))
   (leaf simple
-    :defun elim:editorconfig-mode-enabled-p
-    :preface
-    (defvar elim:auto-delete-trailing-whitespace-enable-p t)
-    (defun elim:editorconfig-mode-enabled-p ()
-      (assoc 'editorconfig-mode minor-mode-alist))
-    (defun elim:auto-delete-trailing-whitespace ()
-      (and elim:auto-delete-trailing-whitespace-enable-p
-           (not (elim:editorconfig-mode-enabled-p))
-           (delete-trailing-whitespace)))
     :bind (("<delete>" . delete-char)
            ("C-h"      . delete-char)
            ("C-m"      . newline-and-indent)
            ("C-x |"    . split-window-right)
            ("C-x -"    . split-window-below))
-    :config
-    :hook (before-save-hook . elim:auto-delete-trailing-whitespace)))
+    :config))
 
 (leaf *interfaces
   :custom ((frame-title-format . `(" %b " (buffer-file-name "( %f )")))
