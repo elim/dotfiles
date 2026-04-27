@@ -417,7 +417,7 @@
    'kill-buffer-query-functions
    'server-kill-buffer-query-function))
 
-;;; Persistence and utilities
+;;; Persistence and editor tools
 
 (leaf *persistence
   :config
