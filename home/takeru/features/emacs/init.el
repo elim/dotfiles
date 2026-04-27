@@ -598,9 +598,13 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
   (leaf wgrep
     :custom ((wgrep-auto-save-buffer . t))))
 
+;;; Identity
+
 (leaf *identity
   :custom `((user-mail-address . "takeru.naito@gmail.com")
             (user-full-name . "Takeru Naito")))
+
+;;; Display and interaction
 
 (leaf *display-and-interaction
   :custom ((frame-title-format . `(" %b " (buffer-file-name "( %f )")))
@@ -726,7 +730,9 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
              ("C-c C-p" . windmove-up)
              ("C-c C-f" . windmove-right)))))
 
-(leaf *minor-modes
+;;; Editor modes
+
+(leaf *editor-modes
   :config
   (leaf anzu
     :bind (([remap query-replace]        . anzu-query-replace)
@@ -798,7 +804,9 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
   (leaf vundo
     :bind (("C-x u" . vundo))))
 
-(leaf *major-modes
+;;; Languages and authoring
+
+(leaf *languages-and-authoring
   :config
   (leaf cc-mode
     :defun c-toggle-auto-hungry-state
