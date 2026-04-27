@@ -584,25 +584,29 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
 
 ;;; Display and interaction
 
-(leaf *discovery
+;; Discovery
+
+(leaf bs
+  :bind ("C-x C-b" . bs-show))
+
+(leaf find-func
   :config
-  (leaf bs
-    :bind ("C-x C-b" . bs-show))
-  (leaf find-func
-    :config
-    ;; C-x F => Find Function
-    ;; C-x V => Find Variable
-    ;; C-x K => Find Function on Key
-    (find-function-setup-keys))
-  (leaf help-fns
-    :bind (("H-b" . describe-binding)
-           ("H-f" . describe-function)
-           ("H-k" . describe-key)
-           ("H-v" . describe-variable)))
-  (leaf help
-    :config (temp-buffer-resize-mode t))
-  (leaf which-key
-    :hook (after-init-hook . which-key-mode)))
+  ;; C-x F => Find Function
+  ;; C-x V => Find Variable
+  ;; C-x K => Find Function on Key
+  (find-function-setup-keys))
+
+(leaf help-fns
+  :bind (("H-b" . describe-binding)
+         ("H-f" . describe-function)
+         ("H-k" . describe-key)
+         ("H-v" . describe-variable)))
+
+(leaf help
+  :config (temp-buffer-resize-mode t))
+
+(leaf which-key
+  :hook (after-init-hook . which-key-mode))
 
 (leaf *display-defaults
   :custom ((frame-title-format . `(" %b " (buffer-file-name "( %f )")))
@@ -674,46 +678,50 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
                     ("\\.zip\\'" "unzip -l")
                     ("\\.\\(g\\|\\) z\\'" "zcat")))))))
 
-(leaf *window-navigation
-  :config
-  (leaf buffer-move
-    :bind (("M-g h" . buf-move-left)
-           ("M-g j" . buf-move-down)
-           ("M-g k" . buf-move-up)
-           ("M-g l" . buf-move-right)))
-  (leaf rotate)
-  (leaf *window-commands
-    :bind (("C-x |" . split-window-right)
-           ("C-x -" . split-window-below)))
-  (leaf tab-bar
-    :doc "frame-local tabs with named persistent window configurations"
-    :tag "builtin"
-    :added "2022-02-09"
-    :bind-keymap ("C-z" . tab-bar-map)
-    :bind `(("M-{" . tab-previous)
-            ("M-}" . tab-next)
-            (:tab-bar-map
-             ("k" . tab-close)
-             ("c" . tab-new)
-             ("C-k" . tab-close)
-             ("n" . tab-next)
-             ("p" . tab-previous)
-             ("C-SPC" . tab-recent)
-             ,@(mapcar (lambda (i)
-                         (cons (number-to-string i) 'tab-select))
-                       (number-sequence 0 9))))
-    :custom ((tab-bar-new-tab-choice . "*scratch*")
-             (tab-bar-tab-hints . t))
-    :custom-face
-    ((tab-bar-tab .          '((nil (:foreground "#112" :background "#ccc"))))
-     (tab-bar-tab-inactive . '((nil (:foreground "#ccc" :background "#112")))))
-    :global-minor-mode t)
-  (leaf windmove
-    :custom ((windmove-wrap-around . t))
-    :bind (("C-c C-b" . windmove-left)
-           ("C-c C-n" . windmove-down)
-           ("C-c C-p" . windmove-up)
-           ("C-c C-f" . windmove-right))))
+;; Window navigation
+
+(leaf buffer-move
+  :bind (("M-g h" . buf-move-left)
+         ("M-g j" . buf-move-down)
+         ("M-g k" . buf-move-up)
+         ("M-g l" . buf-move-right)))
+
+(leaf rotate)
+
+(leaf *window-commands
+  :bind (("C-x |" . split-window-right)
+         ("C-x -" . split-window-below)))
+
+(leaf tab-bar
+  :doc "frame-local tabs with named persistent window configurations"
+  :tag "builtin"
+  :added "2022-02-09"
+  :bind-keymap ("C-z" . tab-bar-map)
+  :bind `(("M-{" . tab-previous)
+          ("M-}" . tab-next)
+          (:tab-bar-map
+           ("k" . tab-close)
+           ("c" . tab-new)
+           ("C-k" . tab-close)
+           ("n" . tab-next)
+           ("p" . tab-previous)
+           ("C-SPC" . tab-recent)
+           ,@(mapcar (lambda (i)
+                       (cons (number-to-string i) 'tab-select))
+                     (number-sequence 0 9))))
+  :custom ((tab-bar-new-tab-choice . "*scratch*")
+           (tab-bar-tab-hints . t))
+  :custom-face
+  ((tab-bar-tab .          '((nil (:foreground "#112" :background "#ccc"))))
+   (tab-bar-tab-inactive . '((nil (:foreground "#ccc" :background "#112")))))
+  :global-minor-mode t)
+
+(leaf windmove
+  :custom ((windmove-wrap-around . t))
+  :bind (("C-c C-b" . windmove-left)
+         ("C-c C-n" . windmove-down)
+         ("C-c C-p" . windmove-up)
+         ("C-c C-f" . windmove-right)))
 
 ;;; Editor support modes
 
