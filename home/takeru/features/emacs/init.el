@@ -858,7 +858,6 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
       (defun elim:go-mode-hook-func ()
         (set (make-local-variable 'tab-width) 4))
       :hook (go-mode-hook . elim:go-mode-hook-func))
-    (leaf html-ts-mode :mode "\\.html?\\'")
     (leaf js
       :custom ((js-indent-level . 2)))
     (leaf json-mode)
@@ -892,6 +891,7 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
     :config
     (leaf feature-mode
       :after org org-table)
+    (leaf html-ts-mode :mode "\\.html?\\'")
     (leaf markdown-mode
       :mode (("\\.md\\'" "\\ISSUE_EDITMSG\\'") . gfm-mode)
       :bind (:markdown-mode-map
