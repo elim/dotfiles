@@ -828,88 +828,92 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
 
 (leaf *languages-and-authoring
   :config
-  (leaf cc-mode
-    :defun c-toggle-auto-hungry-state
-    :preface
-    (defun elim:c-mode-common-hook-func ()
-      (c-set-style "bsd")
-      (set-variable 'indent-tabs-mode nil)
-      (set-variable 'c-basic-offset 2)
-      (c-toggle-auto-hungry-state -1)
-      (subword-mode 1))
-    :hook ((c-mode-common-hook . elim:c-mode-common-hook-func)))
-  (leaf css-mode
-    :custom ((css-indent-offset . 2)))
-  (leaf dockerfile-mode)
-  (leaf elisp-mode
-    :hook (emacs-lisp-mode-hook . elim:emacs-lisp-mode-hook-func)
+  (leaf *programming-languages
     :config
-    (defun elim:emacs-lisp-mode-hook-func ()
-      (set-variable 'indent-tabs-mode nil)
-      (hs-minor-mode +1)))
-  (leaf elisp-slime-nav
-    :hook ((emacs-lisp-mode-hook
-            lisp-interaction-mode-hook
-            ielm-mode-hook) .  elisp-slime-nav-mode))
-  (leaf feature-mode
-    :after org org-table)
-  (leaf go-mode
-    :preface
-    (defun elim:go-mode-hook-func ()
-      (set (make-local-variable 'tab-width) 4))
-    :hook (go-mode-hook . elim:go-mode-hook-func))
-  (leaf html-ts-mode :mode "\\.html?\\'")
-  (leaf js
-    :custom ((js-indent-level . 2)))
-  (leaf json-mode)
-  (leaf markdown-mode
-    :mode (("\\.md\\'" "\\ISSUE_EDITMSG\\'") . gfm-mode)
-    :bind (:markdown-mode-map
-           ("<S-tab>" . markdown-shifttab)
-           ("C-c 1"   . markdown-insert-header-atx-1)
-           ("C-c 2"   . markdown-insert-header-atx-2)
-           ("C-c b"   . markdown-insert-bold)
-           ("C-c i"   . markdown-insert-italic))
-    :custom
-    ((markdown-asymmetric-header            . t)
-     (markdown-fontify-code-blocks-natively . t)
-     (markdown-gfm-use-electric-backquote   . nil)
-     (markdown-header-scaling               . nil)
-     (markdown-hr-strings                   . '("* * *\n\n"))
-     (markdown-marginalize-headers          . nil)))
-  (leaf nix-mode
-    :doc "Major mode for editing .nix files"
-    :req "emacs-25.1" "magit-section-0" "transient-0.3"
-    :tag "unix" "tools" "languages" "nix" "emacs>=25.1"
-    :url "https://github.com/NixOS/nix-mode"
-    :added "2023-03-28"
-    :emacs>= 25.1
-    :after magit-section)
-  (leaf org :require org org-table)
-  (leaf *ruby
+    (leaf cc-mode
+      :defun c-toggle-auto-hungry-state
+      :preface
+      (defun elim:c-mode-common-hook-func ()
+        (c-set-style "bsd")
+        (set-variable 'indent-tabs-mode nil)
+        (set-variable 'c-basic-offset 2)
+        (c-toggle-auto-hungry-state -1)
+        (subword-mode 1))
+      :hook ((c-mode-common-hook . elim:c-mode-common-hook-func)))
+    (leaf css-mode
+      :custom ((css-indent-offset . 2)))
+    (leaf dockerfile-mode)
+    (leaf elisp-mode
+      :hook (emacs-lisp-mode-hook . elim:emacs-lisp-mode-hook-func)
+      :config
+      (defun elim:emacs-lisp-mode-hook-func ()
+        (set-variable 'indent-tabs-mode nil)
+        (hs-minor-mode +1)))
+    (leaf elisp-slime-nav
+      :hook ((emacs-lisp-mode-hook
+              lisp-interaction-mode-hook
+              ielm-mode-hook) .  elisp-slime-nav-mode))
+    (leaf go-mode
+      :preface
+      (defun elim:go-mode-hook-func ()
+        (set (make-local-variable 'tab-width) 4))
+      :hook (go-mode-hook . elim:go-mode-hook-func))
+    (leaf html-ts-mode :mode "\\.html?\\'")
+    (leaf js
+      :custom ((js-indent-level . 2)))
+    (leaf json-mode)
+    (leaf nix-mode
+      :doc "Major mode for editing .nix files"
+      :req "emacs-25.1" "magit-section-0" "transient-0.3"
+      :tag "unix" "tools" "languages" "nix" "emacs>=25.1"
+      :url "https://github.com/NixOS/nix-mode"
+      :added "2023-03-28"
+      :emacs>= 25.1
+      :after magit-section)
+    (leaf *ruby
+      :config
+      (leaf rubocop)
+      (leaf ruby-end)
+      (leaf ruby-mode
+        :bind (:ruby-mode-map
+               ("C-m" . reindent-then-newline-and-indent))
+        :custom ((ruby-deep-indent-paren-style . nil)
+                 (ruby-flymake-use-rubocop-if-available . nil)
+                 (ruby-insert-encoding-magic-comment . nil)))
+      (leaf rspec-mode))
+    (leaf sh-script
+      :mode ("\\.env\\'" "\\.env.sample\\'")
+      :custom ((sh-basic-offset . 2)
+               (sh-indentation . 2)))
+    (leaf terraform-mode)
+    (leaf tsx-ts-mode :mode "\\.tsx\\'")
+    (leaf yaml-mode))
+  (leaf *writing-and-markup
     :config
-    (leaf rubocop)
-    (leaf ruby-end)
-    (leaf ruby-mode
-      :bind (:ruby-mode-map
-             ("C-m" . reindent-then-newline-and-indent))
-      :custom ((ruby-deep-indent-paren-style . nil)
-               (ruby-flymake-use-rubocop-if-available . nil)
-               (ruby-insert-encoding-magic-comment . nil)))
-    (leaf rspec-mode))
-  (leaf sh-script
-    :mode ("\\.env\\'" "\\.env.sample\\'")
-    :custom ((sh-basic-offset . 2)
-             (sh-indentation . 2)))
-  (leaf slim-mode)
-  (leaf text-mode
-    :preface
-    (defun elim:text-mode-hook-func ()
-      (set-variable 'indent-tabs-mode nil))
-    :hook (text-mode-hook . elim:text-mode-hook-func))
-  (leaf terraform-mode)
-  (leaf tsx-ts-mode :mode "\\.tsx\\'")
-  (leaf yaml-mode))
+    (leaf feature-mode
+      :after org org-table)
+    (leaf markdown-mode
+      :mode (("\\.md\\'" "\\ISSUE_EDITMSG\\'") . gfm-mode)
+      :bind (:markdown-mode-map
+             ("<S-tab>" . markdown-shifttab)
+             ("C-c 1"   . markdown-insert-header-atx-1)
+             ("C-c 2"   . markdown-insert-header-atx-2)
+             ("C-c b"   . markdown-insert-bold)
+             ("C-c i"   . markdown-insert-italic))
+      :custom
+      ((markdown-asymmetric-header            . t)
+       (markdown-fontify-code-blocks-natively . t)
+       (markdown-gfm-use-electric-backquote   . nil)
+       (markdown-header-scaling               . nil)
+       (markdown-hr-strings                   . '("* * *\n\n"))
+       (markdown-marginalize-headers          . nil)))
+    (leaf org :require org org-table)
+    (leaf slim-mode)
+    (leaf text-mode
+      :preface
+      (defun elim:text-mode-hook-func ()
+        (set-variable 'indent-tabs-mode nil))
+      :hook (text-mode-hook . elim:text-mode-hook-func))))
 
 (provide 'init)
 
