@@ -634,6 +634,34 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
            ("H-v" . describe-variable)))
   (leaf help
     :config (temp-buffer-resize-mode t))
+  (leaf *dired
+    :config
+    (leaf dired
+      :bind (:dired-mode-map
+             ("SPC" . elim:dired-toggle-mark)
+             ("r" . dired-toggle-read-only))
+      :custom ((dired-recursive-copies . 'always)
+               (dired-recursive-deletes . 'always))
+      :defun dired-mark dired-unmark
+      :preface
+      ;; Mark with space (like the FD)
+      (defun elim:dired-toggle-mark (arg)
+        "Toggle the current (or next ARG) files."
+        ;; Based on S.Namba Sat Aug 10 12:20:36 1996
+        ;; Modernized for current Emacs
+        (interactive "P")
+        (let ((current-mark (char-after (line-beginning-position))))
+          (if (eq current-mark ?\s)  ; If unmarked (space)
+              (dired-mark arg)       ; Mark it
+            (dired-unmark arg)))))   ; If marked, unmark it
+    (leaf dired-x
+      :custom ((dired-bind-jump . nil)
+               (dired-guess-shell-alist-user
+                . '(("\\.tar\\.gz\\'"  "tar tzvf")
+                    ("\\.taz\\'" "tar ztvf")
+                    ("\\.tar\\.bz2\\'" "tar tjvf")
+                    ("\\.zip\\'" "unzip -l")
+                    ("\\.\\(g\\|\\) z\\'" "zcat"))))))
   (leaf mouse
     :bind (("C-<down-mouse-1>" . nil)
            ("C-<drag-mouse-1>" . nil)
@@ -714,34 +742,6 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
     :leaf-defer nil
     :custom ((auto-save-visited-interval . 0.5))
     :global-minor-mode t)
-  (leaf *dired
-    :config
-    (leaf dired
-      :bind (:dired-mode-map
-             ("SPC" . elim:dired-toggle-mark)
-             ("r" . dired-toggle-read-only))
-      :custom ((dired-recursive-copies . 'always)
-               (dired-recursive-deletes . 'always))
-      :defun dired-mark dired-unmark
-      :preface
-      ;; Mark with space (like the FD)
-      (defun elim:dired-toggle-mark (arg)
-        "Toggle the current (or next ARG) files."
-        ;; Based on S.Namba Sat Aug 10 12:20:36 1996
-        ;; Modernized for current Emacs
-        (interactive "P")
-        (let ((current-mark (char-after (line-beginning-position))))
-          (if (eq current-mark ?\s)  ; If unmarked (space)
-              (dired-mark arg)       ; Mark it
-            (dired-unmark arg)))))   ; If marked, unmark it
-    (leaf dired-x
-      :custom ((dired-bind-jump . nil)
-               (dired-guess-shell-alist-user
-                . '(("\\.tar\\.gz\\'"  "tar tzvf")
-                    ("\\.taz\\'" "tar ztvf")
-                    ("\\.tar\\.bz2\\'" "tar tjvf")
-                    ("\\.zip\\'" "unzip -l")
-                    ("\\.\\(g\\|\\) z\\'" "zcat"))))))
   (leaf diff-mode
     :custom-face
     ((diff-added         . '((nil (:foreground "white" :background "dark green"))))
