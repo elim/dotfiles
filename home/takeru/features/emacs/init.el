@@ -152,11 +152,10 @@
   :bind (("C-x v s" . magit-status)
          ("C-x v f" . magit-diff-buffer-file))
   :custom (magit-diff-refine-hunk . 'all)
-  :preface
-  (defun elim:git-commit-setup-hook-func ()
-    (flyspell-mode +1)
-    (setq-local elim:auto-delete-trailing-whitespace-enable-p nil))
-  :hook (git-commit-setup-hook . elim:git-commit-setup-hook-func)
+  :hook ((git-commit-setup-hook
+          . (lambda ()
+              (flyspell-mode +1)
+              (setq-local elim:auto-delete-trailing-whitespace-enable-p nil))))
   :init (add-to-list 'process-coding-system-alist '("git" utf-8 . utf-8))
   :blackout auto-revert-mode)
 
@@ -822,21 +821,19 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
 
 (leaf cc-mode
   :defun c-toggle-auto-hungry-state
-  :preface
-  (defun elim:c-mode-common-hook-func ()
-    (c-set-style "bsd")
-    (setq-local indent-tabs-mode nil)
-    (setq-local c-basic-offset 2)
-    (c-toggle-auto-hungry-state -1)
-    (subword-mode 1))
-  :hook ((c-mode-common-hook . elim:c-mode-common-hook-func)))
+  :hook ((c-mode-common-hook
+          . (lambda ()
+              (c-set-style "bsd")
+              (setq-local indent-tabs-mode nil)
+              (setq-local c-basic-offset 2)
+              (c-toggle-auto-hungry-state -1)
+              (subword-mode 1)))))
 
 (leaf elisp-mode
-  :preface
-  (defun elim:emacs-lisp-mode-hook-func ()
-    (setq-local indent-tabs-mode nil)
-    (hs-minor-mode +1))
-  :hook (emacs-lisp-mode-hook . elim:emacs-lisp-mode-hook-func))
+  :hook ((emacs-lisp-mode-hook
+          . (lambda ()
+              (setq-local indent-tabs-mode nil)
+              (hs-minor-mode +1)))))
 
 (leaf elisp-slime-nav
   :hook ((emacs-lisp-mode-hook
@@ -844,10 +841,9 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
           ielm-mode-hook) .  elisp-slime-nav-mode))
 
 (leaf go-mode
-  :preface
-  (defun elim:go-mode-hook-func ()
-    (setq-local tab-width 4))
-  :hook (go-mode-hook . elim:go-mode-hook-func))
+  :hook ((go-mode-hook
+          . (lambda ()
+              (setq-local tab-width 4)))))
 
 (leaf lua-ts-mode
   :mode (("\\.lua\\'" . lua-ts-mode))
@@ -942,10 +938,9 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
 (leaf slim-mode)
 
 (leaf text-mode
-  :preface
-  (defun elim:text-mode-hook-func ()
-    (setq-local indent-tabs-mode nil))
-  :hook (text-mode-hook . elim:text-mode-hook-func))
+  :hook ((text-mode-hook
+          . (lambda ()
+              (setq-local indent-tabs-mode nil)))))
 
 (provide 'init)
 
