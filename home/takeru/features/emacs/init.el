@@ -148,6 +148,19 @@
 (leaf vc
   :custom (vc-follow-symlinks . t))
 
+(leaf magit
+  :bind (("C-x v s" . magit-status)
+         ("C-x v f" . magit-diff-buffer-file))
+  :custom (magit-diff-refine-hunk . 'all)
+  :hook (git-commit-setup-hook . elim:git-commit-setup-hook-func)
+  :init (add-to-list 'process-coding-system-alist '("git" utf-8 . utf-8))
+  :config
+  (defun elim:git-commit-setup-hook-func ()
+    (flyspell-mode +1)
+    (set (make-local-variable
+          'elim:auto-delete-trailing-whitespace-enable-p) nil))
+  :blackout auto-revert-mode)
+
 ;;; Programming languages
 
 ;; Lua development environment
@@ -822,18 +835,6 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
   (leaf js
     :custom ((js-indent-level . 2)))
   (leaf json-mode)
-  (leaf magit
-    :bind (("C-x v s" . magit-status)
-           ("C-x v f" . magit-diff-buffer-file))
-    :custom (magit-diff-refine-hunk . 'all)
-    :hook (git-commit-setup-hook . elim:git-commit-setup-hook-func)
-    :init (add-to-list 'process-coding-system-alist '("git" utf-8 . utf-8))
-    :config
-    (defun elim:git-commit-setup-hook-func ()
-      (flyspell-mode +1)
-      (set (make-local-variable
-            'elim:auto-delete-trailing-whitespace-enable-p) nil))
-    :blackout auto-revert-mode)
   (leaf markdown-mode
     :mode (("\\.md\\'" "\\ISSUE_EDITMSG\\'") . gfm-mode)
     :bind (:markdown-mode-map
