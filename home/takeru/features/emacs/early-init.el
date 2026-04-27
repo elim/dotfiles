@@ -5,7 +5,9 @@
 
 (set-variable 'ns-use-native-fullscreen nil)
 (set-variable 'x-super-keysym 'meta)
+(set-variable 'gc-cons-threshold (* 128 1024 1024))
 (set-variable 'load-prefer-newer t)
+(set-variable 'custom-file (locate-user-emacs-file ".custom.el"))
 ;; Keep native-comp warnings quiet during startup and async compilation.
 (set-variable 'native-comp-async-report-warnings-errors 'silent)
 
