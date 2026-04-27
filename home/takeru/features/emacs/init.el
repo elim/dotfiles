@@ -401,35 +401,40 @@
 ;;; Editor enhancements
 
 (leaf *editing-basics
-  :preface
-  (defvar elim:auto-delete-trailing-whitespace-enable-p t)
-  (defun elim:editorconfig-mode-enabled-p ()
-    (assoc 'editorconfig-mode minor-mode-alist))
-  (defun elim:auto-delete-trailing-whitespace ()
-    (and elim:auto-delete-trailing-whitespace-enable-p
-         (not (elim:editorconfig-mode-enabled-p))
-         (delete-trailing-whitespace)))
-  :bind (("<delete>" . delete-char)
-         ("C-h"      . delete-char)
-         ("C-m"      . newline-and-indent))
-  :custom ((delete-by-moving-to-trash . t)
-           (kill-ring-max . 8192)
-           (require-final-newline . t))
   :config
-  (keyboard-translate ?\C-h ?\C-?)
-  (put 'list-timers 'disabled nil)
-  (put 'scroll-left 'disabled nil)
-  (set-default 'indent-tabs-mode nil)
-  (leaf executable
+  (leaf *editing-defaults
+    :custom ((delete-by-moving-to-trash . t)
+             (kill-ring-max . 8192)
+             (require-final-newline . t))
     :config
-    (defun elim:executable-make-buffer-file-executable-if-script-p ()
-      (unless (string-match tramp-file-name-regexp (buffer-file-name))
-        (executable-make-buffer-file-executable-if-script-p)))
-    :hook (after-save-hook . elim:executable-make-buffer-file-executable-if-script-p))
-  :hook (before-save-hook . elim:auto-delete-trailing-whitespace))
-
-(leaf simple
-  :global-minor-mode line-number-mode transient-mark-mode)
+    (put 'list-timers 'disabled nil)
+    (put 'scroll-left 'disabled nil)
+    (set-default 'indent-tabs-mode nil))
+  (leaf simple
+    :global-minor-mode line-number-mode transient-mark-mode)
+  (leaf *editing-input
+    :bind (("<delete>" . delete-char)
+           ("C-h"      . delete-char)
+           ("C-m"      . newline-and-indent))
+    :config
+    (keyboard-translate ?\C-h ?\C-?))
+  (leaf *editing-save-hooks
+    :preface
+    (defvar elim:auto-delete-trailing-whitespace-enable-p t)
+    (defun elim:editorconfig-mode-enabled-p ()
+      (assoc 'editorconfig-mode minor-mode-alist))
+    (defun elim:auto-delete-trailing-whitespace ()
+      (and elim:auto-delete-trailing-whitespace-enable-p
+           (not (elim:editorconfig-mode-enabled-p))
+           (delete-trailing-whitespace)))
+    :config
+    (leaf executable
+      :config
+      (defun elim:executable-make-buffer-file-executable-if-script-p ()
+        (unless (string-match tramp-file-name-regexp (buffer-file-name))
+          (executable-make-buffer-file-executable-if-script-p)))
+      :hook (after-save-hook . elim:executable-make-buffer-file-executable-if-script-p))
+    :hook (before-save-hook . elim:auto-delete-trailing-whitespace)))
 
 ;;; System integration
 
