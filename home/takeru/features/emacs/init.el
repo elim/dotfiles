@@ -709,9 +709,9 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
              ("C-c C-p" . windmove-up)
              ("C-c C-f" . windmove-right)))))
 
-;;; Editor modes
+;;; Editor support modes
 
-(leaf *editor-modes
+(leaf *editor-support-modes
   :config
   (leaf *diagnostics-and-docs
     :config
