@@ -567,14 +567,13 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
 
 (leaf sort
   :defun elim:sort-lines-nocase
+  :defvar sort-fold-case
   :config
   (defun elim:sort-lines-nocase ()
-    "Ignore case when the sort the lines."
+    "Sort lines in region case-insensitively."
     (interactive)
-    (defvar sort-fold-case)
     (let ((sort-fold-case t))
-      (call-interactively 'sort-lines)))
-  (defalias 'sort-lines-nocase #'elim:sort-lines-nocase))
+      (call-interactively 'sort-lines))))
 
 (leaf wgrep
   :custom ((wgrep-auto-save-buffer . t)))
