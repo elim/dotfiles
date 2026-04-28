@@ -66,6 +66,7 @@
   (leaf orderless
     :custom (completion-styles . '(orderless)))
   (leaf savehist
+    :if (not noninteractive)
     :global-minor-mode t)
   (leaf vertico
     :url https://github.com/uwabami/emacs
@@ -452,6 +453,7 @@
 (leaf direnv :global-minor-mode t)
 
 (leaf server
+  :if (not noninteractive)
   :require t
   :defun server-edit server-edit-abort server-running-p
   :defvar server-buffer-clients
@@ -519,6 +521,7 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
 ;; Persistence
 
 (leaf desktop
+  :if (not noninteractive)
   :defvar desktop-globals-to-save
   :custom `((desktop-base-file-name      . ,(locate-user-emacs-file ".desktop.el"))
             (desktop-base-lock-name      . ,(locate-user-emacs-file ".desktop.lock"))
@@ -533,6 +536,7 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
   (add-to-list 'desktop-globals-to-save 'read-expression-history))
 
 (leaf recentf
+  :if (not noninteractive)
   :defvar recentf-auto-save-timer
   :custom `((recentf-auto-save-timer
              . ,(run-with-idle-timer 30 t #'recentf-save-list))
@@ -541,6 +545,7 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
   :global-minor-mode t)
 
 (leaf persistent-scratch
+  :if (not noninteractive)
   :require t
   :defun persistent-scratch-setup-default
   :custom `(persistent-scratch-save-file . ,(locate-user-emacs-file ".scratch.el"))
