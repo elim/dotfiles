@@ -19,6 +19,7 @@ agent_tmux_guard_activate() {
 
   AGENT_TMUX_GUARD_PANE_ID="$target_pane_id"
   tmux set @agent_guard_pane "$target_pane_id" 2>/dev/null
+  tmux set display-time 0 2>/dev/null
 }
 
 agent_tmux_guard_deactivate() {
@@ -30,6 +31,7 @@ agent_tmux_guard_deactivate() {
   # AGENT_TMUX_GUARD_PANE_ID is intentionally preserved so that `fg` can
   # re-activate the guard for the same pane without re-querying tmux.
   tmux set -u @agent_guard_pane 2>/dev/null
+  tmux set -u display-time 2>/dev/null
 }
 
 agent_tmux_guard_precmd() {
