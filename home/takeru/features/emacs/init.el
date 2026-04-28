@@ -368,12 +368,12 @@
 
 (leaf *editing-defaults
   :custom ((delete-by-moving-to-trash . t)
+           (indent-tabs-mode . nil)
            (kill-ring-max . 8192)
            (require-final-newline . t))
   :config
   (put 'list-timers 'disabled nil)
-  (put 'scroll-left 'disabled nil)
-  (set-default 'indent-tabs-mode nil))
+  (put 'scroll-left 'disabled nil))
 
 (leaf simple
   :global-minor-mode line-number-mode transient-mark-mode)
@@ -612,6 +612,7 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
 
 (leaf *display-defaults
   :custom ((frame-title-format . `(" %b " (buffer-file-name "( %f )")))
+           (cursor-in-non-selected-windows . nil)
            (inhibit-startup-screen . t)
            (mouse-drag-copy-region . t)
            (ring-bell-function . 'ignore)
@@ -625,7 +626,6 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
   :config
   (put 'narrow-to-region 'disabled nil)
   (put 'set-goal-column 'disabled nil)
-  (set-default 'cursor-in-non-selected-windows nil)
   (leaf mouse
     :bind (("C-<down-mouse-1>" . nil)
            ("C-<drag-mouse-1>" . nil)
