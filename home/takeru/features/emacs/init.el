@@ -122,7 +122,7 @@
                 (company-tooltip-common-selection . '((nil (:foreground "white" :background "steelblue"))))
                 (company-tooltip-selection        . '((nil (:foreground "black" :background "steelblue")))))
   :blackout company-mode
-  :hook (after-init-hook . global-company-mode))
+  :global-minor-mode global-company-mode)
 
 (leaf company-quickhelp
   :global-minor-mode company-quickhelp-mode)
@@ -250,7 +250,7 @@
   :global-minor-mode global-hl-line-mode)
 
 (leaf font-core
-  :config (global-font-lock-mode t))
+  :global-minor-mode global-font-lock-mode)
 
 (leaf menu-bar
   :if (eq system-type 'darwin)
@@ -287,7 +287,7 @@
 
 (leaf time
   :custom ((display-time-24hr-format . t))
-  :config (display-time))
+  :global-minor-mode display-time-mode)
 
 ;;; Input method
 
@@ -599,10 +599,10 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
          ("H-v" . describe-variable)))
 
 (leaf help
-  :config (temp-buffer-resize-mode t))
+  :global-minor-mode temp-buffer-resize-mode)
 
 (leaf which-key
-  :hook (after-init-hook . which-key-mode))
+  :global-minor-mode which-key-mode)
 
 (leaf *display-defaults
   :custom ((frame-title-format . `(" %b " (buffer-file-name "( %f )")))
@@ -734,7 +734,7 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
 ;; Flycheck
 
 (leaf flycheck
-  :hook (after-init-hook . global-flycheck-mode)
+  :global-minor-mode global-flycheck-mode
   :init (add-to-list 'exec-path (expand-file-name "bin" user-emacs-directory)))
 
 (leaf flycheck-posframe
