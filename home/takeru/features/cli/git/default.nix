@@ -15,6 +15,7 @@ in
       ".DS_Store"
       "compose.override.yml"
       "docker-compose.override.yml"
+      "plans/"
     ];
 
     includes = [
