@@ -183,8 +183,8 @@
   :preface
   (defun elim:set-text-height (height)
     "Set to the HEIGHT and the family to the default face and some faces."
-    (let* ((asciifont "HackGen NF") ; ASCII fonts
-           (jpfont "HackGen NF")    ; Japanese fonts
+    (let* ((asciifont "HackGen Console NF") ; ASCII fonts
+           (jpfont "HackGen Console NF")    ; Japanese fonts
            (fontspec (font-spec :family asciifont :weight 'normal))
            (jp-fontspec (font-spec :family jpfont :weight 'normal)))
       (set-face-attribute 'default     nil :family asciifont :height height)
@@ -195,6 +195,7 @@
       (set-fontset-font nil '(#x0080  .  #x024F)         fontspec)
       (set-fontset-font nil '(#x0370  .  #x03FF)         fontspec)
       (set-fontset-font nil '(#x1f809 . #x1f80a)         fontspec)
+      (set-fontset-font nil '(#xe000  .  #xf8ff)         fontspec nil 'prepend)
       (set-fontset-font nil 'unicode                     fontspec)))
   (defun elim:change-interactive-text-height ()
     (interactive)
@@ -233,6 +234,9 @@
    (ns-command-modifier         . 'meta)
    (ns-right-alternate-modifier . 'hyper)
    (ns-right-command-modifier   . 'super)))
+
+(leaf nerd-icons
+  :custom ((nerd-icons-font-family . "HackGen Console NF")))
 
 (leaf doom-modeline
   :leaf-defer nil

@@ -58,6 +58,7 @@ let
       # User interface and themes
       epkgs.doom-modeline
       epkgs.doom-themes
+      epkgs.nerd-icons
       epkgs.nyan-mode
       epkgs.popwin
       epkgs.rainbow-delimiters
