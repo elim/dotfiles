@@ -526,8 +526,8 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
             (desktop-base-lock-name      . ,(locate-user-emacs-file ".desktop.lock"))
             (desktop-load-locked-desktop . 'check-pid)
             (desktop-restore-eager       . 0)
-            (desktop-restore-frames      . nil)
-            (desktop-save-mode           . +1))
+            (desktop-restore-frames      . nil))
+  :global-minor-mode desktop-save-mode
   :config
   (add-to-list 'desktop-globals-to-save 'extended-command-history)
   (add-to-list 'desktop-globals-to-save 'kill-ring)
@@ -782,7 +782,7 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
   :doc "Say farewell to performance problems with minified code."
   :tag "builtin"
   :added "2024-08-24"
-  :custom ((global-so-long-mode . t)))
+  :global-minor-mode global-so-long-mode)
 
 (leaf undo-fu-session
   :global-minor-mode undo-fu-session-global-mode)
