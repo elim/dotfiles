@@ -236,7 +236,6 @@
 
 (leaf doom-modeline
   :leaf-defer nil
-  :require t
   :defun doom-modeline-mode
   :custom
   ((doom-modeline-buffer-file-name-style . 'truncate-with-project)
@@ -246,7 +245,7 @@
   :custom-face
   ((mode-line  . '((t (:height 160))))
    (mode-line-inactive . '((t (:height 160)))))
-  :config (doom-modeline-mode))
+  :global-minor-mode doom-modeline-mode)
 
 (leaf hl-line
   :global-minor-mode global-hl-line-mode)
