@@ -267,8 +267,7 @@
   :if (fboundp 'scroll-bar-mode)
   :config
   (set-scroll-bar-mode 'right)
-  (scroll-bar-mode -1)
-  :global-minor-mode column-number-mode)
+  (scroll-bar-mode -1))
 
 (leaf *theme
   :config
@@ -376,7 +375,7 @@
   (put 'scroll-left 'disabled nil))
 
 (leaf simple
-  :global-minor-mode line-number-mode transient-mark-mode)
+  :global-minor-mode column-number-mode line-number-mode transient-mark-mode)
 
 (leaf *editing-input
   :bind (("<delete>" . delete-char)
