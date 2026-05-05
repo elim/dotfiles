@@ -548,7 +548,8 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
   :if (not noninteractive)
   :require t
   :defun persistent-scratch-setup-default
-  :custom `(persistent-scratch-save-file . ,(locate-user-emacs-file ".scratch.el"))
+  :custom `((persistent-scratch-save-file . ,(locate-user-emacs-file ".scratch.el"))
+            (persistent-scratch-what-to-save . '(point narrowing)))
   :config
   (with-current-buffer "*scratch*"
     (emacs-lock-mode 'kill))
