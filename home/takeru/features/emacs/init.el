@@ -383,9 +383,8 @@
 
 (leaf *editing-input
   :bind (("<delete>" . delete-char)
-         ("C-h"      . delete-char)
          ("C-m"      . newline-and-indent))
-  :config
+  :init
   (keyboard-translate ?\C-h ?\C-?))
 
 (leaf *editing-save-hooks
