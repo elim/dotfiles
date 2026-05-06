@@ -8,7 +8,7 @@ let
   variants = {
     emacs = {
       linux = "GTK_IM_MODULE=gtk-im-context-simple XMODIFIERS='@im=none' emacs";
-      darwin = "Emacs";
+      darwin = "open -a Emacs";
     };
   };
 in
