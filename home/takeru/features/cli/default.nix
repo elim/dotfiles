@@ -24,6 +24,7 @@
     ./git-wt.nix
     ./git
     ./github-cli.nix
+    ./gnu-userland.nix
     ./gomi.nix
     ./htop.nix
     ./imagemagick.nix
