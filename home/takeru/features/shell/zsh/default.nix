@@ -7,18 +7,13 @@
 }:
 
 let
-  shellAliases = import ../aliases.nix { inherit pkgs; };
   dotDir = config.xdg.configHome + "/zsh";
 
-  chpwd_ls =
-    let
-      lsCommand = shellAliases.ls;
-    in
-    builtins.readFile (
-      pkgs.replaceVars ./chpwd.zsh.in {
-        ls = lsCommand;
-      }
-    );
+  chpwd_ls = builtins.readFile (
+    pkgs.replaceVars ./chpwd.zsh.in {
+      ls = config.home.shellAliases.ls;
+    }
+  );
 
   reloadHmSessionVars = builtins.readFile (
     pkgs.replaceVars ../reload-hm-session-vars.sh.in {
@@ -47,8 +42,6 @@ in
     enable = true;
 
     inherit dotDir;
-
-    inherit shellAliases;
 
     shellGlobalAliases = {
       G = "| grep";

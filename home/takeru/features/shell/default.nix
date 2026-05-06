@@ -1,6 +1,7 @@
 { config, ... }:
 {
   imports = [
+    ./aliases.nix
     ./bash
     ./direnv.nix
     ./environment.nix
