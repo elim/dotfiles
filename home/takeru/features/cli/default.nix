@@ -50,6 +50,7 @@
     ./typescript-language-server.nix
     ./unar.nix
     ./unzip.nix
+    ./vim.nix
     ./whichpr.nix
     ./yq.nix
     ./yt-dlp.nix

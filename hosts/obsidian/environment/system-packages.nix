@@ -6,7 +6,6 @@
       gcc
       git
       gnumake
-      vim
 
       # libvert
       spice-gtk
