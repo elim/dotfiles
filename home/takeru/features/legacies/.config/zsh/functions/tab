@@ -21,6 +21,29 @@ local cdto="$PWD"
 local session_name=""
 local tab_name=""
 local args="$@"
+local effective_wezterm_unix_socket="${WEZTERM_UNIX_SOCKET:-}"
+local effective_wezterm_pane="${WEZTERM_PANE:-}"
+
+_tab_tmux_env_value() {
+  local name="$1"
+  local line
+
+  line="$(tmux show-environment "${name}" 2>/dev/null)" || return
+  [[ "${line}" == "${name}="* ]] || return
+
+  print -r -- "${line#${name}=}"
+}
+
+_tab_add_env_or_unset() {
+  local name="$1"
+  local value="$2"
+
+  if [[ -n "${value}" ]]; then
+    wezterm_env+=("${name}=${value}")
+  else
+    wezterm_env+=(-u "${name}")
+  fi
+}
 
 if [[ -d "$1" ]]; then
   cdto=$(realpath "${1}")
@@ -40,12 +63,53 @@ if [[ -n "$args" ]]; then
   chmod +x ${new_session_script}
 fi
 
-wezterm cli spawn \
-  --cwd "${cdto}" \
-  -- tmux-launch-with-nix-env \
-    --session "${session_name}" \
-    --title "${tab_name}" \
-    ${new_session_script:+--cmd "${new_session_script}"}
+# A resumed tmux pane can keep stale WezTerm env in the shell process.
+# Prefer tmux's refreshed session environment when it is available.
+if [[ -n "${TMUX:-}" ]]; then
+  local tmux_wezterm_unix_socket
+  if tmux_wezterm_unix_socket="$(_tab_tmux_env_value WEZTERM_UNIX_SOCKET)"; then
+    effective_wezterm_unix_socket="${tmux_wezterm_unix_socket}"
+  fi
+
+  local tmux_wezterm_pane
+  if tmux_wezterm_pane="$(_tab_tmux_env_value WEZTERM_PANE)"; then
+    effective_wezterm_pane="${tmux_wezterm_pane}"
+  fi
+fi
+
+if [[ -n "${effective_wezterm_unix_socket}" && ! -S "${effective_wezterm_unix_socket}" ]]; then
+  effective_wezterm_unix_socket=""
+  effective_wezterm_pane=""
+fi
+
+local wezterm_env=(env)
+local wezterm_spawn_args=(cli spawn)
+local tmux_launch_args=(
+  tmux-launch-with-nix-env
+  --session "${session_name}"
+  --title "${tab_name}"
+)
+
+_tab_add_env_or_unset WEZTERM_UNIX_SOCKET "${effective_wezterm_unix_socket}"
+_tab_add_env_or_unset WEZTERM_PANE ""
+
+if [[ -n "${effective_wezterm_pane}" ]]; then
+  wezterm_spawn_args+=(--pane-id "${effective_wezterm_pane}")
+fi
+
+if [[ -n "${new_session_script}" ]]; then
+  tmux_launch_args+=(--cmd "${new_session_script}")
+fi
+
+wezterm_spawn_args+=(
+  --cwd "${cdto}"
+  -- "${tmux_launch_args[@]}"
+)
+
+"${wezterm_env[@]}" wezterm "${wezterm_spawn_args[@]}"
+local wezterm_status="$?"
+unfunction _tab_tmux_env_value _tab_add_env_or_unset 2>/dev/null
+return "${wezterm_status}"
 
 # Local Variables:
 # mode: sh
