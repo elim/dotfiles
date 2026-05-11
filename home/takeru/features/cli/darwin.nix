@@ -1,0 +1,5 @@
+{
+  imports = [
+    ./macos-trash.nix
+  ];
+}

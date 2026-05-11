@@ -45,7 +45,7 @@
     gst = "g st";
 
     # rm
-    rm = "gomi";
+    rm = if pkgs.stdenv.isDarwin then "trash" else "gomi";
 
     # jobcan
     jt = "jobcan-slack --jt";

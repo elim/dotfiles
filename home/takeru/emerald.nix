@@ -14,6 +14,7 @@
   imports = [
     ../common/nix-gc.nix
     ./features/cli
+    ./features/cli/darwin.nix
     ./features/development/mcp.nix
     ./features/emacs
     ./features/security/gpg.nix

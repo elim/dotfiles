@@ -25,7 +25,6 @@
     ./git
     ./github-cli.nix
     ./gnu-userland.nix
-    ./gomi.nix
     ./htop.nix
     ./imagemagick.nix
     ./jobcan-slack.nix
