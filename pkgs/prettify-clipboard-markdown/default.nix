@@ -8,7 +8,7 @@ pkgs.writeShellApplication {
 
   runtimeInputs = [
     clip
-    pkgs.nodePackages.prettier
+    pkgs.prettier
     pkgs.bat
   ];
 

@@ -1,5 +1,5 @@
 { pkgs, ... }:
 
 {
-  home.packages = [ pkgs.nodePackages.sql-formatter ];
+  home.packages = [ pkgs.sql-formatter ];
 }
