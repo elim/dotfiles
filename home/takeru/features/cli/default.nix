@@ -54,6 +54,7 @@
     ./whichpr.nix
     ./yq.nix
     ./yt-dlp.nix
+    ./zsh-history-sync.nix
     ./zsh-history-utils.nix
   ];
 }
