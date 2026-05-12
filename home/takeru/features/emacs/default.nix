@@ -3,7 +3,7 @@
 let
   emacs = pkgs.emacsWithPackagesFromUsePackage {
     config = builtins.toFile "empty.el" "";
-    package = pkgs.emacs-unstable-pgtk;
+    package = pkgs.emacs-git-pgtk;
     alwaysEnsure = true;
     alwaysTangle = true;
     extraEmacsPackages = epkgs: [
