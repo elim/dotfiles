@@ -39,9 +39,9 @@ _tab_add_env_or_unset() {
   local value="$2"
 
   if [[ -n "${value}" ]]; then
-    wezterm_env+=("${name}=${value}")
+    wezterm_env_assignments+=("${name}=${value}")
   else
-    wezterm_env+=(-u "${name}")
+    wezterm_env_unsets+=(-u "${name}")
   fi
 }
 
@@ -82,7 +82,8 @@ if [[ -n "${effective_wezterm_unix_socket}" && ! -S "${effective_wezterm_unix_so
   effective_wezterm_pane=""
 fi
 
-local wezterm_env=(env)
+local wezterm_env_unsets=()
+local wezterm_env_assignments=()
 local wezterm_spawn_args=(cli spawn)
 local tmux_launch_args=(
   tmux-launch-with-nix-env
@@ -106,7 +107,7 @@ wezterm_spawn_args+=(
   -- "${tmux_launch_args[@]}"
 )
 
-"${wezterm_env[@]}" wezterm "${wezterm_spawn_args[@]}"
+env "${wezterm_env_unsets[@]}" "${wezterm_env_assignments[@]}" wezterm "${wezterm_spawn_args[@]}"
 local wezterm_status="$?"
 unfunction _tab_tmux_env_value _tab_add_env_or_unset 2>/dev/null
 return "${wezterm_status}"
