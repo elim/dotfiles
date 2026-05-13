@@ -13,6 +13,7 @@ in
     ignores = [
       "*~"
       ".DS_Store"
+      ".direnv"
       "compose.override.yml"
       "docker-compose.override.yml"
       "plans/"
