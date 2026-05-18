@@ -34,6 +34,7 @@
     ./kubectl.nix
     ./kubelogin.nix
     ./nkf.nix
+    ./opencode.nix
     ./peco.nix
     ./pgformatter.nix
     ./ripgrep.nix
