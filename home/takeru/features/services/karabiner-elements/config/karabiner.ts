@@ -19,7 +19,18 @@ const config = {
       virtual_hid_keyboard: {
         keyboard_type_v2: "ansi",
       },
-      simple_modifications: [],
+      simple_modifications: [
+        {
+          from: {
+            key_code: "caps_lock",
+          },
+          to: [
+            {
+              key_code: "left_control",
+            },
+          ],
+        },
+      ],
     },
   ],
 };
