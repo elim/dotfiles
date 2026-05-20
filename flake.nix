@@ -139,6 +139,7 @@
             name = "dotfiles-dev-shell";
             shellHook = preCommitChecks.${system}.shellHook;
           };
+          karabiner-ts = import ./devShells/karabiner-ts.nix { inherit pkgs; };
           slackdump-auth = import ./devShells/slackdump-auth.nix { inherit pkgs; };
         }
       );

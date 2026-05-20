@@ -20,6 +20,7 @@
     ./features/security/gpg.nix
     ./features/security/sops.nix
     ./features/services
+    ./features/services/darwin.nix
     ./features/shell
     ./features/xdg.nix
     ./features/legacies
