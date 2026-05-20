@@ -3,5 +3,8 @@
   "type": "module",
   "scripts": {
     "build": "bun run karabiner.ts"
+  },
+  "dependencies": {
+    "karabiner.ts": "^1.37.0"
   }
 }

@@ -6,6 +6,7 @@
 
 ```bash
 nix develop .#karabiner-ts
+bun install
 bun run build
 ```
 
