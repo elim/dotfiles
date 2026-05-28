@@ -9,10 +9,16 @@ local appearance = require("modules.appearance")
 local statusbar = require("modules.statusbar")
 local tabs = require("modules.tabs")
 
--- Fullscreen window on startup
+-- Fill the window on startup
 wezterm.on("gui-startup", function(cmd)
   local tab, pane, window = mux.spawn_window(cmd or {})
-  window:gui_window():toggle_fullscreen()
+  local gui_window = window:gui_window()
+
+  if wezterm.target_triple:find("darwin") then
+    gui_window:maximize()
+  else
+    gui_window:toggle_fullscreen()
+  end
 end)
 
 -- Setup event handlers
