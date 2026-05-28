@@ -3,7 +3,7 @@
 let
   emacs = pkgs.emacsWithPackagesFromUsePackage {
     config = builtins.toFile "empty.el" "";
-    package = pkgs.emacs-git-pgtk;
+    package = if pkgs.stdenv.isDarwin then pkgs.emacs30 else pkgs.emacs30-pgtk;
     alwaysEnsure = true;
     alwaysTangle = true;
     extraEmacsPackages = epkgs: [
