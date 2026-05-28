@@ -1,5 +1,5 @@
-{ pkgs, ... }:
+{ pkgs-stable, ... }:
 
 {
-  home.packages = [ pkgs.trurl ];
+  home.packages = [ pkgs-stable.trurl ];
 }
