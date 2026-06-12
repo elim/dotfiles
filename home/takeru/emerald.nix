@@ -21,6 +21,7 @@
     ./features/security/sops.nix
     ./features/services
     ./features/shell
+    ./features/xdg.nix
     ./features/legacies
 
     ./features/desktop/mpv.nix

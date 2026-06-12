@@ -20,6 +20,7 @@
     ./features/development/mcp.nix
     ./features/development/typescript.nix
     ./features/shell
+    ./features/xdg.nix
     ./features/home-manager.nix
     ./features/security/keybase.nix
     ./features/security/sops.nix
