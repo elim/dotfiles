@@ -9,6 +9,8 @@ let
   darwinRuntimeDirFallback = "\${XDG_RUNTIME_DIR:-/tmp/xdg-runtime-$(id -u)}";
 in
 {
+  xdg.enable = lib.mkIf isDarwin true;
+
   home.sessionVariables = lib.mkIf isDarwin {
     # Emacs server uses $XDG_RUNTIME_DIR/emacs before falling back to
     # $TMPDIR/emacs$UID. nix develop rewrites TMPDIR, so keep the socket
