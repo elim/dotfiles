@@ -10,6 +10,7 @@
     ./codex.nix
     ./clip.nix
     ./colordiff.nix
+    ./cpath.nix
     ./dash.nix
     ./delta.nix
     ./exiftool.nix
