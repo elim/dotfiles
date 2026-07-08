@@ -5,6 +5,19 @@
       "org/gnome/desktop/input-sources" = {
         xkb-options = [ ];
       };
+
+      "org/gnome/desktop/peripherals/touchpad" = {
+        accel-profile = "adaptive";
+        click-method = "fingers";
+        disable-while-typing = true;
+        edge-scrolling-enabled = false;
+        natural-scroll = true;
+        speed = 0.15;
+        tap-and-drag = false;
+        tap-and-drag-lock = false;
+        tap-to-click = true;
+        two-finger-scrolling-enabled = true;
+      };
     };
   };
 
