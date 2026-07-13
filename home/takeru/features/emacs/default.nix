@@ -82,7 +82,6 @@ let
       # System integration
       epkgs.add-node-modules-path
       epkgs.atomic-chrome
-      epkgs.clipmon
       epkgs.direnv
       epkgs.elisp-slime-nav
 
@@ -106,6 +105,7 @@ in
     file = {
       ".emacs.d/init.el".source = ./init.el;
       ".emacs.d/early-init.el".source = ./early-init.el;
+      ".emacs.d/lisp".source = ./lisp;
     };
 
     packages = [

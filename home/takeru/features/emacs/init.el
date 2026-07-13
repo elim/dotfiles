@@ -6,6 +6,8 @@
 
 (setq init-file-debug t)
 
+(add-to-list 'load-path (locate-user-emacs-file "lisp"))
+
 ;; NOTE: This file is being reorganized around responsibilities first,
 ;; while still using `leaf` as the package-level building block.
 
@@ -440,14 +442,10 @@
   :bind (("C-x e" . elim:dictionary-word)
          ("C-x y" . elim:dictionary-region)))
 
-(leaf clipmon
-  :hook (after-init-hook . clipmon-mode-start)
-  :config
-  (when (fboundp 'gui-get-selection)
-    (defun clipmon--get-selection ()
-      "Get the clipboard contents. With a hack for Mozilla products, to set
-         UTF8_STRING explicitly."
-      (ignore-errors (gui-get-selection 'CLIPBOARD 'UTF8_STRING)))))
+(leaf elim-clipboard-monitor
+  :require t
+  :custom ((elim:clipboard-monitor-interval . 0.5))
+  :global-minor-mode elim:clipboard-monitor-mode)
 
 (leaf auth-source
   :custom `(auth-sources . '(,(locate-user-emacs-file ".authinfo.plist"))))
@@ -643,6 +641,7 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
   (leaf select
     :custom ((select-enable-primary . nil)
              (select-enable-clipboard . t)
+             (save-interprogram-paste-before-kill . 1048576)
              (selection-coding-system . 'utf-8)))
   (leaf uniquify
     :custom ((uniquify-buffer-name-style . 'post-forward-angle-brackets)
