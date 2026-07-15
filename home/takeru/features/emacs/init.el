@@ -181,49 +181,8 @@
   :hook (window-setup-hook . elim:frame-startup-state))
 
 (leaf *fonts
-  :defun elim:set-text-height
-  :preface
-  (defun elim:set-text-height (height)
-    "Set to the HEIGHT and the family to the default face and some faces."
-    (let* ((asciifont "HackGen Console NF") ; ASCII fonts
-           (jpfont "HackGen Console NF")    ; Japanese fonts
-           (fontspec (font-spec :family asciifont :weight 'normal))
-           (jp-fontspec (font-spec :family jpfont :weight 'normal)))
-      (set-face-attribute 'default     nil :family asciifont :height height)
-      (set-face-attribute 'fixed-pitch nil :family asciifont :height height)
-      (set-fontset-font nil 'japanese-jisx0213.2004-1 jp-fontspec)
-      (set-fontset-font nil 'japanese-jisx0213-2      jp-fontspec)
-      (set-fontset-font nil 'katakana-jisx0201        jp-fontspec)
-      (set-fontset-font nil '(#x0080  .  #x024F)         fontspec)
-      (set-fontset-font nil '(#x0370  .  #x03FF)         fontspec)
-      (set-fontset-font nil '(#x1f809 . #x1f80a)         fontspec)
-      (set-fontset-font nil '(#xe000  .  #xf8ff)         fontspec nil 'prepend)
-      (set-fontset-font nil 'unicode                     fontspec)))
-  (defun elim:change-interactive-text-height ()
-    (interactive)
-    (let
-        ((height (face-attribute 'default :height))
-         (step 1) (char nil))
-      (catch 'end:flag
-        (while t
-          (message "change text height. p:up n:down height:%s" height)
-          (setq char (read-char))
-          (cond
-           ((= char ?p)
-            (setq height (+ height step)))
-           ((= char ?n)
-            (setq height (- height step)))
-           ((and (/= char ?p) (/= char ?n))
-            (message "quit text height:%s" height)
-            (throw 'end:flag t)))
-          (elim:set-text-height height)))))
   :config
-  (cond
-   ((eq window-system 'ns)
-    (elim:set-text-height 180))
-   ((or (eq window-system 'x)
-        (eq window-system 'pgtk))
-    (elim:set-text-height 129))))
+  (set-face-attribute 'fixed-pitch nil :family "HackGen Console NF"))
 
 (leaf ns
   :if (featurep 'ns)
