@@ -35,6 +35,8 @@
     ./kubectl.nix
     ./kubelogin.nix
     ./nkf.nix
+    ./nh.nix
+    ./nix-output-monitor.nix
     ./opencode.nix
     ./peco.nix
     ./pgformatter.nix
