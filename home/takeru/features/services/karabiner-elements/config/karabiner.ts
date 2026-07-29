@@ -64,6 +64,10 @@ const emacsLikeCursorMovement = rule(
   ...mapMarkAware("f", "control", "right_arrow"),
   ...mapMarkAware("p", "control", "up_arrow"),
   ...mapMarkAware("n", "control", "down_arrow"),
+  ...mapMarkAware("a", "control", "left_arrow", ["command"]),
+  ...mapMarkAware("e", "control", "right_arrow", ["command"]),
+  ...mapMarkAware("b", "option", "left_arrow", ["option"]),
+  ...mapMarkAware("f", "option", "right_arrow", ["option"]),
 ]);
 
 const emacsLikeClipboard = rule(
