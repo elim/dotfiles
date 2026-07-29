@@ -20,6 +20,16 @@ const emacsLikeCursorMovement = rule(
   map("n", "control").to("down_arrow"),
 ]);
 
+const emacsLikeClipboard = rule(
+  "Emacs-like clipboard",
+  emacsLikeExcludedApps,
+).manipulators([
+  map("k", "control")
+    .to("right_arrow", ["command", "shift"])
+    .to("x", "command"),
+  map("y", "control").to("v", "command"),
+]);
+
 const config = {
   global: {
     show_in_menu_bar: true,
@@ -27,7 +37,7 @@ const config = {
   profiles: [
     {
       complex_modifications: {
-        rules: [emacsLikeCursorMovement.build()],
+        rules: [emacsLikeCursorMovement.build(), emacsLikeClipboard.build()],
       },
       name: "Default profile",
       selected: true,
