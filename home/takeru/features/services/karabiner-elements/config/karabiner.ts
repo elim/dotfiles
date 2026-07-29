@@ -1,4 +1,4 @@
-import { ifApp, map, rule, simpleModifications } from "karabiner.ts";
+import { ifApp, ifVar, map, rule, simpleModifications } from "karabiner.ts";
 import { writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
@@ -30,6 +30,38 @@ const emacsLikeClipboard = rule(
   map("y", "control").to("v", "command"),
 ]);
 
+const emacsLikeQuotedInsert = rule(
+  "Emacs-like quoted insert",
+  emacsLikeExcludedApps,
+).manipulators([
+  map("q", "control")
+    .toVar("emacs_like_quote", true)
+    .toDelayedAction(
+      [
+        {
+          set_variable: {
+            name: "emacs_like_quote",
+            value: false,
+          },
+        },
+      ],
+      [],
+    ),
+  map("i", "control")
+    .condition(ifVar("emacs_like_quote", true))
+    .to("i", "control")
+    .toUnsetVar("emacs_like_quote"),
+  map({
+    any: "key_code",
+    modifiers: {
+      optional: ["any"],
+    },
+  })
+    .condition(ifVar("emacs_like_quote", true))
+    .toFromEvent()
+    .toUnsetVar("emacs_like_quote"),
+]);
+
 const emacsLikeBasicInput = rule(
   "Emacs-like basic input",
   emacsLikeExcludedApps,
@@ -49,6 +81,7 @@ const config = {
         rules: [
           emacsLikeCursorMovement.build(),
           emacsLikeClipboard.build(),
+          emacsLikeQuotedInsert.build(),
           emacsLikeBasicInput.build(),
         ],
       },

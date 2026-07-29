@@ -161,6 +161,117 @@
             ]
           },
           {
+            "description": "Emacs-like quoted insert",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "q",
+                  "modifiers": {
+                    "mandatory": ["control"]
+                  }
+                },
+                "to": [
+                  {
+                    "set_variable": {
+                      "name": "emacs_like_quote",
+                      "value": true
+                    }
+                  }
+                ],
+                "to_delayed_action": {
+                  "to_if_invoked": [
+                    {
+                      "set_variable": {
+                        "name": "emacs_like_quote",
+                        "value": false
+                      }
+                    }
+                  ],
+                  "to_if_canceled": []
+                },
+                "conditions": [
+                  {
+                    "type": "frontmost_application_unless",
+                    "bundle_identifiers": [
+                      "^org\\.gnu\\.Emacs$",
+                      "^com\\.github\\.wez\\.wezterm$"
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "i",
+                  "modifiers": {
+                    "mandatory": ["control"]
+                  }
+                },
+                "conditions": [
+                  {
+                    "type": "variable_if",
+                    "name": "emacs_like_quote",
+                    "value": true
+                  },
+                  {
+                    "type": "frontmost_application_unless",
+                    "bundle_identifiers": [
+                      "^org\\.gnu\\.Emacs$",
+                      "^com\\.github\\.wez\\.wezterm$"
+                    ]
+                  }
+                ],
+                "to": [
+                  {
+                    "key_code": "i",
+                    "modifiers": ["control"]
+                  },
+                  {
+                    "set_variable": {
+                      "name": "emacs_like_quote",
+                      "type": "unset"
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "any": "key_code",
+                  "modifiers": {
+                    "optional": ["any"]
+                  }
+                },
+                "conditions": [
+                  {
+                    "type": "variable_if",
+                    "name": "emacs_like_quote",
+                    "value": true
+                  },
+                  {
+                    "type": "frontmost_application_unless",
+                    "bundle_identifiers": [
+                      "^org\\.gnu\\.Emacs$",
+                      "^com\\.github\\.wez\\.wezterm$"
+                    ]
+                  }
+                ],
+                "to": [
+                  {
+                    "from_event": true
+                  },
+                  {
+                    "set_variable": {
+                      "name": "emacs_like_quote",
+                      "type": "unset"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
             "description": "Emacs-like basic input",
             "manipulators": [
               {
