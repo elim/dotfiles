@@ -1,4 +1,10 @@
 import { ifApp, ifVar, map, rule, simpleModifications } from "karabiner.ts";
+import type {
+  FromKeyParam,
+  FromModifierParam,
+  Modifier,
+  ToKeyParam,
+} from "karabiner.ts";
 import { writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
@@ -6,18 +12,58 @@ const karabinerJsonPath = fileURLToPath(
   new URL("./karabiner.json", import.meta.url),
 );
 
+const emacsLikeMarkVariable = "emacs_like_mark";
+
 const emacsLikeExcludedApps = ifApp({
   bundle_identifiers: [/^org\.gnu\.Emacs$/, /^com\.github\.wez\.wezterm$/],
 }).unless();
+
+const mapMarkAware = (
+  from: FromKeyParam,
+  mandatoryModifiers: FromModifierParam,
+  to: ToKeyParam,
+  toModifiers: Modifier[] = [],
+) => {
+  const withoutMark = map(from, mandatoryModifiers).condition(
+    ifVar(emacsLikeMarkVariable, true).unless(),
+  );
+
+  return [
+    map(from, mandatoryModifiers)
+      .condition(ifVar(emacsLikeMarkVariable, true))
+      .to(to, [...toModifiers, "shift"]),
+    toModifiers.length > 0
+      ? withoutMark.to(to, toModifiers)
+      : withoutMark.to(to),
+  ];
+};
+
+const emacsLikeMark = rule(
+  "Emacs-like mark",
+  emacsLikeExcludedApps,
+).manipulators([
+  map("spacebar", "control")
+    .condition(ifVar(emacsLikeMarkVariable, true))
+    .toUnsetVar(emacsLikeMarkVariable),
+  map("spacebar", "control")
+    .condition(ifVar(emacsLikeMarkVariable, true).unless())
+    .toVar(emacsLikeMarkVariable, true),
+  map("g", "control")
+    .condition(ifVar(emacsLikeMarkVariable, true))
+    .toUnsetVar(emacsLikeMarkVariable),
+  map("g", "control")
+    .condition(ifVar(emacsLikeMarkVariable, true).unless())
+    .to("escape"),
+]);
 
 const emacsLikeCursorMovement = rule(
   "Emacs-like cursor movement",
   emacsLikeExcludedApps,
 ).manipulators([
-  map("b", "control").to("left_arrow"),
-  map("f", "control").to("right_arrow"),
-  map("p", "control").to("up_arrow"),
-  map("n", "control").to("down_arrow"),
+  ...mapMarkAware("b", "control", "left_arrow"),
+  ...mapMarkAware("f", "control", "right_arrow"),
+  ...mapMarkAware("p", "control", "up_arrow"),
+  ...mapMarkAware("n", "control", "down_arrow"),
 ]);
 
 const emacsLikeClipboard = rule(
@@ -79,9 +125,10 @@ const config = {
     {
       complex_modifications: {
         rules: [
+          emacsLikeQuotedInsert.build(),
+          emacsLikeMark.build(),
           emacsLikeCursorMovement.build(),
           emacsLikeClipboard.build(),
-          emacsLikeQuotedInsert.build(),
           emacsLikeBasicInput.build(),
         ],
       },
