@@ -30,6 +30,15 @@ const emacsLikeClipboard = rule(
   map("y", "control").to("v", "command"),
 ]);
 
+const emacsLikeBasicInput = rule(
+  "Emacs-like basic input",
+  emacsLikeExcludedApps,
+).manipulators([
+  map("i", "control").to("tab"),
+  map("m", "control").to("return_or_enter"),
+  map("open_bracket", "control").to("escape"),
+]);
+
 const config = {
   global: {
     show_in_menu_bar: true,
@@ -37,7 +46,11 @@ const config = {
   profiles: [
     {
       complex_modifications: {
-        rules: [emacsLikeCursorMovement.build(), emacsLikeClipboard.build()],
+        rules: [
+          emacsLikeCursorMovement.build(),
+          emacsLikeClipboard.build(),
+          emacsLikeBasicInput.build(),
+        ],
       },
       name: "Default profile",
       selected: true,
