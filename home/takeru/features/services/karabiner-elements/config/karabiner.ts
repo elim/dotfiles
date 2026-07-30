@@ -78,8 +78,10 @@ const emacsLikeClipboard = rule(
 ).manipulators([
   map("k", "control")
     .to("right_arrow", ["command", "shift"])
-    .to("x", "command"),
-  map("y", "control").to("v", "command"),
+    .to("x", "command")
+    .toUnsetVar(emacsLikeMarkVariable),
+  map("w", "control").to("x", "command").toUnsetVar(emacsLikeMarkVariable),
+  map("y", "control").to("v", "command").toUnsetVar(emacsLikeMarkVariable),
 ]);
 
 const emacsLikeQuotedInsert = rule(

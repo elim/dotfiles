@@ -841,6 +841,42 @@
                   {
                     "key_code": "x",
                     "modifiers": ["command"]
+                  },
+                  {
+                    "set_variable": {
+                      "name": "emacs_like_mark",
+                      "type": "unset"
+                    }
+                  }
+                ],
+                "conditions": [
+                  {
+                    "type": "frontmost_application_unless",
+                    "bundle_identifiers": [
+                      "^org\\.gnu\\.Emacs$",
+                      "^com\\.github\\.wez\\.wezterm$"
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "w",
+                  "modifiers": {
+                    "mandatory": ["control"]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "x",
+                    "modifiers": ["command"]
+                  },
+                  {
+                    "set_variable": {
+                      "name": "emacs_like_mark",
+                      "type": "unset"
+                    }
                   }
                 ],
                 "conditions": [
@@ -865,6 +901,12 @@
                   {
                     "key_code": "v",
                     "modifiers": ["command"]
+                  },
+                  {
+                    "set_variable": {
+                      "name": "emacs_like_mark",
+                      "type": "unset"
+                    }
                   }
                 ],
                 "conditions": [
