@@ -38,6 +38,20 @@ const mapMarkAware = (
   ];
 };
 
+const mapRepeatAndUnsetMark = (
+  from: FromKeyParam,
+  mandatoryModifiers: FromModifierParam,
+  to: ToKeyParam,
+) =>
+  map(from, mandatoryModifiers)
+    .to(to, [], { repeat: true })
+    .toAfterKeyUp({
+      set_variable: {
+        name: emacsLikeMarkVariable,
+        type: "unset",
+      },
+    });
+
 const emacsLikeMark = rule(
   "Emacs-like mark",
   emacsLikeExcludedApps,
@@ -82,6 +96,19 @@ const emacsLikeClipboard = rule(
     .toUnsetVar(emacsLikeMarkVariable),
   map("w", "control").to("x", "command").toUnsetVar(emacsLikeMarkVariable),
   map("y", "control").to("v", "command").toUnsetVar(emacsLikeMarkVariable),
+]);
+
+const emacsLikeBasicEditing = rule(
+  "Emacs-like basic editing",
+  emacsLikeExcludedApps,
+).manipulators([
+  map("o", "control").to("return_or_enter").to("left_arrow"),
+  mapRepeatAndUnsetMark("d", "control", "delete_forward"),
+  map("d", "option")
+    .to("right_arrow", ["option", "shift"])
+    .to("x", "command")
+    .toUnsetVar(emacsLikeMarkVariable),
+  mapRepeatAndUnsetMark("h", "control", "delete_or_backspace"),
 ]);
 
 const emacsLikeQuotedInsert = rule(
@@ -137,6 +164,7 @@ const config = {
           emacsLikeMark.build(),
           emacsLikeCursorMovement.build(),
           emacsLikeClipboard.build(),
+          emacsLikeBasicEditing.build(),
           emacsLikeBasicInput.build(),
         ],
       },
