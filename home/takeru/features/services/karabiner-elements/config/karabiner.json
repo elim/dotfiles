@@ -705,6 +705,120 @@
                     "modifiers": ["option"]
                   }
                 ]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "v",
+                  "modifiers": {
+                    "mandatory": ["control"]
+                  }
+                },
+                "conditions": [
+                  {
+                    "type": "variable_if",
+                    "name": "emacs_like_mark",
+                    "value": true
+                  },
+                  {
+                    "type": "frontmost_application_unless",
+                    "bundle_identifiers": [
+                      "^org\\.gnu\\.Emacs$",
+                      "^com\\.github\\.wez\\.wezterm$"
+                    ]
+                  }
+                ],
+                "to": [
+                  {
+                    "key_code": "page_down",
+                    "modifiers": ["shift"]
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "v",
+                  "modifiers": {
+                    "mandatory": ["control"]
+                  }
+                },
+                "conditions": [
+                  {
+                    "type": "variable_unless",
+                    "name": "emacs_like_mark",
+                    "value": true
+                  },
+                  {
+                    "type": "frontmost_application_unless",
+                    "bundle_identifiers": [
+                      "^org\\.gnu\\.Emacs$",
+                      "^com\\.github\\.wez\\.wezterm$"
+                    ]
+                  }
+                ],
+                "to": [
+                  {
+                    "key_code": "page_down"
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "v",
+                  "modifiers": {
+                    "mandatory": ["option"]
+                  }
+                },
+                "conditions": [
+                  {
+                    "type": "variable_if",
+                    "name": "emacs_like_mark",
+                    "value": true
+                  },
+                  {
+                    "type": "frontmost_application_unless",
+                    "bundle_identifiers": [
+                      "^org\\.gnu\\.Emacs$",
+                      "^com\\.github\\.wez\\.wezterm$"
+                    ]
+                  }
+                ],
+                "to": [
+                  {
+                    "key_code": "page_up",
+                    "modifiers": ["shift"]
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "v",
+                  "modifiers": {
+                    "mandatory": ["option"]
+                  }
+                },
+                "conditions": [
+                  {
+                    "type": "variable_unless",
+                    "name": "emacs_like_mark",
+                    "value": true
+                  },
+                  {
+                    "type": "frontmost_application_unless",
+                    "bundle_identifiers": [
+                      "^org\\.gnu\\.Emacs$",
+                      "^com\\.github\\.wez\\.wezterm$"
+                    ]
+                  }
+                ],
+                "to": [
+                  {
+                    "key_code": "page_up"
+                  }
+                ]
               }
             ]
           },
