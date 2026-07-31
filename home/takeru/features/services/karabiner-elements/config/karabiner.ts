@@ -109,6 +109,14 @@ const emacsLikeBasicEditing = rule(
     .to("x", "command")
     .toUnsetVar(emacsLikeMarkVariable),
   mapRepeatAndUnsetMark("h", "control", "delete_or_backspace"),
+  map("u", "control")
+    .to("left_arrow", ["command", "shift"])
+    .to("x", "command")
+    .toUnsetVar(emacsLikeMarkVariable),
+  map("delete_or_backspace", "option")
+    .to("left_arrow", ["option", "shift"])
+    .to("x", "command")
+    .toUnsetVar(emacsLikeMarkVariable),
 ]);
 
 const emacsLikeQuotedInsert = rule(
