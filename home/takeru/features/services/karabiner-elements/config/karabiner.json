@@ -1267,6 +1267,71 @@
             ]
           },
           {
+            "description": "Emacs-like undo",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "slash",
+                  "modifiers": {
+                    "mandatory": ["control"]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "z",
+                    "modifiers": ["command"]
+                  },
+                  {
+                    "set_variable": {
+                      "name": "emacs_like_mark",
+                      "type": "unset"
+                    }
+                  }
+                ],
+                "conditions": [
+                  {
+                    "type": "frontmost_application_unless",
+                    "bundle_identifiers": [
+                      "^org\\.gnu\\.Emacs$",
+                      "^com\\.github\\.wez\\.wezterm$"
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "backslash",
+                  "modifiers": {
+                    "mandatory": ["control", "shift"]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "z",
+                    "modifiers": ["command"]
+                  },
+                  {
+                    "set_variable": {
+                      "name": "emacs_like_mark",
+                      "type": "unset"
+                    }
+                  }
+                ],
+                "conditions": [
+                  {
+                    "type": "frontmost_application_unless",
+                    "bundle_identifiers": [
+                      "^org\\.gnu\\.Emacs$",
+                      "^com\\.github\\.wez\\.wezterm$"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
             "description": "Emacs-like basic input",
             "manipulators": [
               {
