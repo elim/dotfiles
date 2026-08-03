@@ -13,6 +13,7 @@ const karabinerJsonPath = fileURLToPath(
 );
 
 const emacsLikeMarkVariable = "emacs_like_mark";
+const emacsLikePrefixVariable = "emacs_like_c_x";
 
 const emacsLikeExcludedApps = ifApp({
   bundle_identifiers: [/^org\.gnu\.Emacs$/, /^com\.github\.wez\.wezterm$/],
@@ -143,6 +144,60 @@ const emacsLikeSearch = rule(
   map("5", ["option", "shift"]).to("f", ["command", "option"]),
 ]);
 
+const emacsLikePrefix = rule(
+  "Emacs-like C-x prefix",
+  emacsLikeExcludedApps,
+).manipulators([
+  map("x", "control")
+    .toVar(emacsLikePrefixVariable, true)
+    .toDelayedAction(
+      [
+        {
+          set_variable: {
+            name: emacsLikePrefixVariable,
+            value: false,
+          },
+        },
+      ],
+      [],
+    ),
+  map("h")
+    .condition(ifVar(emacsLikePrefixVariable, true))
+    .to("a", "command")
+    .toVar(emacsLikeMarkVariable, true)
+    .toUnsetVar(emacsLikePrefixVariable),
+  map("f", "control")
+    .condition(ifVar(emacsLikePrefixVariable, true))
+    .to("o", "command")
+    .toUnsetVar(emacsLikePrefixVariable),
+  map("s", "control")
+    .condition(ifVar(emacsLikePrefixVariable, true))
+    .to("s", "command")
+    .toUnsetVar(emacsLikePrefixVariable),
+  map("k")
+    .condition(ifVar(emacsLikePrefixVariable, true))
+    .to("w", "command")
+    .toUnsetVar(emacsLikePrefixVariable),
+  map("c", "control")
+    .condition(ifVar(emacsLikePrefixVariable, true))
+    .to("q", "command")
+    .toUnsetVar(emacsLikePrefixVariable),
+  map("u")
+    .condition(ifVar(emacsLikePrefixVariable, true))
+    .to("z", "command")
+    .toUnsetVar(emacsLikeMarkVariable)
+    .toUnsetVar(emacsLikePrefixVariable),
+  map({
+    any: "key_code",
+    modifiers: {
+      optional: ["any"],
+    },
+  })
+    .condition(ifVar(emacsLikePrefixVariable, true))
+    .toFromEvent()
+    .toUnsetVar(emacsLikePrefixVariable),
+]);
+
 const emacsLikeQuotedInsert = rule(
   "Emacs-like quoted insert",
   emacsLikeExcludedApps,
@@ -193,6 +248,7 @@ const config = {
       complex_modifications: {
         rules: [
           emacsLikeQuotedInsert.build(),
+          emacsLikePrefix.build(),
           emacsLikeMark.build(),
           emacsLikeCursorMovement.build(),
           emacsLikeClipboard.build(),

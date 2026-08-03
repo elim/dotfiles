@@ -118,6 +118,295 @@
             ]
           },
           {
+            "description": "Emacs-like C-x prefix",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "x",
+                  "modifiers": {
+                    "mandatory": ["control"]
+                  }
+                },
+                "to": [
+                  {
+                    "set_variable": {
+                      "name": "emacs_like_c_x",
+                      "value": true
+                    }
+                  }
+                ],
+                "to_delayed_action": {
+                  "to_if_invoked": [
+                    {
+                      "set_variable": {
+                        "name": "emacs_like_c_x",
+                        "value": false
+                      }
+                    }
+                  ],
+                  "to_if_canceled": []
+                },
+                "conditions": [
+                  {
+                    "type": "frontmost_application_unless",
+                    "bundle_identifiers": [
+                      "^org\\.gnu\\.Emacs$",
+                      "^com\\.github\\.wez\\.wezterm$"
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "h"
+                },
+                "conditions": [
+                  {
+                    "type": "variable_if",
+                    "name": "emacs_like_c_x",
+                    "value": true
+                  },
+                  {
+                    "type": "frontmost_application_unless",
+                    "bundle_identifiers": [
+                      "^org\\.gnu\\.Emacs$",
+                      "^com\\.github\\.wez\\.wezterm$"
+                    ]
+                  }
+                ],
+                "to": [
+                  {
+                    "key_code": "a",
+                    "modifiers": ["command"]
+                  },
+                  {
+                    "set_variable": {
+                      "name": "emacs_like_mark",
+                      "value": true
+                    }
+                  },
+                  {
+                    "set_variable": {
+                      "name": "emacs_like_c_x",
+                      "type": "unset"
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "f",
+                  "modifiers": {
+                    "mandatory": ["control"]
+                  }
+                },
+                "conditions": [
+                  {
+                    "type": "variable_if",
+                    "name": "emacs_like_c_x",
+                    "value": true
+                  },
+                  {
+                    "type": "frontmost_application_unless",
+                    "bundle_identifiers": [
+                      "^org\\.gnu\\.Emacs$",
+                      "^com\\.github\\.wez\\.wezterm$"
+                    ]
+                  }
+                ],
+                "to": [
+                  {
+                    "key_code": "o",
+                    "modifiers": ["command"]
+                  },
+                  {
+                    "set_variable": {
+                      "name": "emacs_like_c_x",
+                      "type": "unset"
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "s",
+                  "modifiers": {
+                    "mandatory": ["control"]
+                  }
+                },
+                "conditions": [
+                  {
+                    "type": "variable_if",
+                    "name": "emacs_like_c_x",
+                    "value": true
+                  },
+                  {
+                    "type": "frontmost_application_unless",
+                    "bundle_identifiers": [
+                      "^org\\.gnu\\.Emacs$",
+                      "^com\\.github\\.wez\\.wezterm$"
+                    ]
+                  }
+                ],
+                "to": [
+                  {
+                    "key_code": "s",
+                    "modifiers": ["command"]
+                  },
+                  {
+                    "set_variable": {
+                      "name": "emacs_like_c_x",
+                      "type": "unset"
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "k"
+                },
+                "conditions": [
+                  {
+                    "type": "variable_if",
+                    "name": "emacs_like_c_x",
+                    "value": true
+                  },
+                  {
+                    "type": "frontmost_application_unless",
+                    "bundle_identifiers": [
+                      "^org\\.gnu\\.Emacs$",
+                      "^com\\.github\\.wez\\.wezterm$"
+                    ]
+                  }
+                ],
+                "to": [
+                  {
+                    "key_code": "w",
+                    "modifiers": ["command"]
+                  },
+                  {
+                    "set_variable": {
+                      "name": "emacs_like_c_x",
+                      "type": "unset"
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "c",
+                  "modifiers": {
+                    "mandatory": ["control"]
+                  }
+                },
+                "conditions": [
+                  {
+                    "type": "variable_if",
+                    "name": "emacs_like_c_x",
+                    "value": true
+                  },
+                  {
+                    "type": "frontmost_application_unless",
+                    "bundle_identifiers": [
+                      "^org\\.gnu\\.Emacs$",
+                      "^com\\.github\\.wez\\.wezterm$"
+                    ]
+                  }
+                ],
+                "to": [
+                  {
+                    "key_code": "q",
+                    "modifiers": ["command"]
+                  },
+                  {
+                    "set_variable": {
+                      "name": "emacs_like_c_x",
+                      "type": "unset"
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "u"
+                },
+                "conditions": [
+                  {
+                    "type": "variable_if",
+                    "name": "emacs_like_c_x",
+                    "value": true
+                  },
+                  {
+                    "type": "frontmost_application_unless",
+                    "bundle_identifiers": [
+                      "^org\\.gnu\\.Emacs$",
+                      "^com\\.github\\.wez\\.wezterm$"
+                    ]
+                  }
+                ],
+                "to": [
+                  {
+                    "key_code": "z",
+                    "modifiers": ["command"]
+                  },
+                  {
+                    "set_variable": {
+                      "name": "emacs_like_mark",
+                      "type": "unset"
+                    }
+                  },
+                  {
+                    "set_variable": {
+                      "name": "emacs_like_c_x",
+                      "type": "unset"
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "any": "key_code",
+                  "modifiers": {
+                    "optional": ["any"]
+                  }
+                },
+                "conditions": [
+                  {
+                    "type": "variable_if",
+                    "name": "emacs_like_c_x",
+                    "value": true
+                  },
+                  {
+                    "type": "frontmost_application_unless",
+                    "bundle_identifiers": [
+                      "^org\\.gnu\\.Emacs$",
+                      "^com\\.github\\.wez\\.wezterm$"
+                    ]
+                  }
+                ],
+                "to": [
+                  {
+                    "from_event": true
+                  },
+                  {
+                    "set_variable": {
+                      "name": "emacs_like_c_x",
+                      "type": "unset"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
             "description": "Emacs-like mark",
             "manipulators": [
               {
