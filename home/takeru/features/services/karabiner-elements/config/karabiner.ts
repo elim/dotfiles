@@ -134,6 +134,15 @@ const emacsLikeUndo = rule(
     .toUnsetVar(emacsLikeMarkVariable),
 ]);
 
+const emacsLikeSearch = rule(
+  "Emacs-like search",
+  emacsLikeExcludedApps,
+).manipulators([
+  map("s", "control").to("f", "command"),
+  map("r", "control").to("g", ["command", "shift"]),
+  map("5", ["option", "shift"]).to("f", ["command", "option"]),
+]);
+
 const emacsLikeQuotedInsert = rule(
   "Emacs-like quoted insert",
   emacsLikeExcludedApps,
@@ -189,6 +198,7 @@ const config = {
           emacsLikeClipboard.build(),
           emacsLikeBasicEditing.build(),
           emacsLikeUndo.build(),
+          emacsLikeSearch.build(),
           emacsLikeBasicInput.build(),
         ],
       },

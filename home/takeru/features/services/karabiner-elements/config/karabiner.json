@@ -1332,6 +1332,83 @@
             ]
           },
           {
+            "description": "Emacs-like search",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "s",
+                  "modifiers": {
+                    "mandatory": ["control"]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "f",
+                    "modifiers": ["command"]
+                  }
+                ],
+                "conditions": [
+                  {
+                    "type": "frontmost_application_unless",
+                    "bundle_identifiers": [
+                      "^org\\.gnu\\.Emacs$",
+                      "^com\\.github\\.wez\\.wezterm$"
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "r",
+                  "modifiers": {
+                    "mandatory": ["control"]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "g",
+                    "modifiers": ["command", "shift"]
+                  }
+                ],
+                "conditions": [
+                  {
+                    "type": "frontmost_application_unless",
+                    "bundle_identifiers": [
+                      "^org\\.gnu\\.Emacs$",
+                      "^com\\.github\\.wez\\.wezterm$"
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "5",
+                  "modifiers": {
+                    "mandatory": ["option", "shift"]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "f",
+                    "modifiers": ["command", "option"]
+                  }
+                ],
+                "conditions": [
+                  {
+                    "type": "frontmost_application_unless",
+                    "bundle_identifiers": [
+                      "^org\\.gnu\\.Emacs$",
+                      "^com\\.github\\.wez\\.wezterm$"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
             "description": "Emacs-like basic input",
             "manipulators": [
               {
