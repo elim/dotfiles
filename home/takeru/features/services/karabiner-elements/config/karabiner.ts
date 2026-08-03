@@ -14,6 +14,7 @@ const karabinerJsonPath = fileURLToPath(
 
 const emacsLikeMarkVariable = "emacs_like_mark";
 const emacsLikePrefixVariable = "emacs_like_c_x";
+const emacsLikeQuoteVariable = "emacs_like_quote";
 
 const emacsLikeExcludedApps = ifApp({
   bundle_identifiers: [/^org\.gnu\.Emacs$/, /^com\.github\.wez\.wezterm$/],
@@ -203,31 +204,27 @@ const emacsLikeQuotedInsert = rule(
   emacsLikeExcludedApps,
 ).manipulators([
   map("q", "control")
-    .toVar("emacs_like_quote", true)
+    .toVar(emacsLikeQuoteVariable, true)
     .toDelayedAction(
       [
         {
           set_variable: {
-            name: "emacs_like_quote",
+            name: emacsLikeQuoteVariable,
             value: false,
           },
         },
       ],
       [],
     ),
-  map("i", "control")
-    .condition(ifVar("emacs_like_quote", true))
-    .to("i", "control")
-    .toUnsetVar("emacs_like_quote"),
   map({
     any: "key_code",
     modifiers: {
       optional: ["any"],
     },
   })
-    .condition(ifVar("emacs_like_quote", true))
+    .condition(ifVar(emacsLikeQuoteVariable, true))
     .toFromEvent()
-    .toUnsetVar("emacs_like_quote"),
+    .toUnsetVar(emacsLikeQuoteVariable),
 ]);
 
 const emacsLikeBasicInput = rule(
