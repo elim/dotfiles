@@ -56,6 +56,9 @@ const emacsLikeMark = rule(
   "Emacs-like mark",
   emacsLikeExcludedApps,
 ).manipulators([
+  map("spacebar", ["control", "option"])
+    .to("right_arrow", ["option", "shift"])
+    .toVar(emacsLikeMarkVariable, true),
   map("spacebar", "control")
     .condition(ifVar(emacsLikeMarkVariable, true))
     .toUnsetVar(emacsLikeMarkVariable),

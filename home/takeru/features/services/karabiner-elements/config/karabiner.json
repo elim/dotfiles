@@ -125,6 +125,36 @@
                 "from": {
                   "key_code": "spacebar",
                   "modifiers": {
+                    "mandatory": ["control", "option"]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "right_arrow",
+                    "modifiers": ["option", "shift"]
+                  },
+                  {
+                    "set_variable": {
+                      "name": "emacs_like_mark",
+                      "value": true
+                    }
+                  }
+                ],
+                "conditions": [
+                  {
+                    "type": "frontmost_application_unless",
+                    "bundle_identifiers": [
+                      "^org\\.gnu\\.Emacs$",
+                      "^com\\.github\\.wez\\.wezterm$"
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "spacebar",
+                  "modifiers": {
                     "mandatory": ["control"]
                   }
                 },
