@@ -67,9 +67,13 @@ local config = {
 -- Apply modular configurations
 appearance.apply_to_config(config)
 
--- On macOS, Cmd+g sends M-g (Alt+g) to tmux, which converts it to C-g for the agent.
--- On NixOS, xremap's wezterm.nix already preserves Alt+g (= "Cmd+g" feel) through to tmux.
+-- macOS specific configuration
 if wezterm.target_triple:find("darwin") then
+  -- Forward Ctrl and Shift key combinations to IME for macSKK (e.g., C-j mode switching)
+  config.macos_forward_to_ime_modifier_mask = "SHIFT|CTRL"
+
+  -- Cmd+g sends M-g (Alt+g) to tmux, which converts it to C-g for the agent.
+  -- On NixOS, xremap's wezterm.nix already preserves Alt+g (= "Cmd+g" feel) through to tmux.
   config.keys = {
     {
       key = "g",
