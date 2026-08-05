@@ -496,34 +496,6 @@
                     }
                   }
                 ]
-              },
-              {
-                "type": "basic",
-                "from": {
-                  "key_code": "g",
-                  "modifiers": {
-                    "mandatory": ["control"]
-                  }
-                },
-                "conditions": [
-                  {
-                    "type": "variable_unless",
-                    "name": "emacs_like_mark",
-                    "value": true
-                  },
-                  {
-                    "type": "frontmost_application_unless",
-                    "bundle_identifiers": [
-                      "^org\\.gnu\\.Emacs$",
-                      "^com\\.github\\.wez\\.wezterm$"
-                    ]
-                  }
-                ],
-                "to": [
-                  {
-                    "key_code": "escape"
-                  }
-                ]
               }
             ]
           },

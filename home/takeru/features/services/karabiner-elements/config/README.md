@@ -35,7 +35,7 @@ The bindings apply to GUI applications except Emacs and WezTerm.
 | `M-<`, `M->`               | Move to the beginning or end of the document                |
 | `C-Space`                  | Toggle the mark                                             |
 | `C-M-Space`                | Select the next word and enable the mark                    |
-| `C-g`                      | Disable the mark, or send Escape when the mark is disabled  |
+| `C-g`                      | Disable the mark                                            |
 | `C-w`, `C-k`, `C-u`        | Cut the selection, to line end, or to line beginning        |
 | `M-d`, `M-Backspace`       | Kill the next or previous word                              |
 | `C-y`                      | Paste from the macOS clipboard                              |

@@ -67,12 +67,10 @@ const emacsLikeMark = rule(
   map("spacebar", "control")
     .condition(ifVar(emacsLikeMarkVariable, true).unless())
     .toVar(emacsLikeMarkVariable, true),
+  // Intercept C-g only for mark; otherwise macSKK and the app handle it.
   map("g", "control")
     .condition(ifVar(emacsLikeMarkVariable, true))
     .toUnsetVar(emacsLikeMarkVariable),
-  map("g", "control")
-    .condition(ifVar(emacsLikeMarkVariable, true).unless())
-    .to("escape"),
 ]);
 
 const emacsLikeCursorMovement = rule(
