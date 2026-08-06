@@ -164,6 +164,9 @@
 
 ;;; Platform / Frame / Appearance
 
+(eval-and-compile
+  (require 'doom-modeline))
+
 (leaf doom-modeline
   :leaf-defer nil
   :defun doom-modeline-mode
@@ -175,6 +178,20 @@
   :custom-face
   ((mode-line  . '((t (:height 160))))
    (mode-line-inactive . '((t (:height 160)))))
+  :config
+  (doom-modeline-def-segment elim-view-state
+    "Show whether the current window's buffer is in `view-mode'."
+    (when (bound-and-true-p view-mode)
+      (propertize " VIEW "
+                  'face 'elim:view-mode-line
+                  'help-echo "Read only (press i to edit)")))
+  (doom-modeline-def-modeline 'main
+    '(eldoc bar elim-view-state window-state workspace-name window-number
+      modals matches follow buffer-info remote-host buffer-position word-count
+      parrot selection-info)
+    '(compilation objed-state misc-info project-name persp-name battery grip irc
+      mu4e gnus github debug repl lsp minor-modes input-method indent-info
+      buffer-encoding major-mode process vcs check time))
   :global-minor-mode doom-modeline-mode)
 
 (leaf font-core
@@ -253,6 +270,90 @@
 (leaf time
   :custom ((display-time-24hr-format . t))
   :global-minor-mode display-time-mode)
+
+(defgroup elim:view nil
+  "View mode customizations."
+  :group 'view)
+
+(defvar-local elim:view--header-line-installed-p nil)
+(defvar-local elim:view--saved-cursor-type nil)
+(defvar-local elim:view--saved-header-line-format nil)
+(defvar-local elim:view--saved-scroll-error-top-bottom nil)
+(defvar-local elim:view--scroll-error-top-bottom-was-local-p nil)
+
+(defface elim:view-header-line
+  '((t (:inherit warning :inverse-video t :weight bold)))
+  "Face for the header line shown in `view-mode'."
+  :group 'elim:view)
+
+(defface elim:view-mode-line
+  '((t (:inherit warning :inverse-video t :weight bold)))
+  "Face for the mode-line indicator shown in `view-mode'."
+  :group 'elim:view)
+
+(leaf view
+  :preface
+  (defconst elim:view-header-line-format
+    '((:eval
+       (propertize " VIEW MODE  |  i: edit "
+                   'face 'elim:view-header-line
+                   'help-echo "Read only (press i to edit)"))
+      (:eval
+       (propertize " "
+                   'face 'elim:view-header-line
+                   'display '(space :align-to right-fringe))))
+    "Header line displayed while `view-mode' is active.")
+  (defun elim:view-update-appearance ()
+    "Show a prominent header and hollow cursor in `view-mode'."
+    (if view-mode
+        (unless elim:view--header-line-installed-p
+          (setq-local elim:view--saved-cursor-type cursor-type
+                      elim:view--saved-header-line-format header-line-format
+                      elim:view--saved-scroll-error-top-bottom
+                      scroll-error-top-bottom
+                      elim:view--scroll-error-top-bottom-was-local-p
+                      (local-variable-p 'scroll-error-top-bottom)
+                      elim:view--header-line-installed-p t
+                      cursor-type 'hollow
+                      header-line-format elim:view-header-line-format
+                      scroll-error-top-bottom t))
+      (when elim:view--header-line-installed-p
+        (setq-local cursor-type elim:view--saved-cursor-type
+                    header-line-format elim:view--saved-header-line-format
+                    elim:view--saved-cursor-type nil
+                    elim:view--saved-header-line-format nil
+                    elim:view--header-line-installed-p nil)
+        (if elim:view--scroll-error-top-bottom-was-local-p
+            (setq-local scroll-error-top-bottom
+                        elim:view--saved-scroll-error-top-bottom)
+          (kill-local-variable 'scroll-error-top-bottom))
+        (setq-local elim:view--saved-scroll-error-top-bottom nil
+                    elim:view--scroll-error-top-bottom-was-local-p nil)))
+    (force-mode-line-update t))
+  :bind (("C-c v" . view-mode)
+         (:view-mode-map
+          ("h" . backward-char)
+          ("j" . next-line)
+          ("k" . previous-line)
+          ("l" . forward-char)
+          ("w" . forward-word)
+          ("b" . backward-word)
+          ("0" . beginning-of-line)
+          ("^" . back-to-indentation)
+          ("$" . end-of-line)
+          ("g" . nil)
+          ("g g" . beginning-of-buffer)
+          ("G" . end-of-buffer)
+          ("/" . View-search-regexp-forward)
+          ("?" . View-search-regexp-backward)
+          ("C-b" . View-scroll-page-backward)
+          ("C-d" . View-scroll-half-page-forward)
+          ("C-f" . View-scroll-page-forward)
+          ("C-u" . View-scroll-half-page-backward)
+          ("n" . View-search-last-regexp-forward)
+          ("N" . View-search-last-regexp-backward)
+          ("i" . View-exit-and-edit)))
+  :hook (view-mode-hook . elim:view-update-appearance))
 
 ;;; Input method
 
