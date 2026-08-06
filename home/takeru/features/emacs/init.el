@@ -164,6 +164,26 @@
 
 ;;; Platform / Frame / Appearance
 
+(leaf doom-modeline
+  :leaf-defer nil
+  :defun doom-modeline-mode
+  :custom
+  ((doom-modeline-buffer-file-name-style . 'truncate-with-project)
+   (doom-modeline-major-mode-icon . nil)
+   (doom-modeline-minor-modes . nil)
+   (inhibit-compacting-font-caches . t))
+  :custom-face
+  ((mode-line  . '((t (:height 160))))
+   (mode-line-inactive . '((t (:height 160)))))
+  :global-minor-mode doom-modeline-mode)
+
+(leaf font-core
+  :global-minor-mode global-font-lock-mode)
+
+(leaf *fonts
+  :config
+  (set-face-attribute 'fixed-pitch nil :family "HackGen Console NF"))
+
 (leaf frame
   :if window-system
   :preface
@@ -180,9 +200,15 @@
   :custom ((line-spacing . 4))
   :hook (window-setup-hook . elim:frame-startup-state))
 
-(leaf *fonts
-  :config
-  (set-face-attribute 'fixed-pitch nil :family "HackGen Console NF"))
+(leaf hl-line
+  :global-minor-mode global-hl-line-mode)
+
+(leaf menu-bar
+  :if (eq system-type 'darwin)
+  :global-minor-mode t)
+
+(leaf nerd-icons
+  :custom ((nerd-icons-font-family . "HackGen Console NF")))
 
 (leaf ns
   :if (featurep 'ns)
@@ -195,32 +221,6 @@
    (ns-command-modifier         . 'meta)
    (ns-right-alternate-modifier . 'hyper)
    (ns-right-command-modifier   . 'super)))
-
-(leaf nerd-icons
-  :custom ((nerd-icons-font-family . "HackGen Console NF")))
-
-(leaf doom-modeline
-  :leaf-defer nil
-  :defun doom-modeline-mode
-  :custom
-  ((doom-modeline-buffer-file-name-style . 'truncate-with-project)
-   (doom-modeline-major-mode-icon . nil)
-   (doom-modeline-minor-modes . nil)
-   (inhibit-compacting-font-caches . t))
-  :custom-face
-  ((mode-line  . '((t (:height 160))))
-   (mode-line-inactive . '((t (:height 160)))))
-  :global-minor-mode doom-modeline-mode)
-
-(leaf hl-line
-  :global-minor-mode global-hl-line-mode)
-
-(leaf font-core
-  :global-minor-mode global-font-lock-mode)
-
-(leaf menu-bar
-  :if (eq system-type 'darwin)
-  :global-minor-mode t)
 
 (leaf nyan-mode
   :leaf-defer nil
