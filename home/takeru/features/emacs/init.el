@@ -303,6 +303,41 @@
                    'face 'elim:view-header-line
                    'display '(space :align-to right-fringe))))
     "Header line displayed while `view-mode' is active.")
+  (defun elim:visit-files (encoded-arguments view-p)
+    "Visit base64 ENCODED-ARGUMENTS for editing or viewing.
+
+Each decoded argument may be a file name or FILE:LINE.  With no
+arguments, use the selected window's buffer.  Enable `view-mode'
+when VIEW-P is non-nil; otherwise disable it."
+    (if (null encoded-arguments)
+        (with-current-buffer (window-buffer (selected-window))
+          (view-mode (if view-p +1 -1)))
+      (let ((buffers
+             (mapcar
+              (lambda (encoded-argument)
+                (let* ((argument (decode-coding-string
+                                  (base64-decode-string encoded-argument)
+                                  'utf-8))
+                       (position
+                        (when (string-match
+                               "\\`\\([^:]+\\):\\([0-9]+\\)\\'"
+                               argument)
+                          (cons (match-string 1 argument)
+                                (string-to-number
+                                 (match-string 2 argument)))))
+                       (file (or (car position) argument))
+                       (line (cdr position))
+                       (buffer (find-file-noselect (expand-file-name file))))
+                  (with-current-buffer buffer
+                    (when buffer-file-name
+                      (view-mode (if view-p +1 -1)))
+                    (when line
+                      (goto-char (point-min))
+                      (forward-line (1- line)))
+                    buffer)
+                  buffer))
+              encoded-arguments)))
+        (pop-to-buffer (car buffers)))))
   (defun elim:view-update-appearance ()
     "Show a prominent header and hollow cursor in `view-mode'."
     (if view-mode

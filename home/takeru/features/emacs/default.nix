@@ -97,7 +97,9 @@ let
       inherit emacs;
     };
 
-  e = pkgs.callPackage ../../../../pkgs/e { pkgs = (pkgs.extend overlay); };
+  emacsclientCommands = pkgs.callPackage ../../../../pkgs/emacsclient-commands {
+    pkgs = pkgs.extend overlay;
+  };
 in
 
 {
@@ -110,7 +112,7 @@ in
 
     packages = [
       emacs
-      e
+      emacsclientCommands
     ];
 
     sessionVariables = {

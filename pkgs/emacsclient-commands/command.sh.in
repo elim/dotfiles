@@ -1,0 +1,17 @@
+# shellcheck shell=bash
+
+encoded_arguments=()
+
+for argument in "$@"; do
+  encoded_argument="$(printf '%s' "$argument" | base64 | tr -d '\n')"
+  encoded_arguments+=("\"$encoded_argument\"")
+done
+
+expression="(elim:visit-files '(${encoded_arguments[*]}) @view@)"
+
+@emacsclient@ --no-wait --suppress-output --eval "$expression"
+
+# Local Variables:
+# mode: sh
+# sh-shell: bash
+# End:
