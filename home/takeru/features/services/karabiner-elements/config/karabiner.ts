@@ -202,6 +202,7 @@ const emacsLikeQuotedInsert = rule(
   emacsLikeExcludedApps,
 ).manipulators([
   map("q", "control")
+    .condition(ifVar(emacsLikeQuoteVariable, true).unless())
     .toVar(emacsLikeQuoteVariable, true)
     .toDelayedAction(
       [

@@ -17,6 +17,20 @@
                     "mandatory": ["control"]
                   }
                 },
+                "conditions": [
+                  {
+                    "type": "variable_unless",
+                    "name": "emacs_like_quote",
+                    "value": true
+                  },
+                  {
+                    "type": "frontmost_application_unless",
+                    "bundle_identifiers": [
+                      "^org\\.gnu\\.Emacs$",
+                      "^com\\.github\\.wez\\.wezterm$"
+                    ]
+                  }
+                ],
                 "to": [
                   {
                     "set_variable": {
@@ -35,16 +49,7 @@
                     }
                   ],
                   "to_if_canceled": []
-                },
-                "conditions": [
-                  {
-                    "type": "frontmost_application_unless",
-                    "bundle_identifiers": [
-                      "^org\\.gnu\\.Emacs$",
-                      "^com\\.github\\.wez\\.wezterm$"
-                    ]
-                  }
-                ]
+                }
               },
               {
                 "type": "basic",
