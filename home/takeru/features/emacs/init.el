@@ -278,8 +278,6 @@
 (defvar-local elim:view--header-line-installed-p nil)
 (defvar-local elim:view--saved-cursor-type nil)
 (defvar-local elim:view--saved-header-line-format nil)
-(defvar-local elim:view--saved-scroll-error-top-bottom nil)
-(defvar-local elim:view--scroll-error-top-bottom-was-local-p nil)
 
 (defface elim:view-header-line
   '((t (:inherit warning :inverse-video t :weight bold)))
@@ -292,6 +290,7 @@
   :group 'elim:view)
 
 (leaf view
+  :defvar view-mode-map
   :preface
   (defconst elim:view-header-line-format
     '((:eval
@@ -344,50 +343,21 @@ when VIEW-P is non-nil; otherwise disable it."
         (unless elim:view--header-line-installed-p
           (setq-local elim:view--saved-cursor-type cursor-type
                       elim:view--saved-header-line-format header-line-format
-                      elim:view--saved-scroll-error-top-bottom
-                      scroll-error-top-bottom
-                      elim:view--scroll-error-top-bottom-was-local-p
-                      (local-variable-p 'scroll-error-top-bottom)
                       elim:view--header-line-installed-p t
                       cursor-type 'hollow
-                      header-line-format elim:view-header-line-format
-                      scroll-error-top-bottom t))
+                      header-line-format elim:view-header-line-format))
       (when elim:view--header-line-installed-p
         (setq-local cursor-type elim:view--saved-cursor-type
                     header-line-format elim:view--saved-header-line-format
                     elim:view--saved-cursor-type nil
                     elim:view--saved-header-line-format nil
-                    elim:view--header-line-installed-p nil)
-        (if elim:view--scroll-error-top-bottom-was-local-p
-            (setq-local scroll-error-top-bottom
-                        elim:view--saved-scroll-error-top-bottom)
-          (kill-local-variable 'scroll-error-top-bottom))
-        (setq-local elim:view--saved-scroll-error-top-bottom nil
-                    elim:view--scroll-error-top-bottom-was-local-p nil)))
+                    elim:view--header-line-installed-p nil)))
     (force-mode-line-update t))
-  :bind (("C-c v" . view-mode)
-         (:view-mode-map
-          ("h" . backward-char)
-          ("j" . next-line)
-          ("k" . previous-line)
-          ("l" . forward-char)
-          ("w" . forward-word)
-          ("b" . backward-word)
-          ("0" . beginning-of-line)
-          ("^" . back-to-indentation)
-          ("$" . end-of-line)
-          ("g" . nil)
-          ("g g" . beginning-of-buffer)
-          ("G" . end-of-buffer)
-          ("/" . View-search-regexp-forward)
-          ("?" . View-search-regexp-backward)
-          ("C-b" . View-scroll-page-backward)
-          ("C-d" . View-scroll-half-page-forward)
-          ("C-f" . View-scroll-page-forward)
-          ("C-u" . View-scroll-half-page-backward)
-          ("n" . View-search-last-regexp-forward)
-          ("N" . View-search-last-regexp-backward)
-          ("i" . View-exit-and-edit)))
+  :bind ("C-c v" . view-mode)
+  :config
+  ;; Keep Emacs's global bindings available while the buffer is read-only.
+  (setcdr view-mode-map nil)
+  (define-key view-mode-map (kbd "i") #'View-exit-and-edit)
   :hook (view-mode-hook . elim:view-update-appearance))
 
 ;;; Input method
