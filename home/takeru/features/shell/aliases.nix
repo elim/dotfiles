@@ -18,6 +18,11 @@
         "open -a Emacs"
       else
         "GTK_IM_MODULE=gtk-im-context-simple XMODIFIERS='@im=none' emacs";
+    mg =
+      if pkgs.stdenv.isDarwin then
+        ''emacsclient --alternate-editor='open -a Emacs --args --eval' --no-wait --suppress-output --eval "(magit-status \"$PWD\")"''
+      else
+        ''emacsclient --no-wait --suppress-output --eval "(magit-status \"$PWD\")"'';
     vi = "vim";
 
     # grep
