@@ -392,6 +392,7 @@ when VIEW-P is non-nil; otherwise disable it."
 
     ;; Main SKK configuration
     (leaf skk
+      :defvar skk-emacs-max-tooltip-size
       :defun skk-save-jisyo
       :bind* (("C-x C-j" . skk-mode)
               ("C-x t" . nil)
@@ -422,6 +423,13 @@ when VIEW-P is non-nil; otherwise disable it."
        (skk-extra-jisyo-file-list . skk-extra-jisyo-file-list))
 
       :config
+      ;; NS Emacs defines `x-max-tooltip-size' with a nil value, but DDSKK
+      ;; only falls back when the variable is unbound.
+      (advice-add 'skk-tooltip-max-tooltip-size
+                  :filter-return
+                  (lambda (size)
+                    (or size skk-emacs-max-tooltip-size)))
+
       ;; Auto-save dictionary settings (6-second interval)
       (let ((auto-save-interval 6))
         (run-with-idle-timer auto-save-interval t
@@ -431,8 +439,14 @@ when VIEW-P is non-nil; otherwise disable it."
   (leaf ddskk-posframe
     :doc "Show Henkan tooltip for ddskk via posframe"
     :after skk
+    :defun ddskk-posframe-display
     :custom ((ddskk-posframe-mode . t))
-    :blackout ddskk-posframe-mode))
+    :blackout ddskk-posframe-mode
+    :config
+    (advice-add 'skk-tooltip-show-1
+                :override
+                (lambda (text _parameters)
+                  (ddskk-posframe-display text)))))
 
 ;;; Editing basics
 
