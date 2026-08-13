@@ -59,6 +59,20 @@ local config = {
   audible_bell = "Disabled",
   use_ime = true,
 
+  -- Move the current tab left/right with Cmd+Opt+Shift+[/] on macOS.
+  keys = {
+    {
+      key = "{",
+      mods = "SUPER|ALT|SHIFT",
+      action = wezterm.action.MoveTabRelative(-1),
+    },
+    {
+      key = "}",
+      mods = "SUPER|ALT|SHIFT",
+      action = wezterm.action.MoveTabRelative(1),
+    },
+  },
+
   -- Preserve WezTerm environment variables in spawned processes
   -- This ensures that `wezterm cli` commands work from within tmux sessions
   set_environment_variables = {},
@@ -74,13 +88,11 @@ if wezterm.target_triple:find("darwin") then
 
   -- Cmd+g sends M-g (Alt+g) to tmux, which converts it to C-g for the agent.
   -- On NixOS, xremap's wezterm.nix already preserves Alt+g (= "Cmd+g" feel) through to tmux.
-  config.keys = {
-    {
-      key = "g",
-      mods = "CMD",
-      action = wezterm.action.SendKey { key = "g", mods = "ALT" },
-    },
-  }
+  table.insert(config.keys, {
+    key = "g",
+    mods = "CMD",
+    action = wezterm.action.SendKey { key = "g", mods = "ALT" },
+  })
 end
 
 return config
