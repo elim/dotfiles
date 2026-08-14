@@ -91,7 +91,8 @@
            (("C-l" . uwabami:filename-upto-parent)
             ("C-r" . vertico-previous)
             ("C-s" . vertico-next)))
-    :custom (vertico-count . 20)
+    :custom ((vertico-count . 20)
+             (vertico-resize . nil))
     :global-minor-mode t))
 
 ;;; Code completion and intelligence
