@@ -294,9 +294,9 @@
   :preface
   (defconst elim:view-header-line-format
     '((:eval
-       (propertize " VIEW MODE  |  i: edit "
+       (propertize " VIEW MODE  |  i: edit  q: close "
                    'face 'elim:view-header-line
-                   'help-echo "Read only (press i to edit)"))
+                   'help-echo "Read only (press i to edit or q to close the buffer)"))
       (:eval
        (propertize " "
                    'face 'elim:view-header-line
@@ -358,6 +358,7 @@ when VIEW-P is non-nil; otherwise disable it."
   ;; Keep Emacs's global bindings available while the buffer is read-only.
   (setcdr view-mode-map nil)
   (define-key view-mode-map (kbd "i") #'View-exit-and-edit)
+  (define-key view-mode-map (kbd "q") #'kill-current-buffer)
   :hook (view-mode-hook . elim:view-update-appearance))
 
 ;;; Input method
