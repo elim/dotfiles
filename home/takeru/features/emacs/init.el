@@ -405,7 +405,12 @@ when VIEW-P is non-nil; otherwise disable it."
     ;; Main SKK configuration
     (leaf skk
       :defvar skk-emacs-max-tooltip-size
-      :defun skk-save-jisyo
+      :defun skk-latin-mode skk-save-jisyo
+      :preface
+      (defun elim:view-skk-latin-mode ()
+        "Switch DDSKK to ASCII mode when it is active."
+        (when (bound-and-true-p skk-mode)
+          (skk-latin-mode nil)))
       :bind* (("C-x C-j" . skk-mode)
               ("C-x t" . nil)
               ("C-x j" . nil))
@@ -445,7 +450,8 @@ when VIEW-P is non-nil; otherwise disable it."
       ;; Auto-save dictionary settings (6-second interval)
       (let ((auto-save-interval 6))
         (run-with-idle-timer auto-save-interval t
-                             #'(lambda () (skk-save-jisyo +1))))))
+                             #'(lambda () (skk-save-jisyo +1))))
+      :hook (view-mode-hook . elim:view-skk-latin-mode))
 
   ;; SKK posframe configuration (popup display for conversion candidates)
   (leaf ddskk-posframe
@@ -458,7 +464,7 @@ when VIEW-P is non-nil; otherwise disable it."
     (advice-add 'skk-tooltip-show-1
                 :override
                 (lambda (text _parameters)
-                  (ddskk-posframe-display text)))))
+                  (ddskk-posframe-display text))))))
 
 ;;; Editing basics
 
