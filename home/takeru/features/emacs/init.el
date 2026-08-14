@@ -361,6 +361,16 @@ when VIEW-P is non-nil; otherwise disable it."
   (define-key view-mode-map (kbd "q") #'kill-current-buffer)
   :hook (view-mode-hook . elim:view-update-appearance))
 
+(leaf ffap
+  :defvar ffap-file-finder
+  :preface
+  (defun elim:view-file-at-point ()
+    "Visit the file at point in `view-mode'."
+    (interactive)
+    (let ((ffap-file-finder #'view-file))
+      (call-interactively #'find-file-at-point)))
+  :bind (([remap find-file-read-only] . elim:view-file-at-point)))
+
 ;;; Input method
 
 (leaf *skk
