@@ -1,4 +1,5 @@
 require "fileutils"
+require "json"
 require "minitest/autorun"
 require "open3"
 require "pty"
@@ -59,6 +60,46 @@ class SlackContextTest < Minitest::Test
     assert_predicate status, :success?, output
     refute_includes output, "Fetched context:"
     assert_includes output, "Copied to clipboard:"
+  end
+
+  def test_resolves_author_and_mentions_from_users_file
+    write_users_file({
+      "U012345678" => { "best_name" => "Example User" },
+      "U987654321" => { "display_name" => "Mentioned User" },
+    })
+
+    output, status = run_script("--users-file", "users.json", "url")
+
+    assert_predicate status, :success?, output
+    assert_includes output, "Author: Example User (U012345678)"
+    assert_includes output, "First message: hello @Mentioned User"
+  end
+
+  def test_discovers_workspace_config_from_parent_directory
+    nested_directory = File.join(@directory, "work", "nested")
+    FileUtils.mkdir_p(nested_directory)
+    File.write(
+      File.join(@directory, ".slack-context.json"),
+      JSON.generate("users_file" => "state/users.json"),
+    )
+    write_users_file(
+      { "U012345678" => { "best_name" => "Configured User" } },
+      path: File.join(@directory, "state", "users.json"),
+    )
+
+    output, status = run_script("url", chdir: nested_directory)
+
+    assert_predicate status, :success?, output
+    assert_includes output, "Author: Configured User (U012345678)"
+  end
+
+  def test_uses_users_json_from_current_directory
+    write_users_file({ "U012345678" => { "best_name" => "Local User" } })
+
+    output, status = run_script("url")
+
+    assert_predicate status, :success?, output
+    assert_includes output, "Author: Local User (U012345678)"
   end
 
   def test_uses_clipboard_as_source_when_no_arguments_are_given
@@ -183,8 +224,8 @@ class SlackContextTest < Minitest::Test
 
   private
 
-  def run_script(*arguments)
-    Open3.capture2e(@env, "ruby", SCRIPT, *arguments, chdir: @directory)
+  def run_script(*arguments, chdir: @directory)
+    Open3.capture2e(@env, "ruby", SCRIPT, *arguments, chdir: chdir)
   end
 
   def run_with_tty(*arguments)
@@ -269,10 +310,10 @@ class SlackContextTest < Minitest::Test
       elif [[ ${SLACK_CONTEXT_TEST_INVALID_JSON-} == 1 ]]; then
         printf 'not json\n' >context.json
       elif [[ ${SLACK_CONTEXT_TEST_LONG_MESSAGE-} == 1 ]]; then
-        printf '{"channel_id":"C0123456789","name":"example-channel","messages":[{"text":"%s"}]}\n' \
+        printf '{"channel_id":"C0123456789","name":"example-channel","messages":[{"user":"U012345678","text":"%s"}]}\n' \
           "$(printf '%0201d' 0 | tr 0 a)" >context.json
       else
-        printf '{"channel_id":"C0123456789","name":"example-channel","messages":[{"text":"hello"}]}\n' >context.json
+        printf '{"channel_id":"C0123456789","name":"example-channel","messages":[{"user":"U012345678","text":"hello <@U987654321>"}]}\n' >context.json
         printf 'messages\n' >messages.txt
       fi
     SH
@@ -302,5 +343,10 @@ class SlackContextTest < Minitest::Test
     path = File.join(@bin, name)
     File.write(path, "#!/usr/bin/env bash\n#{body}")
     FileUtils.chmod("u+x", path)
+  end
+
+  def write_users_file(records, path: File.join(@directory, "users.json"))
+    FileUtils.mkdir_p(File.dirname(path))
+    File.write(path, JSON.pretty_generate(records))
   end
 end

@@ -1,6 +1,7 @@
 require "English"
 require "io/console"
 require "json"
+require "pathname"
 
 module SlackContext
   class Error < StandardError
@@ -41,7 +42,7 @@ module SlackContext
   class ConversationSummary
     EXCERPT_LENGTH = 200
 
-    def self.load(path)
+    def self.load(path, user_map:)
       payload = JSON.parse(File.read(path))
       return unless payload.is_a?(Hash)
 
@@ -51,22 +52,26 @@ module SlackContext
       new(
         channel_id: payload["channel_id"],
         channel_name: payload["name"],
+        author_id: message["user"],
         text: message["text"],
         path: path,
+        user_map: user_map,
       )
     rescue JSON::ParserError, SystemCallError
       nil
     end
 
-    def initialize(channel_id:, channel_name:, text:, path:)
+    def initialize(channel_id:, channel_name:, author_id:, text:, path:, user_map:)
       @channel_id = channel_id
       @channel_name = channel_name
+      @author_id = author_id
       @text = text
       @path = path
+      @user_map = user_map
     end
 
     def lines
-      [channel_line, excerpt_line, "JSON: #{@path}"].compact
+      [channel_line, author_line, excerpt_line, "JSON: #{@path}"].compact
     end
 
     private
@@ -82,10 +87,17 @@ module SlackContext
     def excerpt_line
       return if blank?(@text)
 
-      normalized = @text.gsub(/[[:space:]]+/, " ").strip
+      normalized = @user_map.resolve_mentions(@text).gsub(/[[:space:]]+/, " ").strip
       excerpt = normalized.each_char.take(EXCERPT_LENGTH).join
       excerpt += "…" if normalized.length > EXCERPT_LENGTH
       "First message: #{excerpt}"
+    end
+
+    def author_line
+      return if blank?(@author_id)
+
+      name = @user_map.resolve(@author_id)
+      name ? "Author: #{name} (#{@author_id})" : "Author: #{@author_id}"
     end
 
     def blank?(value)
@@ -94,22 +106,113 @@ module SlackContext
   end
 
   class SummaryPresenter
-    def initialize(output:)
+    def initialize(output:, user_map: UserMap.empty)
       @output = output
+      @user_map = user_map
     end
 
     def present(paths)
-      paths.filter_map { |path| ConversationSummary.load(path) }.each do |summary|
+      paths.filter_map { |path| ConversationSummary.load(path, user_map: @user_map) }.each do |summary|
         @output.puts "Fetched context:"
         summary.lines.each { |line| @output.puts line }
       end
     end
   end
 
+
+  class UserMap
+    USER_MENTION = /<@((?:U|W)[A-Z0-9]{8,})>/
+
+    attr_reader :path
+
+    def self.empty
+      new(nil)
+    end
+
+    def initialize(path)
+      @path = path
+      @records = load_records
+    end
+
+    def resolve(user_id)
+      record = @records[user_id]
+      return record if record.is_a?(String) && !record.empty?
+      return unless record.is_a?(Hash)
+
+      %w[best_name display_name full_name username].filter_map { |key| record[key] }.find do |name|
+        name.is_a?(String) && !name.empty?
+      end
+    end
+
+    def resolve_mentions(text)
+      text.gsub(USER_MENTION) do |mention|
+        name = resolve(Regexp.last_match(1))
+        name ? "@#{name}" : mention
+      end
+    end
+
+    private
+
+    def load_records
+      return {} unless @path&.file?
+
+      payload = JSON.parse(@path.read)
+      raise Error, "slack-context: #{@path} must contain a JSON object" unless payload.is_a?(Hash)
+
+      payload
+    rescue JSON::ParserError => e
+      raise Error, "slack-context: could not parse #{@path}: #{e.message}"
+    rescue SystemCallError => e
+      raise Error, "slack-context: could not read #{@path}: #{e.message}"
+    end
+  end
+
+  class WorkspaceConfig
+    FILE_NAME = ".slack-context.json"
+
+    def self.user_map_path(cwd:, explicit_path: nil)
+      return File.expand_path(explicit_path, cwd) if explicit_path
+
+      config_path = find_config(cwd)
+      return configured_users_file(config_path) if config_path
+
+      users_file = File.join(cwd, "users.json")
+      users_file if File.file?(users_file)
+    end
+
+    def self.find_config(start_directory)
+      directory = File.expand_path(start_directory)
+
+      loop do
+        candidate = File.join(directory, FILE_NAME)
+        return candidate if File.file?(candidate)
+
+        parent = File.dirname(directory)
+        return if parent == directory
+
+        directory = parent
+      end
+    end
+    private_class_method :find_config
+
+    def self.configured_users_file(config_path)
+      config = JSON.parse(File.read(config_path))
+      users_file = config["users_file"]
+      return unless users_file.is_a?(String) && !users_file.empty?
+
+      File.expand_path(users_file, File.dirname(config_path))
+    rescue JSON::ParserError => e
+      raise Error, "slack-context: could not parse #{config_path}: #{e.message}"
+    rescue SystemCallError => e
+      raise Error, "slack-context: could not read #{config_path}: #{e.message}"
+    end
+    private_class_method :configured_users_file
+  end
+
   class Fetcher
     ARCHIVE_PATTERN = "slackdump*.zip"
 
-    def initialize(runner:, error_output:, summary_presenter: SummaryPresenter.new(output: error_output))
+    def initialize(runner:, error_output:, summary_presenter:)
       @runner = runner
       @error_output = error_output
       @summary_presenter = summary_presenter
@@ -174,6 +277,7 @@ module SlackContext
   class CLI
     USAGE = <<~USAGE
       Usage: slack-context [--interactive] [SLACKDUMP_DUMP_ARGS...]
+             slack-context [--users-file PATH] [SLACKDUMP_DUMP_ARGS...]
 
       Dump Slack content with slackdump, extract the archive, and copy the
       extracted JSON path(s) to the clipboard.
@@ -181,11 +285,15 @@ module SlackContext
       With --interactive, press r or Enter to fetch again, or q or Ctrl-C
       to quit.
 
+      Resolve message authors and mentions with users.json found through
+      .slack-context.json, in the current directory, or at --users-file.
+
       Examples:
         slack-context
         slack-context -time-from 2026-07-03 -time-to 2026-07-04 "$(clip)"
         slack-context -files=false https://example.slack.com/archives/...
         slack-context --interactive https://example.slack.com/archives/...
+        slack-context --users-file ./users.json https://example.slack.com/archives/...
     USAGE
 
     def initialize(arguments, input: $stdin, error_output: $stderr, runner: CommandRunner.new)
@@ -193,24 +301,53 @@ module SlackContext
       @input = input
       @error_output = error_output
       @runner = runner
-      @fetcher = Fetcher.new(runner: runner, error_output: error_output)
     end
 
     def run
-      interactive = @arguments.first == "--interactive"
-      @arguments.shift if interactive
+      options = parse_options
 
       return show_help if help?
-      return fail_with("slack-context: --interactive requires a terminal on stdin") if interactive && !@input.tty?
+      return fail_with("slack-context: --interactive requires a terminal on stdin") if options[:interactive] && !@input.tty?
 
+      user_map_path = WorkspaceConfig.user_map_path(cwd: Dir.pwd, explicit_path: options[:users_file])
+      user_map = UserMap.new(user_map_path && Pathname(user_map_path))
+      @fetcher = Fetcher.new(
+        runner: @runner,
+        error_output: @error_output,
+        summary_presenter: SummaryPresenter.new(output: @error_output, user_map: user_map),
+      )
       sources = @arguments.empty? ? [clipboard] : @arguments
-      interactive ? run_interactively(sources) : fetch_once(sources)
+      options[:interactive] ? run_interactively(sources) : fetch_once(sources)
     rescue Error => e
       report(e)
       e.status
     end
 
     private
+
+    def parse_options
+      options = { interactive: false, users_file: nil }
+      dump_arguments = []
+
+      until @arguments.empty?
+        argument = @arguments.shift
+        case argument
+        when "--interactive"
+          options[:interactive] = true
+        when "--users-file"
+          raise Error, "slack-context: --users-file requires a path" if @arguments.empty?
+
+          options[:users_file] = @arguments.shift
+        when /\A--users-file=(.+)\z/
+          options[:users_file] = Regexp.last_match(1)
+        else
+          dump_arguments << argument
+        end
+      end
+
+      @arguments = dump_arguments
+      options
+    end
 
     def help?
       @arguments.one? && ["-h", "--help"].include?(@arguments.first)
