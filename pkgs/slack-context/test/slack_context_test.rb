@@ -109,11 +109,47 @@ class SlackContextTest < Minitest::Test
     assert_includes output, "fetch failed; clipboard was not updated"
   end
 
+  def test_interactive_mode_recovers_after_archive_processing_fails
+    @env["SLACK_CONTEXT_TEST_UNZIP_FAIL_ON"] = "2"
+
+    output, status = run_interactive("rrq")
+
+    assert_predicate status, :success?, output
+    assert_equal "3", File.read(@fetch_count)
+    assert_equal "2", File.read(@clipboard_count)
+    assert_includes output, "unzip exited with status 31"
+    refute_path_exists File.join(@directory, "slackdump-test.zip")
+  end
+
+  def test_archive_cleanup_failure_does_not_misreport_clipboard_state
+    @env["SLACK_CONTEXT_TEST_READ_ONLY_DIRECTORY"] = "1"
+
+    begin
+      output, status = run_script("url")
+    ensure
+      FileUtils.chmod("u+w", @directory)
+    end
+
+    assert_predicate status, :success?, output
+    assert_equal "1", File.read(@clipboard_count)
+    assert_includes output, "could not remove slackdump-test.zip"
+    refute_includes output, "clipboard was not updated"
+  end
+
   def test_interactive_mode_exits_on_sigint
     output, status = run_interactive { |pid| Process.kill("INT", pid) }
 
     assert_predicate status, :success?, output
     assert_equal "1", File.read(@fetch_count)
+  end
+
+  def test_interactive_mode_exits_on_sigint_during_initial_fetch
+    @env["SLACK_CONTEXT_TEST_INTERRUPT_ON_FETCH"] = "1"
+
+    output, status = run_with_tty("--interactive", "url")
+
+    assert_predicate status, :success?, output
+    refute_includes output, "Interrupt"
   end
 
   def test_interactive_mode_rejects_non_tty_stdin
@@ -188,10 +224,19 @@ class SlackContextTest < Minitest::Test
       printf '%s\n' "$@" >"${SLACK_CONTEXT_TEST_ARGUMENTS:?}"
       [[ ${SLACK_CONTEXT_TEST_SLACKDUMP_FAIL-} != 1 ]] || exit 23
       [[ ${SLACK_CONTEXT_TEST_FAIL_ON-} != "$count" ]] || exit 23
-      [[ ${SLACK_CONTEXT_TEST_NO_ARCHIVE-} == 1 ]] || : >slackdump-test.zip
+      if [[ ${SLACK_CONTEXT_TEST_INTERRUPT_ON_FETCH-} == 1 ]]; then
+        kill -INT "$PPID"
+        exit 130
+      fi
+      if [[ ${SLACK_CONTEXT_TEST_NO_ARCHIVE-} != 1 ]]; then
+        printf '%*s' "$count" '' >slackdump-test.zip
+      fi
     SH
 
     write_executable("unzip", <<~'SH')
+      if [[ ${SLACK_CONTEXT_TEST_UNZIP_FAIL_ON-} == "$(<"${SLACK_CONTEXT_TEST_FETCH_COUNT:?}")" ]]; then
+        exit 31
+      fi
       if [[ $1 == -Z1 ]]; then
         if [[ ${SLACK_CONTEXT_TEST_NO_JSON-} == 1 ]]; then
           printf 'messages.txt\nfiles/\n'
@@ -213,6 +258,9 @@ class SlackContextTest < Minitest::Test
       fi
       printf '%s' "$((count + 1))" >"$SLACK_CONTEXT_TEST_CLIPBOARD_COUNT"
       printf '%s\n' "$@" >"${SLACK_CONTEXT_TEST_CLIPBOARD:?}"
+      if [[ ${SLACK_CONTEXT_TEST_READ_ONLY_DIRECTORY-} == 1 ]]; then
+        chmod a-w .
+      fi
     SH
 
     write_executable("clip", <<~'SH')
