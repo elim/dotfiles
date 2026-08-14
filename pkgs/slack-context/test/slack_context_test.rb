@@ -1,6 +1,8 @@
 require "fileutils"
 require "minitest/autorun"
 require "open3"
+require "pty"
+require "timeout"
 require "tmpdir"
 
 class SlackContextTest < Minitest::Test
@@ -12,11 +14,15 @@ class SlackContextTest < Minitest::Test
     FileUtils.mkdir(@bin)
     @arguments = File.join(@directory, "arguments")
     @clipboard = File.join(@directory, "clipboard")
+    @clipboard_count = File.join(@directory, "clipboard-count")
+    @fetch_count = File.join(@directory, "fetch-count")
     write_fakes
     @env = {
       "PATH" => "#{@bin}:#{ENV.fetch("PATH")}",
       "SLACK_CONTEXT_TEST_ARGUMENTS" => @arguments,
       "SLACK_CONTEXT_TEST_CLIPBOARD" => @clipboard,
+      "SLACK_CONTEXT_TEST_CLIPBOARD_COUNT" => @clipboard_count,
+      "SLACK_CONTEXT_TEST_FETCH_COUNT" => @fetch_count,
     }
   end
 
@@ -73,8 +79,49 @@ class SlackContextTest < Minitest::Test
     output, status = run_script("--help")
 
     assert_predicate status, :success?
-    assert_includes output, "Usage: slack-context [SLACKDUMP_DUMP_ARGS...]"
+    assert_includes output, "Usage: slack-context [--interactive] [SLACKDUMP_DUMP_ARGS...]"
     refute_path_exists @arguments
+  end
+
+  def test_interactive_mode_refetches_and_quits
+    output, status = run_interactive("rq")
+
+    assert_predicate status, :success?, output
+    assert_equal "2", File.read(@fetch_count)
+    assert_equal "2", File.read(@clipboard_count)
+  end
+
+  def test_interactive_mode_refetches_with_enter
+    output, status = run_interactive("\r", append_quit: true)
+
+    assert_predicate status, :success?, output
+    assert_equal "2", File.read(@fetch_count)
+  end
+
+  def test_interactive_mode_continues_after_a_failed_refetch
+    @env["SLACK_CONTEXT_TEST_FAIL_ON"] = "2"
+
+    output, status = run_interactive("rrq")
+
+    assert_predicate status, :success?, output
+    assert_equal "3", File.read(@fetch_count)
+    assert_equal "2", File.read(@clipboard_count)
+    assert_includes output, "fetch failed; clipboard was not updated"
+  end
+
+  def test_interactive_mode_exits_on_sigint
+    output, status = run_interactive { |pid| Process.kill("INT", pid) }
+
+    assert_predicate status, :success?, output
+    assert_equal "1", File.read(@fetch_count)
+  end
+
+  def test_interactive_mode_rejects_non_tty_stdin
+    output, status = run_script("--interactive", "url")
+
+    refute_predicate status, :success?
+    assert_includes output, "--interactive requires a terminal on stdin"
+    refute_path_exists @fetch_count
   end
 
   private
@@ -83,10 +130,47 @@ class SlackContextTest < Minitest::Test
     Open3.capture2e(@env, "ruby", SCRIPT, *arguments, chdir: @directory)
   end
 
+  def run_interactive(input = nil, append_quit: false)
+    output = +""
+    status = nil
+
+    PTY.spawn(@env, "ruby", SCRIPT, "--interactive", "url", chdir: @directory) do |reader, writer, pid|
+      Timeout.timeout(10) do
+        output << reader.readpartial(4096) until output.include?("Press r or Enter")
+        if block_given?
+          yield(pid)
+        else
+          writer.write(input)
+          if append_quit
+            output << reader.readpartial(4096) until output.scan("Press r or Enter").length == 2
+            writer.write("q")
+          end
+        end
+
+        begin
+          output << reader.readpartial(4096) while true
+        rescue EOFError, Errno::EIO
+          nil
+        end
+
+        _, status = Process.wait2(pid)
+      end
+    end
+
+    [output, status]
+  end
+
   def write_fakes
     write_executable("slackdump", <<~'SH')
+      count=0
+      if [[ -f ${SLACK_CONTEXT_TEST_FETCH_COUNT:?} ]]; then
+        count=$(<"$SLACK_CONTEXT_TEST_FETCH_COUNT")
+      fi
+      count=$((count + 1))
+      printf '%s' "$count" >"$SLACK_CONTEXT_TEST_FETCH_COUNT"
       printf '%s\n' "$@" >"${SLACK_CONTEXT_TEST_ARGUMENTS:?}"
       [[ ${SLACK_CONTEXT_TEST_SLACKDUMP_FAIL-} != 1 ]] || exit 23
+      [[ ${SLACK_CONTEXT_TEST_FAIL_ON-} != "$count" ]] || exit 23
       [[ ${SLACK_CONTEXT_TEST_NO_ARCHIVE-} == 1 ]] || : >slackdump-test.zip
     SH
 
@@ -106,6 +190,11 @@ class SlackContextTest < Minitest::Test
     SH
 
     write_executable("cpath", <<~'SH')
+      count=0
+      if [[ -f ${SLACK_CONTEXT_TEST_CLIPBOARD_COUNT:?} ]]; then
+        count=$(<"$SLACK_CONTEXT_TEST_CLIPBOARD_COUNT")
+      fi
+      printf '%s' "$((count + 1))" >"$SLACK_CONTEXT_TEST_CLIPBOARD_COUNT"
       printf '%s\n' "$@" >"${SLACK_CONTEXT_TEST_CLIPBOARD:?}"
     SH
 
