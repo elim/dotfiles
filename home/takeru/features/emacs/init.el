@@ -353,7 +353,8 @@ when VIEW-P is non-nil; otherwise disable it."
                     elim:view--saved-header-line-format nil
                     elim:view--header-line-installed-p nil)))
     (force-mode-line-update t))
-  :bind ("C-c v" . view-mode)
+  :bind (("C-c v" . view-mode)
+         ([remap find-file] . view-file))
   :config
   ;; Keep Emacs's global bindings available while the buffer is read-only.
   (setcdr view-mode-map nil)
