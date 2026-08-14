@@ -21,8 +21,6 @@ let
       epkgs.orderless
       epkgs.projectile
       epkgs.vertico
-      epkgs.vertico-posframe
-
       # Code completion and intelligence
       epkgs.company
       epkgs.company-quickhelp
