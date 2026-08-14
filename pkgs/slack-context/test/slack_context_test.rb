@@ -41,9 +41,9 @@ class SlackContextTest < Minitest::Test
   end
 
   def test_uses_clipboard_as_source_when_no_arguments_are_given
-    _output, status = run_script
+    output, status = run_with_tty
 
-    assert_predicate status, :success?
+    assert_predicate status, :success?, output
     assert_equal ["dump", "https://example.slack.com/archives/clipboard"], File.readlines(@arguments, chomp: true)
   end
 
@@ -130,6 +130,23 @@ class SlackContextTest < Minitest::Test
     Open3.capture2e(@env, "ruby", SCRIPT, *arguments, chdir: @directory)
   end
 
+  def run_with_tty(*arguments)
+    output = +""
+    status = nil
+
+    PTY.spawn(@env, "ruby", SCRIPT, *arguments, chdir: @directory) do |reader, _writer, pid|
+      begin
+        output << reader.readpartial(4096) while true
+      rescue EOFError, Errno::EIO
+        nil
+      end
+
+      _, status = Process.wait2(pid)
+    end
+
+    [output, status]
+  end
+
   def run_interactive(input = nil, append_quit: false)
     output = +""
     status = nil
@@ -199,6 +216,10 @@ class SlackContextTest < Minitest::Test
     SH
 
     write_executable("clip", <<~'SH')
+      if [[ ! -t 0 ]]; then
+        printf 'clip received non-TTY stdin\n' >&2
+        exit 42
+      fi
       printf 'https://example.slack.com/archives/clipboard\n'
     SH
   end

@@ -89,7 +89,8 @@ if interactive && !$stdin.tty?
 end
 
 if ARGV.empty?
-  clipboard, status = Open3.capture2("clip")
+  clipboard = IO.popen(["clip"], "r", in: $stdin, &:read)
+  status = $CHILD_STATUS
   exit status.exitstatus unless status.success?
 
   ARGV.replace([clipboard.sub(/\n+\z/, "")])
