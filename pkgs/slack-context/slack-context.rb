@@ -1,5 +1,6 @@
 require "English"
 require "io/console"
+require "json"
 
 module SlackContext
   class Error < StandardError
@@ -37,12 +38,81 @@ module SlackContext
     end
   end
 
+  class ConversationSummary
+    EXCERPT_LENGTH = 200
+
+    def self.load(path)
+      payload = JSON.parse(File.read(path))
+      return unless payload.is_a?(Hash)
+
+      message = payload.fetch("messages", []).first
+      return unless message.is_a?(Hash)
+
+      new(
+        channel_id: payload["channel_id"],
+        channel_name: payload["name"],
+        text: message["text"],
+        path: path,
+      )
+    rescue JSON::ParserError, SystemCallError
+      nil
+    end
+
+    def initialize(channel_id:, channel_name:, text:, path:)
+      @channel_id = channel_id
+      @channel_name = channel_name
+      @text = text
+      @path = path
+    end
+
+    def lines
+      [channel_line, excerpt_line, "JSON: #{@path}"].compact
+    end
+
+    private
+
+    def channel_line
+      return if blank?(@channel_id) && blank?(@channel_name)
+      return "Channel: ##{@channel_name} (#{@channel_id})" unless blank?(@channel_name) || blank?(@channel_id)
+      return "Channel: ##{@channel_name}" unless blank?(@channel_name)
+
+      "Channel: #{@channel_id}"
+    end
+
+    def excerpt_line
+      return if blank?(@text)
+
+      normalized = @text.gsub(/[[:space:]]+/, " ").strip
+      excerpt = normalized.each_char.take(EXCERPT_LENGTH).join
+      excerpt += "…" if normalized.length > EXCERPT_LENGTH
+      "First message: #{excerpt}"
+    end
+
+    def blank?(value)
+      !value.is_a?(String) || value.empty?
+    end
+  end
+
+  class SummaryPresenter
+    def initialize(output:)
+      @output = output
+    end
+
+    def present(paths)
+      paths.filter_map { |path| ConversationSummary.load(path) }.each do |summary|
+        @output.puts "Fetched context:"
+        summary.lines.each { |line| @output.puts line }
+      end
+    end
+  end
+
   class Fetcher
     ARCHIVE_PATTERN = "slackdump*.zip"
 
-    def initialize(runner:, error_output:)
+    def initialize(runner:, error_output:, summary_presenter: SummaryPresenter.new(output: error_output))
       @runner = runner
       @error_output = error_output
+      @summary_presenter = summary_presenter
     end
 
     def fetch(arguments)
@@ -50,6 +120,7 @@ module SlackContext
       paths = extract(archive)
       @runner.run("cpath", *paths)
 
+      @summary_presenter.present(paths)
       @error_output.puts "Copied to clipboard:"
       paths.each { |path| @error_output.puts path }
     ensure

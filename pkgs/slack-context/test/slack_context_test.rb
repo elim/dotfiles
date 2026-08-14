@@ -40,6 +40,27 @@ class SlackContextTest < Minitest::Test
     assert_includes output, "Copied to clipboard:"
   end
 
+  def test_displays_channel_and_truncated_root_message
+    @env["SLACK_CONTEXT_TEST_LONG_MESSAGE"] = "1"
+
+    output, status = run_script("url")
+
+    assert_predicate status, :success?, output
+    assert_includes output, "Channel: #example-channel (C0123456789)"
+    assert_includes output, "First message: #{"a" * 200}…"
+    assert_includes output, "JSON: #{File.realpath(@directory)}/context.json"
+  end
+
+  def test_ignores_invalid_json_when_displaying_summary
+    @env["SLACK_CONTEXT_TEST_INVALID_JSON"] = "1"
+
+    output, status = run_script("url")
+
+    assert_predicate status, :success?, output
+    refute_includes output, "Fetched context:"
+    assert_includes output, "Copied to clipboard:"
+  end
+
   def test_uses_clipboard_as_source_when_no_arguments_are_given
     output, status = run_with_tty
 
@@ -245,8 +266,13 @@ class SlackContextTest < Minitest::Test
         fi
       elif [[ ${SLACK_CONTEXT_TEST_NO_JSON-} == 1 ]]; then
         printf 'messages\n' >messages.txt
+      elif [[ ${SLACK_CONTEXT_TEST_INVALID_JSON-} == 1 ]]; then
+        printf 'not json\n' >context.json
+      elif [[ ${SLACK_CONTEXT_TEST_LONG_MESSAGE-} == 1 ]]; then
+        printf '{"channel_id":"C0123456789","name":"example-channel","messages":[{"text":"%s"}]}\n' \
+          "$(printf '%0201d' 0 | tr 0 a)" >context.json
       else
-        printf '{}\n' >context.json
+        printf '{"channel_id":"C0123456789","name":"example-channel","messages":[{"text":"hello"}]}\n' >context.json
         printf 'messages\n' >messages.txt
       fi
     SH
