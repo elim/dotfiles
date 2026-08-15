@@ -2,6 +2,7 @@ require "English"
 require "io/console"
 require "json"
 require "pathname"
+require "tempfile"
 
 module SlackContext
   class Error < StandardError
@@ -151,6 +152,18 @@ module SlackContext
       end
     end
 
+    def update_from(paths)
+      raise Error, "slack-context: user map path is required to update users" unless @path
+
+      discovered = UserRecordExtractor.new.extract(paths)
+      discovered.each do |user_id, record|
+        existing = @records[user_id]
+        @records[user_id] = existing.is_a?(Hash) ? existing.merge(record) : record
+      end
+      write_records
+      discovered.length
+    end
+
     private
 
     def load_records
@@ -165,19 +178,124 @@ module SlackContext
     rescue SystemCallError => e
       raise Error, "slack-context: could not read #{@path}: #{e.message}"
     end
+
+    def write_records
+      @path.dirname.mkpath
+      Tempfile.create(["users", ".json"], @path.dirname.to_s) do |file|
+        file.write(JSON.pretty_generate(@records.sort.to_h))
+        file.write("\n")
+        file.flush
+        file.fsync
+        File.rename(file.path, @path)
+      end
+    rescue SystemCallError => e
+      raise Error, "slack-context: could not write #{@path}: #{e.message}"
+    end
+  end
+
+  class UserRecordExtractor
+    USER_ID = /\A(?:U|W)[A-Z0-9]{8,}\z/
+
+    def extract(paths)
+      records = {}
+      paths.each do |path|
+        payload = JSON.parse(File.read(path))
+        collect(payload, records)
+      rescue JSON::ParserError, SystemCallError
+        next
+      end
+      records
+    end
+
+    private
+
+    def collect(value, records)
+      case value
+      when Array
+        value.each { |item| collect(item, records) }
+      when Hash
+        collect_record(value, records)
+        collect_attachment_author(value, records)
+        value.each_value { |nested| collect(nested, records) }
+      end
+    end
+
+    def collect_record(value, records)
+      user_id = value["id"] || value["user"]
+      return unless user_id.is_a?(String) && USER_ID.match?(user_id)
+
+      profile = if value["user_profile"].is_a?(Hash)
+                  value["user_profile"]
+                elsif value["profile"].is_a?(Hash)
+                  value["profile"]
+                else
+                  value
+                end
+      record = build_record(value, profile)
+      merge_record(records, user_id, record) if record["best_name"]
+    end
+
+    def collect_attachment_author(value, records)
+      user_id = value["author_id"]
+      return unless user_id.is_a?(String) && USER_ID.match?(user_id)
+
+      name = clean(value["author_name"] || value["author_subname"])
+      return unless name
+
+      merge_record(
+        records,
+        user_id,
+        compact_record(
+          "best_name" => name,
+          "display_name" => clean(value["author_name"]),
+          "full_name" => clean(value["author_subname"] || value["author_name"]),
+          "source" => "dump-attachment",
+        ),
+      )
+    end
+
+    def build_record(value, profile)
+      display_name = clean(profile["display_name"] || profile["display_name_normalized"])
+      full_name = clean(profile["real_name"] || profile["real_name_normalized"] || value["real_name"])
+      username = clean(value["name"] || value["username"] || profile["name"])
+      best_name = [display_name, full_name, username].compact.first
+
+      compact_record(
+        "best_name" => best_name,
+        "display_name" => display_name,
+        "full_name" => full_name,
+        "username" => username,
+        "source" => "dump-embedded",
+      )
+    end
+
+    def compact_record(record)
+      record.compact.reject { |_key, value| value.respond_to?(:empty?) && value.empty? }
+    end
+
+    def merge_record(records, user_id, record)
+      records[user_id] = records.fetch(user_id, {}).merge(record)
+    end
+
+    def clean(value)
+      return unless value
+
+      text = value.to_s.gsub(/[\t\r\n]/, " ").strip
+      text unless text.empty?
+    end
   end
 
   class WorkspaceConfig
     FILE_NAME = ".slack-context.json"
 
-    def self.user_map_path(cwd:, explicit_path: nil)
+    def self.user_map_path(cwd:, explicit_path: nil, create: false)
       return File.expand_path(explicit_path, cwd) if explicit_path
 
       config_path = find_config(cwd)
       return configured_users_file(config_path) if config_path
 
       users_file = File.join(cwd, "users.json")
-      users_file if File.file?(users_file)
+      users_file if create || File.file?(users_file)
     end
 
     def self.find_config(start_directory)
@@ -212,15 +330,18 @@ module SlackContext
   class Fetcher
     ARCHIVE_PATTERN = "slackdump*.zip"
 
-    def initialize(runner:, error_output:, summary_presenter:)
+    def initialize(runner:, error_output:, summary_presenter:, user_map:, update_users: false)
       @runner = runner
       @error_output = error_output
       @summary_presenter = summary_presenter
+      @user_map = user_map
+      @update_users = update_users
     end
 
     def fetch(arguments)
       archive = dump(arguments)
       paths = extract(archive)
+      update_users(paths) if @update_users
       @runner.run("cpath", *paths)
 
       @summary_presenter.present(paths)
@@ -231,6 +352,11 @@ module SlackContext
     end
 
     private
+
+    def update_users(paths)
+      count = @user_map.update_from(paths)
+      @error_output.puts "Updated user map: #{@user_map.path} (#{count} records from dump)"
+    end
 
     def dump(arguments)
       before = archives
@@ -278,6 +404,7 @@ module SlackContext
     USAGE = <<~USAGE
       Usage: slack-context [--interactive] [SLACKDUMP_DUMP_ARGS...]
              slack-context [--users-file PATH] [SLACKDUMP_DUMP_ARGS...]
+             slack-context --update-users-from-dump [SLACKDUMP_DUMP_ARGS...]
 
       Dump Slack content with slackdump, extract the archive, and copy the
       extracted JSON path(s) to the clipboard.
@@ -287,6 +414,8 @@ module SlackContext
 
       Resolve message authors and mentions with users.json found through
       .slack-context.json, in the current directory, or at --users-file.
+      With --update-users-from-dump, create or update that map using only
+      user profiles embedded in the downloaded archive.
 
       Examples:
         slack-context
@@ -294,6 +423,7 @@ module SlackContext
         slack-context -files=false https://example.slack.com/archives/...
         slack-context --interactive https://example.slack.com/archives/...
         slack-context --users-file ./users.json https://example.slack.com/archives/...
+        slack-context --update-users-from-dump https://example.slack.com/archives/...
     USAGE
 
     def initialize(arguments, input: $stdin, error_output: $stderr, runner: CommandRunner.new)
@@ -309,12 +439,18 @@ module SlackContext
       return show_help if help?
       return fail_with("slack-context: --interactive requires a terminal on stdin") if options[:interactive] && !@input.tty?
 
-      user_map_path = WorkspaceConfig.user_map_path(cwd: Dir.pwd, explicit_path: options[:users_file])
+      user_map_path = WorkspaceConfig.user_map_path(
+        cwd: Dir.pwd,
+        explicit_path: options[:users_file],
+        create: options[:update_users],
+      )
       user_map = UserMap.new(user_map_path && Pathname(user_map_path))
       @fetcher = Fetcher.new(
         runner: @runner,
         error_output: @error_output,
         summary_presenter: SummaryPresenter.new(output: @error_output, user_map: user_map),
+        user_map: user_map,
+        update_users: options[:update_users],
       )
       sources = @arguments.empty? ? [clipboard] : @arguments
       options[:interactive] ? run_interactively(sources) : fetch_once(sources)
@@ -326,7 +462,7 @@ module SlackContext
     private
 
     def parse_options
-      options = { interactive: false, users_file: nil }
+      options = { interactive: false, users_file: nil, update_users: false }
       dump_arguments = []
 
       until @arguments.empty?
@@ -340,6 +476,8 @@ module SlackContext
           options[:users_file] = @arguments.shift
         when /\A--users-file=(.+)\z/
           options[:users_file] = Regexp.last_match(1)
+        when "--update-users-from-dump"
+          options[:update_users] = true
         else
           dump_arguments << argument
         end

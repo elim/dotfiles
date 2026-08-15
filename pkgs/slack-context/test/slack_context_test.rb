@@ -102,6 +102,62 @@ class SlackContextTest < Minitest::Test
     assert_includes output, "Author: Local User (U012345678)"
   end
 
+  def test_creates_user_map_from_embedded_dump_profiles
+    @env["SLACK_CONTEXT_TEST_EMBEDDED_USERS"] = "1"
+
+    output, status = run_script("--update-users-from-dump", "url")
+
+    assert_predicate status, :success?, output
+    users = JSON.parse(File.read(File.join(@directory, "users.json")))
+    assert_equal "Root User", users.dig("U012345678", "best_name")
+    assert_equal "Mentioned User", users.dig("U987654321", "best_name")
+    assert_includes output, "Author: Root User (U012345678)"
+    assert_includes output, "First message: hello @Mentioned User"
+    assert_includes output, "Updated user map:"
+  end
+
+  def test_updates_user_map_without_discarding_existing_fields
+    @env["SLACK_CONTEXT_TEST_EMBEDDED_USERS"] = "1"
+    write_users_file({
+      "U012345678" => {
+        "best_name" => "Previous Name",
+        "custom_field" => "preserved",
+      },
+      "U111111111" => { "best_name" => "Existing User" },
+    })
+
+    _output, status = run_script("--update-users-from-dump", "url")
+
+    assert_predicate status, :success?
+    users = JSON.parse(File.read(File.join(@directory, "users.json")))
+    assert_equal "Root User", users.dig("U012345678", "best_name")
+    assert_equal "preserved", users.dig("U012345678", "custom_field")
+    assert_equal "Existing User", users.dig("U111111111", "best_name")
+  end
+
+  def test_does_not_create_user_map_without_update_option
+    @env["SLACK_CONTEXT_TEST_EMBEDDED_USERS"] = "1"
+
+    _output, status = run_script("url")
+
+    assert_predicate status, :success?
+    refute_path_exists File.join(@directory, "users.json")
+  end
+
+  def test_updates_configured_user_map
+    File.write(
+      File.join(@directory, ".slack-context.json"),
+      JSON.generate("users_file" => "state/users.json"),
+    )
+    @env["SLACK_CONTEXT_TEST_EMBEDDED_USERS"] = "1"
+
+    _output, status = run_script("--update-users-from-dump", "url")
+
+    assert_predicate status, :success?
+    assert_path_exists File.join(@directory, "state", "users.json")
+    refute_path_exists File.join(@directory, "users.json")
+  end
+
   def test_uses_clipboard_as_source_when_no_arguments_are_given
     output, status = run_with_tty
 
@@ -312,6 +368,8 @@ class SlackContextTest < Minitest::Test
       elif [[ ${SLACK_CONTEXT_TEST_LONG_MESSAGE-} == 1 ]]; then
         printf '{"channel_id":"C0123456789","name":"example-channel","messages":[{"user":"U012345678","text":"%s"}]}\n' \
           "$(printf '%0201d' 0 | tr 0 a)" >context.json
+      elif [[ ${SLACK_CONTEXT_TEST_EMBEDDED_USERS-} == 1 ]]; then
+        printf '%s\n' '{"channel_id":"C0123456789","name":"example-channel","users":[{"id":"U987654321","profile":{"display_name":"Mentioned User"}}],"messages":[{"user":"U012345678","user_profile":{"display_name":"Root User","real_name":"Root Example"},"text":"hello <@U987654321>"}]}' >context.json
       else
         printf '{"channel_id":"C0123456789","name":"example-channel","messages":[{"user":"U012345678","text":"hello <@U987654321>"}]}\n' >context.json
         printf 'messages\n' >messages.txt
