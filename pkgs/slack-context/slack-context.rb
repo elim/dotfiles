@@ -47,7 +47,10 @@ module SlackContext
       payload = JSON.parse(File.read(path))
       return unless payload.is_a?(Hash)
 
-      message = payload.fetch("messages", []).first
+      messages = payload["messages"]
+      return unless messages.is_a?(Array)
+
+      message = messages.first
       return unless message.is_a?(Hash)
 
       new(
@@ -156,11 +159,13 @@ module SlackContext
       raise Error, "slack-context: user map path is required to update users" unless @path
 
       discovered = UserRecordExtractor.new.extract(paths)
+      updated_records = @records.transform_values { |record| record.is_a?(Hash) ? record.dup : record }
       discovered.each do |user_id, record|
-        existing = @records[user_id]
-        @records[user_id] = existing.is_a?(Hash) ? existing.merge(record) : record
+        existing = updated_records[user_id]
+        updated_records[user_id] = existing.is_a?(Hash) ? existing.merge(record) : record
       end
-      write_records
+      write_records(updated_records)
+      @records = updated_records
       discovered.length
     end
 
@@ -179,10 +184,10 @@ module SlackContext
       raise Error, "slack-context: could not read #{@path}: #{e.message}"
     end
 
-    def write_records
+    def write_records(records)
       @path.dirname.mkpath
       Tempfile.create(["users", ".json"], @path.dirname.to_s) do |file|
-        file.write(JSON.pretty_generate(@records.sort.to_h))
+        file.write(JSON.pretty_generate(records.sort.to_h))
         file.write("\n")
         file.flush
         file.fsync
@@ -416,6 +421,7 @@ module SlackContext
       .slack-context.json, in the current directory, or at --users-file.
       With --update-users-from-dump, create or update that map using only
       user profiles embedded in the downloaded archive.
+      Use -- before slackdump arguments that match slack-context options.
 
       Examples:
         slack-context
@@ -468,6 +474,9 @@ module SlackContext
       until @arguments.empty?
         argument = @arguments.shift
         case argument
+        when "--"
+          dump_arguments.concat(@arguments)
+          @arguments.clear
         when "--interactive"
           options[:interactive] = true
         when "--users-file"

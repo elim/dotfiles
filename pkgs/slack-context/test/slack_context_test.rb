@@ -62,6 +62,16 @@ class SlackContextTest < Minitest::Test
     assert_includes output, "Copied to clipboard:"
   end
 
+  def test_ignores_valid_json_with_an_unexpected_message_shape
+    @env["SLACK_CONTEXT_TEST_NULL_MESSAGES"] = "1"
+
+    output, status = run_script("url")
+
+    assert_predicate status, :success?, output
+    refute_includes output, "Fetched context:"
+    assert_includes output, "Copied to clipboard:"
+  end
+
   def test_resolves_author_and_mentions_from_users_file
     write_users_file({
       "U012345678" => { "best_name" => "Example User" },
@@ -155,6 +165,27 @@ class SlackContextTest < Minitest::Test
 
     assert_predicate status, :success?
     assert_path_exists File.join(@directory, "state", "users.json")
+    refute_path_exists File.join(@directory, "users.json")
+  end
+
+  def test_failed_map_write_does_not_leak_into_a_later_refresh
+    @env["SLACK_CONTEXT_TEST_TRANSIENT_MAP_WRITE_FAILURE"] = "1"
+
+    output, status = run_interactive("rrq", "--update-users-from-dump")
+
+    assert_predicate status, :success?, output
+    users = JSON.parse(File.read(File.join(@directory, "users.json")))
+    refute users.key?("W222222222")
+    assert_includes output, "could not write"
+  ensure
+    FileUtils.chmod("u+w", @directory)
+  end
+
+  def test_passes_tool_options_after_double_dash_to_slackdump
+    _output, status = run_script("--", "--interactive", "--update-users-from-dump", "url")
+
+    assert_predicate status, :success?
+    assert_equal ["dump", "--interactive", "--update-users-from-dump", "url"], File.readlines(@arguments, chomp: true)
     refute_path_exists File.join(@directory, "users.json")
   end
 
@@ -301,11 +332,11 @@ class SlackContextTest < Minitest::Test
     [output, status]
   end
 
-  def run_interactive(input = nil, append_quit: false)
+  def run_interactive(input = nil, *arguments, append_quit: false)
     output = +""
     status = nil
 
-    PTY.spawn(@env, "ruby", SCRIPT, "--interactive", "url", chdir: @directory) do |reader, writer, pid|
+    PTY.spawn(@env, "ruby", SCRIPT, "--interactive", *arguments, "url", chdir: @directory) do |reader, writer, pid|
       Timeout.timeout(10) do
         output << reader.readpartial(4096) until output.include?("Press r or Enter")
         if block_given?
@@ -339,6 +370,9 @@ class SlackContextTest < Minitest::Test
       fi
       count=$((count + 1))
       printf '%s' "$count" >"$SLACK_CONTEXT_TEST_FETCH_COUNT"
+      if [[ ${SLACK_CONTEXT_TEST_TRANSIENT_MAP_WRITE_FAILURE-} == 1 && $count -ge 3 ]]; then
+        chmod u+w .
+      fi
       printf '%s\n' "$@" >"${SLACK_CONTEXT_TEST_ARGUMENTS:?}"
       [[ ${SLACK_CONTEXT_TEST_SLACKDUMP_FAIL-} != 1 ]] || exit 23
       [[ ${SLACK_CONTEXT_TEST_FAIL_ON-} != "$count" ]] || exit 23
@@ -365,6 +399,16 @@ class SlackContextTest < Minitest::Test
         printf 'messages\n' >messages.txt
       elif [[ ${SLACK_CONTEXT_TEST_INVALID_JSON-} == 1 ]]; then
         printf 'not json\n' >context.json
+      elif [[ ${SLACK_CONTEXT_TEST_NULL_MESSAGES-} == 1 ]]; then
+        printf '{"channel_id":"C0123456789","name":"example-channel","messages":null}\n' >context.json
+      elif [[ ${SLACK_CONTEXT_TEST_TRANSIENT_MAP_WRITE_FAILURE-} == 1 ]]; then
+        count=$(<"${SLACK_CONTEXT_TEST_FETCH_COUNT:?}")
+        if [[ $count == 2 ]]; then
+          printf '%s\n' '{"channel_id":"C0123456789","name":"example-channel","users":[{"id":"W222222222","profile":{"display_name":"Failed Write User"}}],"messages":[{"user":"U012345678","user_profile":{"display_name":"Root User"},"text":"hello"}]}' >context.json
+          chmod a-w .
+        else
+          printf '%s\n' '{"channel_id":"C0123456789","name":"example-channel","messages":[{"user":"U012345678","user_profile":{"display_name":"Root User"},"text":"hello"}]}' >context.json
+        fi
       elif [[ ${SLACK_CONTEXT_TEST_LONG_MESSAGE-} == 1 ]]; then
         printf '{"channel_id":"C0123456789","name":"example-channel","messages":[{"user":"U012345678","text":"%s"}]}\n' \
           "$(printf '%0201d' 0 | tr 0 a)" >context.json
