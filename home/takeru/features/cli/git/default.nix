@@ -21,6 +21,10 @@ in
 
     includes = [
       { path = legacyConfig; }
+      {
+        condition = "hasconfig:remote.*.url:keybase://**";
+        path = ./config.keybase;
+      }
     ];
   };
 }
