@@ -3,8 +3,15 @@ bindkey '^W' kill-region
 bindkey '^U' backward-kill-line
 bindkey '^P' history-beginning-search-backward-end
 bindkey '^N' history-beginning-search-forward-end
-bindkey '^L' backward-kill-word
 WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
+
+function backward-kill-path-component() {
+  # Add filename punctuation here as it is encountered.
+  local WORDCHARS="${WORDCHARS}【】"
+  zle backward-kill-word
+}
+zle -N backward-kill-path-component
+bindkey '^L' backward-kill-path-component
 
 # Local Variables:
 # mode: sh
