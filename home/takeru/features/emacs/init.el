@@ -511,7 +511,10 @@ when VIEW-P is non-nil; otherwise disable it."
           . elim:save-buffer-to-kill-ring)))
 
 (leaf browse-url
-  :bind ("C-x m" . browse-url-at-point))
+  :defun elim:view-file-at-point
+  ;; `find-file-at-point' sends URLs to `browse-url'; the wrapper uses
+  ;; `view-file' for file names so that visited files open in `view-mode'.
+  :bind ("C-x m" . elim:view-file-at-point))
 
 (leaf dictionary
   :if (eq system-type 'darwin)
