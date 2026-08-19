@@ -215,6 +215,64 @@ class SlackContextTest < Minitest::Test
     assert_includes output, "Slack Connect DM: U222222222 (D222222222)"
   end
 
+  def test_organizes_channel_dump_under_configured_output_directory
+    output, status = run_script("--output-dir", "organized", "url")
+
+    target = File.join(@directory, "organized", "channels", "C0123456789-example-channel", "context.json")
+    assert_predicate status, :success?, output
+    assert_path_exists target
+    assert_equal [File.realpath(target)], File.readlines(@clipboard, chomp: true)
+    refute_path_exists File.join(@directory, "context.json")
+  end
+
+  def test_organizes_resolved_dm_under_dms
+    @env["SLACK_CONTEXT_TEST_EXTERNAL_DM"] = "1"
+    write_users_file({ "U222222222" => { "best_name" => "External User" } })
+    write_conversations_file({
+      "D222222222" => {
+        "type" => "im",
+        "user_id" => "U222222222",
+        "is_ext_shared" => true,
+      },
+    })
+
+    output, status = run_script("--output-dir=organized", "url")
+
+    target = File.join(@directory, "organized", "dms", "D222222222-External-User", "context.json")
+    assert_predicate status, :success?, output
+    assert_path_exists target
+    assert_includes output, "JSON: #{File.realpath(target)}"
+  end
+
+  def test_organizes_mpdm_by_stable_conversation_id
+    @env["SLACK_CONTEXT_TEST_MPDM"] = "1"
+
+    output, status = run_script("--output-dir", "organized", "url")
+
+    target = File.join(@directory, "organized", "dms", "C333333333", "context.json")
+    assert_predicate status, :success?, output
+    assert_path_exists target
+  end
+
+  def test_reads_output_directory_relative_to_workspace_config
+    File.write(
+      File.join(@directory, ".slack-context.json"),
+      JSON.generate("output_dir" => "state/dumps"),
+    )
+
+    _output, status = run_script("url")
+
+    assert_predicate status, :success?
+    assert_path_exists File.join(
+      @directory,
+      "state",
+      "dumps",
+      "channels",
+      "C0123456789-example-channel",
+      "context.json",
+    )
+  end
+
   def test_failed_map_write_does_not_leak_into_a_later_refresh
     @env["SLACK_CONTEXT_TEST_TRANSIENT_MAP_WRITE_FAILURE"] = "1"
 
@@ -456,6 +514,8 @@ class SlackContextTest < Minitest::Test
         printf '%s\n' '{"channel_id":"D111111111","name":"","messages":[{"user":"U012345678","text":"hello"}]}' >context.json
       elif [[ ${SLACK_CONTEXT_TEST_EXTERNAL_DM-} == 1 ]]; then
         printf '%s\n' '{"channel_id":"D222222222","name":"","messages":[{"user":"U012345678","text":"hello"}]}' >context.json
+      elif [[ ${SLACK_CONTEXT_TEST_MPDM-} == 1 ]]; then
+        printf '%s\n' '{"channel_id":"C333333333","name":"mpdm-example","messages":[{"user":"U012345678","text":"hello"}]}' >context.json
       elif [[ ${SLACK_CONTEXT_TEST_TRANSIENT_MAP_WRITE_FAILURE-} == 1 ]]; then
         count=$(<"${SLACK_CONTEXT_TEST_FETCH_COUNT:?}")
         if [[ $count == 2 ]]; then

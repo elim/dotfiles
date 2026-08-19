@@ -1,4 +1,5 @@
 require "English"
+require "fileutils"
 require "io/console"
 require "json"
 require "pathname"
@@ -330,6 +331,24 @@ module SlackContext
       end
     end
 
+    def directory_components(conversation_id, fallback_name: nil)
+      return unless conversation_id.is_a?(String) && !conversation_id.empty?
+
+      record = @records[conversation_id]
+      type = record.is_a?(Hash) ? record["type"] : inferred_type(conversation_id, fallback_name)
+      case type
+      when "im"
+        user_id = record["user_id"] if record.is_a?(Hash)
+        name = @user_map.resolve(user_id) || (record["display_name"] if record.is_a?(Hash)) || user_id
+        ["dms", directory_name(conversation_id, name)]
+      when "mpim"
+        ["dms", conversation_id]
+      else
+        name = record.is_a?(Hash) ? record["name"] : fallback_name
+        ["channels", directory_name(conversation_id, name)]
+      end
+    end
+
     def replace(channels)
       raise Error, "slack-context: conversation map path is required to update conversations" unless @path
 
@@ -346,6 +365,18 @@ module SlackContext
       return "Group DM: #{conversation_id}" if fallback_name&.start_with?("mpdm-")
 
       nil
+    end
+
+    def inferred_type(conversation_id, fallback_name)
+      return "im" if conversation_id.start_with?("D")
+      return "mpim" if fallback_name&.start_with?("mpdm-")
+
+      "channel"
+    end
+
+    def directory_name(conversation_id, name)
+      sanitized = name.to_s.gsub(/[^\p{Alnum}._-]+/u, "-").gsub(/\A-+|-+\z/, "")
+      sanitized.empty? ? conversation_id : "#{conversation_id}-#{sanitized}"
     end
 
     def record_from(channel)
@@ -419,6 +450,54 @@ module SlackContext
     end
   end
 
+  class DumpOrganizer
+    def initialize(output_dir:, conversation_map:)
+      @output_dir = output_dir
+      @conversation_map = conversation_map
+    end
+
+    def organize(paths)
+      metadata = conversation_metadata(paths)
+      return paths unless metadata
+
+      components = @conversation_map.directory_components(
+        metadata["channel_id"],
+        fallback_name: metadata["name"],
+      )
+      return paths unless components
+
+      destination = @output_dir.join(*components)
+      destination.mkpath
+      paths.map { |path| move(path, destination) }
+    end
+
+    private
+
+    def conversation_metadata(paths)
+      paths.each do |path|
+        payload = JSON.parse(File.read(path))
+        return payload if payload.is_a?(Hash) && payload["channel_id"].is_a?(String)
+      rescue JSON::ParserError, SystemCallError
+        next
+      end
+      nil
+    end
+
+    def move(path, destination)
+      target = destination.join(File.basename(path))
+      FileUtils.mv(path, target, force: true) unless File.expand_path(path) == target.expand_path.to_s
+      target.realpath.to_s
+    rescue SystemCallError => e
+      raise Error, "slack-context: could not organize #{path}: #{e.message}"
+    end
+  end
+
+  class NullOrganizer
+    def organize(paths)
+      paths
+    end
+  end
+
   class WorkspaceConfig
     FILE_NAME = ".slack-context.json"
 
@@ -440,6 +519,23 @@ module SlackContext
         config_key: "conversations_file",
         default_name: "conversations.json",
       )
+    end
+
+    def self.output_directory(cwd:, explicit_path: nil)
+      return Pathname(File.expand_path(explicit_path, cwd)) if explicit_path
+
+      config_path = find_config(cwd)
+      return unless config_path
+
+      config = JSON.parse(File.read(config_path))
+      output_dir = config["output_dir"]
+      return unless output_dir.is_a?(String) && !output_dir.empty?
+
+      Pathname(File.expand_path(output_dir, File.dirname(config_path)))
+    rescue JSON::ParserError => e
+      raise Error, "slack-context: could not parse #{config_path}: #{e.message}"
+    rescue SystemCallError => e
+      raise Error, "slack-context: could not read #{config_path}: #{e.message}"
     end
 
     def self.find_config(start_directory)
@@ -486,18 +582,20 @@ module SlackContext
   class Fetcher
     ARCHIVE_PATTERN = "slackdump*.zip"
 
-    def initialize(runner:, error_output:, summary_presenter:, user_map:, update_users: false)
+    def initialize(runner:, error_output:, summary_presenter:, user_map:, organizer: NullOrganizer.new, update_users: false)
       @runner = runner
       @error_output = error_output
       @summary_presenter = summary_presenter
       @user_map = user_map
       @update_users = update_users
+      @organizer = organizer
     end
 
     def fetch(arguments)
       archive = dump(arguments)
       paths = extract(archive)
       update_users(paths) if @update_users
+      paths = @organizer.organize(paths)
       @runner.run("cpath", *paths)
 
       @summary_presenter.present(paths)
@@ -562,6 +660,7 @@ module SlackContext
              slack-context [--users-file PATH] [SLACKDUMP_DUMP_ARGS...]
              slack-context --update-users-from-dump [SLACKDUMP_DUMP_ARGS...]
              slack-context --update-conversations [SLACKDUMP_DUMP_ARGS...]
+             slack-context --output-dir PATH [SLACKDUMP_DUMP_ARGS...]
 
       Dump Slack content with slackdump, extract the archive, and copy the
       extracted JSON path(s) to the clipboard.
@@ -575,6 +674,8 @@ module SlackContext
       user profiles embedded in the downloaded archive.
       With --update-conversations, refresh conversations.json with channel,
       DM, MPDM, and Slack Connect metadata from slackdump.
+      With output_dir in .slack-context.json or --output-dir, organize JSON
+      under channels/ or dms/ using stable conversation IDs.
       Use -- before slackdump arguments that match slack-context options.
 
       Examples:
@@ -615,6 +716,12 @@ module SlackContext
         count = ConversationCatalogUpdater.new(runner: @runner).update(conversation_map)
         @error_output.puts "Updated conversation map: #{conversation_map.path} (#{count} conversations)"
       end
+      output_directory = WorkspaceConfig.output_directory(cwd: Dir.pwd, explicit_path: options[:output_dir])
+      organizer = if output_directory
+                    DumpOrganizer.new(output_dir: output_directory, conversation_map: conversation_map)
+                  else
+                    NullOrganizer.new
+                  end
       @fetcher = Fetcher.new(
         runner: @runner,
         error_output: @error_output,
@@ -624,6 +731,7 @@ module SlackContext
           conversation_map: conversation_map,
         ),
         user_map: user_map,
+        organizer: organizer,
         update_users: options[:update_users],
       )
       sources = @arguments.empty? ? [clipboard] : @arguments
@@ -642,6 +750,7 @@ module SlackContext
         update_users: false,
         conversations_file: nil,
         update_conversations: false,
+        output_dir: nil,
       }
       dump_arguments = []
 
@@ -669,6 +778,12 @@ module SlackContext
           options[:conversations_file] = Regexp.last_match(1)
         when "--update-conversations"
           options[:update_conversations] = true
+        when "--output-dir"
+          raise Error, "slack-context: --output-dir requires a path" if @arguments.empty?
+
+          options[:output_dir] = @arguments.shift
+        when /\A--output-dir=(.+)\z/
+          options[:output_dir] = Regexp.last_match(1)
         else
           dump_arguments << argument
         end
