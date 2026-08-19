@@ -168,6 +168,53 @@ class SlackContextTest < Minitest::Test
     refute_path_exists File.join(@directory, "users.json")
   end
 
+  def test_updates_conversation_map_and_resolves_slack_connect_dm
+    @env["SLACK_CONTEXT_TEST_EXTERNAL_DM"] = "1"
+    write_users_file({ "U222222222" => { "best_name" => "External User" } })
+
+    output, status = run_script("--update-conversations", "url")
+
+    assert_predicate status, :success?, output
+    conversations = JSON.parse(File.read(File.join(@directory, "conversations.json")))
+    assert_equal "im", conversations.dig("D222222222", "type")
+    assert_equal true, conversations.dig("D222222222", "is_ext_shared")
+    assert_equal "U222222222", conversations.dig("D222222222", "user_id")
+    assert_includes output, "Slack Connect DM: External User (D222222222)"
+  end
+
+  def test_resolves_dm_from_existing_conversation_map
+    @env["SLACK_CONTEXT_TEST_INTERNAL_DM"] = "1"
+    write_users_file({ "U111111111" => { "best_name" => "Internal User" } })
+    write_conversations_file({
+      "D111111111" => {
+        "type" => "im",
+        "user_id" => "U111111111",
+        "is_ext_shared" => false,
+      },
+    })
+
+    output, status = run_script("url")
+
+    assert_predicate status, :success?, output
+    assert_includes output, "DM: Internal User (D111111111)"
+  end
+
+  def test_falls_back_to_user_id_for_unresolved_slack_connect_dm
+    @env["SLACK_CONTEXT_TEST_EXTERNAL_DM"] = "1"
+    write_conversations_file({
+      "D222222222" => {
+        "type" => "im",
+        "user_id" => "U222222222",
+        "is_ext_shared" => true,
+      },
+    })
+
+    output, status = run_script("url")
+
+    assert_predicate status, :success?, output
+    assert_includes output, "Slack Connect DM: U222222222 (D222222222)"
+  end
+
   def test_failed_map_write_does_not_leak_into_a_later_refresh
     @env["SLACK_CONTEXT_TEST_TRANSIENT_MAP_WRITE_FAILURE"] = "1"
 
@@ -364,6 +411,10 @@ class SlackContextTest < Minitest::Test
 
   def write_fakes
     write_executable("slackdump", <<~'SH')
+      if [[ $1 == list && $2 == channels ]]; then
+        printf '%s\n' '[{"id":"C0123456789","name":"example-channel","is_im":false,"is_mpim":false,"is_ext_shared":false},{"id":"D111111111","name":"","is_im":true,"is_mpim":false,"is_ext_shared":false,"user":"U111111111"},{"id":"D222222222","name":"","is_im":true,"is_mpim":false,"is_ext_shared":true,"user":"U222222222"},{"id":"C333333333","name":"mpdm-example","is_im":false,"is_mpim":true,"is_ext_shared":false}]'
+        exit 0
+      fi
       count=0
       if [[ -f ${SLACK_CONTEXT_TEST_FETCH_COUNT:?} ]]; then
         count=$(<"$SLACK_CONTEXT_TEST_FETCH_COUNT")
@@ -401,6 +452,10 @@ class SlackContextTest < Minitest::Test
         printf 'not json\n' >context.json
       elif [[ ${SLACK_CONTEXT_TEST_NULL_MESSAGES-} == 1 ]]; then
         printf '{"channel_id":"C0123456789","name":"example-channel","messages":null}\n' >context.json
+      elif [[ ${SLACK_CONTEXT_TEST_INTERNAL_DM-} == 1 ]]; then
+        printf '%s\n' '{"channel_id":"D111111111","name":"","messages":[{"user":"U012345678","text":"hello"}]}' >context.json
+      elif [[ ${SLACK_CONTEXT_TEST_EXTERNAL_DM-} == 1 ]]; then
+        printf '%s\n' '{"channel_id":"D222222222","name":"","messages":[{"user":"U012345678","text":"hello"}]}' >context.json
       elif [[ ${SLACK_CONTEXT_TEST_TRANSIENT_MAP_WRITE_FAILURE-} == 1 ]]; then
         count=$(<"${SLACK_CONTEXT_TEST_FETCH_COUNT:?}")
         if [[ $count == 2 ]]; then
@@ -448,6 +503,11 @@ class SlackContextTest < Minitest::Test
   end
 
   def write_users_file(records, path: File.join(@directory, "users.json"))
+    FileUtils.mkdir_p(File.dirname(path))
+    File.write(path, JSON.pretty_generate(records))
+  end
+
+  def write_conversations_file(records, path: File.join(@directory, "conversations.json"))
     FileUtils.mkdir_p(File.dirname(path))
     File.write(path, JSON.pretty_generate(records))
   end

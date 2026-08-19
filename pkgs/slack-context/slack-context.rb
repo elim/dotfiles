@@ -43,7 +43,7 @@ module SlackContext
   class ConversationSummary
     EXCERPT_LENGTH = 200
 
-    def self.load(path, user_map:)
+    def self.load(path, user_map:, conversation_map:)
       payload = JSON.parse(File.read(path))
       return unless payload.is_a?(Hash)
 
@@ -60,18 +60,20 @@ module SlackContext
         text: message["text"],
         path: path,
         user_map: user_map,
+        conversation_map: conversation_map,
       )
     rescue JSON::ParserError, SystemCallError
       nil
     end
 
-    def initialize(channel_id:, channel_name:, author_id:, text:, path:, user_map:)
+    def initialize(channel_id:, channel_name:, author_id:, text:, path:, user_map:, conversation_map:)
       @channel_id = channel_id
       @channel_name = channel_name
       @author_id = author_id
       @text = text
       @path = path
       @user_map = user_map
+      @conversation_map = conversation_map
     end
 
     def lines
@@ -81,6 +83,9 @@ module SlackContext
     private
 
     def channel_line
+      description = @conversation_map.describe(@channel_id, fallback_name: @channel_name)
+      return description if description
+
       return if blank?(@channel_id) && blank?(@channel_name)
       return "Channel: ##{@channel_name} (#{@channel_id})" unless blank?(@channel_name) || blank?(@channel_id)
       return "Channel: ##{@channel_name}" unless blank?(@channel_name)
@@ -110,13 +115,16 @@ module SlackContext
   end
 
   class SummaryPresenter
-    def initialize(output:, user_map: UserMap.empty)
+    def initialize(output:, user_map: UserMap.empty, conversation_map: ConversationMap.empty)
       @output = output
       @user_map = user_map
+      @conversation_map = conversation_map
     end
 
     def present(paths)
-      paths.filter_map { |path| ConversationSummary.load(path, user_map: @user_map) }.each do |summary|
+      paths.filter_map do |path|
+        ConversationSummary.load(path, user_map: @user_map, conversation_map: @conversation_map)
+      end.each do |summary|
         @output.puts "Fetched context:"
         summary.lines.each { |line| @output.puts line }
       end
@@ -290,17 +298,148 @@ module SlackContext
     end
   end
 
+  class ConversationMap
+    attr_reader :path
+
+    def self.empty
+      new(nil, user_map: UserMap.empty)
+    end
+
+    def initialize(path, user_map:)
+      @path = path
+      @user_map = user_map
+      @records = load_records
+    end
+
+    def describe(conversation_id, fallback_name: nil)
+      return unless conversation_id.is_a?(String) && !conversation_id.empty?
+
+      record = @records[conversation_id]
+      return inferred_description(conversation_id, fallback_name) unless record.is_a?(Hash)
+
+      case record["type"]
+      when "im"
+        prefix = record["is_ext_shared"] ? "Slack Connect DM" : "DM"
+        name = @user_map.resolve(record["user_id"]) || record["display_name"] || record["user_id"]
+        name ? "#{prefix}: #{name} (#{conversation_id})" : "#{prefix}: #{conversation_id}"
+      when "mpim"
+        "Group DM: #{conversation_id}"
+      else
+        channel_name = record["name"] || fallback_name
+        channel_name && !channel_name.empty? ? "Channel: ##{channel_name} (#{conversation_id})" : "Channel: #{conversation_id}"
+      end
+    end
+
+    def replace(channels)
+      raise Error, "slack-context: conversation map path is required to update conversations" unless @path
+
+      records = channels.filter_map { |channel| record_from(channel) }.sort.to_h
+      write_records(records)
+      @records = records
+      records.length
+    end
+
+    private
+
+    def inferred_description(conversation_id, fallback_name)
+      return "DM: #{conversation_id}" if conversation_id.start_with?("D")
+      return "Group DM: #{conversation_id}" if fallback_name&.start_with?("mpdm-")
+
+      nil
+    end
+
+    def record_from(channel)
+      return unless channel.is_a?(Hash)
+
+      conversation_id = channel["id"] || channel["channel_id"]
+      return unless conversation_id.is_a?(String) && !conversation_id.empty?
+
+      type = if channel["is_im"]
+               "im"
+             elsif channel["is_mpim"] || channel["name"]&.start_with?("mpdm-")
+               "mpim"
+             else
+               "channel"
+             end
+      record = {
+        "type" => type,
+        "name" => present(channel["name"]),
+        "user_id" => present(channel["user"]),
+        "is_ext_shared" => !!channel["is_ext_shared"],
+      }.compact
+      record["display_name"] = @user_map.resolve(record["user_id"]) if record["user_id"]
+      [conversation_id, record.compact]
+    end
+
+    def present(value)
+      value if value.is_a?(String) && !value.empty?
+    end
+
+    def load_records
+      return {} unless @path&.file?
+
+      payload = JSON.parse(@path.read)
+      raise Error, "slack-context: #{@path} must contain a JSON object" unless payload.is_a?(Hash)
+
+      payload
+    rescue JSON::ParserError => e
+      raise Error, "slack-context: could not parse #{@path}: #{e.message}"
+    rescue SystemCallError => e
+      raise Error, "slack-context: could not read #{@path}: #{e.message}"
+    end
+
+    def write_records(records)
+      @path.dirname.mkpath
+      Tempfile.create(["conversations", ".json"], @path.dirname.to_s) do |file|
+        file.write(JSON.pretty_generate(records))
+        file.write("\n")
+        file.flush
+        file.fsync
+        File.rename(file.path, @path)
+      end
+    rescue SystemCallError => e
+      raise Error, "slack-context: could not write #{@path}: #{e.message}"
+    end
+  end
+
+  class ConversationCatalogUpdater
+    def initialize(runner:)
+      @runner = runner
+    end
+
+    def update(conversation_map)
+      output = @runner.capture("slackdump", "list", "channels", "-format", "JSON", "-no-json")
+      payload = JSON.parse(output)
+      channels = payload.is_a?(Array) ? payload : payload["channels"]
+      raise Error, "slack-context: slackdump channel list did not contain an array" unless channels.is_a?(Array)
+
+      conversation_map.replace(channels)
+    rescue JSON::ParserError => e
+      raise Error, "slack-context: could not parse slackdump channel list: #{e.message}"
+    end
+  end
+
   class WorkspaceConfig
     FILE_NAME = ".slack-context.json"
 
     def self.user_map_path(cwd:, explicit_path: nil, create: false)
-      return File.expand_path(explicit_path, cwd) if explicit_path
+      data_file_path(
+        cwd: cwd,
+        explicit_path: explicit_path,
+        create: create,
+        config_key: "users_file",
+        default_name: "users.json",
+      )
+    end
 
-      config_path = find_config(cwd)
-      return configured_users_file(config_path) if config_path
-
-      users_file = File.join(cwd, "users.json")
-      users_file if create || File.file?(users_file)
+    def self.conversation_map_path(cwd:, explicit_path: nil, create: false)
+      data_file_path(
+        cwd: cwd,
+        explicit_path: explicit_path,
+        create: create,
+        config_key: "conversations_file",
+        default_name: "conversations.json",
+      )
     end
 
     def self.find_config(start_directory)
@@ -318,18 +457,30 @@ module SlackContext
     end
     private_class_method :find_config
 
-    def self.configured_users_file(config_path)
-      config = JSON.parse(File.read(config_path))
-      users_file = config["users_file"]
-      return unless users_file.is_a?(String) && !users_file.empty?
+    def self.data_file_path(cwd:, explicit_path:, create:, config_key:, default_name:)
+      return File.expand_path(explicit_path, cwd) if explicit_path
 
-      File.expand_path(users_file, File.dirname(config_path))
+      config_path = find_config(cwd)
+      return configured_file(config_path, config_key, default_name, create) if config_path
+
+      data_file = File.join(cwd, default_name)
+      data_file if create || File.file?(data_file)
+    end
+    private_class_method :data_file_path
+
+    def self.configured_file(config_path, config_key, default_name, create)
+      config = JSON.parse(File.read(config_path))
+      configured = config[config_key]
+      configured = default_name if create && (!configured.is_a?(String) || configured.empty?)
+      return unless configured.is_a?(String) && !configured.empty?
+
+      File.expand_path(configured, File.dirname(config_path))
     rescue JSON::ParserError => e
       raise Error, "slack-context: could not parse #{config_path}: #{e.message}"
     rescue SystemCallError => e
       raise Error, "slack-context: could not read #{config_path}: #{e.message}"
     end
-    private_class_method :configured_users_file
+    private_class_method :configured_file
   end
 
   class Fetcher
@@ -410,6 +561,7 @@ module SlackContext
       Usage: slack-context [--interactive] [SLACKDUMP_DUMP_ARGS...]
              slack-context [--users-file PATH] [SLACKDUMP_DUMP_ARGS...]
              slack-context --update-users-from-dump [SLACKDUMP_DUMP_ARGS...]
+             slack-context --update-conversations [SLACKDUMP_DUMP_ARGS...]
 
       Dump Slack content with slackdump, extract the archive, and copy the
       extracted JSON path(s) to the clipboard.
@@ -421,6 +573,8 @@ module SlackContext
       .slack-context.json, in the current directory, or at --users-file.
       With --update-users-from-dump, create or update that map using only
       user profiles embedded in the downloaded archive.
+      With --update-conversations, refresh conversations.json with channel,
+      DM, MPDM, and Slack Connect metadata from slackdump.
       Use -- before slackdump arguments that match slack-context options.
 
       Examples:
@@ -451,10 +605,24 @@ module SlackContext
         create: options[:update_users],
       )
       user_map = UserMap.new(user_map_path && Pathname(user_map_path))
+      conversation_map_path = WorkspaceConfig.conversation_map_path(
+        cwd: Dir.pwd,
+        explicit_path: options[:conversations_file],
+        create: options[:update_conversations],
+      )
+      conversation_map = ConversationMap.new(conversation_map_path && Pathname(conversation_map_path), user_map: user_map)
+      if options[:update_conversations]
+        count = ConversationCatalogUpdater.new(runner: @runner).update(conversation_map)
+        @error_output.puts "Updated conversation map: #{conversation_map.path} (#{count} conversations)"
+      end
       @fetcher = Fetcher.new(
         runner: @runner,
         error_output: @error_output,
-        summary_presenter: SummaryPresenter.new(output: @error_output, user_map: user_map),
+        summary_presenter: SummaryPresenter.new(
+          output: @error_output,
+          user_map: user_map,
+          conversation_map: conversation_map,
+        ),
         user_map: user_map,
         update_users: options[:update_users],
       )
@@ -468,7 +636,13 @@ module SlackContext
     private
 
     def parse_options
-      options = { interactive: false, users_file: nil, update_users: false }
+      options = {
+        interactive: false,
+        users_file: nil,
+        update_users: false,
+        conversations_file: nil,
+        update_conversations: false,
+      }
       dump_arguments = []
 
       until @arguments.empty?
@@ -487,6 +661,14 @@ module SlackContext
           options[:users_file] = Regexp.last_match(1)
         when "--update-users-from-dump"
           options[:update_users] = true
+        when "--conversations-file"
+          raise Error, "slack-context: --conversations-file requires a path" if @arguments.empty?
+
+          options[:conversations_file] = @arguments.shift
+        when /\A--conversations-file=(.+)\z/
+          options[:conversations_file] = Regexp.last_match(1)
+        when "--update-conversations"
+          options[:update_conversations] = true
         else
           dump_arguments << argument
         end
