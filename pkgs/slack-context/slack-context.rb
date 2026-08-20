@@ -4,6 +4,7 @@ require "io/console"
 require "json"
 require "pathname"
 require "tempfile"
+require "tmpdir"
 
 module SlackContext
   class Error < StandardError
@@ -149,7 +150,8 @@ module SlackContext
           text = message["text"]
           next unless text.is_a?(String) && !text.empty?
 
-          messages[message["ts"]] = Message.new(
+          identity = [payload["channel_id"], message["ts"]]
+          messages[identity] = Message.new(
             timestamp: message["ts"],
             author: user_map.resolve(message["user"]) || message["user"] || "Unknown author",
             text: display_text(user_map.resolve_mentions(text)),
@@ -174,13 +176,13 @@ module SlackContext
     end
 
     def messages_after(previous)
-      @messages.reject { |timestamp, _message| previous.include?(timestamp) }
+      @messages.reject { |identity, _message| previous.include?(identity) }
         .values
         .sort_by { |message| message.timestamp.to_f }
     end
 
-    def include?(timestamp)
-      @messages.key?(timestamp)
+    def include?(identity)
+      @messages.key?(identity)
     end
   end
 
@@ -371,6 +373,8 @@ module SlackContext
   end
 
   class ConversationMap
+    CONVERSATION_ID = /\A[CDG][A-Z0-9]{8,}\z/
+
     attr_reader :path
 
     def self.empty
@@ -403,7 +407,7 @@ module SlackContext
     end
 
     def directory_components(conversation_id, fallback_name: nil)
-      return unless conversation_id.is_a?(String) && !conversation_id.empty?
+      return unless conversation_id.is_a?(String) && CONVERSATION_ID.match?(conversation_id)
 
       record = @records[conversation_id]
       type = record.is_a?(Hash) ? record["type"] : inferred_type(conversation_id, fallback_name)
@@ -522,44 +526,175 @@ module SlackContext
   end
 
   class DumpOrganizer
-    def initialize(output_dir:, conversation_map:)
-      @output_dir = output_dir
+    Operation = Struct.new(:source, :target, :identity, keyword_init: true)
+
+    def initialize(output_dir:, conversation_map:, warning_output: $stderr)
+      expanded_output_dir = output_dir.expand_path
+      expanded_output_dir.mkpath
+      @output_dir = expanded_output_dir.realpath
       @conversation_map = conversation_map
+      @warning_output = warning_output
+    rescue SystemCallError => e
+      raise Error, "slack-context: could not prepare output directory: #{e.message}"
     end
 
     def organize(paths)
-      metadata = conversation_metadata(paths)
-      return paths unless metadata
-
-      components = @conversation_map.directory_components(
-        metadata["channel_id"],
-        fallback_name: metadata["name"],
-      )
-      return paths unless components
-
-      destination = @output_dir.join(*components)
-      destination.mkpath
-      paths.map { |path| move(path, destination) }
+      operations = paths.map { |path| build_operation(path) }
+      validate_operations(operations)
+      apply_operations(operations)
     end
 
     private
 
-    def conversation_metadata(paths)
-      paths.each do |path|
-        payload = JSON.parse(File.read(path))
-        return payload if payload.is_a?(Hash) && payload["channel_id"].is_a?(String)
-      rescue JSON::ParserError, SystemCallError
-        next
+    def build_operation(path)
+      metadata = JSON.parse(File.read(path))
+      raise Error, "slack-context: #{path} does not contain conversation metadata" unless metadata.is_a?(Hash)
+
+      conversation_id = metadata["channel_id"]
+      components = @conversation_map.directory_components(conversation_id, fallback_name: metadata["name"])
+      raise Error, "slack-context: invalid conversation ID in #{path}" unless components
+
+      destination = @output_dir.join(*components).expand_path
+      ensure_within_output_directory(destination)
+      Operation.new(
+        source: Pathname(path),
+        target: destination.join(File.basename(path)),
+        identity: [conversation_id, metadata["thread_ts"]],
+      )
+    rescue JSON::ParserError, SystemCallError => e
+      raise Error, "slack-context: could not organize #{path}: #{e.message}"
+    end
+
+    def ensure_within_output_directory(destination)
+      prefix = "#{@output_dir}#{File::SEPARATOR}"
+      return if destination.to_s.start_with?(prefix)
+
+      raise Error, "slack-context: destination escapes output directory"
+    end
+
+    def validate_operations(operations)
+      duplicate = operations.group_by(&:target).find { |_target, grouped| grouped.length > 1 }
+      raise Error, "slack-context: multiple JSON files target #{duplicate.first}" if duplicate
+
+      operations.each do |operation|
+        if operation.target.symlink?
+          raise Error, "slack-context: refusing symlink target #{operation.target}"
+        end
+        next unless operation.target.exist?
+        next if context_identity(operation.target) == operation.identity
+
+        raise Error, "slack-context: refusing to replace unrelated file #{operation.target}"
       end
+    end
+
+    def context_identity(path)
+      payload = JSON.parse(path.read)
+      [payload["channel_id"], payload["thread_ts"]] if payload.is_a?(Hash)
+    rescue JSON::ParserError, SystemCallError
       nil
     end
 
-    def move(path, destination)
-      target = destination.join(File.basename(path))
-      FileUtils.mv(path, target, force: true) unless File.expand_path(path) == target.expand_path.to_s
-      target.realpath.to_s
+    def apply_operations(operations)
+      operations.each { |operation| ensure_safe_directory(operation.target.dirname) }
+      backup_directory = Pathname(Dir.mktmpdir(".slack-context-", @output_dir))
+      keep_backup = false
+      written = []
+
+      begin
+        backups = backup_targets(operations, backup_directory)
+        operations.each do |operation|
+          ensure_safe_directory(operation.target.dirname)
+          atomic_copy(operation.source, operation.target)
+          written << operation
+        end
+      rescue Error, SystemCallError => e
+        rollback_errors = rollback(written, backups || {})
+        if rollback_errors.empty?
+          raise Error, "slack-context: could not organize dump: #{e.message}"
+        end
+
+        keep_backup = true
+        details = rollback_errors.map(&:message).join("; ")
+        raise Error,
+              "slack-context: could not organize dump: #{e.message}; " \
+              "rollback failed: #{details}; backup retained at #{backup_directory}"
+      ensure
+        FileUtils.remove_entry(backup_directory) if backup_directory.exist? && !keep_backup
+      end
+
+      cleanup_sources(operations)
+      operations.map { |operation| operation.target.realpath.to_s }
     rescue SystemCallError => e
-      raise Error, "slack-context: could not organize #{path}: #{e.message}"
+      raise Error, "slack-context: could not organize dump: #{e.message}"
+    end
+
+    def backup_targets(operations, backup_directory)
+      operations.each_with_index.to_h do |operation, index|
+        next [operation.target, nil] unless operation.target.exist?
+
+        backup = backup_directory.join(index.to_s)
+        FileUtils.cp(operation.target, backup)
+        [operation.target, backup]
+      end
+    end
+
+    def atomic_copy(source, target)
+      ensure_safe_directory(target.dirname)
+      Tempfile.create(["context", ".json"], target.dirname.to_s) do |file|
+        FileUtils.cp(source, file.path)
+        file.flush
+        file.fsync
+        File.rename(file.path, target)
+      end
+    end
+
+    def rollback(written, backups)
+      errors = []
+      written.reverse_each do |operation|
+        begin
+          ensure_safe_directory(operation.target.dirname)
+          backup = backups[operation.target]
+          if backup
+            atomic_copy(backup, operation.target)
+          else
+            File.delete(operation.target) if operation.target.exist?
+          end
+        rescue Error, SystemCallError => e
+          errors << e
+        end
+      end
+      errors
+    end
+
+    def ensure_safe_directory(directory)
+      relative = directory.expand_path.relative_path_from(@output_dir)
+      if relative.each_filename.any? { |component| component == ".." }
+        raise Error, "slack-context: destination escapes output directory"
+      end
+
+      current = @output_dir
+      relative.each_filename do |component|
+        current = current.join(component)
+        raise Error, "slack-context: refusing symlink directory #{current}" if current.symlink?
+
+        if current.exist?
+          raise Error, "slack-context: output path is not a directory: #{current}" unless current.directory?
+        else
+          Dir.mkdir(current)
+        end
+      end
+      resolved = directory.realpath
+      ensure_within_output_directory(resolved) unless resolved == @output_dir
+    rescue ArgumentError, SystemCallError => e
+      raise Error, "slack-context: could not prepare output directory: #{e.message}"
+    end
+
+    def cleanup_sources(operations)
+      operations.each do |operation|
+        File.delete(operation.source)
+      rescue SystemCallError => e
+        @warning_output.puts "slack-context: could not remove extracted #{operation.source}: #{e.message}"
+      end
     end
   end
 
@@ -695,17 +830,42 @@ module SlackContext
 
     def extract(archive)
       entries = @runner.capture("unzip", "-Z1", "--", archive).lines(chomp: true)
-      file_paths = entries.reject { |entry| entry.end_with?("/") }.map { |entry| "./#{entry}" }
-      json_paths = file_paths.grep(/\.json\z/)
+      extraction_root = Pathname.pwd.realpath
+      file_paths = entries.reject { |entry| entry.end_with?("/") }.map do |entry|
+        archive_entry_path(entry, extraction_root)
+      end
+      json_paths = file_paths.select { |path| path.extname == ".json" }
 
       @runner.run("unzip", "-o", "--", archive)
 
       paths = json_paths.empty? ? file_paths : json_paths
       raise Error, "slack-context: zip file did not contain files" if paths.empty?
 
-      paths.map { |path| File.realpath(path) }
+      paths.map { |path| extracted_file(path, extraction_root) }
     rescue SystemCallError => e
       raise Error, "slack-context: #{e.message}"
+    end
+
+    def archive_entry_path(entry, extraction_root)
+      relative = Pathname(entry)
+      if entry.empty? || relative.absolute? || relative.each_filename.any? { |component| component == ".." }
+        raise Error, "slack-context: unsafe zip entry #{entry.inspect}"
+      end
+
+      extraction_root.join(relative.cleanpath)
+    end
+
+    def extracted_file(path, extraction_root)
+      stat = path.lstat
+      raise Error, "slack-context: extracted entry is not a regular file: #{path}" unless stat.file?
+
+      resolved = path.realpath
+      prefix = "#{extraction_root}#{File::SEPARATOR}"
+      unless resolved.to_s.start_with?(prefix)
+        raise Error, "slack-context: extracted entry escapes working directory: #{path}"
+      end
+
+      resolved.to_s
     end
 
     def archives
@@ -790,7 +950,11 @@ module SlackContext
       end
       output_directory = WorkspaceConfig.output_directory(cwd: Dir.pwd, explicit_path: options[:output_dir])
       organizer = if output_directory
-                    DumpOrganizer.new(output_dir: output_directory, conversation_map: conversation_map)
+                    DumpOrganizer.new(
+                      output_dir: output_directory,
+                      conversation_map: conversation_map,
+                      warning_output: @error_output,
+                    )
                   else
                     NullOrganizer.new
                   end

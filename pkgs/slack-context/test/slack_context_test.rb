@@ -273,6 +273,58 @@ class SlackContextTest < Minitest::Test
     )
   end
 
+  def test_rejects_conversation_id_that_escapes_output_directory
+    @env["SLACK_CONTEXT_TEST_MALICIOUS_ID"] = "1"
+
+    output, status = run_script("--output-dir", "organized", "url")
+
+    refute_predicate status, :success?
+    assert_includes output, "invalid conversation ID"
+    refute_path_exists File.join(@directory, "outside")
+    assert_path_exists File.join(@directory, "context.json")
+  end
+
+  def test_refuses_to_replace_unrelated_existing_file
+    target = File.join(@directory, "organized", "channels", "C0123456789-example-channel", "context.json")
+    FileUtils.mkdir_p(File.dirname(target))
+    File.write(target, "user data")
+
+    output, status = run_script("--output-dir", "organized", "url")
+
+    refute_predicate status, :success?
+    assert_includes output, "refusing to replace unrelated file"
+    assert_equal "user data", File.read(target)
+  end
+
+  def test_refuses_symlink_directory_under_output_directory
+    outside = File.join(@directory, "outside")
+    FileUtils.mkdir_p(outside)
+    FileUtils.mkdir_p(File.join(@directory, "organized"))
+    File.symlink(outside, File.join(@directory, "organized", "channels"))
+
+    output, status = run_script("--output-dir", "organized", "url")
+
+    refute_predicate status, :success?
+    assert_includes output, "refusing symlink directory"
+    refute_path_exists File.join(outside, "C0123456789-example-channel", "context.json")
+    assert_path_exists File.join(@directory, "context.json")
+  end
+
+  def test_replaces_previous_snapshot_of_the_same_context
+    _output, first_status = run_script("--output-dir", "organized", "url")
+    output, second_status = run_script("--output-dir", "organized", "url")
+
+    assert_predicate first_status, :success?
+    assert_predicate second_status, :success?, output
+    assert_path_exists File.join(
+      @directory,
+      "organized",
+      "channels",
+      "C0123456789-example-channel",
+      "context.json",
+    )
+  end
+
   def test_failed_map_write_does_not_leak_into_a_later_refresh
     @env["SLACK_CONTEXT_TEST_TRANSIENT_MAP_WRITE_FAILURE"] = "1"
 
@@ -329,6 +381,19 @@ class SlackContextTest < Minitest::Test
     refute_path_exists @clipboard
   end
 
+  def test_rejects_symlink_extracted_from_archive
+    victim = File.join(@directory, "victim.json")
+    File.write(victim, "user data")
+    @env["SLACK_CONTEXT_TEST_SYMLINK_ENTRY"] = "1"
+
+    output, status = run_script("--output-dir", "organized", "url")
+
+    refute_predicate status, :success?
+    assert_includes output, "extracted entry is not a regular file"
+    assert_equal "user data", File.read(victim)
+    refute_path_exists File.join(@directory, "organized", "channels")
+  end
+
   def test_help_preserves_existing_usage
     output, status = run_script("--help")
 
@@ -369,6 +434,16 @@ class SlackContextTest < Minitest::Test
     assert_predicate status, :success?, output
     assert_equal 1, output.scan("New messages (1):").length
     assert_includes output, "U987654321: new message <@U012345678>"
+  end
+
+  def test_interactive_diff_scopes_message_timestamp_to_conversation
+    @env["SLACK_CONTEXT_TEST_MULTIPLE_CONVERSATIONS"] = "1"
+
+    output, status = run_interactive("rq")
+
+    assert_predicate status, :success?, output
+    assert_includes output, "New messages (1):"
+    assert_includes output, "U987654321: second conversation message"
   end
 
   def test_interactive_mode_refetches_with_enter
@@ -525,17 +600,23 @@ class SlackContextTest < Minitest::Test
         exit 31
       fi
       if [[ $1 == -Z1 ]]; then
-        if [[ ${SLACK_CONTEXT_TEST_NO_JSON-} == 1 ]]; then
+        if [[ ${SLACK_CONTEXT_TEST_MULTIPLE_CONVERSATIONS-} == 1 ]]; then
+          printf 'context.json\nsecond.json\n'
+        elif [[ ${SLACK_CONTEXT_TEST_NO_JSON-} == 1 ]]; then
           printf 'messages.txt\nfiles/\n'
         else
           printf 'context.json\nmessages.txt\nfiles/\n'
         fi
+      elif [[ ${SLACK_CONTEXT_TEST_SYMLINK_ENTRY-} == 1 ]]; then
+        ln -s victim.json context.json
       elif [[ ${SLACK_CONTEXT_TEST_NO_JSON-} == 1 ]]; then
         printf 'messages\n' >messages.txt
       elif [[ ${SLACK_CONTEXT_TEST_INVALID_JSON-} == 1 ]]; then
         printf 'not json\n' >context.json
       elif [[ ${SLACK_CONTEXT_TEST_NULL_MESSAGES-} == 1 ]]; then
         printf '{"channel_id":"C0123456789","name":"example-channel","messages":null}\n' >context.json
+      elif [[ ${SLACK_CONTEXT_TEST_MALICIOUS_ID-} == 1 ]]; then
+        printf '%s\n' '{"channel_id":"../../outside","name":"example-channel","messages":[{"user":"U012345678","text":"hello"}]}' >context.json
       elif [[ ${SLACK_CONTEXT_TEST_INTERNAL_DM-} == 1 ]]; then
         printf '%s\n' '{"channel_id":"D111111111","name":"","messages":[{"user":"U012345678","text":"hello"}]}' >context.json
       elif [[ ${SLACK_CONTEXT_TEST_EXTERNAL_DM-} == 1 ]]; then
@@ -548,6 +629,14 @@ class SlackContextTest < Minitest::Test
           printf '%s\n' '{"channel_id":"C0123456789","name":"example-channel","messages":[{"ts":"1.000001","user":"U012345678","text":"root message"}]}' >context.json
         else
           printf '%s\n' '{"channel_id":"C0123456789","name":"example-channel","messages":[{"ts":"1.000001","user":"U012345678","text":"root message"},{"ts":"2.000002","user":"U987654321","text":"new\nmessage <@U012345678>"}]}' >context.json
+        fi
+      elif [[ ${SLACK_CONTEXT_TEST_MULTIPLE_CONVERSATIONS-} == 1 ]]; then
+        count=$(<"${SLACK_CONTEXT_TEST_FETCH_COUNT:?}")
+        printf '%s\n' '{"channel_id":"C0123456789","name":"first-channel","messages":[{"ts":"2.000002","user":"U012345678","text":"first conversation message"}]}' >context.json
+        if [[ $count -eq 1 ]]; then
+          printf '%s\n' '{"channel_id":"C9876543210","name":"second-channel","messages":[]}' >second.json
+        else
+          printf '%s\n' '{"channel_id":"C9876543210","name":"second-channel","messages":[{"ts":"2.000002","user":"U987654321","text":"second conversation message"}]}' >second.json
         fi
       elif [[ ${SLACK_CONTEXT_TEST_TRANSIENT_MAP_WRITE_FAILURE-} == 1 ]]; then
         count=$(<"${SLACK_CONTEXT_TEST_FETCH_COUNT:?}")
