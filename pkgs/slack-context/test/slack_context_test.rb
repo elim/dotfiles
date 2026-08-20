@@ -343,6 +343,32 @@ class SlackContextTest < Minitest::Test
     assert_predicate status, :success?, output
     assert_equal "2", File.read(@fetch_count)
     assert_equal "2", File.read(@clipboard_count)
+    assert_includes output, "No new messages."
+  end
+
+  def test_interactive_mode_prints_messages_added_since_previous_fetch
+    @env["SLACK_CONTEXT_TEST_INCREMENTAL_MESSAGES"] = "1"
+    write_users_file({
+      "U012345678" => { "best_name" => "Root User" },
+      "U987654321" => { "best_name" => "Reply User" },
+    })
+
+    output, status = run_interactive("rq")
+
+    assert_predicate status, :success?, output
+    assert_includes output, "New messages (1):"
+    assert_includes output, "Reply User: new message @Root User"
+  end
+
+  def test_interactive_mode_keeps_baseline_after_failed_refresh
+    @env["SLACK_CONTEXT_TEST_INCREMENTAL_MESSAGES"] = "1"
+    @env["SLACK_CONTEXT_TEST_FAIL_ON"] = "2"
+
+    output, status = run_interactive("rrq")
+
+    assert_predicate status, :success?, output
+    assert_equal 1, output.scan("New messages (1):").length
+    assert_includes output, "U987654321: new message <@U012345678>"
   end
 
   def test_interactive_mode_refetches_with_enter
@@ -516,6 +542,13 @@ class SlackContextTest < Minitest::Test
         printf '%s\n' '{"channel_id":"D222222222","name":"","messages":[{"user":"U012345678","text":"hello"}]}' >context.json
       elif [[ ${SLACK_CONTEXT_TEST_MPDM-} == 1 ]]; then
         printf '%s\n' '{"channel_id":"C333333333","name":"mpdm-example","messages":[{"user":"U012345678","text":"hello"}]}' >context.json
+      elif [[ ${SLACK_CONTEXT_TEST_INCREMENTAL_MESSAGES-} == 1 ]]; then
+        count=$(<"${SLACK_CONTEXT_TEST_FETCH_COUNT:?}")
+        if [[ $count -eq 1 ]]; then
+          printf '%s\n' '{"channel_id":"C0123456789","name":"example-channel","messages":[{"ts":"1.000001","user":"U012345678","text":"root message"}]}' >context.json
+        else
+          printf '%s\n' '{"channel_id":"C0123456789","name":"example-channel","messages":[{"ts":"1.000001","user":"U012345678","text":"root message"},{"ts":"2.000002","user":"U987654321","text":"new\nmessage <@U012345678>"}]}' >context.json
+        fi
       elif [[ ${SLACK_CONTEXT_TEST_TRANSIENT_MAP_WRITE_FAILURE-} == 1 ]]; then
         count=$(<"${SLACK_CONTEXT_TEST_FETCH_COUNT:?}")
         if [[ $count == 2 ]]; then

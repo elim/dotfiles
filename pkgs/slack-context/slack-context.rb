@@ -132,6 +132,77 @@ module SlackContext
     end
   end
 
+  Message = Struct.new(:timestamp, :author, :text, keyword_init: true)
+
+  class MessageSnapshot
+    DISPLAY_LENGTH = 500
+
+    def self.load(paths, user_map:)
+      messages = {}
+      paths.each do |path|
+        payload = JSON.parse(File.read(path))
+        next unless payload.is_a?(Hash) && payload["messages"].is_a?(Array)
+
+        payload["messages"].each do |message|
+          next unless message.is_a?(Hash) && message["ts"].is_a?(String)
+
+          text = message["text"]
+          next unless text.is_a?(String) && !text.empty?
+
+          messages[message["ts"]] = Message.new(
+            timestamp: message["ts"],
+            author: user_map.resolve(message["user"]) || message["user"] || "Unknown author",
+            text: display_text(user_map.resolve_mentions(text)),
+          )
+        end
+      rescue JSON::ParserError, SystemCallError
+        next
+      end
+      new(messages)
+    end
+
+    def self.display_text(text)
+      normalized = text.gsub(/[[:space:]]+/, " ").strip
+      excerpt = normalized.each_char.take(DISPLAY_LENGTH).join
+      excerpt += "…" if normalized.length > DISPLAY_LENGTH
+      excerpt
+    end
+    private_class_method :display_text
+
+    def initialize(messages)
+      @messages = messages
+    end
+
+    def messages_after(previous)
+      @messages.reject { |timestamp, _message| previous.include?(timestamp) }
+        .values
+        .sort_by { |message| message.timestamp.to_f }
+    end
+
+    def include?(timestamp)
+      @messages.key?(timestamp)
+    end
+  end
+
+  class MessageDiffPresenter
+    def initialize(output:)
+      @output = output
+    end
+
+    def present(previous, current)
+      messages = current.messages_after(previous)
+      if messages.empty?
+        @output.puts "No new messages."
+        return
+      end
+
+      @output.puts "New messages (#{messages.length}):"
+      messages.each { |message| @output.puts "#{message.author}: #{message.text}" }
+    end
+  end
+
+  FetchResult = Struct.new(:paths, :message_snapshot, keyword_init: true)
+
 
   class UserMap
     USER_MENTION = /<@((?:U|W)[A-Z0-9]{8,})>/
@@ -601,6 +672,7 @@ module SlackContext
       @summary_presenter.present(paths)
       @error_output.puts "Copied to clipboard:"
       paths.each { |path| @error_output.puts path }
+      FetchResult.new(paths: paths, message_snapshot: MessageSnapshot.load(paths, user_map: @user_map))
     ensure
       remove_archive(archive) if archive
     end
@@ -722,6 +794,7 @@ module SlackContext
                   else
                     NullOrganizer.new
                   end
+      message_diff_presenter = MessageDiffPresenter.new(output: @error_output)
       @fetcher = Fetcher.new(
         runner: @runner,
         error_output: @error_output,
@@ -735,7 +808,7 @@ module SlackContext
         update_users: options[:update_users],
       )
       sources = @arguments.empty? ? [clipboard] : @arguments
-      options[:interactive] ? run_interactively(sources) : fetch_once(sources)
+      options[:interactive] ? run_interactively(sources, message_diff_presenter) : fetch_once(sources)
     rescue Error => e
       report(e)
       e.status
@@ -811,8 +884,8 @@ module SlackContext
       0
     end
 
-    def run_interactively(sources)
-      @fetcher.fetch(sources)
+    def run_interactively(sources, message_diff_presenter)
+      previous = @fetcher.fetch(sources)
 
       loop do
         @error_output.print "Press r or Enter to fetch again, or q to quit: "
@@ -821,7 +894,11 @@ module SlackContext
 
         case key
         when "r", "\r", "\n"
-          refresh(sources)
+          current = refresh(sources)
+          if current
+            message_diff_presenter.present(previous.message_snapshot, current.message_snapshot)
+            previous = current
+          end
         when "q"
           return 0
         end
