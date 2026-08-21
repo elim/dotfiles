@@ -887,6 +887,8 @@ module SlackContext
   end
 
   class CLI
+    SLACK_CONVERSATION_URL = %r{\Ahttps://[^/\s]+/archives/[A-Z0-9]+(?:/p\d+)?(?:[?#]\S*)?\z}
+
     USAGE = <<~USAGE
       Usage: slack-context [--interactive] [SLACKDUMP_DUMP_ARGS...]
              slack-context [--users-file PATH] [SLACKDUMP_DUMP_ARGS...]
@@ -908,10 +910,13 @@ module SlackContext
       DM, MPDM, and Slack Connect metadata from slackdump.
       With output_dir in .slack-context.json or --output-dir, organize JSON
       under channels/ or dms/ using stable conversation IDs.
+      When only slackdump options are given, append a Slack conversation URL
+      from the clipboard if one is available.
       Use -- before slackdump arguments that match slack-context options.
 
       Examples:
         slack-context
+        slack-context -time-from=2026-08-01T09:00:00 -time-to=2027-01-01T00:00:00
         slack-context -time-from 2026-07-03 -time-to 2026-07-04 "$(clip)"
         slack-context -files=false https://example.slack.com/archives/...
         slack-context --interactive https://example.slack.com/archives/...
@@ -971,7 +976,7 @@ module SlackContext
         organizer: organizer,
         update_users: options[:update_users],
       )
-      sources = @arguments.empty? ? [clipboard] : @arguments
+      sources = dump_arguments_with_clipboard_url
       options[:interactive] ? run_interactively(sources, message_diff_presenter) : fetch_once(sources)
     rescue Error => e
       report(e)
@@ -1041,6 +1046,13 @@ module SlackContext
 
     def clipboard
       @runner.capture("clip", stdin: @input).sub(/\n+\z/, "")
+    end
+
+    def dump_arguments_with_clipboard_url
+      return @arguments if @arguments.any? { |argument| !argument.start_with?("-") }
+
+      clipboard_url = clipboard
+      SLACK_CONVERSATION_URL.match?(clipboard_url) ? [*@arguments, clipboard_url] : @arguments
     end
 
     def fetch_once(sources)

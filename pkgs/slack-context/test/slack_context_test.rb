@@ -16,6 +16,7 @@ class SlackContextTest < Minitest::Test
     @arguments = File.join(@directory, "arguments")
     @clipboard = File.join(@directory, "clipboard")
     @clipboard_count = File.join(@directory, "clipboard-count")
+    @clipboard_reads = File.join(@directory, "clipboard-reads")
     @fetch_count = File.join(@directory, "fetch-count")
     write_fakes
     @env = {
@@ -23,6 +24,7 @@ class SlackContextTest < Minitest::Test
       "SLACK_CONTEXT_TEST_ARGUMENTS" => @arguments,
       "SLACK_CONTEXT_TEST_CLIPBOARD" => @clipboard,
       "SLACK_CONTEXT_TEST_CLIPBOARD_COUNT" => @clipboard_count,
+      "SLACK_CONTEXT_TEST_CLIPBOARD_READS" => @clipboard_reads,
       "SLACK_CONTEXT_TEST_FETCH_COUNT" => @fetch_count,
     }
   end
@@ -350,7 +352,44 @@ class SlackContextTest < Minitest::Test
     output, status = run_with_tty
 
     assert_predicate status, :success?, output
-    assert_equal ["dump", "https://example.slack.com/archives/clipboard"], File.readlines(@arguments, chomp: true)
+    assert_equal ["dump", "https://example.slack.com/archives/C0123456789"], File.readlines(@arguments, chomp: true)
+  end
+
+  def test_appends_clipboard_url_when_only_slackdump_options_are_given
+    output, status = run_with_tty(
+      "-time-from=2026-08-01T09:00:00",
+      "-time-to=2027-01-01T00:00:00",
+    )
+
+    assert_predicate status, :success?, output
+    assert_equal(
+      [
+        "dump",
+        "-time-from=2026-08-01T09:00:00",
+        "-time-to=2027-01-01T00:00:00",
+        "https://example.slack.com/archives/C0123456789",
+      ],
+      File.readlines(@arguments, chomp: true),
+    )
+  end
+
+  def test_does_not_read_clipboard_when_slack_url_is_explicit
+    output, status = run_script(
+      "-files=false",
+      "https://example.slack.com/archives/C9876543210/p1234567890123456",
+    )
+
+    assert_predicate status, :success?, output
+    refute_path_exists @clipboard_reads
+  end
+
+  def test_keeps_slackdump_options_when_clipboard_has_no_slack_url
+    @env["SLACK_CONTEXT_TEST_CLIPBOARD_CONTENT"] = "plain text"
+
+    output, status = run_with_tty("-files=false")
+
+    assert_predicate status, :success?, output
+    assert_equal ["dump", "-files=false"], File.readlines(@arguments, chomp: true)
   end
 
   def test_copies_all_files_when_archive_has_no_json
@@ -670,11 +709,12 @@ class SlackContextTest < Minitest::Test
     SH
 
     write_executable("clip", <<~'SH')
+      printf 'read\n' >>"${SLACK_CONTEXT_TEST_CLIPBOARD_READS:?}"
       if [[ ! -t 0 ]]; then
         printf 'clip received non-TTY stdin\n' >&2
         exit 42
       fi
-      printf 'https://example.slack.com/archives/clipboard\n'
+      printf '%s\n' "${SLACK_CONTEXT_TEST_CLIPBOARD_CONTENT-https://example.slack.com/archives/C0123456789}"
     SH
   end
 
