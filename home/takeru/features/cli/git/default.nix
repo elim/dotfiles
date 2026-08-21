@@ -16,6 +16,16 @@ in
       ".direnv"
       "compose.override.yml"
       "docker-compose.override.yml"
+
+      # Keep local coding-agent instructions out of commits by default.
+      "**/.claude/settings.local.json"
+      ".agents/rules/"
+      "AGENTS.md"
+      "AGENTS.override.md"
+      "CLAUDE.md"
+      "CLAUDE.local.md"
+      "GEMINI.md"
+
       "plans/"
     ];
 
