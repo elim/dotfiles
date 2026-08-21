@@ -3,7 +3,7 @@
 let
   emacs = pkgs.emacsWithPackagesFromUsePackage {
     config = builtins.toFile "empty.el" "";
-    package = if pkgs.stdenv.isDarwin then pkgs.emacs30 else pkgs.emacs30-pgtk;
+    package = if pkgs.stdenv.isDarwin then pkgs.emacs31 else pkgs.emacs31-pgtk;
     alwaysEnsure = true;
     alwaysTangle = true;
     extraEmacsPackages = epkgs: [
@@ -51,7 +51,6 @@ let
 
       # Markup and documentation
       epkgs.feature-mode
-      epkgs.markdown-mode
 
       # User interface and themes
       epkgs.doom-modeline

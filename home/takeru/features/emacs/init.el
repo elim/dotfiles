@@ -500,10 +500,10 @@ when VIEW-P is non-nil; otherwise disable it."
   (kill-new (buffer-string)))
 
 (leaf atomic-chrome
-  :custom ((atomic-chrome-default-major-mode . 'markdown-mode)
+  :custom ((atomic-chrome-default-major-mode . 'markdown-ts-mode)
            (atomic-chrome-url-major-mode-alist
-            . '(("github\\.com" . gfm-mode)
-                ("esa\\.io"     . gfm-mode)
+            . '(("github\\.com" . markdown-ts-mode)
+                ("esa\\.io"     . markdown-ts-mode)
                 ("redmine"      . textile-mode))))
   :hook ((after-init-hook
           . atomic-chrome-start-server)
@@ -1013,21 +1013,27 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
 
 (leaf html-ts-mode :mode "\\.html?\\'")
 
-(leaf markdown-mode
-  :mode (("\\.md\\'" "\\ISSUE_EDITMSG\\'") . gfm-mode)
-  :bind (:markdown-mode-map
-         ("<S-tab>" . markdown-shifttab)
-         ("C-c 1"   . markdown-insert-header-atx-1)
-         ("C-c 2"   . markdown-insert-header-atx-2)
-         ("C-c b"   . markdown-insert-bold)
-         ("C-c i"   . markdown-insert-italic))
-  :custom
-  ((markdown-asymmetric-header            . t)
-   (markdown-fontify-code-blocks-natively . t)
-   (markdown-gfm-use-electric-backquote   . nil)
-   (markdown-header-scaling               . nil)
-   (markdown-hr-strings                   . '("* * *\n\n"))
-   (markdown-marginalize-headers          . nil)))
+(leaf markdown-ts-mode
+  :mode ("\\.md\\'" "\\ISSUE_EDITMSG\\'")
+  :preface
+  (defun elim:markdown-ts-insert-heading-1 ()
+    (interactive)
+    (insert "# "))
+  (defun elim:markdown-ts-insert-heading-2 ()
+    (interactive)
+    (insert "## "))
+  (defun elim:markdown-ts-insert-bold ()
+    (interactive)
+    (markdown-ts-emphasize ?b))
+  (defun elim:markdown-ts-insert-italic ()
+    (interactive)
+    (markdown-ts-emphasize ?i))
+  :bind (:markdown-ts-mode-map
+         ("<S-tab>" . outline-cycle-buffer)
+         ("C-c 1"   . elim:markdown-ts-insert-heading-1)
+         ("C-c 2"   . elim:markdown-ts-insert-heading-2)
+         ("C-c b"   . elim:markdown-ts-insert-bold)
+         ("C-c i"   . elim:markdown-ts-insert-italic)))
 
 (leaf org :require org org-table)
 
