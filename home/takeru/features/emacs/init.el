@@ -1013,48 +1013,7 @@ When called with a prefix argument (C-u), prompt for input in the minibuffer."
 
 (leaf html-ts-mode :mode "\\.html?\\'")
 
-(leaf markdown-ts-mode
-  :mode ("\\.md\\'" "\\ISSUE_EDITMSG\\'")
-  :preface
-  (defun elim:markdown-ts-demote-or-indent ()
-    (interactive)
-    (cond
-     ((markdown-ts-at-table-p nil t) (markdown-ts-table-next-cell))
-     ((markdown-ts-at-code-block-p) (indent-for-tab-command))
-     ((or (markdown-ts--heading-at-point)
-          (markdown-ts--list-item-at-point))
-      (markdown-ts-demote))
-     (t (indent-for-tab-command))))
-  (defun elim:markdown-ts-promote-or-cycle ()
-    (interactive)
-    (cond
-     ((markdown-ts-at-table-p nil t) (markdown-ts-table-previous-cell))
-     ((markdown-ts-at-code-block-p) (indent-for-tab-command))
-     ((or (markdown-ts--heading-at-point)
-          (markdown-ts--list-item-at-point))
-      (markdown-ts-promote))
-     (t (outline-cycle-buffer))))
-  (defhydra elim:markdown-ts-menu (:color blue :hint nil)
-    "
-Markdown: _a_lign table  _e_mphasize  _h_ide markup  _i_mages
-          _r_enumber     _s_tructure  _x_ checkbox  _q_ quit
-"
-    ("a" markdown-ts-table-align-table)
-    ("e" markdown-ts-emphasize)
-    ("h" markdown-ts-toggle-hide-markup)
-    ("i" markdown-ts-toggle-inline-images)
-    ("r" markdown-ts-renumber-list)
-    ("s" markdown-ts-insert-structure)
-    ("x" markdown-ts-toggle-checkbox)
-    ("q" nil))
-  :bind (:markdown-ts-mode-map
-         ("<backtab>" . elim:markdown-ts-promote-or-cycle)
-         ("<S-tab>"   . elim:markdown-ts-promote-or-cycle)
-         ("<tab>"     . elim:markdown-ts-demote-or-indent)
-         ("C-c m"   . elim:markdown-ts-menu/body)
-         ("M-n"     . markdown-ts-move-subtree-down)
-         ("M-p"     . markdown-ts-move-subtree-up)
-         ("TAB"     . elim:markdown-ts-demote-or-indent)))
+(load (locate-user-emacs-file "config/markdown.el") nil nil t)
 
 (leaf org :require org org-table)
 

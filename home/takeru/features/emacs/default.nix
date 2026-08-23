@@ -102,6 +102,7 @@ in
 {
   home = {
     file = {
+      ".emacs.d/config".source = ./config;
       ".emacs.d/init.el".source = ./init.el;
       ".emacs.d/early-init.el".source = ./early-init.el;
       ".emacs.d/lisp".source = ./lisp;
