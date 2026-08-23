@@ -109,11 +109,48 @@
 
       treefmtEval = eachSystem ({ system, pkgs, ... }: treefmt-nix.lib.evalModule pkgs ./treefmt.nix);
 
+      emacsMarkdownTest = eachSystem (
+        { pkgs, ... }:
+        let
+          inherit (import ./home/takeru/features/emacs/package.nix { inherit pkgs; })
+            emacs
+            treeSitterGrammars
+            ;
+        in
+        pkgs.writeShellApplication {
+          name = "emacs-markdown-test";
+          text = ''
+            repository="''${1:-$PWD}"
+            emacs_directory="$repository/home/takeru/features/emacs"
+            test_emacs_directory="$(mktemp -d)"
+
+            ln -s "$emacs_directory/config" "$test_emacs_directory/config"
+            ln -s "$emacs_directory/lisp" "$test_emacs_directory/lisp"
+
+            ${emacs}/bin/emacs --batch --quick \
+              --eval "(setq user-emacs-directory (file-name-as-directory \"$test_emacs_directory\"))" \
+              --eval "(advice-add 'display-warning :override (lambda (type message &rest _) (error \"%s: %s\" type message)))" \
+              --load "$emacs_directory/init.el"
+
+            exec ${emacs}/bin/emacs --batch --quick \
+              --eval "(add-to-list 'treesit-extra-load-path \"${treeSitterGrammars}/lib\")" \
+              --load "$emacs_directory/test/markdown-test.el" \
+              --funcall ert-run-tests-batch-and-exit
+          '';
+        }
+      );
+
       preCommitChecks = eachSystem (
         { system, pkgs, ... }:
         git-hooks.lib.${system}.run {
           src = ./.;
           hooks = {
+            emacs-markdown = {
+              enable = true;
+              entry = "${emacsMarkdownTest.${system}}/bin/emacs-markdown-test";
+              files = "^home/takeru/features/emacs/(config/.*\\.el|init\\.el|test/.*\\.el)$";
+              pass_filenames = false;
+            };
             treefmt = {
               enable = true;
               package = treefmtEval.${system}.config.build.wrapper;
@@ -127,6 +164,10 @@
       checks = eachSystem (
         { system, pkgs, ... }:
         {
+          emacs-markdown = pkgs.runCommand "emacs-markdown-test" { } ''
+            ${emacsMarkdownTest.${system}}/bin/emacs-markdown-test ${self}
+            touch $out
+          '';
           formatting = treefmtEval.${system}.config.build.check self;
           pre-commit-check = preCommitChecks.${system};
         }
