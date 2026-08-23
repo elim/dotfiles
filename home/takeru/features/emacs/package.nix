@@ -14,10 +14,10 @@ let
     alwaysTangle = true;
     extraEmacsPackages = epkgs: [
       # Core framework packages
+      epkgs.blackout
+      epkgs.hydra
       epkgs.leaf
       epkgs.leaf-keywords
-      epkgs.hydra
-      epkgs.blackout
 
       # Completion and navigation framework
       epkgs.affe
@@ -27,6 +27,7 @@ let
       epkgs.orderless
       epkgs.projectile
       epkgs.vertico
+
       # Code completion and intelligence
       epkgs.company
       epkgs.company-quickhelp
